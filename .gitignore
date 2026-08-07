@@ -30,3 +30,9 @@ npm-debug.log*
 
 # Vercel
 .vercel
+
+# Reference site snapshots (HTTrack downloads) — shared via Drive, not git.
+# They are large and contain third-party code; keeping them out keeps clones fast.
+kristalynmiguel.com/
+lillicoart.com/
+yuliabas.com/

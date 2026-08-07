@@ -5,15 +5,24 @@ editorial and contemplative: artist first, work second, commissions third.
 
 ```
 .
-├── web/                 Next.js site
-│   └── docs/            Strategy, structure, and approved copy
-├── kristalynmiguel.com/ Reference snapshot — sensibility, artist presence
-├── lillicoart.com/      Reference snapshot — narrative of process
-└── yuliabas.com/        Reference snapshot — visual direction, hierarchy
+└── web/                 Next.js site
+    └── docs/            Strategy, structure, and approved copy
 ```
 
-The three `*.com` folders are archived copies of existing artist sites, kept as
-visual reference while designing. They are not part of the build.
+## Visual references
+
+Three archived artist sites are used as visual direction. They are shared
+separately (Drive) rather than committed — they are large and contain
+third-party code.
+
+| Site | Read it for |
+| --- | --- |
+| yuliabas.com | Visual direction, hierarchy, space, sophistication |
+| kristalynmiguel.com | Sensibility, femininity, artist presence |
+| lillicoart.com | Human narrative, technique, process |
+
+The intended formula is Yulia Bas's visual direction + Kristalyn Miguel's
+sensibility + Esme Lillico's narrative, with Mariela's own identity.
 
 ## Status
 

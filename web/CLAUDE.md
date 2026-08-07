@@ -45,10 +45,11 @@ comes from composition, whitespace, typography, and the artwork itself.
   Nothing that reads as technological or attention-seeking.
 - Images: large format, cropped gazes, hands, strokes, real artwork texture.
 
-Reference snapshots live in the repository root (outside `web/`):
-`yuliabas.com` for visual direction and hierarchy, `kristalynmiguel.com` for
-sensibility and artist presence, `lillicoart.com` for narrative of process.
-Do not copy them — the formula is their combination with Mariela's own identity.
+Three reference sites inform the design, shared separately rather than
+committed: `yuliabas.com` for visual direction and hierarchy,
+`kristalynmiguel.com` for sensibility and artist presence, `lillicoart.com` for
+narrative of process. Do not copy them — the formula is their combination with
+Mariela's own identity. Ask for the snapshots if you need them locally.
 
 ## Pages
 
