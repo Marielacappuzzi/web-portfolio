@@ -10,15 +10,25 @@ Read `docs/` before building anything:
 
 | File | Contains |
 | --- | --- |
-| `docs/Estrategia.md` | Positioning, sitemap, purpose of each page, visual direction |
+| `docs/Copy.md` | Approved Spanish copy, section by section — source of truth |
 | `docs/Estructura.md` | Final page list |
-| `docs/Copy.md` | Approved Spanish copy, section by section |
+| `docs/Estrategia.md` | Positioning, purpose of each page, visual direction |
+| `docs/PROJECT_CONTEXT.md` | Synthesis, resolved conflicts between the above |
+| `docs/DESIGN_SYSTEM.md` | Palette, type, scales, grids, motion |
+| `docs/REFERENCE_AUDIT.md` | What each reference contributes, what to avoid |
+| `docs/IMPLEMENTATION_PLAN.md` | Architecture and phases |
+| `docs/ASSET_INVENTORY.md` | What exists, what is missing, specs for incoming files |
+| `docs/CONTENT_PENDING.md` | Every declared gap and where it is resolved |
 
 The copy in `docs/Copy.md` is written and approved. Use it verbatim — do not
 invent or paraphrase marketing text.
 
-**Status: scaffolding only.** No pages have been built yet beyond the Next.js
-starter. Building the site is the next task.
+**Status: home built.** Design system, content layer, header, footer and the
+ten home sections are done and the production build passes. The remaining
+pages are phase 4 of `docs/IMPLEMENTATION_PLAN.md`.
+
+**No artwork or photography exists in the project.** Every image is a declared
+placeholder. Never substitute a reference site's image or invent a work.
 
 ## Positioning (drives every design decision)
 
@@ -39,10 +49,18 @@ comes from composition, whitespace, typography, and the artwork itself.
 
 ## Design direction
 
-- Palette: white, black, greyscale, very neutral tones. No strong accent colour.
-- Type: editorial serif for headings, neutral sans for body and navigation.
-- Motion: slow, soft fades and subtle zooms. Motion should aid contemplation.
-  Nothing that reads as technological or attention-seeking.
+Full system in `docs/DESIGN_SYSTEM.md`. In short:
+
+- **Two grounds, no third surface.** `data-ground="paper"` is where Mariela
+  speaks; `data-ground="chamber"` is where the work hangs. No cards, no panels.
+  Colours are semantic (`fg`, `fg-strong`, `fg-muted`, `rule`) and flip with the
+  ground, so a component is written once.
+- Type: **Newsreader** (editorial serif) + **Instrument Sans** (neutral).
+  Not Cormorant Garamond — all three reference sites use it.
+- No accent colour. The only accent is a 1px rule that draws itself.
+- Motion: CSS plus one shared `IntersectionObserver`. No GSAP, no Lenis, no
+  smooth-scroll library, no parallax. Hidden states are gated behind
+  `html[data-js]`, so content is never held hostage by JavaScript.
 - Images: large format, cropped gazes, hands, strokes, real artwork texture.
 
 Three reference sites inform the design, shared separately rather than
@@ -53,8 +71,11 @@ Mariela's own identity. Ask for the snapshots if you need them locally.
 
 ## Pages
 
-Main navigation: **Obra · Proceso · Encargos · Sobre mí · Contacto**. The MC
-logo returns home. `Prints` is not a top-level page in this first stage.
+Main navigation: **Obra · Sobre mí · Encargos · Contacto**. The MC seal returns
+home. `Prints` is not a top-level page in this first stage, and neither is
+`Proceso` — the process content lives at `/sobre-mi#proceso`. See
+`docs/PROJECT_CONTEXT.md` §7 for why, and §6 for the other conflicts this
+document used to state incorrectly.
 
 Editorial pages, one per featured work: *Jesús, la oveja y el lobo*,
 *La Leona con su instinto*, *Sueño de Primavera*.
@@ -78,8 +99,15 @@ Avoid "Comprar ahora", "Pedir presupuesto", "Encargar ya".
 - Site copy is **Spanish** — it comes from `docs/Copy.md`.
 - Code, identifiers, comments, and commit messages are **English**.
 - Use the `@/*` alias for imports under `src/`.
+- **Content never lives in components.** Copy and artwork data are in
+  `src/content/`; components receive props. Read through the async accessors in
+  `src/lib/content.ts` — that is the only module that knows where content comes
+  from, and the single file to rewrite when Supabase lands.
 - Fetch data in Server Components; add Client Components only where interaction
-  requires them.
+  requires them (`Reveal`, `Rule`, `SiteHeader`).
+- Missing information is declared, never invented: `ArtworkFrame` and `Figure`
+  render an editorial placeholder, `Pending` marks absent data, and every gap is
+  logged in `docs/CONTENT_PENDING.md`.
 - Gallery items carry discreet metadata: title · year, medium · dimensions,
   and status tags (Obra personal / Obra por encargo / Print, Disponible /
   Colección privada / Agotado). Keep it quiet — the image leads.

@@ -1,0 +1,180 @@
+"use client";
+
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+import type { NavItem } from "@/content/types";
+import { cn } from "@/lib/cn";
+import type { Ground } from "./Section";
+
+interface SiteHeaderProps {
+  nav: NavItem[];
+  name: string;
+}
+
+/**
+ * Fixed header.
+ *
+ * Always on the paper ground. The MC monogram returns home; "Inicio" is
+ * deliberately not a nav item. The monogram swaps to its light version while
+ * the mobile menu is open, because the panel behind it turns to chamber.
+ */
+export function SiteHeader({ nav, name }: SiteHeaderProps) {
+  const pathname = usePathname();
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  // Escape closes; the page underneath does not scroll while it is open.
+  useEffect(() => {
+    if (!menuOpen) return;
+
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setMenuOpen(false);
+    };
+
+    document.addEventListener("keydown", onKey);
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = previous;
+    };
+  }, [menuOpen]);
+
+  /*
+   * The header is always paper now. It used to open transparent over a
+   * full-viewport dark hero and swap on scroll; the hero is a banded image
+   * that starts below the header, so the swap has nothing to swap for and the
+   * scroll listener was one more moving part that could go wrong.
+   */
+  const ground: Ground = menuOpen ? "chamber" : "paper";
+
+  return (
+    <>
+      <header
+        data-ground={ground}
+        className={cn(
+          "fixed inset-x-0 top-0 z-50 transition-colors duration-500",
+          menuOpen
+            ? "bg-transparent"
+            : "border-b border-rule bg-bg/95 backdrop-blur-[2px]",
+        )}
+      >
+        <div className="gutter mx-auto flex h-16 w-full max-w-wide items-center justify-between md:h-20">
+          <Link
+            href="/"
+            aria-label={`${name}, ir al inicio`}
+            className="block transition-opacity duration-300 hover:opacity-60"
+          >
+            {/*
+              The monogram alone, cropped from the full lockup. At header
+              height the wordmark under it would be four pixels tall and
+              illegible; the mark carries the identity on its own and the full
+              lockup gets its proper size in the footer.
+            */}
+            <Image
+              src={
+                menuOpen
+                  ? "/marca/mc-monograma-claro.png"
+                  : "/marca/mc-monograma.png"
+              }
+              alt={name}
+              width={500}
+              height={menuOpen ? 185 : 218}
+              priority
+              className="h-8 w-auto md:h-10"
+            />
+          </Link>
+
+          <nav aria-label="Principal" className="hidden md:block">
+            <ul className="flex items-center gap-xl">
+              {nav.map((item) => {
+                const active =
+                  pathname === item.href || pathname.startsWith(`${item.href}/`);
+
+                return (
+                  <li key={item.href}>
+                    <Link
+                      href={item.href}
+                      aria-current={active ? "page" : undefined}
+                      className={cn(
+                        "group relative block py-1 font-sans text-sm transition-colors duration-300",
+                        active ? "text-fg-strong" : "text-fg hover:text-fg-strong",
+                      )}
+                    >
+                      {item.label}
+                      <span
+                        aria-hidden="true"
+                        className={cn(
+                          "absolute inset-x-0 bottom-0 h-px origin-left bg-current transition-transform duration-500 ease-out-quart",
+                          active
+                            ? "scale-x-100"
+                            : "scale-x-0 group-hover:scale-x-100",
+                        )}
+                      />
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </nav>
+
+          <button
+            type="button"
+            onClick={() => setMenuOpen((open) => !open)}
+            aria-expanded={menuOpen}
+            aria-controls="menu-movil"
+            className="-mr-2 flex h-10 w-10 items-center justify-center md:hidden"
+          >
+            <span className="sr-only">
+              {menuOpen ? "Cerrar el menú" : "Abrir el menú"}
+            </span>
+            <span aria-hidden="true" className="relative block h-3 w-6">
+              <span
+                className={cn(
+                  "absolute inset-x-0 block h-px bg-current transition-all duration-400 ease-in-out-quart",
+                  menuOpen ? "top-1/2 rotate-45" : "top-0",
+                )}
+              />
+              <span
+                className={cn(
+                  "absolute inset-x-0 block h-px bg-current transition-all duration-400 ease-in-out-quart",
+                  menuOpen ? "top-1/2 -rotate-45" : "top-full",
+                )}
+              />
+            </span>
+          </button>
+        </div>
+      </header>
+
+      {/* Mobile menu: the navigation becomes a page of its own. */}
+      <div
+        id="menu-movil"
+        data-ground="chamber"
+        inert={!menuOpen}
+        aria-hidden={!menuOpen}
+        className={cn(
+          "fixed inset-0 z-40 flex flex-col justify-center transition-opacity duration-500 md:hidden",
+          menuOpen ? "opacity-100" : "pointer-events-none opacity-0",
+        )}
+      >
+        <nav aria-label="Principal (móvil)" className="gutter">
+          <ul className="flex flex-col gap-lg">
+            {nav.map((item) => (
+              <li key={item.href}>
+                <Link
+                  href={item.href}
+                  onClick={() => setMenuOpen(false)}
+                  className="font-serif text-3xl font-light tracking-display text-fg-strong"
+                >
+                  {item.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </div>
+    </>
+  );
+}

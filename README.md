@@ -87,6 +87,32 @@ Run from `web/`:
 | `npm run start` | Serve the production build |
 | `npm run lint` | Run ESLint |
 
+## Deployment
+
+The site is a Next.js app in `web/`, prerendered to static HTML at build time.
+Every route is static; there is no database and no server-side data source yet.
+
+### Vercel
+
+1. Import `Marielacappuzzi/web-portfolio` in Vercel.
+2. Set **Root Directory** to `web`. Everything else is detected.
+3. Deploy. Canonical URLs, Open Graph tags, `sitemap.xml` and `robots.txt`
+   resolve from `VERCEL_PROJECT_PRODUCTION_URL` automatically, so the first
+   deployment is already correct.
+4. Once a custom domain is pointed at the project, set `NEXT_PUBLIC_SITE_URL`
+   to it (no trailing slash). It takes precedence. See `web/.env.example`.
+
+### Before going live
+
+| | |
+| --- | --- |
+| Contact form endpoint | Not wired. The form validates and then says plainly that it is not connected. |
+| Contact email and address | `web/src/content/site.ts` — still `null`. |
+| Privacy policy and legal notice | Published as outlines; they need real ownership data. |
+| Hero photograph | *Jesús, la oveja y el lobo* is unfinished; the band carries another piece meanwhile. |
+
+Full list in `web/docs/CONTENT_PENDING.md`.
+
 ## Notes
 
 - Site copy is Spanish; code, comments, and commit messages are English.

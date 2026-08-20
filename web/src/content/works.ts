@@ -1,0 +1,352 @@
+import type { Work } from "./types";
+
+/**
+ * The catalogue.
+ *
+ * Texts are verbatim from `Mariela_Crapuzzi_Obras_Textos_Fichas_Web_FINAL_v2`.
+ * Technical sheets come from that document too, with one exception noted below.
+ * Nothing here is inferred or written by anyone but Mariela.
+ *
+ * Each piece is split the same way: `shortStory` is the opening sentence — the
+ * idea the work turns on — and `longStory` is the reasoning behind it. The
+ * gallery shows only the opening line, so the writing is present everywhere
+ * without the grid turning into a wall of description.
+ *
+ * Display rules, implemented in WorkMeta: title, then year immediately, then
+ * technique / dimensions / status in a quieter hierarchy, with no field labels
+ * and dimensions always in cm, alto × ancho.
+ */
+export const works: Work[] = [
+  {
+    slug: "bajo-su-proteccion",
+    title: "Bajo su Protección",
+    year: 2026,
+    technique: "Carboncillo sobre papel 100% algodón, 270 g/m²",
+    dimensions: "100 × 70 cm",
+    kind: "commission",
+    status: "private-collection",
+    image: {
+      src: "/obra/bajo-su-proteccion/principal.jpg",
+      alt: "Carboncillo de una leona avanzando entre la hierba alta con su cría pegada al pecho, ambas mirando de frente.",
+      width: 1315,
+      height: 1920,
+    },
+    detailImages: [
+      {
+        src: "/obra/bajo-su-proteccion/extra-01.jpg",
+        alt: "Encuadre cerrado de la obra sobre la mirada de la leona y la de su cría, alineadas una sobre la otra.",
+        width: 1080,
+        height: 1920,
+        caption: "La mirada, punto de partida de la obra.",
+      },
+    ],
+    processVideo: {
+      youtubeId: "5C6ba3LGlvs",
+      poster: "/obra/bajo-su-proteccion/principal.jpg",
+      label: "Mariela Crapuzzi trabajando la obra Bajo su Protección.",
+      portrait: true,
+      caption: "La obra, en proceso.",
+    },
+    concept: "INTERPRETAR UNA HISTORIA",
+    shortStory:
+      "Esta obra nació de un encargo inspirado en el vínculo entre una madre y su hija.",
+    longStory: [
+      "La figura de la leona apareció como una forma de hablar de esa fuerza que convive con el cuidado: instinto, inteligencia, determinación. Una presencia que no necesita mostrarse agresiva para dejar claro que está ahí.",
+      "La composición fue construida alrededor de esa idea. La cría ocupa el frente mientras la leona emerge detrás de ella, envolviéndola con su cuerpo y sosteniendo la escena con la mirada. Los contrastes profundos del carboncillo acentúan su carácter y dan peso a una imagen en la que conviven protección y fuerza.",
+      "Más que representar la maternidad de una única manera, la obra deja abierta una pregunta sobre aquello que somos capaces de sostener cuando algo verdaderamente nos importa.",
+    ],
+    featuredLinkLabel: "Descubrir la historia",
+    featured: true,
+    hasEditorialPage: true,
+    printAvailable: false,
+    order: 1,
+    featuredOrder: 2,
+  },
+
+  {
+    slug: "oltre-lo-sguardo",
+    title: "Oltre lo Sguardo",
+    year: 2024,
+    technique: "Carboncillo sobre papel 100% algodón, 220 g/m²",
+    dimensions: "42 × 29,7 cm",
+    kind: "commission",
+    status: "private-collection",
+    image: {
+      src: "/obra/oltre-lo-sguardo/principal.jpg",
+      alt: "Carboncillo de una mujer joven de cabello ondulado y blusa de encaje de cuello alto, sosteniendo la mirada hacia quien observa.",
+      width: 1440,
+      height: 1920,
+    },
+    shortStory: "No todo en esta imagen está dispuesto a ser comprendido.",
+    longStory: [
+      "La elegancia de otra época, el cabello apenas recogido y la delicadeza de la vestimenta construyen una imagen de aire romántico. Sin embargo, es la expresión la que sostiene el retrato.",
+      "Su mirada parece guardar una certeza. En ella permanece una forma silenciosa de saberse a sí misma, la calma de quien no necesita explicar todo lo que comprende.",
+      "Oltre lo Sguardo nace precisamente de esa distancia entre lo que podemos ver y aquello que solo podemos intuir.",
+    ],
+    featured: false,
+    hasEditorialPage: false,
+    printAvailable: false,
+    order: 2,
+  },
+
+  {
+    slug: "materia",
+    title: "Materia",
+    year: 2024,
+    technique: "Carboncillo sobre papel 100% algodón, 220 g/m²",
+    dimensions: "42 × 29,7 cm",
+    kind: "commission",
+    status: "private-collection",
+    image: {
+      src: "/obra/materia/principal.jpg",
+      alt: "Carboncillo de un hombre de perfil con rastas largas y chaqueta de jean, la mirada dirigida fuera del encuadre.",
+      width: 1440,
+      height: 1920,
+    },
+    shortStory: "Algunas imágenes se sienten antes de comprenderse.",
+    longStory: [
+      "En esta obra, la textura se convierte en presencia: la piel, el cabello, la mirada, cada superficie construye una figura que parece extenderse más allá del papel.",
+      "Un estudio sobre la materia y la capacidad del carboncillo para volverla casi tangible.",
+    ],
+    featured: false,
+    hasEditorialPage: false,
+    printAvailable: false,
+    order: 3,
+  },
+
+  {
+    slug: "toro-salvaje",
+    title: "Toro Salvaje",
+    year: 2025,
+    technique: "Carboncillo sobre papel 100% algodón, 220 g/m²",
+    /* 70 × 50 per the technical sheet PDF and confirmed by the client; the
+       texts document lists 50 × 70. */
+    dimensions: "70 × 50 cm",
+    kind: "commission",
+    status: "private-collection",
+    image: {
+      src: "/obra/toro-salvaje/principal.jpg",
+      alt: "Carboncillo de un caballo al galope de frente, la crin al viento y el cuerpo emergiendo de un fondo de polvo y sombra.",
+      width: 1080,
+      height: 1920,
+    },
+    shortStory: "Hay una fuerza que no necesita imponerse para hacerse visible.",
+    longStory: [
+      "En el caballo conviven potencia y elegancia, impulso y dominio. Toro Salvaje nació como un encargo y, durante el proceso, se convirtió también en una reflexión sobre la libertad: esa capacidad de reconocer la propia fuerza y elegir qué hacer con ella.",
+    ],
+    featured: false,
+    hasEditorialPage: false,
+    printAvailable: false,
+    order: 4,
+  },
+
+  {
+    slug: "gracia",
+    title: "Gracia",
+    year: 2025,
+    technique: "Carboncillo sobre papel 100% algodón, 220 g/m²",
+    dimensions: "33 × 27 cm",
+    kind: "commission",
+    status: "private-collection",
+    note: "Retrato infantil. Para el sitio se utiliza un título artístico y no el nombre de la retratada.",
+    image: {
+      src: "/obra/gracia/principal.jpg",
+      alt: "Carboncillo de una niña pequeña con un lazo de encaje en el cabello y un vestido de puntilla, de ojos grandes y expresión serena.",
+      width: 1079,
+      height: 1920,
+    },
+    shortStory: "Hay miradas que parecen conservar algo intacto.",
+    longStory: [
+      "En la suya, la inocencia convive con una quietud difícil de nombrar. Una dulzura serena que, durante el proceso de retratarla, terminó revelando algo más profundo.",
+    ],
+    featured: false,
+    hasEditorialPage: false,
+    printAvailable: false,
+    order: 5,
+  },
+
+  {
+    slug: "nina",
+    title: "Nina",
+    year: 2025,
+    technique: "Carboncillo sobre papel 100% algodón, 220 g/m²",
+    dimensions: "42 × 29,7 cm",
+    kind: "commission",
+    status: "private-collection",
+    note: "Retrato de mascota.",
+    image: {
+      src: "/obra/nina/principal.jpg",
+      alt: "Carboncillo de una perra golden retriever echada sobre una manta, con la boca abierta y la mirada hacia el frente.",
+      width: 1385,
+      height: 1920,
+    },
+    shortStory:
+      "La identidad de Nina aparece también en el movimiento, en la energía, en esa forma particular de estar en el mundo.",
+    longStory: [
+      "Su expresión y su vitalidad fueron el punto de partida para retratar no solo sus rasgos, sino también ese carácter que la hace inconfundible.",
+    ],
+    featured: false,
+    hasEditorialPage: false,
+    printAvailable: false,
+    order: 6,
+  },
+
+  {
+    slug: "huella",
+    title: "Huella",
+    year: 2026,
+    technique: "Carboncillo sobre papel 100% algodón, 270 g/m²",
+    dimensions: "42 × 29,7 cm",
+    kind: "commission",
+    status: "private-collection",
+    note: 'Retrato de mascota. Para el sitio se utiliza el título artístico "Huella".',
+    image: {
+      src: "/obra/huella/principal.jpg",
+      alt: "Carboncillo de un bulldog francés de frente, con las orejas erguidas y una mancha clara en el pecho.",
+      width: 1079,
+      height: 1920,
+    },
+    processVideo: {
+      youtubeId: "RRJQB24ORfk",
+      poster: "/obra/huella/principal.jpg",
+      label: "El retrato de Huella en proceso.",
+      portrait: true,
+      caption: "Huella, en proceso.",
+    },
+    shortStory:
+      "Existen vínculos que nos habitan aun cuando la ausencia ocupa su lugar.",
+    longStory: [
+      "Este retrato nace de aquello que permanece cuando una historia ha sido profundamente compartida.",
+      "Una huella que permanece más allá de la imagen.",
+    ],
+    featured: false,
+    hasEditorialPage: false,
+    printAvailable: false,
+    order: 7,
+  },
+
+  {
+    slug: "molly",
+    title: "Molly",
+    year: 2026,
+    technique: "Carboncillo sobre papel 100% algodón, 270 g/m²",
+    dimensions: "33 × 27 cm",
+    kind: "commission",
+    status: "private-collection",
+    note: "Retrato de mascota.",
+    image: {
+      src: "/obra/molly/principal.jpg",
+      alt: "Carboncillo de una gata atigrada recostada sobre una tela, con una chapa colgando del collar y la mirada vuelta hacia un lado.",
+      width: 1452,
+      height: 1920,
+    },
+    processVideo: {
+      youtubeId: "GMRRZVhBfCs",
+      poster: "/obra/molly/principal.jpg",
+      label: "El retrato de Molly en proceso.",
+      portrait: true,
+      caption: "Molly, en proceso.",
+    },
+    shortStory:
+      "En Molly, gran parte de su identidad parecía estar en el color.",
+    longStory: [
+      "Su pelaje carey, lleno de variaciones y contrastes, planteaba una pregunta: cuánto de ella permanecería al llevarla al carboncillo.",
+      "La respuesta apareció durante el proceso. Al desaparecer el color, emergieron con mayor claridad los contrastes de su pelaje, la profundidad de su mirada y la elegancia de sus rasgos.",
+      "El retrato, realizado para conservar el recuerdo de una compañera de trece años, terminó revelando algo más esencial: a veces, prescindir del color no significa perder información, sino descubrir otra forma de mirar.",
+    ],
+    featured: false,
+    hasEditorialPage: false,
+    printAvailable: false,
+    order: 8,
+  },
+
+  {
+    slug: "sueno-de-primavera",
+    title: "Sueño de Primavera",
+    attribution: "after William-Adolphe Bouguereau, Rêve de printemps (1901)",
+    year: 2022,
+    technique: "Grafito y carboncillo sobre papel 100% algodón, 220 g/m²",
+    dimensions: "100 × 70 cm",
+    status: "private-collection",
+    image: {
+      src: "/obra/sueno-de-primavera/principal.jpg",
+      alt: "Carboncillo de una mujer sentada sobre un banco de piedra en un jardín, rodeada por tres querubines alados que le acercan flores.",
+      width: 1376,
+      height: 1920,
+    },
+    concept: "EL ORIGEN",
+    shortStory:
+      "En Rêve de printemps de William-Adolphe Bouguereau encontré una sensibilidad profundamente cercana a aquello que comenzaba a buscar en mi propio trabajo.",
+    longStory: [
+      "La belleza, la feminidad y, sobre todo, la capacidad de una expresión para sugerir algo que trasciende lo visible.",
+      "La elección estuvo también ligada a mi formación en dibujo figurativo y a la tradición clásica que acompañaba ese aprendizaje. Reinterpretarla en carboncillo significó trasladar ese universo a un lenguaje diferente, despojado del color, donde la luz, los contrastes y las miradas adquirieran otro peso.",
+      "Fue mi primera obra de gran formato y formó parte de mi primera exposición. Más que reproducir una imagen que admiraba, el proceso me permitió reconocer algo que continuaría apareciendo en mi trabajo años después: mi interés por aquello que una mirada puede contener sin llegar a explicarlo.",
+    ],
+    featuredLinkLabel: "Descubrir la obra",
+    featured: true,
+    hasEditorialPage: true,
+    printAvailable: true,
+
+    printEdition: {
+      eyebrow: "Edición impresa",
+      title: "Print de edición limitada",
+      image: {
+        src: "/obra/sueno-de-primavera/extra-02.jpg",
+        alt: "El print de Sueño de Primavera enmarcado en negro con paspartú blanco, colgado sobre una pared clara en un interior.",
+        width: 1920,
+        height: 1920,
+      },
+      specs: [
+        "Edición limitada de 10 ejemplares · Numerada y firmada por la artista",
+        "Impresión Fine Art sobre Canson Infinity Edition Etching Rag, 100% algodón, 310 g/m², papel de calidad museo y libre de ácido",
+        "Dimensiones del papel: 100 × 73 cm",
+        "Cada ejemplar se entrega firmado, numerado y acompañado de su certificado de autenticidad",
+      ],
+      availability: "Último ejemplar disponible",
+      details: {
+        label: "Sobre el papel",
+        body: "Canson Infinity Edition Etching Rag es un papel Fine Art 100% algodón de 310 g/m², libre de ácido y sin blanqueadores ópticos. Su superficie mate y de grano fino está concebida para reproducción artística de alta calidad y conservación a largo plazo.",
+      },
+      delivery: {
+        label: "Entrega y envío",
+        lines: [
+          "En Santa Cruz de la Sierra: se entrega enmarcado.",
+          "Envíos fuera de Santa Cruz de la Sierra e internacionales: la impresión se envía cuidadosamente protegida en un tubo rígido para Fine Art.",
+        ],
+      },
+      action: { label: "Consultar por la edición", href: "/contacto" },
+    },
+
+    order: 9,
+    featuredOrder: 1,
+  },
+
+  /*
+   * PENDING — the work is unfinished and has no definitive photograph, so it
+   * is absent from both source documents. Its text is the one approved in
+   * docs/Copy.md §4. Adding `image` here replaces the placeholder everywhere.
+   */
+  {
+    slug: "jesus-la-oveja-y-el-lobo",
+    title: "Jesús, la oveja y el lobo",
+    kind: "personal",
+    image: null,
+    ratio: "portrait",
+    processVideo: {
+      youtubeId: "KtbyzqQGTbw",
+      label:
+        "Jesús, la oveja y el lobo en proceso, sobre el tablero de Mariela Crapuzzi.",
+      portrait: true,
+      caption: "La obra en curso. Las fotografías definitivas llegarán al terminarla.",
+    },
+    concept: "UNA VOZ PROPIA",
+    shortStory:
+      "Mi primera obra personal y el comienzo de una etapa más autoral: una búsqueda en la que la figuración se convierte en una manera de explorar ideas, símbolos e historias humanas.",
+    featuredLinkLabel: "Conocer la obra",
+    featured: true,
+    hasEditorialPage: true,
+    printAvailable: false,
+    order: 10,
+    featuredOrder: 3,
+  },
+];

@@ -1,0 +1,52 @@
+import { NextResponse } from "next/server";
+import { getContactPage } from "@/lib/content";
+import { sendContact, validate } from "@/lib/contact";
+
+/**
+ * POST /api/contacto
+ *
+ * Validates on the server — the browser checks are a courtesy, not a control —
+ * and hands the message to Resend.
+ *
+ * The honeypot is the whole anti-spam strategy. A field that is invisible and
+ * off the tab order is never filled by a person, and bots fill everything.
+ * It costs the visitor nothing, which a CAPTCHA cannot say, and this site is
+ * meant to feel like the beginning of a conversation rather than a checkpoint.
+ * A silent 200 is returned to bots so they learn nothing.
+ *
+ * When the admin panel arrives, the Supabase insert goes right before the
+ * send: a stored enquiry survives a mail provider having a bad day.
+ */
+export async function POST(request: Request) {
+  let payload: Record<string, unknown>;
+
+  try {
+    payload = await request.json();
+  } catch {
+    return NextResponse.json({ ok: false, reason: "invalid" }, { status: 400 });
+  }
+
+  if (String(payload.empresa ?? "").trim()) {
+    return NextResponse.json({ ok: true });
+  }
+
+  const page = await getContactPage();
+  const { values, missing } = validate(payload, page.fields);
+
+  if (missing.length > 0) {
+    return NextResponse.json(
+      { ok: false, reason: "invalid", missing },
+      { status: 422 },
+    );
+  }
+
+  const result = await sendContact(values);
+
+  if (!result.ok) {
+    return NextResponse.json(result, {
+      status: result.reason === "not-configured" ? 503 : 502,
+    });
+  }
+
+  return NextResponse.json({ ok: true });
+}
