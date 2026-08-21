@@ -228,62 +228,51 @@
  * Transforms and opacity only — both composited, so the animation never
  * forces layout.
  */
+/*
+ * Bordered action.
+ *
+ * A full 1px rectangle, drawn from the start — a button has to look like one
+ * before it is hovered, and an outline that only completes itself on hover
+ * reads as loose text until the pointer finds it.
+ *
+ * On hover the ground floods in from the bottom and the label flips to the
+ * page ground, so the button inverts rather than merely tinting. The fill is
+ * a scaled pseudo-element, not a background transition: transform composites,
+ * so the sweep stays smooth on a long row of buttons.
+ */
 @utility action-frame {
   position: relative;
   isolation: isolate;
+  border: 1px solid currentColor;
+  color: var(--ground-fg-strong);
+  transition: color 380ms var(--ease-out-quart);
 
-  /* The wash. Sits under the label, never over it. */
+  /* The flood. Sits under the label, never over it. */
   &::before {
-    content: ;
+    content: "";
     position: absolute;
     inset: 0;
     z-index: -1;
-    background-color: currentColor;
-    opacity: 0;
-    transition: opacity 420ms var(--ease-out-quart);
+    background-color: var(--ground-fg-strong);
+    transform: scaleY(0);
+    transform-origin: bottom center;
+    transition: transform 420ms var(--ease-out-quart);
+  }
+
+  &:hover,
+  &:focus-visible {
+    color: var(--ground-bg);
   }
 
   &:hover::before,
   &:focus-visible::before {
-    opacity: 0.07;
-  }
-
-  /* Resting half: bottom and left, already drawn. */
-  & > span::before {
-    content: ;
-    position: absolute;
-    inset: 0;
-    border-bottom: 1px solid currentColor;
-    border-left: 1px solid currentColor;
-    opacity: 0.45;
-    transition: opacity 420ms var(--ease-out-quart);
-  }
-
-  /* Closing half: top and right, drawn on hover from the bottom-right. */
-  & > span::after {
-    content: ;
-    position: absolute;
-    inset: 0;
-    border-top: 1px solid currentColor;
-    border-right: 1px solid currentColor;
-    clip-path: inset(0 0 100% 0);
-    transition: clip-path 520ms var(--ease-out-quart);
-  }
-
-  &:hover > span::before,
-  &:focus-visible > span::before {
-    opacity: 1;
-  }
-
-  &:hover > span::after,
-  &:focus-visible > span::after {
-    clip-path: inset(0 0 0 0);
+    transform: scaleY(1);
   }
 
   @media (prefers-reduced-motion: reduce) {
-    &::before,
-    & > span::before,
-    & > span::after {
+    transition: none;
+
+    &::before {
       transition: none;
     }
   }

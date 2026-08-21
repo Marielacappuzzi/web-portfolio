@@ -149,17 +149,20 @@ catálogo de producto.
 
 ## Enlaces y acciones
 
-Sin botones rellenos ni esquinas redondeadas. Cuatro niveles:
+Sin esquinas redondeadas y sin relleno en reposo — el relleno aparece sólo
+como respuesta al puntero. Cuatro niveles:
 
 1. **Acción principal** — texto en versales pequeñas sobre una línea de 1px que
    ocupa el ancho del texto. Al hover la línea se retrae desde la derecha y
    vuelve a trazarse desde la izquierda, en 400 ms.
 2. **Acción enmarcada** (`ActionButton`, utilidad `action-frame`) — rectángulo
-   de 1px sin relleno. En reposo solo están trazados el borde inferior y el
-   izquierdo, al 45%: lee como una esquina abierta, no como un botón. Al hover
-   la mitad superior-derecha entra con `clip-path` en 520 ms, el marco se
-   cierra y sube un lavado de `currentColor` al 7% detrás del texto. Es la
-   acción principal de cada sección y del formulario.
+   completo de 1px, trazado desde el reposo: un botón tiene que parecerlo
+   antes de que el puntero lo encuentre. Al hover el fondo sube desde abajo en
+   420 ms y el texto pasa al color del fondo, de modo que el botón se invierte
+   en lugar de teñirse. El relleno es un pseudo-elemento escalado, no una
+   transición de `background`: la transformación se compone en GPU y la
+   entrada no se traba en una fila larga de botones. Como usa los tokens del
+   fondo, el mismo componente sirve sobre papel y sobre cámara sin variantes.
 3. **Enlace secundario** — texto con subrayado a 1px en `rule`, que pasa a
    `fg-strong` al hover.
 4. **Enlace de navegación** — sin subrayado. Al hover y en la ruta activa,

@@ -118,7 +118,7 @@ export function ContactForm({ page }: { page: ContactPage }) {
           disabled={busy}
           className={cn(
             "action-frame self-start px-lg py-sm",
-            "font-sans text-2xs font-medium uppercase tracking-label text-fg-strong",
+            "font-sans text-2xs font-medium uppercase tracking-label",
             "disabled:cursor-not-allowed disabled:opacity-50",
           )}
         >

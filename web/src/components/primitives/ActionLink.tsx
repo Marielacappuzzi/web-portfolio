@@ -45,9 +45,8 @@ export function ActionButton({ href, children, className }: ActionLinkProps) {
     <Link
       href={href}
       className={cn(
-        "action-frame group relative inline-flex items-center justify-center",
+        "action-frame inline-flex items-center justify-center",
         "px-lg py-sm font-sans text-2xs font-medium uppercase tracking-label",
-        "text-fg-strong",
         className,
       )}
     >
