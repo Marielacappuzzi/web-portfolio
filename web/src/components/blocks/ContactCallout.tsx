@@ -28,7 +28,18 @@ export function ContactCallout({
   headingId = "contacto-titulo",
 }: ContactCalloutProps) {
   return (
-    <Section ground={ground} rhythm="act" aria-labelledby={headingId}>
+    <Section
+      ground={ground}
+      rhythm="act"
+      aria-labelledby={headingId}
+      /*
+       * The closing invitation reads as a coda, not as the tail of whatever
+       * came before it. On paper over paper there is no edge between them, so
+       * a full rule and extra breath do the cutting that a change of ground
+       * would do elsewhere.
+       */
+      className="border-t border-rule"
+    >
       <Container width="wide">
         <div className="flex flex-col items-center text-center">
           <Reveal>

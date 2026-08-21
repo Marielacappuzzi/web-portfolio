@@ -1,9 +1,23 @@
 import Link from "next/link";
+import type { ReactNode } from "react";
 import { ArtworkFrame } from "./ArtworkFrame";
 import { WorkMeta } from "./WorkMeta";
 import { Reveal } from "@/components/primitives/Reveal";
 import type { Work } from "@/content/types";
 import { cn } from "@/lib/cn";
+
+/** Stand-in for Reveal that renders nothing but a div. */
+function PlainBlock({
+  children,
+  className,
+}: {
+  children?: ReactNode;
+  className?: string;
+  variant?: string;
+  delay?: number;
+}) {
+  return <div className={className}>{children}</div>;
+}
 
 interface WorkCardProps {
   work: Work;
@@ -11,6 +25,11 @@ interface WorkCardProps {
   priority?: boolean;
   className?: string;
   delay?: number;
+  /**
+   * Skip the internal reveals. Set it when an ancestor already animates the
+   * card — two tweens on the same opacity fight each other.
+   */
+  plain?: boolean;
 }
 
 /**
@@ -23,10 +42,14 @@ export function WorkCard({
   priority,
   className,
   delay = 0,
+  plain = false,
 }: WorkCardProps) {
+  // When an ancestor drives the motion, render a plain wrapper instead.
+  const Frame = plain ? PlainBlock : Reveal;
+
   const content = (
     <>
-      <Reveal variant="image" delay={delay} className="block">
+      <Frame variant="image" delay={delay} className="block">
         <ArtworkFrame
           work={work}
           sizes={sizes}
@@ -37,9 +60,9 @@ export function WorkCard({
               : undefined
           }
         />
-      </Reveal>
+      </Frame>
 
-      <Reveal delay={delay + 120} className="mt-md">
+      <Frame delay={delay + 120} className="mt-md">
         <WorkMeta work={work} />
 
         {/*
@@ -53,7 +76,7 @@ export function WorkCard({
             {work.shortStory}
           </p>
         ) : null}
-      </Reveal>
+      </Frame>
     </>
   );
 

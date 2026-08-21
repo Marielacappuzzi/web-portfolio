@@ -181,11 +181,22 @@ desfasan de la posición real de la página.
 | `Reveal` imagen | `opacity` 0→1, `scale` 1.03→1 | 1600 ms, `power2.out` |
 | `Rule` | `scaleX` 0→1 desde la izquierda | 900 ms, `power2.inOut` |
 | `ScrollZoom` | `scale` 1→1.06 atado al scroll | `scrub` |
+| `ScrollReveal` | `opacity` 0→1, `y` 64px→0 atado al scroll | `scrub` 0.6 |
+| `WorkGallery` | tira horizontal con la sección fijada | `scrub` 0.5 |
 
 Reglas: se dispara una sola vez y no vuelve atrás — al subir, nada se
 re-oculta. Ningún cambio de escala supera el 6%. **Sin blur**: desenfocar
 carboncillo lava la obra, y el brief es explícito en que la técnica nunca
 debe gritar más fuerte que la obra. Sin cursor custom.
+
+`ScrollReveal` es la entrada de la grilla de obra: la pieza sube mientras el
+lector baja y se detiene cuando él se detiene. `Reveal` sigue siendo la
+entrada por defecto — se dispara una vez y se reproduce sola.
+
+`WorkGallery` fija la sección y convierte el gesto vertical en un recorrido
+horizontal de láminas. Nunca secuestra el scroll: el pin dura exactamente el
+ancho de la tira. Con menos de tres láminas, en pantallas angostas o con
+movimiento reducido, es una tira deslizable normal.
 
 `prefers-reduced-motion: reduce` → no se arma ninguna entrada y Lenis no
 arranca; el navegador scrollea la página como siempre.

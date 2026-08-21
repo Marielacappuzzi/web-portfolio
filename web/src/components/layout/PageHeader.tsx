@@ -50,14 +50,14 @@ export function PageHeader({ heading, lead, image }: PageHeaderProps) {
               <Eyebrow>{heading.eyebrow}</Eyebrow>
             </Reveal>
 
-            <Reveal delay={90} className="mt-lg">
+            <Reveal delay={90} className="mt-md">
               <Display as="h1" id="pagina-titulo">
                 {heading.title}
               </Display>
             </Reveal>
 
             {lead ? (
-              <Reveal delay={180} className="mt-xl">
+              <Reveal delay={180} className="mt-lg">
                 <p className="max-w-[52ch] font-sans text-lg leading-relaxed text-pretty text-fg">
                   {lead}
                 </p>

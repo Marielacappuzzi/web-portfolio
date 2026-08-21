@@ -19,6 +19,7 @@ Detalle en `ASSET_INVENTORY.md`.
 | # | Qué falta | Dónde se resuelve | Impacto |
 | --- | --- | --- | --- |
 | 0 | **Portada del inicio**, 1920 × 750 | `public/portada/inicio.jpg` → `home.ts` → `hero.cover` | **B** — el hero muestra hoy una placa declarada. Necesita aire a la izquierda para el titular; ver `CoverImage`. |
+| 0b | **Descripción de 16 fotografías ya en disco** | `works.ts` → `detailImages` | **A** — `bajo-su-proteccion` tiene 7 archivos y sólo 1 declarado; `oltre-lo-sguardo` 7 y ninguno; `sueno-de-primavera` 3 y ninguno. Sin saber qué muestra cada una no se puede escribir su `alt`, y la galería horizontal necesita tres o más para activarse. |
 | 1 | Fotografía definitiva de **Jesús, la oveja y el lobo** | `works.ts` → `image` | **B** — es la obra del hero. Sigue sin terminar; confirmado en el briefing y ausente del PDF. |
 | 3 | **Correo electrónico** de contacto | `site.ts` → `email` | **B** — hoy el footer muestra el marcador de pendiente. |
 | 4 | **Instagram**: handle y URL | `site.ts` → `instagramHandle`, `instagramUrl` | **B** |

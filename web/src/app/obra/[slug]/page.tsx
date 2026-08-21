@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Container, Section } from "@/components/layout/Section";
+import { CoverImage } from "@/components/home/CoverImage";
+import { Badge } from "@/components/primitives/Badge";
+import { WorkGallery } from "@/components/work/WorkGallery";
 import { ActionButton } from "@/components/primitives/ActionLink";
 import { Figure } from "@/components/primitives/Figure";
 import { Pending } from "@/components/primitives/Pending";
@@ -9,7 +12,6 @@ import { Reveal } from "@/components/primitives/Reveal";
 import { SilentVideo } from "@/components/primitives/SilentVideo";
 import { Rule } from "@/components/primitives/Rule";
 import { Display, Eyebrow, Prose } from "@/components/primitives/Type";
-import { ArtworkFrame } from "@/components/work/ArtworkFrame";
 import { WorkMeta } from "@/components/work/WorkMeta";
 import { getEditorialWorks, getNextWork, getWork } from "@/lib/content";
 
@@ -54,49 +56,51 @@ export default async function WorkPage({ params }: PageProps<"/obra/[slug]">) {
 
   return (
     <>
-      {/* The piece, hung in the dark. */}
-      <Section
-        ground="chamber"
-        rhythm="none"
-        className="pb-3xl pt-40 md:pt-48"
+      {/*
+        The piece as the cover: the photograph fills the band and the name is
+        set over it, ranged left at the foot. Every work here is portrait, so
+        the band stays taller than the home cover — a wide letterbox would cut
+        the composition Mariela resolved.
+      */}
+      <section
+        data-ground="chamber"
         aria-labelledby="obra-titulo"
+        className="relative isolate text-fg"
       >
-        <Container width="wide">
-          <div className="grid gap-2xl lg:grid-cols-12 lg:gap-x-[4vw]">
-            <div className="lg:col-span-4">
+        <CoverImage
+          src={work.image?.src ?? null}
+          alt={work.image?.alt ?? work.title}
+          focus="50% 28%"
+          aspect="aspect-[3/4] sm:aspect-[4/3] lg:aspect-[16/9]"
+          pendingLabel={work.title}
+        />
+
+        <div className="inset-0 bg-ink pb-2xl pt-xl sm:absolute sm:flex sm:items-end sm:bg-transparent sm:pb-3xl sm:pt-0">
+          <Container width="wide" className="w-full">
+            <div className="max-w-[46ch]">
               {work.concept ? (
                 <Reveal>
-                  <Eyebrow>{work.concept}</Eyebrow>
+                  <Badge>{work.concept}</Badge>
                 </Reveal>
               ) : null}
 
-              <Reveal delay={90} className="mt-lg">
-                <Display as="h1" id="obra-titulo">
+              <Reveal delay={120} className="mt-md">
+                <Display as="h1" size="cover" id="obra-titulo" measure={20}>
                   {work.title}
                 </Display>
               </Reveal>
 
               {work.shortStory ? (
-                <Reveal delay={180} className="mt-xl">
-                  <p className="max-w-[46ch] font-sans text-lg leading-relaxed text-pretty text-fg">
+                <Reveal delay={240} className="mt-lg">
+                  <p className="max-w-[52ch] font-sans text-base leading-relaxed text-pretty text-fg">
                     {work.shortStory}
                   </p>
                 </Reveal>
               ) : null}
             </div>
-
-            <div className="lg:col-span-7 lg:col-start-6">
-              <Reveal variant="image" delay={120}>
-                <ArtworkFrame
-                  work={work}
-                  priority
-                  sizes="(min-width: 1024px) 56vw, 100vw"
-                />
-              </Reveal>
-            </div>
-          </div>
-        </Container>
-      </Section>
+          </Container>
+        </div>
+      </section>
 
       {/* The story. */}
       <Section ground="paper" rhythm="act" aria-labelledby="historia-titulo">
@@ -132,29 +136,27 @@ export default async function WorkPage({ params }: PageProps<"/obra/[slug]">) {
         What is still missing is tracked in docs/CONTENT_PENDING.md.
       */}
       {work.detailImages && work.detailImages.length > 0 ? (
-        <Section ground="chamber" rhythm="act" aria-labelledby="detalles-titulo">
+        <Section
+          ground="chamber"
+          rhythm="act"
+          aria-labelledby="detalles-titulo"
+          className="overflow-hidden"
+        >
           <Container width="wide">
             <Reveal>
               <Eyebrow as="h2" id="detalles-titulo">
                 El detalle
               </Eyebrow>
             </Reveal>
-
-            <div className="mt-2xl grid grid-cols-1 gap-lg md:grid-cols-2 md:gap-x-[3vw]">
-              {work.detailImages.map((image, i) => (
-                <Reveal key={image.src} variant="image" delay={i * 120}>
-                  <Figure
-                    src={image.src}
-                    alt={image.alt}
-                    caption={image.caption}
-                    pendingLabel=""
-                    aspect="aspect-[4/3]"
-                    sizes="(min-width: 768px) 45vw, 100vw"
-                  />
-                </Reveal>
-              ))}
-            </div>
           </Container>
+
+          {/* Read sideways — see WorkGallery for why, and how it degrades. */}
+          <div className="mt-2xl">
+            <WorkGallery
+              images={work.detailImages}
+              label={"Detalles de " + work.title}
+            />
+          </div>
         </Section>
       ) : null}
 

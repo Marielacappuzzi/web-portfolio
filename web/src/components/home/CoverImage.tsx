@@ -8,6 +8,13 @@ interface CoverImageProps {
   alt: string;
   /** Where the crop holds as the frame narrows, e.g. "50% 30%". */
   focus?: string;
+  /**
+   * Override the band proportions. Defaults to the home portada; a work page
+   * passes a taller set because the photographs are portrait.
+   */
+  aspect?: string;
+  /** Shown inside the placeholder so it is clear which picture is missing. */
+  pendingLabel?: string;
   className?: string;
 }
 
@@ -29,12 +36,19 @@ interface CoverImageProps {
  * a vertical gradient weighted to the left, so it darkens the column the text
  * occupies and leaves the rest of the picture alone.
  */
-export function CoverImage({ src, alt, focus, className }: CoverImageProps) {
+export function CoverImage({
+  src,
+  alt,
+  focus,
+  aspect = "aspect-[4/5] sm:aspect-[16/9] lg:aspect-[1920/750]",
+  pendingLabel = "Portada 1920 × 750",
+  className,
+}: CoverImageProps) {
   return (
     <div
       className={cn(
         "relative w-full overflow-hidden bg-ink",
-        "aspect-[4/5] sm:aspect-[16/9] lg:aspect-[1920/750]",
+        aspect,
         className,
       )}
     >
@@ -51,7 +65,7 @@ export function CoverImage({ src, alt, focus, className }: CoverImageProps) {
         />
       ) : (
         <div className="absolute inset-0 flex items-center justify-center">
-          <Pending kind="asset" detail="Portada 1920 × 750" />
+          <Pending kind="asset" detail={pendingLabel} />
         </div>
       )}
 
