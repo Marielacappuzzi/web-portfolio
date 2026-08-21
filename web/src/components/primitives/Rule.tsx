@@ -26,14 +26,14 @@ export function Rule({ className, delay = 0, width = "medium" }: RuleProps) {
 
   useEffect(() => {
     const el = ref.current;
-    if (el) observeReveal(el, "data-reveal-rule");
-  }, []);
+    if (!el) return;
+    return observeReveal(el, "data-reveal-rule", delay);
+  }, [delay]);
 
   return (
     <span
       ref={ref}
       aria-hidden="true"
-      style={delay ? ({ "--reveal-delay": `${delay}ms` } as object) : undefined}
       className={cn("block h-px bg-rule", widths[width], className)}
     />
   );

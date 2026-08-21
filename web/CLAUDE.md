@@ -58,9 +58,12 @@ Full system in `docs/DESIGN_SYSTEM.md`. In short:
 - Type: **Newsreader** (editorial serif) + **Instrument Sans** (neutral).
   Not Cormorant Garamond — all three reference sites use it.
 - No accent colour. The only accent is a 1px rule that draws itself.
-- Motion: CSS plus one shared `IntersectionObserver`. No GSAP, no Lenis, no
-  smooth-scroll library, no parallax. Hidden states are gated behind
-  `html[data-js]`, so content is never held hostage by JavaScript.
+- Motion: **GSAP + ScrollTrigger** for reveals, **Lenis** for smooth scrolling
+  (`src/lib/reveal.ts`, `src/components/primitives/SmoothScroll.tsx`). Both
+  share one clock so triggers stay locked to the scroll position. No blur, no
+  parallax, no re-hiding on scroll-up. Hidden states are applied by the same
+  code that removes them, never by the stylesheet, so content is never held
+  hostage by JavaScript.
 - Images: large format, cropped gazes, hands, strokes, real artwork texture.
 
 Three reference sites inform the design, shared separately rather than

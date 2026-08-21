@@ -1,6 +1,8 @@
 "use client";
 
 import { type ReactNode, useEffect, useRef } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { cn } from "@/lib/cn";
 
 interface ScrollZoomProps {
@@ -16,61 +18,60 @@ interface ScrollZoomProps {
  * A very slow approach.
  *
  * As the band scrolls away, the image scales up a little, so the animal seems
- * to come towards the reader rather than simply leaving the screen. The whole
- * travel is 10% — the brief caps scale changes at a few percent and rules out
+ * to come towards the reader rather than simply leaving the screen. The travel
+ * is a few percent — the brief caps scale changes there and rules out
  * parallax, and anything larger reads as an effect instead of an approach.
  *
- * The scroll handler only writes a CSS custom property, and the transform runs
- * on the compositor, so nothing here forces layout. It does nothing at all
- * under `prefers-reduced-motion`.
+ * Scrubbed by ScrollTrigger rather than a scroll listener: Lenis moves the
+ * page on its own clock, so the native scroll event lags behind where the
+ * page actually is. ScrollTrigger shares that clock (see SmoothScroll), which
+ * keeps the zoom locked to the scroll position. It does nothing at all under
+ * `prefers-reduced-motion`.
  */
 export function ScrollZoom({
   children,
   from = 1,
-  to = 1.1,
+  to = 1.06,
   className,
 }: ScrollZoomProps) {
   const outer = useRef<HTMLDivElement>(null);
+  const inner = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const el = outer.current;
-    if (!el) return;
+    const target = inner.current;
+    if (!el || !target) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-    let frame = 0;
+    gsap.registerPlugin(ScrollTrigger);
 
-    const update = () => {
-      frame = 0;
-      const rect = el.getBoundingClientRect();
-      const height = rect.height || 1;
-
-      // 0 while the band sits at the top of the viewport, 1 once it has
-      // travelled its own height upward.
-      const progress = Math.min(1, Math.max(0, -rect.top / height));
-      el.style.setProperty("--zoom", String(from + (to - from) * progress));
-    };
-
-    const onScroll = () => {
-      if (!frame) frame = requestAnimationFrame(update);
-    };
-
-    update();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll, { passive: true });
+    const tween = gsap.fromTo(
+      target,
+      { scale: from },
+      {
+        scale: to,
+        ease: "none",
+        scrollTrigger: {
+          trigger: el,
+          // From the band sitting at the top of the viewport until it has
+          // travelled its own height upward.
+          start: "top top",
+          end: "bottom top",
+          scrub: true,
+        },
+      },
+    );
 
     return () => {
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-      if (frame) cancelAnimationFrame(frame);
+      tween.scrollTrigger?.kill();
+      tween.kill();
+      gsap.set(target, { clearProps: "all" });
     };
   }, [from, to]);
 
   return (
     <div ref={outer} className={cn("overflow-hidden", className)}>
-      <div
-        className="origin-center will-change-transform"
-        style={{ transform: "scale(var(--zoom, 1))" }}
-      >
+      <div ref={inner} className="origin-center will-change-transform">
         {children}
       </div>
     </div>

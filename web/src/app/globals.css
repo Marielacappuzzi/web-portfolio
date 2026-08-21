@@ -120,7 +120,9 @@
 
   html {
     -webkit-text-size-adjust: 100%;
-    scroll-behavior: smooth;
+    /* Lenis drives scrolling (see SmoothScroll). CSS smooth scroll would
+       compete for the same gesture; reduced-motion readers get it back. */
+    scroll-behavior: auto;
   }
 
   body {
@@ -175,7 +177,7 @@
 
   @media (prefers-reduced-motion: reduce) {
     html {
-      scroll-behavior: auto;
+      scroll-behavior: smooth;
     }
   }
 }
@@ -183,97 +185,23 @@
 /* ============================================================
    MOTION PRIMITIVES
 
-   One rule governs this file: nothing is hidden unless the
-   JavaScript that will unhide it is already running.
+   GSAP owns reveal motion; the tweens live in src/lib/reveal.ts.
+   Nothing is hidden in this stylesheet, on purpose.
 
    An earlier version had CSS hide every element up front and
-   relied on React plus an IntersectionObserver to reveal them.
-   When that second half failed, the artwork stayed invisible
-   with no way back — twice. So the hidden state ("armed") is
-   now applied by the observer itself, never by the stylesheet,
-   and only to elements below the fold. Anything the reader can
-   already see is simply visible.
+   relied on JavaScript to reveal them. When that second half
+   failed, the artwork stayed invisible with no way back --
+   twice. So the hidden state is now applied by the same code
+   that removes it, and only to elements below the fold.
+   Anything the reader can already see is simply visible.
 
    Consequences:
-     · No JavaScript, a failed bundle, a hydration error → every
-       element is visible. Being stuck hidden is now impossible.
-     · Nothing flashes: elements are only armed while off-screen.
+     - No JavaScript, a failed bundle, a hydration error -> every
+       element is visible. Being stuck hidden is impossible.
+     - Nothing flashes: elements are only armed while off-screen.
+     - Reveals play once. Scrolling back up never re-hides them.
+     - prefers-reduced-motion skips arming altogether.
    ============================================================ */
-
-@layer components {
-  [data-reveal="armed"] {
-    opacity: 0;
-    transform: translate3d(0, 14px, 0);
-    will-change: opacity, transform;
-  }
-
-  [data-reveal="shown"] {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
-    transition:
-      opacity 900ms var(--ease-out-quart),
-      transform 900ms var(--ease-out-quart);
-    transition-delay: var(--reveal-delay, 0ms);
-  }
-
-  /*
-   * Image reveal — the work emerges rather than appears.
-   *
-   * No `clip-path` here, deliberately. Clipping the element to zero area also
-   * zeroes the area IntersectionObserver measures, so a clipped element
-   * reports itself as off-screen even while it is in front of the reader and
-   * never gets revealed. The element clipped itself out of existence and the
-   * observer had no way to notice. A slow fade with a 3% settle carries the
-   * same "emerging" quality and cannot deadlock.
-   */
-  [data-reveal-image="armed"] {
-    opacity: 0;
-    transform: scale(1.03);
-    will-change: opacity, transform;
-  }
-
-  [data-reveal-image="shown"] {
-    opacity: 1;
-    transform: scale(1);
-    transition:
-      opacity 1100ms var(--ease-out-quart),
-      transform 1600ms var(--ease-out-quart);
-    transition-delay: var(--reveal-delay, 0ms);
-  }
-
-  /* Rule — the first stroke. */
-  [data-reveal-rule="armed"] {
-    transform: scaleX(0);
-    transform-origin: left center;
-  }
-
-  [data-reveal-rule="shown"] {
-    transform: scaleX(1);
-    transform-origin: left center;
-    transition: transform 700ms var(--ease-out-quart);
-    transition-delay: var(--reveal-delay, 0ms);
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    [data-reveal="armed"],
-    [data-reveal-image="armed"] {
-      transform: none;
-    }
-
-    /* The rule has no opacity of its own, so it just stays drawn. */
-    [data-reveal-rule="armed"] {
-      transform: none;
-    }
-
-    [data-reveal="shown"],
-    [data-reveal-image="shown"],
-    [data-reveal-rule="shown"] {
-      transform: none;
-      transition: opacity 300ms linear !important;
-      transition-delay: 0ms !important;
-    }
-  }
-}
 
 /* ============================================================
    UTILITIES

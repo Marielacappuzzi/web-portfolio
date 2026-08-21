@@ -24,9 +24,9 @@ const attributeFor: Record<RevealVariant, RevealAttribute> = {
 };
 
 /**
- * Renders its children plainly and, on mount, hands the element to the
- * observer. Nothing is hidden in the server output: if the client never runs,
- * the content is simply there. See src/lib/reveal.ts.
+ * Renders its children plainly and, on mount, hands the element to GSAP.
+ * Nothing is hidden in the server output: if the client never runs, the
+ * content is simply there. See src/lib/reveal.ts.
  */
 export function Reveal({
   children,
@@ -40,16 +40,12 @@ export function Reveal({
 
   useEffect(() => {
     const el = ref.current;
-    if (el) observeReveal(el, attributeFor[variant]);
-  }, [variant]);
+    if (!el) return;
+    return observeReveal(el, attributeFor[variant], delay);
+  }, [variant, delay]);
 
   return (
-    <Tag
-      ref={ref}
-      id={id}
-      className={cn(className)}
-      style={delay ? ({ "--reveal-delay": `${delay}ms` } as object) : undefined}
-    >
+    <Tag ref={ref} id={id} className={cn(className)}>
       {children}
     </Tag>
   );

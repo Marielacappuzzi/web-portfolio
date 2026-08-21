@@ -157,22 +157,28 @@ ambos fondos. Nunca se elimina.
 
 ## Movimiento
 
-Sin librerías. CSS e `IntersectionObserver`.
+GSAP + ScrollTrigger para las entradas, Lenis para el scroll suavizado.
+Ambos comparten el mismo reloj (`gsap.ticker`), así los triggers no se
+desfasan de la posición real de la página.
 
 | Primitiva | Qué hace | Duración |
 | --- | --- | --- |
-| `Reveal` | `opacity` 0→1, `translateY` 14px→0 | 900 ms, `cubic-bezier(.16,1,.3,1)` |
+| `Reveal` texto | `opacity` 0→1, `y` 16px→0 | 1100 ms, `power3.out` |
 | `Reveal` escalonado | `delay` de 90 ms entre hermanos, máximo 4 | |
-| `ImageReveal` | `clip-path` inset desde abajo + `scale` 1.04→1 | 1400 ms |
-| `Rule` | `scaleX` 0→1 desde la izquierda | 700 ms |
+| `Reveal` imagen | `opacity` 0→1, `scale` 1.03→1 | 1600 ms, `power2.out` |
+| `Rule` | `scaleX` 0→1 desde la izquierda | 900 ms, `power2.inOut` |
+| `ScrollZoom` | `scale` 1→1.06 atado al scroll | `scrub` |
 
-Reglas: se dispara una sola vez, nunca al revés. Nada se mueve en el eje X.
-Ningún cambio de escala supera el 4%. Sin parallax con `scrub`, sin scroll
-hijacking, sin scroll suave sintético, sin cursor custom.
+Reglas: se dispara una sola vez y no vuelve atrás — al subir, nada se
+re-oculta. Ningún cambio de escala supera el 6%. **Sin blur**: desenfocar
+carboncillo lava la obra, y el brief es explícito en que la técnica nunca
+debe gritar más fuerte que la obra. Sin cursor custom.
 
-`prefers-reduced-motion: reduce` → solo `opacity`, 300 ms, sin transformaciones.
-El contenido es visible sin JavaScript: el estado inicial oculto se aplica desde
-el propio observador, no desde el CSS servido.
+`prefers-reduced-motion: reduce` → no se arma ninguna entrada y Lenis no
+arranca; el navegador scrollea la página como siempre.
+
+El contenido es visible sin JavaScript: el estado oculto lo aplica el mismo
+código que lo quita, nunca la hoja de estilos servida.
 
 ## Breakpoints
 

@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import type { NavItem } from "@/content/types";
 import { cn } from "@/lib/cn";
+import { lockScroll } from "@/lib/smooth-scroll";
 import type { Ground } from "./Section";
 
 interface SiteHeaderProps {
@@ -35,10 +36,13 @@ export function SiteHeader({ nav, name }: SiteHeaderProps) {
     document.addEventListener("keydown", onKey);
     const previous = document.body.style.overflow;
     document.body.style.overflow = "hidden";
+    // Lenis moves the page itself; overflow alone would not hold it.
+    lockScroll(true);
 
     return () => {
       document.removeEventListener("keydown", onKey);
       document.body.style.overflow = previous;
+      lockScroll(false);
     };
   }, [menuOpen]);
 

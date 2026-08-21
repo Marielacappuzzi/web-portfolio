@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Instrument_Sans, Newsreader } from "next/font/google";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
+import { SmoothScroll } from "@/components/primitives/SmoothScroll";
 import { getSite } from "@/lib/content";
 import "./globals.css";
 
@@ -62,6 +63,8 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
       suppressHydrationWarning
     >
       <body data-ground="paper" className="flex min-h-full flex-col">
+        <SmoothScroll />
+
         <a
           href="#contenido"
           className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-60 focus:bg-bg focus:px-4 focus:py-2 focus:font-sans focus:text-sm"
