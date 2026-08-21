@@ -1,6 +1,6 @@
-# Mariela Crappuzi — Website
+# Mariela Crapuzzi — Website
 
-Website for Mariela Crappuzi, a visual artist working in charcoal. The site is
+Website for Mariela Crapuzzi, a visual artist working in charcoal. The site is
 editorial and contemplative: artist first, work second, commissions third.
 
 ```

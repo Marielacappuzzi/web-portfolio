@@ -3,11 +3,13 @@ import type { SiteContent } from "./types";
 /**
  * Site-level content. Copy is verbatim from docs/Copy.md — Footer section.
  *
- * PENDING (see docs/CONTENT_PENDING.md):
- *  - email and Instagram are unknown. They stay null so the UI marks them as
- *    pending instead of shipping a fabricated address.
- *  - The surname is spelled "Crapuzzi" in the approved copy and "Crappuzi" in
- *    the repository. Confirm before launch; this is the only place to change it.
+ * PENDING (see docs/CONTENT_PENDING.md): the email address is unknown, so it
+ * stays null and the UI marks it as pending rather than shipping a fabricated
+ * address.
+ *
+ * The surname is Crapuzzi, confirmed by Mariela and by the signed certificate
+ * of authenticity. The repository and GitHub handle spell it otherwise; this
+ * file is the authority.
  */
 export const site: SiteContent = {
   name: "Mariela Crapuzzi",

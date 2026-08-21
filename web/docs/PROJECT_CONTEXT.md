@@ -73,7 +73,7 @@ Las tres obras con página propia son la misma secuencia en formato editorial:
 | --- | --- | --- | --- |
 | 1 | Navegación: ¿incluye "Proceso"? | Instrucción 2026-08-08 y `Copy.md` (footer) dicen **Obra · Sobre mí · Encargos · Contacto**. `Estrategia.md` y `CLAUDE.md` incluyen Proceso. | Nav de 4 ítems. El contenido de Proceso vive como sección editorial dentro de `/sobre-mi#proceso`. Ver §7. |
 | 2 | Título de la obra | `Estrategia.md`: "La leona y su cría". `Copy.md` + instrucción: "La Leona con su instinto". | **La Leona con su instinto** (copy aprobado manda). |
-| 3 | Apellido | `Copy.md` + instrucción: **Crapuzzi**. `README.md`, `CLAUDE.md`, carpeta y handle de GitHub: Crappuzi / cappuzzi. | Copy visible usa **Crapuzzi**. Requiere confirmación de Mariela antes del lanzamiento. |
+| 3 | Apellido | `Copy.md` + instrucción: **Crapuzzi**. `README.md`, carpeta local y handle de GitHub: Crappuzi / cappuzzi. | **Cerrado el 2026-08-21: Crapuzzi.** Confirmado por Mariela y por el certificado de autenticidad firmado. `site.ts` es la autoridad; el repositorio conserva su nombre. |
 | 4 | Página de Prints | `Estrategia.md` la lista en el sitemap. Instrucción la excluye de esta versión. | Sin página de prints. Se integra en home, galería y `/obra/sueno-de-primavera`. |
 
 ## 7. Decisión estructural: dónde vive "Proceso"

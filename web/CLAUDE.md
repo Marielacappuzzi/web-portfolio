@@ -2,7 +2,7 @@
 
 # Project context
 
-Website for **Mariela Crappuzi**, a visual artist working in charcoal
+Website for **Mariela Crapuzzi**, a visual artist working in charcoal
 (carboncillo). The site is editorial and contemplative — not a shop, not a
 conventional portfolio.
 

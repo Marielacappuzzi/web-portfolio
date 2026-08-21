@@ -14,6 +14,12 @@ El PDF de fichas técnicas y la carpeta `IMAGENES MARIELA/` cerraron los ítems
 fotografía y ficha completa, y las dos fotografías de Mariela están integradas.
 Detalle en `ASSET_INVENTORY.md`.
 
+## Resuelto el 2026-08-21
+
+La grafía del apellido queda cerrada: **Crapuzzi**, confirmado por Mariela y
+por el certificado de autenticidad firmado. El repositorio de GitHub y la
+carpeta local usan otra grafía; `site.ts` es la autoridad. Cierra el ítem 6.
+
 ## Bloquean el lanzamiento
 
 | # | Qué falta | Dónde se resuelve | Impacto |
@@ -24,7 +30,6 @@ Detalle en `ASSET_INVENTORY.md`.
 | 3 | **Correo electrónico** de contacto | `site.ts` → `email` | **B** — hoy el footer muestra el marcador de pendiente. |
 | 4 | **Instagram**: handle y URL | `site.ts` → `instagramHandle`, `instagramUrl` | **B** |
 | 5 | **Sello MC** en SVG | `public/marca/sello-mc.svg` | **B** — el header usa hoy el monograma tipográfico. |
-| 6 | Grafía del apellido: **Crapuzzi** o **Crappuzi** | `site.ts` → `name`, `copyright` | **B** — el PDF confirma **Crapuzzi**; el repositorio y el handle de GitHub dicen otra cosa. |
 | 6b | Recorte de 6 fotografías y resolución de todo el lote | `IMAGENES MARIELA/` → `public/obra/` | **B** — ver `ASSET_INVENTORY.md` §Dos problemas transversales. |
 
 ## Decisiones sobre el catálogo que requieren confirmación
