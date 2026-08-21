@@ -85,13 +85,20 @@ Fluida con `clamp()`. Sin breakpoints tipográficos.
 
 ### Reglas
 
-- Serif en peso 300–400. **La itálica es excepción**, reservada a la frase
-  destacada de una sección. Nunca por defecto.
+- Serif en peso 300–400. **La itálica marca, no decora.** Se usa en dos
+  lugares: la frase destacada de una sección (`PullQuote`, entera en cursiva)
+  y **un solo sintagma por titular**, el que sostiene la frase. Se escribe en
+  el contenido con `*asteriscos*` y lo resuelve `withEmphasis`, así los
+  titulares siguen siendo texto plano y un editor podrá marcarlos el día que
+  el contenido venga de un CMS. Nunca dos marcas en el mismo titular.
 - Titulares: `leading` 1.05–1.12, `tracking` −0.02em. A mayor tamaño, más
   cerrado el interletrado.
 - Cuerpo: sans, peso 400, `leading` 1.72, medida máxima 62ch.
 - Eyebrow: sans, versales, `tracking` 0.24em, color `fg-muted`. Siempre precede
   al titular, siempre separado por `space-md`.
+- Badge (`Badge`): el eyebrow dentro de un rectángulo de 1px en `rule`, para
+  el concepto que va sobre el título de una obra. Al hover de la tarjeta el
+  borde sube a `fg-faint` y el texto a `fg`.
 - Ficha técnica: sans en `text-xs`, color `fg-muted`, sin versales.
 
 ## Espacio y ritmo

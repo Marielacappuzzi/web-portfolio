@@ -15,7 +15,7 @@ import type { CommissionsPage } from "../types";
 export const commissions: CommissionsPage = {
   heading: {
     eyebrow: "Obras por encargo",
-    title: "Una historia personal, interpretada en una obra única.",
+    title: "Una historia personal, interpretada en una *obra única*.",
   },
   paragraphs: [
     "Un retrato no comienza con una fotografía. Comienza con una conversación.",
@@ -36,7 +36,7 @@ export const commissions: CommissionsPage = {
 
   process: {
     eyebrow: "Cómo comienza una obra",
-    title: "Toda obra comienza antes del primer trazo.",
+    title: "Toda obra comienza antes del *primer trazo*.",
     intro:
       "El proceso comienza escuchando. Antes de definir una composición necesito comprender qué historia existe detrás, qué emoción debe permanecer y qué elementos son realmente esenciales.",
     steps: processSteps,
@@ -44,7 +44,7 @@ export const commissions: CommissionsPage = {
 
   practical: {
     eyebrow: "Antes de comenzar",
-    title: "Lo práctico, sin letra chica.",
+    title: "Lo práctico, *sin letra chica*.",
     topics: [
       "Fotografías de referencia necesarias",
       "Formatos disponibles",
@@ -59,7 +59,7 @@ export const commissions: CommissionsPage = {
 
   closing: {
     eyebrow: "Iniciar una conversación",
-    title: "Cuéntame la historia que te gustaría convertir en una obra.",
+    title: "Cuéntame la historia que te gustaría convertir en una *obra*.",
     paragraph:
       "Compárteme brevemente qué te gustaría conservar o transmitir. Ese será el primer paso para comprender si podemos transformarlo en una obra.",
     primaryAction: { label: "Contar mi historia", href: "/contacto" },

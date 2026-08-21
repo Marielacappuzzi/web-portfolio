@@ -9,7 +9,7 @@ import type { WorkIndexPage } from "../types";
  */
 export const workIndex: WorkIndexPage = {
   eyebrow: "Obra seleccionada",
-  title: "Historias llevadas al carboncillo.",
+  title: "Historias llevadas al *carboncillo*.",
   description:
     "Obras personales, retratos por encargo y piezas nacidas de vínculos, recuerdos e ideas que encontraron una forma de ser contadas.",
   emptyMessage:

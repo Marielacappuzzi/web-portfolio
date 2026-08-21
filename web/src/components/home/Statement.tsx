@@ -4,6 +4,7 @@ import { Figure } from "@/components/primitives/Figure";
 import { Reveal } from "@/components/primitives/Reveal";
 import { Rule } from "@/components/primitives/Rule";
 import { Display, Eyebrow, PullQuote } from "@/components/primitives/Type";
+import { withEmphasis } from "@/lib/emphasis";
 import type { HomeStatementContent } from "@/content/types";
 
 /**
@@ -28,7 +29,7 @@ export function Statement({ content }: { content: HomeStatementContent }) {
             <Display id="declaracion-titulo" measure={24} className="mx-auto">
               {content.titleLines.map((line, i) => (
                 <span key={i} className="block">
-                  {line}
+                  {withEmphasis(line)}
                 </span>
               ))}
             </Display>

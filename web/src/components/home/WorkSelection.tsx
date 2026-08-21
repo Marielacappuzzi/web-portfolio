@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Container, Section } from "@/components/layout/Section";
 import { ActionButton } from "@/components/primitives/ActionLink";
+import { Badge } from "@/components/primitives/Badge";
 import { Reveal } from "@/components/primitives/Reveal";
 import { Display, Eyebrow } from "@/components/primitives/Type";
 import { ArtworkFrame } from "@/components/work/ArtworkFrame";
@@ -18,6 +19,11 @@ interface WorkSelectionProps {
  * and the project name is the entry point. This keeps the concept label
  * (origin → interpretation → a voice of her own) because it is what orients the
  * sequence, and sends everything else to /obra and the editorial pages.
+ *
+ * The three cards share one 4/5 frame. Elsewhere on the site each piece keeps
+ * its own proportion, but here they are read as a row: with native ratios the
+ * titles land at three different heights and the row reads as an accident
+ * rather than a sequence. This is the one place a shared crop earns its cost.
  */
 export function WorkSelection({ content, works }: WorkSelectionProps) {
   if (works.length === 0) return null;
@@ -37,13 +43,15 @@ export function WorkSelection({ content, works }: WorkSelectionProps) {
           </Reveal>
         </div>
 
-        <ul className="mt-4xl grid grid-cols-1 gap-3xl md:grid-cols-3 md:gap-x-[3vw]">
+        <ul className="mt-2xl grid grid-cols-1 gap-3xl md:mt-3xl md:grid-cols-3 md:gap-x-[3vw]">
           {works.map((work, i) => (
-            <li key={work.slug} className="group">
-              <Link href={`/obra/${work.slug}`} className="block">
+            <li key={work.slug} className="group flex">
+              <Link href={`/obra/${work.slug}`} className="flex w-full flex-col">
                 <Reveal variant="image" delay={i * 120}>
                   <ArtworkFrame
                     work={work}
+                    aspect="aspect-[4/5]"
+                    focus="50% 30%"
                     sizes="(min-width: 768px) 30vw, 100vw"
                     className={
                       work.image
@@ -54,8 +62,8 @@ export function WorkSelection({ content, works }: WorkSelectionProps) {
                 </Reveal>
 
                 <Reveal delay={i * 120 + 120} className="mt-md">
-                  {work.concept ? <Eyebrow as="p">{work.concept}</Eyebrow> : null}
-                  <p className="mt-2xs font-serif text-xl font-light leading-tight tracking-tight text-fg-strong">
+                  {work.concept ? <Badge>{work.concept}</Badge> : null}
+                  <p className="mt-xs font-serif text-xl font-light leading-tight tracking-tight text-fg-strong">
                     {work.title}
                   </p>
                 </Reveal>

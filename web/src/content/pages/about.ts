@@ -16,7 +16,7 @@ export const about: AboutPage = {
   heading: {
     eyebrow: "La artista",
     title:
-      "El arte se convirtió en mi profesión, pero también en una manera de mirar.",
+      "El arte se convirtió en mi profesión, pero también en una *manera de mirar*.",
   },
   intro: [
     "Mi relación profesional con el arte comenzó en 2021, a partir de una exploración personal que fue ocupando cada vez más espacio en mi vida.",
@@ -37,7 +37,7 @@ export const about: AboutPage = {
     eyebrow: "Más allá de la imagen",
     titleLines: [
       "No busco reproducir lo que veo.",
-      "Busco encontrar lo que esa imagen puede decir.",
+      "Busco encontrar lo que esa imagen *puede decir*.",
     ],
     paragraphs: [
       "Detrás de cada obra existe una historia, un vínculo o una emoción que no siempre es visible a primera vista.",
@@ -51,7 +51,7 @@ export const about: AboutPage = {
   /* Copy.md §5 */
   language: {
     eyebrow: "El lenguaje",
-    title: "La profundidad no siempre necesita color.",
+    title: "La profundidad no siempre necesita *color*.",
     paragraphs: [
       "Después de explorar el grafito y la pintura al óleo, regresé al carboncillo porque encontré en él una libertad diferente.",
       "Sus negros profundos, la riqueza de los grises y la posibilidad de pasar de un gesto delicado a un contraste intenso me permiten trabajar la luz, la textura y la expresión con una sensibilidad muy particular.",
@@ -72,7 +72,7 @@ export const about: AboutPage = {
   /* Copy.md §6 */
   process: {
     eyebrow: "Del relato a la obra",
-    title: "Toda obra comienza antes del primer trazo.",
+    title: "Toda obra comienza antes del *primer trazo*.",
     intro:
       "El proceso comienza escuchando. Antes de definir una composición necesito comprender qué historia existe detrás, qué emoción debe permanecer y qué elementos son realmente esenciales.",
     steps: processSteps,

@@ -10,6 +10,7 @@ import { SilentVideo } from "@/components/primitives/SilentVideo";
 import { Rule } from "@/components/primitives/Rule";
 import { Display, Eyebrow, Prose, PullQuote } from "@/components/primitives/Type";
 import { getAboutPage, getHome } from "@/lib/content";
+import { withEmphasis } from "@/lib/emphasis";
 
 export const metadata: Metadata = {
   title: "Sobre mí",
@@ -77,7 +78,7 @@ export default async function AboutPage() {
                 <Display id="mirada-titulo">
                   {page.statement.titleLines.map((line, i) => (
                     <span key={i} className="block">
-                      {line}
+                      {withEmphasis(line)}
                     </span>
                   ))}
                 </Display>

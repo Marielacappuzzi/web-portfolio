@@ -1,5 +1,6 @@
 import type { ElementType, ReactNode } from "react";
 import { cn } from "@/lib/cn";
+import { withEmphasis } from "@/lib/emphasis";
 
 /**
  * Typographic primitives. Every heading, label and body block on the site goes
@@ -100,7 +101,7 @@ export function Display({
         className,
       )}
     >
-      {children}
+      {typeof children === "string" ? withEmphasis(children) : children}
     </Tag>
   );
 }
@@ -142,8 +143,11 @@ interface PullQuoteProps {
 }
 
 /**
- * The one place italic is allowed. One per section at most — it marks the
- * sentence the reader should carry away.
+ * The sentence to carry away. One per section at most.
+ *
+ * Headings may also carry italic now, on a single phrase marked `*like this*`
+ * in the content. This still reads as the strongest mark on the page because
+ * it is set at 2xl and sits alone.
  */
 export function PullQuote({ children, className }: PullQuoteProps) {
   return (
@@ -153,7 +157,7 @@ export function PullQuote({ children, className }: PullQuoteProps) {
         className,
       )}
     >
-      {children}
+      {typeof children === "string" ? withEmphasis(children) : children}
     </p>
   );
 }

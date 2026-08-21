@@ -15,7 +15,7 @@ export const home: HomeContent = {
   /* 1 — Hero. Copy.md §1 */
   hero: {
     eyebrow: "Mariela Crapuzzi · Artista visual",
-    title: "Una mirada puede contener una historia entera.",
+    title: "Una mirada puede contener una *historia entera*.",
     description:
       "A través del realismo figurativo y el carboncillo, transformo recuerdos, vínculos y emociones en obras creadas para conservar aquello que una imagen, por sí sola, no alcanza a decir.",
     primaryAction: { label: "Explorar la obra", href: "/obra" },
@@ -45,7 +45,7 @@ export const home: HomeContent = {
     eyebrow: "Más allá de la imagen",
     titleLines: [
       "No busco reproducir lo que veo.",
-      "Busco encontrar lo que esa imagen puede decir.",
+      "Busco encontrar lo que esa imagen *puede decir*.",
     ],
     pullQuote:
       "Todo lo demás se construye para acompañar y reforzar esa mirada.",
@@ -58,7 +58,7 @@ export const home: HomeContent = {
    */
   work: {
     eyebrow: "Obra seleccionada",
-    title: "Historias llevadas al carboncillo.",
+    title: "Historias llevadas al *carboncillo*.",
     action: { label: "Ver toda la obra", href: "/obra" },
   },
 
@@ -68,7 +68,7 @@ export const home: HomeContent = {
    */
   contact: {
     eyebrow: "Iniciar una conversación",
-    title: "Cuéntame la historia que te gustaría convertir en una obra.",
+    title: "Cuéntame la historia que te gustaría convertir en una *obra*.",
     paragraph:
       "Puede ser un recuerdo, una persona, un animal, un vínculo o una idea que todavía no encontró su imagen.",
     primaryAction: { label: "Contar mi historia", href: "/contacto" },

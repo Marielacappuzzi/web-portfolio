@@ -10,7 +10,7 @@ import type { ContactPage } from "../types";
 export const contact: ContactPage = {
   heading: {
     eyebrow: "Iniciar una conversación",
-    title: "Cuéntame la historia que te gustaría convertir en una obra.",
+    title: "Cuéntame la historia que te gustaría convertir en una *obra*.",
   },
   paragraphs: [
     "Puede ser un recuerdo, una persona, un animal, un vínculo o una idea que todavía no encontró su imagen.",
