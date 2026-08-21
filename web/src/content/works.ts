@@ -39,6 +39,52 @@ export const works: Work[] = [
         height: 1920,
         caption: "La mirada, punto de partida de la obra.",
       },
+      {
+        src: "/obra/bajo-su-proteccion/extra-07.jpg",
+        alt: "La obra completa vista de frente: la leona emerge de la penumbra y la cría se apoya contra su pecho, entre la hierba alta.",
+        width: 1080,
+        height: 1920,
+        caption: "La composición completa.",
+      },
+      {
+        src: "/obra/bajo-su-proteccion/extra-02.jpg",
+        alt: "La obra fotografiada de cerca, donde se distingue el grano del carboncillo en el pelaje y en la hierba.",
+        width: 1080,
+        height: 1920,
+        caption: "El grano del carboncillo sobre el papel.",
+      },
+    ],
+    framedImages: [
+      {
+        src: "/obra/bajo-su-proteccion/extra-04.jpg",
+        alt: "La obra enmarcada en negro y colgada sobre una pared blanca, junto a un sillón claro y un aparador bajo con libros y un ramo de olivo.",
+        width: 1536,
+        height: 1920,
+        caption: "La obra, enmarcada.",
+      },
+    ],
+    processImages: [
+      {
+        src: "/obra/bajo-su-proteccion/extra-05.jpg",
+        alt: "Mariela dibujando con un difumino sobre el papel: la leona ya está resuelta y la cría es todavía un trazo de contorno.",
+        width: 1080,
+        height: 1920,
+        caption: "La leona resuelta; la cría, aún en contorno.",
+      },
+      {
+        src: "/obra/bajo-su-proteccion/extra-03.jpg",
+        alt: "La obra terminada sobre el caballete del taller, con la mesa de trabajo y el carro de materiales al lado.",
+        width: 1080,
+        height: 1920,
+        caption: "Terminada, en el taller.",
+      },
+      {
+        src: "/obra/bajo-su-proteccion/extra-06.jpg",
+        alt: "El certificado de autenticidad de la obra, firmado, junto a una reproducción impresa de la pieza.",
+        width: 1079,
+        height: 1920,
+        caption: "Certificado de autenticidad, firmado.",
+      },
     ],
     processVideo: {
       youtubeId: "5C6ba3LGlvs",
@@ -77,6 +123,54 @@ export const works: Work[] = [
       width: 1440,
       height: 1920,
     },
+    detailImages: [
+      {
+        src: "/obra/oltre-lo-sguardo/mirada.jpg",
+        alt: "Recorte ampliado de la obra sobre los ojos de la figura, con el detalle del carboncillo en las pestañas y el iris.",
+        width: 1000,
+        height: 400,
+        caption: "La mirada, a la escala en que se dibuja.",
+      },
+      {
+        src: "/obra/oltre-lo-sguardo/extra-02.jpg",
+        alt: "Encuadre cerrado del rostro y del encaje del cuello, donde se distingue el trazo hilo por hilo.",
+        width: 1439,
+        height: 1920,
+        caption: "El encaje, hilo por hilo.",
+      },
+      {
+        src: "/obra/oltre-lo-sguardo/extra-07.jpg",
+        alt: "La obra vista en diagonal sobre la mesa, con la hoja de papel entrando en el encuadre por la izquierda.",
+        width: 1440,
+        height: 1920,
+        caption: "La hoja, sobre la mesa de trabajo.",
+      },
+      {
+        src: "/obra/oltre-lo-sguardo/extra-03.jpg",
+        alt: "La obra completa todavía pegada a la pared del taller con cinta de papel en el borde superior.",
+        width: 1439,
+        height: 1920,
+        caption: "Recién terminada, aún en la pared.",
+      },
+    ],
+    framedImages: [
+      {
+        src: "/obra/oltre-lo-sguardo/extra-04.jpg",
+        alt: "La obra enmarcada en negro con paspartú blanco, apoyada sobre un caballete de mesa entre plantas colgantes.",
+        width: 1080,
+        height: 1920,
+        caption: "Enmarcada, con paspartú.",
+      },
+    ],
+    processImages: [
+      {
+        src: "/obra/oltre-lo-sguardo/extra-05.jpg",
+        alt: "La obra sobre el caballete del taller, con la mesa en primer plano cubierta de difuminos, gomas y barras de carboncillo.",
+        width: 1079,
+        height: 1920,
+        caption: "En el taller, entre los materiales.",
+      },
+    ],
     shortStory: "No todo en esta imagen está dispuesto a ser comprendido.",
     longStory: [
       "La elegancia de otra época, el cabello apenas recogido y la delicadeza de la vestimenta construyen una imagen de aire romántico. Sin embargo, es la expresión la que sostiene el retrato.",
@@ -274,6 +368,22 @@ export const works: Work[] = [
       width: 1376,
       height: 1920,
     },
+    detailImages: [
+      {
+        src: "/obra/sueno-de-primavera/extra-01.jpg",
+        alt: "La obra completa de frente: la mujer reclinada sobre el banco de piedra y los tres querubines que la rodean, entre el follaje del jardín.",
+        width: 1376,
+        height: 1920,
+        caption: "La composición completa.",
+      },
+      {
+        src: "/obra/sueno-de-primavera/extra-03.jpg",
+        alt: "Dos impresiones de la obra sobre una mesa de madera, una detrás de otra, con el margen blanco del papel a la vista.",
+        width: 1080,
+        height: 1920,
+        caption: "Dos ejemplares de la edición impresa.",
+      },
+    ],
     concept: "EL ORIGEN",
     shortStory:
       "En Rêve de printemps de William-Adolphe Bouguereau encontré una sensibilidad profundamente cercana a aquello que comenzaba a buscar en mi propio trabajo.",

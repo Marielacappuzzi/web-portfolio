@@ -9,6 +9,7 @@ import { ActionButton } from "@/components/primitives/ActionLink";
 import { Figure } from "@/components/primitives/Figure";
 import { Pending } from "@/components/primitives/Pending";
 import { Reveal } from "@/components/primitives/Reveal";
+import { ScrollReveal } from "@/components/primitives/ScrollReveal";
 import { SilentVideo } from "@/components/primitives/SilentVideo";
 import { Rule } from "@/components/primitives/Rule";
 import { Display, Eyebrow, Prose } from "@/components/primitives/Type";
@@ -157,6 +158,42 @@ export default async function WorkPage({ params }: PageProps<"/obra/[slug]">) {
               label={"Detalles de " + work.title}
             />
           </div>
+        </Section>
+      ) : null}
+
+      {/*
+        The piece on a wall. A photograph of the sheet answers what the work
+        looks like; this answers how large it is and how it lives in a room,
+        which is the question a visitor considering a commission actually has.
+      */}
+      {work.framedImages && work.framedImages.length > 0 ? (
+        <Section ground="paper" rhythm="act" aria-labelledby="enmarcada-titulo">
+          <Container width="wide">
+            <div className="grid gap-2xl lg:grid-cols-12 lg:gap-x-[4vw]">
+              <div className="lg:col-span-3">
+                <Reveal>
+                  <Eyebrow as="h2" id="enmarcada-titulo">
+                    En una pared
+                  </Eyebrow>
+                </Reveal>
+              </div>
+
+              <div className="grid grid-cols-1 gap-lg sm:grid-cols-2 sm:gap-x-[3vw] lg:col-span-8 lg:col-start-5">
+                {work.framedImages.map((image, i) => (
+                  <ScrollReveal key={image.src} distance={i % 2 ? 88 : 56}>
+                    <Figure
+                      src={image.src}
+                      alt={image.alt}
+                      caption={image.caption}
+                      pendingLabel=""
+                      aspect="aspect-[4/5]"
+                      sizes="(min-width: 640px) 40vw, 100vw"
+                    />
+                  </ScrollReveal>
+                ))}
+              </div>
+            </div>
+          </Container>
         </Section>
       ) : null}
 

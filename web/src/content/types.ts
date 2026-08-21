@@ -70,6 +70,14 @@ export interface Work {
   ratio?: Ratio;
   detailImages?: WorkImage[];
   processImages?: WorkImage[];
+  /**
+   * The piece framed and hung in a room. These sell scale and presence, which
+   * a photograph of the sheet alone cannot: a visitor asking what a 100 x 70
+   * charcoal looks like on a wall is answered here, not in the technical
+   * sheet. Kept separate from `detailImages` because they show a setting, not
+   * the work.
+   */
+  framedImages?: WorkImage[];
   /** Shown in "El proceso" on the editorial page. */
   processVideo?: VideoSource;
 
