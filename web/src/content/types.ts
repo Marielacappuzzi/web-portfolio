@@ -125,6 +125,12 @@ export interface PrintEdition {
 
 /* ---------------------------------------------------------------- site --- */
 
+/** A work listed under a nav item. */
+export interface NavChild {
+  label: string;
+  href: string;
+}
+
 export interface NavItem {
   label: string;
   href: string;
@@ -282,6 +288,8 @@ export interface ContactPage {
   fields: FormField[];
   submitLabel: string;
   confirmation: string;
+  /** One line under the thank-you: what happens next, and when. */
+  confirmationNote: string;
   channelsLabel: string;
 }
 

@@ -3,7 +3,7 @@ import { Instrument_Sans, Newsreader } from "next/font/google";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { SmoothScroll } from "@/components/primitives/SmoothScroll";
-import { getSite } from "@/lib/content";
+import { getSite, getWorks } from "@/lib/content";
 import "./globals.css";
 
 /**
@@ -54,7 +54,21 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({ children }: LayoutProps<"/">) {
-  const site = await getSite();
+  const [site, works] = await Promise.all([getSite(), getWorks()]);
+
+  /*
+   * "Obra" drops the catalogue. A piece with its own editorial page goes
+   * there; everything else anchors to its card in the gallery, which is why
+   * WorkCard carries an id.
+   */
+  const navChildren = {
+    "/obra": works.map((work) => ({
+      label: work.title,
+      href: work.hasEditorialPage
+        ? `/obra/${work.slug}`
+        : `/obra#${work.slug}`,
+    })),
+  };
 
   return (
     <html
@@ -72,7 +86,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
           Saltar al contenido
         </a>
 
-        <SiteHeader nav={site.nav} name={site.name} />
+        <SiteHeader nav={site.nav} name={site.name} navChildren={navChildren} />
 
         <main id="contenido" className="flex-1">
           {children}

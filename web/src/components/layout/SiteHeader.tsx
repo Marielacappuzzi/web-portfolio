@@ -4,12 +4,15 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import type { NavItem } from "@/content/types";
+import type { NavChild, NavItem } from "@/content/types";
 import { cn } from "@/lib/cn";
 import { lockScroll } from "@/lib/smooth-scroll";
+import { NavSubmenu } from "./NavSubmenu";
 import type { Ground } from "./Section";
 
 interface SiteHeaderProps {
+  /** Works listed under "Obra". Keyed by the parent href. */
+  navChildren?: Record<string, NavChild[]>;
   nav: NavItem[];
   name: string;
 }
@@ -21,9 +24,15 @@ interface SiteHeaderProps {
  * deliberately not a nav item. The monogram swaps to its light version while
  * the mobile menu is open, because the panel behind it turns to chamber.
  */
-export function SiteHeader({ nav, name }: SiteHeaderProps) {
+export function SiteHeader({
+  nav,
+  name,
+  navChildren = {},
+}: SiteHeaderProps) {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
+  /** href of the nav item whose submenu is open, if any. */
+  const [openMenu, setOpenMenu] = useState<string | null>(null);
 
   // Escape closes; the page underneath does not scroll while it is open.
   useEffect(() => {
@@ -96,12 +105,41 @@ export function SiteHeader({ nav, name }: SiteHeaderProps) {
               {nav.map((item) => {
                 const active =
                   pathname === item.href || pathname.startsWith(`${item.href}/`);
+                const children = navChildren[item.href];
+                const hasChildren = Boolean(children && children.length > 0);
+                const open = openMenu === item.href;
+                const triggerId = `nav-${item.href.replace(/W+/g, "-")}`;
 
                 return (
-                  <li key={item.href}>
+                  <li
+                    key={item.href}
+                    className={cn(hasChildren && "relative")}
+                    onMouseEnter={
+                      hasChildren ? () => setOpenMenu(item.href) : undefined
+                    }
+                    onMouseLeave={hasChildren ? () => setOpenMenu(null) : undefined}
+                    /*
+                     * Keyboard opens the panel too: focus moving into the item
+                     * or any of its links keeps it open, and moving out of the
+                     * whole subtree closes it. Without this the submenu would
+                     * be reachable only with a pointer.
+                     */
+                    onFocus={hasChildren ? () => setOpenMenu(item.href) : undefined}
+                    onBlur={
+                      hasChildren
+                        ? (event) => {
+                            if (!event.currentTarget.contains(event.relatedTarget)) {
+                              setOpenMenu(null);
+                            }
+                          }
+                        : undefined
+                    }
+                  >
                     <Link
+                      id={triggerId}
                       href={item.href}
                       aria-current={active ? "page" : undefined}
+                      aria-expanded={hasChildren ? open : undefined}
                       className={cn(
                         "group relative block py-1 font-sans text-sm transition-colors duration-300",
                         active ? "text-fg-strong" : "text-fg hover:text-fg-strong",
@@ -112,12 +150,20 @@ export function SiteHeader({ nav, name }: SiteHeaderProps) {
                         aria-hidden="true"
                         className={cn(
                           "absolute inset-x-0 bottom-0 h-px origin-left bg-current transition-transform duration-500 ease-out-quart",
-                          active
+                          active || open
                             ? "scale-x-100"
                             : "scale-x-0 group-hover:scale-x-100",
                         )}
                       />
                     </Link>
+
+                    {hasChildren ? (
+                      <NavSubmenu
+                        items={children!}
+                        labelledBy={triggerId}
+                        open={open}
+                      />
+                    ) : null}
                   </li>
                 );
               })}

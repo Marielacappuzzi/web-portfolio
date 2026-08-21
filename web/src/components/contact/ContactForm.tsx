@@ -1,6 +1,7 @@
 "use client";
 
 import { type FormEvent, useState } from "react";
+import { ContactSent } from "./ContactSent";
 import { Pending } from "@/components/primitives/Pending";
 import type { ContactPage, FormField } from "@/content/types";
 import { cn } from "@/lib/cn";
@@ -88,11 +89,7 @@ export function ContactForm({ page }: { page: ContactPage }) {
   // second send and makes the visitor wonder whether the first one worked.
   if (status === "sent") {
     return (
-      <div className="border border-rule px-lg py-xl">
-        <p className="max-w-[52ch] font-serif text-lg font-light leading-snug text-fg-strong">
-          {page.confirmation}
-        </p>
-      </div>
+      <ContactSent message={page.confirmation} note={page.confirmationNote} />
     );
   }
 

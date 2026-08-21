@@ -70,5 +70,7 @@ export const contact: ContactPage = {
   submitLabel: "Enviar mi consulta",
   confirmation:
     "Gracias por compartir tu historia. Revisaré tu mensaje y me pondré en contacto contigo personalmente.",
+  confirmationNote:
+    "Suelo responder en el transcurso de la semana. Si tu consulta es sobre un encargo, te escribiré para conocer la historia con más calma.",
   channelsLabel: "También puedes escribirme",
 };

@@ -42,3 +42,12 @@ export function MailIcon(props: IconProps) {
     </svg>
   );
 }
+
+export function LocationIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M12 21.5s7-6.1 7-11.1a7 7 0 1 0-14 0c0 5 7 11.1 7 11.1Z" />
+      <circle cx="12" cy="10.2" r="2.6" />
+    </svg>
+  );
+}

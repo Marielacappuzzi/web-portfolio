@@ -183,6 +183,8 @@ desfasan de la posición real de la página.
 | `ScrollZoom` | `scale` 1→1.06 atado al scroll | `scrub` |
 | `ScrollReveal` | `opacity` 0→1, `y` 64px→0 atado al scroll | `scrub` 0.6 |
 | `WorkGallery` | tira horizontal con la sección fijada | `scrub` 0.5 |
+| `NavSubmenu` | regla + títulos escalonados 40 ms | 450/500 ms |
+| `ContactSent` | regla, trazo del tilde, texto que sube | ~1 s en total |
 
 Reglas: se dispara una sola vez y no vuelve atrás — al subir, nada se
 re-oculta. Ningún cambio de escala supera el 6%. **Sin blur**: desenfocar
@@ -197,6 +199,14 @@ entrada por defecto — se dispara una vez y se reproduce sola.
 horizontal de láminas. Nunca secuestra el scroll: el pin dura exactamente el
 ancho de la tira. Con menos de tres láminas, en pantallas angostas o con
 movimiento reducido, es una tira deslizable normal.
+
+El submenú de «Obra» abre con una regla que se traza y los títulos entrando
+de a 40 ms. Se abre con el puntero y con el teclado; sin JavaScript queda
+visible, así ningún enlace se pierde.
+
+La confirmación del formulario dibuja el tilde en lugar de mostrarlo: un
+tilde que aparece lee como notificación del sistema, uno que se traza lee
+como una mano confirmando algo.
 
 `prefers-reduced-motion: reduce` → no se arma ninguna entrada y Lenis no
 arranca; el navegador scrollea la página como siempre.

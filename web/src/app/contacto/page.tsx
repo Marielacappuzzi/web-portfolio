@@ -2,10 +2,20 @@ import type { Metadata } from "next";
 import { ContactForm } from "@/components/contact/ContactForm";
 import { Container, Section } from "@/components/layout/Section";
 import { PageHeader } from "@/components/layout/PageHeader";
+import {
+  InstagramIcon,
+  LocationIcon,
+  MailIcon,
+} from "@/components/primitives/Icon";
 import { Pending } from "@/components/primitives/Pending";
 import { Reveal } from "@/components/primitives/Reveal";
 import { Eyebrow, Prose } from "@/components/primitives/Type";
 import { getContactPage, getSite } from "@/lib/content";
+
+/** One channel row: a line icon that lifts with the label on hover. */
+const channelClass =
+  "group inline-flex items-center gap-2xs font-sans text-sm text-fg " +
+  "transition-colors duration-300 hover:text-fg-strong";
 
 export const metadata: Metadata = {
   title: "Contacto",
@@ -22,7 +32,6 @@ export const metadata: Metadata = {
  */
 export default async function ContactPage() {
   const [page, site] = await Promise.all([getContactPage(), getSite()]);
-  const hasChannels = Boolean(site.email || site.instagramUrl);
 
   return (
     <>
@@ -42,35 +51,51 @@ export default async function ContactPage() {
                   <Eyebrow as="h2">{page.channelsLabel}</Eyebrow>
                 </Reveal>
 
-                <div className="mt-md flex flex-col gap-2xs">
+                <ul className="mt-md flex flex-col gap-sm">
                   {site.instagramUrl && site.instagramHandle ? (
-                    <a
-                      href={site.instagramUrl}
-                      target="_blank"
-                      rel="noreferrer noopener"
-                      className="font-sans text-sm text-fg transition-colors duration-300 hover:text-fg-strong"
-                    >
-                      {site.instagramHandle}
-                    </a>
+                    <li>
+                      <a
+                        href={site.instagramUrl}
+                        target="_blank"
+                        rel="noreferrer noopener"
+                        className={channelClass}
+                      >
+                        <InstagramIcon className="shrink-0 text-fg-faint transition-colors duration-300 group-hover:text-fg-strong" />
+                        {site.instagramHandle}
+                      </a>
+                    </li>
                   ) : null}
 
                   {site.email ? (
+                    <li>
+                      <a href={`mailto:${site.email}`} className={channelClass}>
+                        <MailIcon className="shrink-0 text-fg-faint transition-colors duration-300 group-hover:text-fg-strong" />
+                        {site.email}
+                      </a>
+                    </li>
+                  ) : (
+                    <li className="flex items-center gap-2xs text-fg-faint">
+                      <MailIcon className="shrink-0" />
+                      <Pending kind="data" detail="Correo" />
+                    </li>
+                  )}
+
+                  {/*
+                    The address is a place to send a print to, not a shop to
+                    visit, so it opens a map rather than sitting inert.
+                  */}
+                  <li>
                     <a
-                      href={`mailto:${site.email}`}
-                      className="font-sans text-sm text-fg transition-colors duration-300 hover:text-fg-strong"
+                      href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(site.location)}`}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      className={channelClass}
                     >
-                      {site.email}
+                      <LocationIcon className="shrink-0 text-fg-faint transition-colors duration-300 group-hover:text-fg-strong" />
+                      {site.location}
                     </a>
-                  ) : null}
-
-                  {!hasChannels ? (
-                    <Pending kind="data" detail="Instagram y correo" />
-                  ) : null}
-
-                  <p className="mt-2xs font-sans text-sm text-fg-muted">
-                    {site.location}
-                  </p>
-                </div>
+                  </li>
+                </ul>
               </div>
             </div>
 

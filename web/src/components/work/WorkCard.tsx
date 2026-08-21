@@ -81,11 +81,15 @@ export function WorkCard({
   );
 
   if (!work.hasEditorialPage) {
-    return <figure className={cn("group", className)}>{content}</figure>;
+    return (
+      <figure id={work.slug} className={cn("group scroll-mt-32", className)}>
+        {content}
+      </figure>
+    );
   }
 
   return (
-    <article className={cn("group", className)}>
+    <article id={work.slug} className={cn("group scroll-mt-32", className)}>
       <Link
         href={`/obra/${work.slug}`}
         className="block"
