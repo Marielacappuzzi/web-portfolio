@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Container, Section } from "@/components/layout/Section";
-import { ActionLink } from "@/components/primitives/ActionLink";
+import { ActionButton } from "@/components/primitives/ActionLink";
 import { Figure } from "@/components/primitives/Figure";
 import { Pending } from "@/components/primitives/Pending";
 import { Reveal } from "@/components/primitives/Reveal";
@@ -264,9 +264,9 @@ export default async function WorkPage({ params }: PageProps<"/obra/[slug]">) {
                 </Reveal>
 
                 <Reveal delay={270} className="mt-xl">
-                  <ActionLink href={work.printEdition.action.href}>
+                  <ActionButton href={work.printEdition.action.href}>
                     {work.printEdition.action.label}
-                  </ActionLink>
+                  </ActionButton>
                 </Reveal>
               </div>
 

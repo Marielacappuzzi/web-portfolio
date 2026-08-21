@@ -32,6 +32,30 @@ export function ActionLink({ href, children, className }: ActionLinkProps) {
   );
 }
 
+/**
+ * Bordered. A hairline rectangle whose outline completes itself on hover: two
+ * segments draw in from opposite corners while a very light wash rises behind
+ * the label. No fill, no radius, no shadow — it reads as a drawn frame rather
+ * than a commercial button, which is what the brief asks for.
+ *
+ * Use where an action needs to be found without being announced.
+ */
+export function ActionButton({ href, children, className }: ActionLinkProps) {
+  return (
+    <Link
+      href={href}
+      className={cn(
+        "action-frame group relative inline-flex items-center justify-center",
+        "px-lg py-sm font-sans text-2xs font-medium uppercase tracking-label",
+        "text-fg-strong",
+        className,
+      )}
+    >
+      <span className="relative z-10">{children}</span>
+    </Link>
+  );
+}
+
 /** Secondary. Reads as running text with a quiet underline. */
 export function QuietLink({ href, children, className }: ActionLinkProps) {
   return (

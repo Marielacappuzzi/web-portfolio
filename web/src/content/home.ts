@@ -21,14 +21,20 @@ export const home: HomeContent = {
     primaryAction: { label: "Explorar la obra", href: "/obra" },
     secondaryAction: { label: "Conocer mi proceso", href: "/sobre-mi#proceso" },
     /*
-     * TEMPORARY. The hero piece is "Jesús, la oveja y el lobo", which is
-     * unfinished and has no photograph. Showing its placeholder plate as the
-     * first thing on the site was worse than showing real work, so the band
-     * carries "Bajo su Protección" while the strategy still names Jesús as the
-     * opening piece. Change this back to "jesus-la-oveja-y-el-lobo" the day the
-     * photograph exists. See docs/CONTENT_PENDING.md #1.
+     * PENDING. The portada is a dedicated 1920 x 750 photograph, not a
+     * catalogue piece: the hero needs a wide crop with room on the left for
+     * the sentence, and no existing work is shot that way. Until it is
+     * produced, CoverImage renders a declared plate at the right proportion.
+     * See docs/CONTENT_PENDING.md.
+     *
+     * When the file lands, drop it at /portada/inicio.jpg and fill this in:
+     *   cover: {
+     *     src: "/portada/inicio.jpg",
+     *     alt: "...",
+     *     focus: "60% 40%",
+     *   },
      */
-    workSlug: "bajo-su-proteccion",
+    cover: null,
   },
 
   /*

@@ -1,5 +1,5 @@
 import { Container, Section } from "@/components/layout/Section";
-import { ActionLink } from "@/components/primitives/ActionLink";
+import { ActionButton } from "@/components/primitives/ActionLink";
 import { Display, Eyebrow } from "@/components/primitives/Type";
 
 export default function NotFound() {
@@ -13,8 +13,8 @@ export default function NotFound() {
         </Display>
 
         <div className="mt-2xl flex flex-wrap gap-xl">
-          <ActionLink href="/obra">Ver la obra</ActionLink>
-          <ActionLink href="/">Volver al inicio</ActionLink>
+          <ActionButton href="/obra">Ver la obra</ActionButton>
+          <ActionButton href="/">Volver al inicio</ActionButton>
         </div>
       </Container>
     </Section>

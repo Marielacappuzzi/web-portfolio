@@ -38,7 +38,7 @@ export function Eyebrow({
 
 /* -------------------------------------------------------------- display --- */
 
-type DisplaySize = "hero" | "section" | "sub";
+type DisplaySize = "hero" | "cover" | "section" | "sub";
 
 interface DisplayProps {
   children: ReactNode;
@@ -66,6 +66,9 @@ interface DisplayProps {
  */
 const displaySize: Record<DisplaySize, string> = {
   hero: "text-4xl leading-display",
+  // Over a cover image: smaller than `hero` so the sentence holds two or
+  // three lines beside the artwork instead of towering over it.
+  cover: "text-cover leading-cover",
   section: "text-3xl leading-display",
   sub: "text-xl leading-tight",
 };
@@ -73,6 +76,7 @@ const displaySize: Record<DisplaySize, string> = {
 /** Default cap per size, in `ch`, measured on the heading's own font. */
 const defaultMeasure: Record<DisplaySize, number> = {
   hero: 16,
+  cover: 20,
   section: 20,
   sub: 26,
 };

@@ -120,15 +120,14 @@ export function ContactForm({ page }: { page: ContactPage }) {
           type="submit"
           disabled={busy}
           className={cn(
-            "self-start border border-fg-strong px-lg py-3",
+            "action-frame self-start px-lg py-sm",
             "font-sans text-2xs font-medium uppercase tracking-label text-fg-strong",
-            "transition-colors duration-300",
-            "hover:bg-fg-strong hover:text-bg",
-            "focus-visible:bg-fg-strong focus-visible:text-bg",
-            "disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-transparent disabled:hover:text-fg-strong",
+            "disabled:cursor-not-allowed disabled:opacity-50",
           )}
         >
-          {busy ? "Enviando…" : page.submitLabel}
+          <span className="relative z-10">
+            {busy ? "Enviando…" : page.submitLabel}
+          </span>
         </button>
 
         <div aria-live="polite" className="min-h-6">

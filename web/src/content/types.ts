@@ -163,14 +163,26 @@ export interface ProcessBlock extends SectionHeading {
 
 /* ------------------------------------------------------------------ home --- */
 
+/** The full-bleed portada behind the hero. */
+export interface CoverContent {
+  src: string;
+  alt: string;
+  /** `object-position` holding the crop as the frame narrows, e.g. "50% 30%". */
+  focus?: string;
+}
+
 export interface HeroContent {
   eyebrow: string;
   title: string;
   description: string;
   primaryAction: NavItem;
   secondaryAction: NavItem;
-  /** Slug of the work that carries the hero. */
-  workSlug: string;
+  /**
+   * The cover band behind the opening sentence. 1920 x 750 at desktop,
+   * recropped by the browser for narrower frames — see CoverImage. Null
+   * until the portada has been produced.
+   */
+  cover: CoverContent | null;
 }
 
 /**

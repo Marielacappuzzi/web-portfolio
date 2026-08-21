@@ -60,9 +60,9 @@ export function Statement({ content }: { content: HomeStatementContent }) {
             src="/obra/oltre-lo-sguardo/mirada.jpg"
             alt="Recorte ampliado de la obra Oltre lo Sguardo sobre los ojos de la figura, con el detalle del carboncillo en las pestañas y el iris."
             pendingLabel=""
-            aspect="aspect-[5/2] lg:aspect-[3/1]"
+            aspect="aspect-[5/2]"
             sizes="(min-width: 1024px) 88vw, 100vw"
-            caption="Oltre lo Sguardo, 2024 · detalle"
+            caption="Oltre lo Sguardo, 2024"
           />
         </Reveal>
       </Container>

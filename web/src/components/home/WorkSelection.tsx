@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Container, Section } from "@/components/layout/Section";
-import { ActionLink } from "@/components/primitives/ActionLink";
+import { ActionButton } from "@/components/primitives/ActionLink";
 import { Reveal } from "@/components/primitives/Reveal";
 import { Display, Eyebrow } from "@/components/primitives/Type";
 import { ArtworkFrame } from "@/components/work/ArtworkFrame";
@@ -65,9 +65,9 @@ export function WorkSelection({ content, works }: WorkSelectionProps) {
         </ul>
 
         <Reveal className="mt-3xl flex justify-center">
-          <ActionLink href={content.action.href}>
+          <ActionButton href={content.action.href}>
             {content.action.label}
-          </ActionLink>
+          </ActionButton>
         </Reveal>
       </Container>
     </Section>

@@ -1,5 +1,5 @@
 import { Container, Section } from "@/components/layout/Section";
-import { ActionLink, QuietLink } from "@/components/primitives/ActionLink";
+import { ActionButton, QuietLink } from "@/components/primitives/ActionLink";
 import { Reveal } from "@/components/primitives/Reveal";
 import { Display, Eyebrow } from "@/components/primitives/Type";
 import type { Ground } from "@/components/layout/Section";
@@ -51,9 +51,9 @@ export function ContactCallout({
             delay={270}
             className="mt-2xl flex flex-wrap items-baseline justify-center gap-x-xl gap-y-md"
           >
-            <ActionLink href={content.primaryAction.href}>
+            <ActionButton href={content.primaryAction.href}>
               {content.primaryAction.label}
-            </ActionLink>
+            </ActionButton>
             <QuietLink href={content.secondaryAction.href}>
               {content.secondaryAction.label}
             </QuietLink>

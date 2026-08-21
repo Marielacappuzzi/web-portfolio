@@ -18,6 +18,7 @@ Detalle en `ASSET_INVENTORY.md`.
 
 | # | Qué falta | Dónde se resuelve | Impacto |
 | --- | --- | --- | --- |
+| 0 | **Portada del inicio**, 1920 × 750 | `public/portada/inicio.jpg` → `home.ts` → `hero.cover` | **B** — el hero muestra hoy una placa declarada. Necesita aire a la izquierda para el titular; ver `CoverImage`. |
 | 1 | Fotografía definitiva de **Jesús, la oveja y el lobo** | `works.ts` → `image` | **B** — es la obra del hero. Sigue sin terminar; confirmado en el briefing y ausente del PDF. |
 | 3 | **Correo electrónico** de contacto | `site.ts` → `email` | **B** — hoy el footer muestra el marcador de pendiente. |
 | 4 | **Instagram**: handle y URL | `site.ts` → `instagramHandle`, `instagramUrl` | **B** |

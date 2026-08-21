@@ -2,7 +2,7 @@ import { ContactCallout } from "@/components/blocks/ContactCallout";
 import { Hero } from "@/components/home/Hero";
 import { Statement } from "@/components/home/Statement";
 import { WorkSelection } from "@/components/home/WorkSelection";
-import { getFeaturedWorks, getHome, getWork } from "@/lib/content";
+import { getFeaturedWorks, getHome } from "@/lib/content";
 
 /**
  * Home — four sections.
@@ -23,16 +23,14 @@ import { getFeaturedWorks, getHome, getWork } from "@/lib/content";
  * reference — spends almost all of her site.
  */
 export default async function HomePage() {
-  const content = await getHome();
-
-  const [heroWork, featured] = await Promise.all([
-    getWork(content.hero.workSlug),
+  const [content, featured] = await Promise.all([
+    getHome(),
     getFeaturedWorks(),
   ]);
 
   return (
     <>
-      <Hero content={content.hero} work={heroWork} />
+      <Hero content={content.hero} />
       <Statement content={content.statement} />
       <WorkSelection content={content.work} works={featured} />
       <ContactCallout content={content.contact} />

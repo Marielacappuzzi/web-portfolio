@@ -29,9 +29,13 @@
   --text-2xl: clamp(1.75rem, 1.4rem + 1.65vw, 2.625rem);
   --text-3xl: clamp(2.25rem, 1.6rem + 2.9vw, 4rem);
   --text-4xl: clamp(2.75rem, 1.7rem + 4.7vw, 5.75rem);
+  /* Cover headline: sits over the portada, so it stays well under 4xl and
+     holds two or three lines instead of towering over the artwork. */
+  --text-cover: clamp(2rem, 1.35rem + 2.1vw, 3.25rem);
 
   /* --- Line heights --------------------------------------- */
   --leading-display: 1.04;
+  --leading-cover: 1.1;
   --leading-tight: 1.12;
   --leading-snug: 1.3;
   --leading-normal: 1.5;
@@ -212,6 +216,80 @@
 }
 
 /* Action link — a line that redraws on hover. */
+/*
+ * Bordered action. A hairline rectangle that completes itself.
+ *
+ * Two pseudo-elements each draw half the outline: one owns the top and right
+ * edges, the other the bottom and left. At rest only the bottom-left half is
+ * drawn, so the shape reads as an open corner rather than a button. On hover
+ * the second half sweeps in and the frame closes, while a very light wash
+ * rises behind the label.
+ *
+ * Transforms and opacity only — both composited, so the animation never
+ * forces layout.
+ */
+@utility action-frame {
+  position: relative;
+  isolation: isolate;
+
+  /* The wash. Sits under the label, never over it. */
+  &::before {
+    content: ;
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-color: currentColor;
+    opacity: 0;
+    transition: opacity 420ms var(--ease-out-quart);
+  }
+
+  &:hover::before,
+  &:focus-visible::before {
+    opacity: 0.07;
+  }
+
+  /* Resting half: bottom and left, already drawn. */
+  & > span::before {
+    content: ;
+    position: absolute;
+    inset: 0;
+    border-bottom: 1px solid currentColor;
+    border-left: 1px solid currentColor;
+    opacity: 0.45;
+    transition: opacity 420ms var(--ease-out-quart);
+  }
+
+  /* Closing half: top and right, drawn on hover from the bottom-right. */
+  & > span::after {
+    content: ;
+    position: absolute;
+    inset: 0;
+    border-top: 1px solid currentColor;
+    border-right: 1px solid currentColor;
+    clip-path: inset(0 0 100% 0);
+    transition: clip-path 520ms var(--ease-out-quart);
+  }
+
+  &:hover > span::before,
+  &:focus-visible > span::before {
+    opacity: 1;
+  }
+
+  &:hover > span::after,
+  &:focus-visible > span::after {
+    clip-path: inset(0 0 0 0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &::before,
+    & > span::before,
+    & > span::after {
+      transition: none;
+    }
+  }
+}
+
+
 @utility action-line {
   position: relative;
   display: inline-block;
