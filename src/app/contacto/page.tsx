@@ -5,9 +5,7 @@ import { PageHeader } from "@/components/layout/PageHeader";
 import {
   InstagramIcon,
   LocationIcon,
-  MailIcon,
 } from "@/components/primitives/Icon";
-import { Pending } from "@/components/primitives/Pending";
 import { Reveal } from "@/components/primitives/Reveal";
 import { Eyebrow, Prose } from "@/components/primitives/Type";
 import { getContactPage, getSite } from "@/lib/content";
@@ -65,20 +63,6 @@ export default async function ContactPage() {
                       </a>
                     </li>
                   ) : null}
-
-                  {site.email ? (
-                    <li>
-                      <a href={`mailto:${site.email}`} className={channelClass}>
-                        <MailIcon className="shrink-0 text-fg-faint transition-colors duration-300 group-hover:text-fg-strong" />
-                        {site.email}
-                      </a>
-                    </li>
-                  ) : (
-                    <li className="flex items-center gap-2xs text-fg-faint">
-                      <MailIcon className="shrink-0" />
-                      <Pending kind="data" detail="Correo" />
-                    </li>
-                  )}
 
                   {/*
                     The address is a place to send a print to, not a shop to

@@ -14,6 +14,15 @@ El PDF de fichas técnicas y la carpeta `IMAGENES MARIELA/` cerraron los ítems
 fotografía y ficha completa, y las dos fotografías de Mariela están integradas.
 Detalle en `ASSET_INVENTORY.md`.
 
+## Resuelto el 2026-08-22
+
+Sin correo público en el sitio, por decisión de Mariela: publicar una
+dirección la entrega a los recolectores, y el formulario ya llega a su
+bandeja. Instagram queda como único canal directo. Cierra el ítem 3.
+
+El formulario entrega por Resend en `marielacrapuzzi9@gmail.com`. Cierra el
+ítem 21.
+
 ## Resuelto el 2026-08-21
 
 La grafía del apellido queda cerrada: **Crapuzzi**, confirmado por Mariela y
@@ -27,7 +36,6 @@ carpeta local usan otra grafía; `site.ts` es la autoridad. Cierra el ítem 6.
 | 0 | **Portada del inicio**, 1920 × 750 | `public/portada/inicio.jpg` → `home.ts` → `hero.cover` | **B** — el hero muestra hoy una placa declarada. Necesita aire a la izquierda para el titular; ver `CoverImage`. |
 | 0b | **Página editorial para _Oltre lo Sguardo_** | `works.ts` → `hasEditorialPage` | **M** — sus 7 fotografías ya están descritas y declaradas, pero la obra no tiene página propia, así que sólo se ve el recorte de la mirada en el inicio. La estrategia nombra tres obras editoriales y ésta no está entre ellas: decisión de Mariela, no técnica. |
 | 1 | Fotografía definitiva de **Jesús, la oveja y el lobo** | `works.ts` → `image` | **B** — es la obra del hero. Sigue sin terminar; confirmado en el briefing y ausente del PDF. |
-| 3 | **Correo electrónico público** | `site.ts` → `email` | **B** — decisión, no dato: el formulario ya entrega en `marielacrapuzzi9@gmail.com`, pero publicar ese Gmail en el pie lo expone a los recolectores de direcciones. Conviene una dirección del dominio (`hola@marielacrapuzzi.com`) redirigida al Gmail. Hoy el pie muestra el marcador de pendiente. |
 | 4 | **Instagram**: handle y URL | `site.ts` → `instagramHandle`, `instagramUrl` | **B** |
 | 5 | **Sello MC** en SVG | `public/marca/sello-mc.svg` | **B** — el header usa hoy el monograma tipográfico. |
 | 6b | Recorte de 6 fotografías y resolución de todo el lote | `IMAGENES MARIELA/` → `public/obra/` | **B** — ver `ASSET_INVENTORY.md` §Dos problemas transversales. |

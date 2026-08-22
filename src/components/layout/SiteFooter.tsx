@@ -1,8 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Container, Section } from "./Section";
-import { InstagramIcon, MailIcon } from "@/components/primitives/Icon";
-import { Pending } from "@/components/primitives/Pending";
+import { InstagramIcon } from "@/components/primitives/Icon";
 import { Rule } from "@/components/primitives/Rule";
 import type { SiteContent } from "@/content/types";
 
@@ -15,9 +14,11 @@ import type { SiteContent } from "@/content/types";
  * which is what makes most of them read as an afterthought.
  *
  * Channels carry line icons at the same 1px weight as every rule on the site,
- * so they read as drawn marks rather than UI. Email is still unknown, so its
- * row declares itself pending rather than shipping an invented address;
- * filling `email` in src/content/site.ts turns it into a real link.
+ * so they read as drawn marks rather than UI.
+ *
+ * No email address here, by decision: publishing one hands it to scrapers,
+ * and the form already delivers to Mariela's inbox. Instagram is the only
+ * direct channel; everything else goes through /contacto.
  */
 
 /** Column heading. Quieter than an Eyebrow — this is furniture, not voice. */
@@ -34,7 +35,6 @@ const linkClass =
   "transition-colors duration-300 hover:text-fg-strong";
 
 export function SiteFooter({ site }: { site: SiteContent }) {
-  const hasChannels = Boolean(site.email || site.instagramUrl);
 
   return (
     <Section as="footer" ground="chamber" rhythm="none" className="pt-3xl pb-lg">
@@ -103,25 +103,11 @@ export function SiteFooter({ site }: { site: SiteContent }) {
                 </li>
               ) : null}
 
-              {site.email ? (
-                <li>
-                  <a href={`mailto:${site.email}`} className={linkClass}>
-                    <MailIcon />
-                    {site.email}
-                  </a>
-                </li>
-              ) : (
-                <li className="flex items-center gap-2xs text-fg-faint">
-                  <MailIcon />
-                  <Pending kind="data" detail="Correo" />
-                </li>
-              )}
-
-              {!hasChannels ? (
-                <li>
-                  <Pending kind="data" detail="Instagram y correo" />
-                </li>
-              ) : null}
+              <li>
+                <Link href="/contacto" className={linkClass}>
+                  Escribirme
+                </Link>
+              </li>
             </ul>
 
             <p className="mt-md font-sans text-sm text-fg-muted">

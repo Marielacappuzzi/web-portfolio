@@ -116,7 +116,6 @@ which runs on demand. There is no database.
 | | |
 | --- | --- |
 | Resend domain verification | Required before any enquiry can be delivered. |
-| Public email address | `src/content/site.ts` — still `null`, so the footer shows a pending marker. Publishing a personal Gmail exposes it to scrapers; an address on the domain, forwarded to the Gmail, is the better answer. |
 | Privacy policy and legal notice | Published as outlines; they need real ownership data. |
 | Hero photograph | *Jesús, la oveja y el lobo* is unfinished; the cover carries another piece meanwhile. |
 

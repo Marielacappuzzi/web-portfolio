@@ -3,9 +3,10 @@ import type { SiteContent } from "./types";
 /**
  * Site-level content. Copy is verbatim from docs/Copy.md — Footer section.
  *
- * PENDING (see docs/CONTENT_PENDING.md): the email address is unknown, so it
- * stays null and the UI marks it as pending rather than shipping a fabricated
- * address.
+ * No public email address, by decision: publishing one hands it to scrapers,
+ * and the contact form already delivers to Mariela’s inbox. Instagram is the
+ * only direct channel; everything else goes through /contacto. `email` stays
+ * null and nothing renders a row for it.
  *
  * The surname is Crapuzzi, confirmed by Mariela and by the signed certificate
  * of authenticity. The repository and GitHub handle spell it otherwise; this
