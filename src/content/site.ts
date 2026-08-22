@@ -1,0 +1,43 @@
+import type { SiteContent } from "./types";
+
+/**
+ * Site-level content. Copy is verbatim from docs/Copy.md — Footer section.
+ *
+ * No public email address, by decision: publishing one hands it to scrapers,
+ * and the contact form already delivers to Mariela’s inbox. Instagram is the
+ * only direct channel; everything else goes through /contacto. `email` stays
+ * null and nothing renders a row for it.
+ *
+ * The surname is Crapuzzi, confirmed by Mariela and by the signed certificate
+ * of authenticity. The repository and GitHub handle spell it otherwise; this
+ * file is the authority.
+ */
+export const site: SiteContent = {
+  name: "Mariela Crapuzzi",
+  role: "Artista visual especializada en carboncillo.",
+  location: "Santa Cruz de la Sierra, Bolivia",
+  email: null,
+  instagramHandle: "@marielacrapuzzi_art",
+  instagramUrl: "https://www.instagram.com/marielacrapuzzi_art",
+
+  nav: [
+    { label: "Obra", href: "/obra" },
+    { label: "Sobre mí", href: "/sobre-mi" },
+    { label: "Encargos", href: "/encargos" },
+    { label: "Contacto", href: "/contacto" },
+  ],
+
+  footerNav: [
+    { label: "Obra", href: "/obra" },
+    { label: "Sobre mí", href: "/sobre-mi" },
+    { label: "Encargos", href: "/encargos" },
+    { label: "Contacto", href: "/contacto" },
+  ],
+
+  legalNav: [
+    { label: "Política de privacidad", href: "/privacidad" },
+    { label: "Aviso legal", href: "/aviso-legal" },
+  ],
+
+  copyright: "© 2026 Mariela Crapuzzi. Todos los derechos reservados.",
+};

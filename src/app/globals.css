@@ -1,0 +1,328 @@
+@import "tailwindcss";
+
+/* ============================================================
+   MARIELA CRAPUZZI — design tokens
+   Concept: "papel y cámara". Two grounds, no third surface.
+   See docs/DESIGN_SYSTEM.md
+   ============================================================ */
+
+@theme {
+  /* --- Type families ------------------------------------- */
+  --font-serif: var(--font-newsreader), Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-instrument-sans), ui-sans-serif, system-ui, sans-serif;
+
+  /* --- Absolute colours (grounds only) --------------------
+     The dark ground is #303030, sampled from the background baked into
+     logo-mariela-blanco.png, so the white lockup sits on it seamlessly. */
+  --color-ink: #303030;
+  --color-paper: #f4f4f2;
+  --color-paper-bright: #fafaf9;
+
+  /* --- Type scale — fluid, no typographic breakpoints ----- */
+  --text-*: initial;
+  --text-2xs: clamp(0.625rem, 0.6rem + 0.12vw, 0.6875rem);
+  --text-xs: clamp(0.75rem, 0.72rem + 0.15vw, 0.8125rem);
+  --text-sm: clamp(0.875rem, 0.85rem + 0.15vw, 0.9375rem);
+  --text-base: clamp(1rem, 0.96rem + 0.2vw, 1.0625rem);
+  --text-lg: clamp(1.125rem, 1.05rem + 0.35vw, 1.3125rem);
+  --text-xl: clamp(1.375rem, 1.2rem + 0.85vw, 1.75rem);
+  --text-2xl: clamp(1.75rem, 1.4rem + 1.65vw, 2.625rem);
+  --text-3xl: clamp(2.25rem, 1.6rem + 2.9vw, 4rem);
+  --text-4xl: clamp(2.75rem, 1.7rem + 4.7vw, 5.75rem);
+  /* Cover headline: sits over the portada, so it stays well under 4xl and
+     holds two or three lines instead of towering over the artwork. */
+  --text-cover: clamp(2rem, 1.35rem + 2.1vw, 3.25rem);
+
+  /* --- Line heights --------------------------------------- */
+  --leading-display: 1.04;
+  --leading-cover: 1.1;
+  --leading-tight: 1.12;
+  --leading-snug: 1.3;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.72;
+
+  /* --- Tracking ------------------------------------------- */
+  --tracking-display: -0.025em;
+  --tracking-tight: -0.015em;
+  --tracking-normal: 0em;
+  --tracking-wide: 0.08em;
+  --tracking-label: 0.24em;
+
+  /* --- Spacing -------------------------------------------- */
+  --spacing-3xs: 0.25rem;
+  --spacing-2xs: 0.5rem;
+  --spacing-xs: 0.75rem;
+  --spacing-sm: 1rem;
+  --spacing-md: 1.5rem;
+  --spacing-lg: 2.5rem;
+  --spacing-xl: 4rem;
+  --spacing-2xl: 6rem;
+  --spacing-3xl: clamp(5rem, 10vw, 9rem);
+  --spacing-4xl: clamp(7rem, 14vw, 13rem);
+
+  /* --- Containers ----------------------------------------- */
+  --container-narrow: 30rem;
+  --container-text: 40rem;
+  --container-default: 75rem;
+  --container-wide: 90rem;
+
+  /* --- Motion --------------------------------------------- */
+  --ease-out-quart: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-quart: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+/* Semantic colours resolve at runtime so a single component
+   works on both grounds without variants. */
+@theme inline {
+  --color-bg: var(--ground-bg);
+  --color-fg-strong: var(--ground-fg-strong);
+  --color-fg: var(--ground-fg);
+  --color-fg-muted: var(--ground-fg-muted);
+  --color-fg-faint: var(--ground-fg-faint);
+  --color-rule: var(--ground-rule);
+}
+
+/* ============================================================
+   GROUNDS
+   ============================================================ */
+
+@layer base {
+  :root,
+  [data-ground="paper"] {
+    --ground-bg: #f4f4f2;
+    --ground-fg-strong: #111110;
+    --ground-fg: #3d3d3b;
+    --ground-fg-muted: #7c7c78;
+    --ground-fg-faint: #a3a39e;
+    --ground-rule: #ddddd8;
+  }
+
+  [data-ground="paper-bright"] {
+    --ground-bg: #fafaf9;
+    --ground-fg-strong: #111110;
+    --ground-fg: #3d3d3b;
+    --ground-fg-muted: #7c7c78;
+    --ground-fg-faint: #a3a39e;
+    --ground-rule: #e4e4df;
+  }
+
+  /*
+   * The alphas are higher than they were against near-black: the same value
+   * over #303030 lands much closer to the ground and loses contrast. These
+   * keep body text at ~7.6:1 and quiet text at ~5.2:1.
+   */
+  [data-ground="chamber"] {
+    --ground-bg: #303030;
+    --ground-fg-strong: rgba(255, 255, 255, 0.95);
+    --ground-fg: rgba(255, 255, 255, 0.72);
+    --ground-fg-muted: rgba(255, 255, 255, 0.55);
+    --ground-fg-faint: rgba(255, 255, 255, 0.38);
+    --ground-rule: rgba(255, 255, 255, 0.18);
+  }
+
+  /* --- Base ------------------------------------------------ */
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    /* Lenis drives scrolling (see SmoothScroll). CSS smooth scroll would
+       compete for the same gesture; reduced-motion readers get it back. */
+    scroll-behavior: auto;
+  }
+
+  body {
+    background-color: var(--ground-bg);
+    color: var(--ground-fg);
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    line-height: var(--leading-relaxed);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-synthesis-weight: none;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Every ground paints its own background. */
+  [data-ground] {
+    background-color: var(--ground-bg);
+    color: var(--ground-fg);
+  }
+
+  ::selection {
+    background-color: #111110;
+    color: #f4f4f2;
+  }
+
+  [data-ground="chamber"] ::selection {
+    background-color: #f4f4f2;
+    color: #303030;
+  }
+
+  :focus-visible {
+    outline: 1px solid currentColor;
+    outline-offset: 4px;
+    border-radius: 1px;
+  }
+
+  img,
+  svg {
+    display: block;
+    max-width: 100%;
+  }
+
+  /* Forms inherit the type system rather than the UA's. */
+  input,
+  textarea,
+  select,
+  button {
+    font: inherit;
+    color: inherit;
+    letter-spacing: inherit;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+}
+
+/* ============================================================
+   MOTION PRIMITIVES
+
+   GSAP owns reveal motion; the tweens live in src/lib/reveal.ts.
+   Nothing is hidden in this stylesheet, on purpose.
+
+   An earlier version had CSS hide every element up front and
+   relied on JavaScript to reveal them. When that second half
+   failed, the artwork stayed invisible with no way back --
+   twice. So the hidden state is now applied by the same code
+   that removes it, and only to elements below the fold.
+   Anything the reader can already see is simply visible.
+
+   Consequences:
+     - No JavaScript, a failed bundle, a hydration error -> every
+       element is visible. Being stuck hidden is impossible.
+     - Nothing flashes: elements are only armed while off-screen.
+     - Reveals play once. Scrolling back up never re-hides them.
+     - prefers-reduced-motion skips arming altogether.
+   ============================================================ */
+
+/* ============================================================
+   UTILITIES
+   ============================================================ */
+
+@utility gutter {
+  padding-inline: clamp(1.25rem, 5vw, 4rem);
+}
+
+/* Action link — a line that redraws on hover. */
+/*
+ * Bordered action. A hairline rectangle that completes itself.
+ *
+ * Two pseudo-elements each draw half the outline: one owns the top and right
+ * edges, the other the bottom and left. At rest only the bottom-left half is
+ * drawn, so the shape reads as an open corner rather than a button. On hover
+ * the second half sweeps in and the frame closes, while a very light wash
+ * rises behind the label.
+ *
+ * Transforms and opacity only — both composited, so the animation never
+ * forces layout.
+ */
+/*
+ * Bordered action.
+ *
+ * A full 1px rectangle, drawn from the start — a button has to look like one
+ * before it is hovered, and an outline that only completes itself on hover
+ * reads as loose text until the pointer finds it.
+ *
+ * On hover the ground floods in from the bottom and the label flips to the
+ * page ground, so the button inverts rather than merely tinting. The fill is
+ * a scaled pseudo-element, not a background transition: transform composites,
+ * so the sweep stays smooth on a long row of buttons.
+ */
+@utility action-frame {
+  position: relative;
+  isolation: isolate;
+  border: 1px solid currentColor;
+  color: var(--ground-fg-strong);
+  transition: color 380ms var(--ease-out-quart);
+
+  /* The flood. Sits under the label, never over it. */
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-color: var(--ground-fg-strong);
+    transform: scaleY(0);
+    transform-origin: bottom center;
+    transition: transform 420ms var(--ease-out-quart);
+  }
+
+  &:hover,
+  &:focus-visible {
+    color: var(--ground-bg);
+  }
+
+  &:hover::before,
+  &:focus-visible::before {
+    transform: scaleY(1);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+
+    &::before {
+      transition: none;
+    }
+  }
+}
+
+
+@utility action-line {
+  position: relative;
+  display: inline-block;
+  padding-bottom: 0.5rem;
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    bottom: 0;
+    height: 1px;
+    background-color: currentColor;
+    transform-origin: right center;
+    transition: transform 400ms var(--ease-in-out-quart);
+  }
+
+  &:hover::after,
+  &:focus-visible::after {
+    animation: line-redraw 640ms var(--ease-in-out-quart);
+  }
+}
+
+@keyframes line-redraw {
+  0% {
+    transform: scaleX(1);
+    transform-origin: right center;
+  }
+  49% {
+    transform: scaleX(0);
+    transform-origin: right center;
+  }
+  50% {
+    transform: scaleX(0);
+    transform-origin: left center;
+  }
+  100% {
+    transform: scaleX(1);
+    transform-origin: left center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .action-line:hover::after,
+  .action-line:focus-visible::after {
+    animation: none;
+  }
+}
