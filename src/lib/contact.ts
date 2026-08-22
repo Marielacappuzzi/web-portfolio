@@ -1,3 +1,7 @@
+// Importing this module from a Client Component is a build error. The Resend
+// key lives here; a stray import would be the one mistake that leaks it.
+import "server-only";
+
 import type { FormField } from "@/content/types";
 
 /**
