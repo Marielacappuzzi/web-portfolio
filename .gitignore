@@ -1,35 +1,47 @@
-# Dependencies
-node_modules/
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-# Build output
-.next/
-out/
-dist/
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
 
-# Environment files — never commit credentials
-.env
-.env.local
-.env.*.local
+# testing
+/coverage
 
-# Sanity
-.sanity/
+# next.js
+/.next/
+/out/
 
-# Editor and OS noise
+# production
+/build
+
+# misc
 .DS_Store
-Thumbs.db
-*.swp
-.idea/
-.vscode/
+*.pem
 
-# Logs
-*.log
+# debug
 npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
 
-# TypeScript
-*.tsbuildinfo
+# env files — real values never get committed
+.env*
+# ...but the documented template does: it is how the next person knows which
+# variables the site needs and why.
+!.env.example
 
-# Vercel
+# vercel
 .vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
 
 # Reference site snapshots (HTTrack downloads) — shared via Drive, not git.
 # They are large and contain third-party code; keeping them out keeps clones fast.

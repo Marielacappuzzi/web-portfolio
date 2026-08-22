@@ -12,6 +12,13 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+
+    // Reference site snapshots. They live beside the project on disk but are
+    // not part of it — third-party HTTrack downloads, git-ignored, and not
+    // ours to lint.
+    "kristalynmiguel.com/**",
+    "lillicoart.com/**",
+    "yuliabas.com/**",
   ]),
 ]);
 

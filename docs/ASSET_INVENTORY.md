@@ -90,11 +90,11 @@ el proceso.
 ## Convención de archivos
 
 ```
-web/public/obra/<slug>/principal.jpg
-web/public/obra/<slug>/extra-NN.jpg
-web/public/estudio/mariela-retrato.jpg
-web/public/estudio/mariela-trabajando.jpg
-web/public/marca/sello-mc.svg          ← pendiente
+public/obra/<slug>/principal.jpg
+public/obra/<slug>/extra-NN.jpg
+public/estudio/mariela-retrato.jpg
+public/estudio/mariela-trabajando.jpg
+public/marca/sello-mc.svg          ← pendiente
 ```
 
 Cada archivo se declara en `src/content/works.ts` con su ancho y alto reales en
