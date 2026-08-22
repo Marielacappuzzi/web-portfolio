@@ -27,7 +27,7 @@ carpeta local usan otra grafía; `site.ts` es la autoridad. Cierra el ítem 6.
 | 0 | **Portada del inicio**, 1920 × 750 | `public/portada/inicio.jpg` → `home.ts` → `hero.cover` | **B** — el hero muestra hoy una placa declarada. Necesita aire a la izquierda para el titular; ver `CoverImage`. |
 | 0b | **Página editorial para _Oltre lo Sguardo_** | `works.ts` → `hasEditorialPage` | **M** — sus 7 fotografías ya están descritas y declaradas, pero la obra no tiene página propia, así que sólo se ve el recorte de la mirada en el inicio. La estrategia nombra tres obras editoriales y ésta no está entre ellas: decisión de Mariela, no técnica. |
 | 1 | Fotografía definitiva de **Jesús, la oveja y el lobo** | `works.ts` → `image` | **B** — es la obra del hero. Sigue sin terminar; confirmado en el briefing y ausente del PDF. |
-| 3 | **Correo electrónico** de contacto | `site.ts` → `email` | **B** — hoy el footer muestra el marcador de pendiente. |
+| 3 | **Correo electrónico público** | `site.ts` → `email` | **B** — decisión, no dato: el formulario ya entrega en `marielacrapuzzi9@gmail.com`, pero publicar ese Gmail en el pie lo expone a los recolectores de direcciones. Conviene una dirección del dominio (`hola@marielacrapuzzi.com`) redirigida al Gmail. Hoy el pie muestra el marcador de pendiente. |
 | 4 | **Instagram**: handle y URL | `site.ts` → `instagramHandle`, `instagramUrl` | **B** |
 | 5 | **Sello MC** en SVG | `public/marca/sello-mc.svg` | **B** — el header usa hoy el monograma tipográfico. |
 | 6b | Recorte de 6 fotografías y resolución de todo el lote | `IMAGENES MARIELA/` → `public/obra/` | **B** — ver `ASSET_INVENTORY.md` §Dos problemas transversales. |
@@ -58,7 +58,7 @@ carpeta local usan otra grafía; `site.ts` es la autoridad. Cierra el ítem 6.
 | 19b | La home tiene 4 secciones; el resto de `Copy.md` se reubicó a las páginas internas | Sí, ver `PROJECT_CONTEXT.md` §8. Ningún texto se reescribió ni se descartó | **A** |
 | 19c | El hero mantiene la plancha de "imagen pendiente" en lugar de usar otra obra | Sí, por instrucción expresa: no reemplazar la obra principal por otra. Revisable ahora que hay nueve obras fotografiadas | **A** |
 | 20 | Título "La Leona con su instinto" en lugar de "La leona y su cría" | Sí, por ser el copy aprobado | **M** |
-| 21 | Destino del formulario de contacto (correo, Resend, Supabase, Formspree) | No | **A** — el formulario se construye con validación y estados; falta el endpoint. |
+| 21 | Destino del formulario de contacto | Sí | **Resuelto** — Resend, entregando en `marielacrapuzzi9@gmail.com`. Falta cargar las tres variables en Vercel y verificar el dominio en Resend; ver `.env.example`. |
 | 22 | Dominio definitivo | No | **M** — necesario para `metadataBase`, sitemap y URLs canónicas. |
 
 ---
