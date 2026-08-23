@@ -208,7 +208,6 @@ export interface HomeStatementContent {
   eyebrow: string;
   titleLines: string[];
   pullQuote: string;
-  action: NavItem;
 }
 
 export interface HomeWorkContent extends SectionHeading {
@@ -221,10 +220,29 @@ export interface HomeContactContent extends SectionHeading {
   secondaryAction: NavItem;
 }
 
+/**
+ * The artist, on the home.
+ *
+ * Sits before the work so a visitor meets the person behind the gaze before
+ * exploring the pieces. Deliberately short — it introduces Mariela; /sobre-mi
+ * is where she is actually explained.
+ */
+export interface HomeArtistContent extends SectionHeading {
+  paragraphs: string[];
+  action: NavItem;
+  image: { src: string; alt: string };
+}
+
+export interface HomeFeaturedContent {
+  eyebrow: string;
+}
+
 export interface HomeContent {
   hero: HeroContent;
   statement: HomeStatementContent;
+  artist: HomeArtistContent;
   work: HomeWorkContent;
+  featured: HomeFeaturedContent;
   contact: HomeContactContent;
 }
 
@@ -250,7 +268,21 @@ export interface AboutPage {
   language: ProseBlock;
   /** Shown beside the charcoal section — the material, not an illustration. */
   languageVideo?: VideoSource;
-  process: ProcessBlock;
+  vision: SectionHeading & { intro: string; ideas: AboutIdea[] };
+}
+
+/**
+ * How Mariela looks at a subject, told as ideas rather than steps.
+ *
+ * The five operational stages (escuchar, encontrar la imagen, interpretar,
+ * crear, proteger y entregar) belong to /encargos and appear only there. Here
+ * the same practice is described from the inside: what she looks for, what she
+ * keeps, what realism is for. Repeating the numbered list on both pages made
+ * the two read as the same page twice.
+ */
+export interface AboutIdea {
+  title: string;
+  body: string;
 }
 
 /* ----------------------------------------------------------- /encargos --- */

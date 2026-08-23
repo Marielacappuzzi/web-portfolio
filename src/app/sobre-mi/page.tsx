@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { ContactCallout } from "@/components/blocks/ContactCallout";
-import { ProcessList } from "@/components/blocks/ProcessList";
+import { VisionList } from "@/components/blocks/VisionList";
 import { ProseSection } from "@/components/blocks/ProseSection";
 import { Container, Section } from "@/components/layout/Section";
 import { PageHeader } from "@/components/layout/PageHeader";
@@ -148,8 +148,8 @@ export default async function AboutPage() {
       </Section>
 
       {/* How she works. The anchor the whole site links to. */}
-      <ProcessList
-        block={page.process}
+      <VisionList
+        block={page.vision}
         id="proceso"
         headingId="proceso-titulo"
       />

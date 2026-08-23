@@ -8,7 +8,7 @@ import { Reveal } from "@/components/primitives/Reveal";
 import { SilentVideo } from "@/components/primitives/SilentVideo";
 import { Eyebrow, Prose } from "@/components/primitives/Type";
 import { ArtworkFrame } from "@/components/work/ArtworkFrame";
-import { WorkMeta } from "@/components/work/WorkMeta";
+import { WorkIdentity, WorkSpecs } from "@/components/work/WorkMeta";
 import {
   getCommissionVideos,
   getCommissionedWorks,
@@ -43,10 +43,17 @@ export default async function CommissionsPage() {
       <PageHeader
         heading={page.heading}
         image={{
-          src: "/obra/sueno-de-primavera/extra-02.jpg",
-          alt: "Una obra de Mariela Crapuzzi enmarcada en negro con paspartú blanco, colgada en el salón de una casa.",
-          aspect: "aspect-square",
-          caption: "Una obra terminada, en su destino.",
+          /*
+           * A real photograph, not a staged interior. The mockup showed a
+           * framed print in a living room; this shows the artist beside a
+           * finished piece, which carries the scale of the work and the fact
+           * that a person made it — the two things a commission page has to
+           * establish before anything else.
+           */
+          src: "/estudio/mariela-con-obra.jpg",
+          alt: "Mariela Crapuzzi de pie junto al retrato terminado de Molly, montado sobre un caballete en su estudio.",
+          aspect: "aspect-[4/5]",
+          caption: "Junto a «Molly», una vez terminada.",
         }}
       />
 
@@ -111,7 +118,8 @@ export default async function CommissionsPage() {
                     />
                   </Reveal>
                   <Reveal delay={Math.min(i, 3) * 90 + 120} className="mt-md">
-                    <WorkMeta work={work} />
+                    <WorkIdentity work={work} />
+                    <WorkSpecs work={work} className="mt-sm" />
                   </Reveal>
                 </li>
               ))}

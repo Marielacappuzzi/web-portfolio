@@ -13,7 +13,7 @@ import { ScrollReveal } from "@/components/primitives/ScrollReveal";
 import { SilentVideo } from "@/components/primitives/SilentVideo";
 import { Rule } from "@/components/primitives/Rule";
 import { Display, Eyebrow, Prose } from "@/components/primitives/Type";
-import { WorkMeta } from "@/components/work/WorkMeta";
+import { WorkSpecs } from "@/components/work/WorkMeta";
 import { getEditorialWorks, getNextWork, getWork } from "@/lib/content";
 
 export async function generateStaticParams() {
@@ -89,11 +89,19 @@ export default async function WorkPage({ params }: PageProps<"/obra/[slug]">) {
                 <Display as="h1" size="cover" id="obra-titulo" measure={20}>
                   {work.title}
                 </Display>
+
+                {/* The year sits immediately under the title, never buried in
+                    the technical sheet at the foot of the page. */}
+                {work.year || work.attribution ? (
+                  <p className="mt-md font-sans text-sm leading-normal text-fg-muted">
+                    {[work.attribution, work.year].filter(Boolean).join(" · ")}
+                  </p>
+                ) : null}
               </Reveal>
 
               {work.shortStory ? (
                 <Reveal delay={240} className="mt-lg">
-                  <p className="max-w-[52ch] font-sans text-base leading-relaxed text-pretty text-fg">
+                  <p className="max-w-[52ch] font-serif text-lg font-light italic leading-snug text-pretty text-fg">
                     {work.shortStory}
                   </p>
                 </Reveal>
@@ -263,7 +271,7 @@ export default async function WorkPage({ params }: PageProps<"/obra/[slug]">) {
             </div>
 
             <Reveal delay={90} className="lg:col-span-5 lg:col-start-6">
-              <WorkMeta work={work} detail="full" />
+              <WorkSpecs work={work} detail="full" />
               {!work.year && !work.technique && !work.dimensions ? (
                 <div className="mt-md">
                   <Pending kind="data" detail="Año, técnica y medidas" />

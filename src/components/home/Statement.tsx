@@ -1,5 +1,4 @@
 import { Container, Section } from "@/components/layout/Section";
-import { QuietLink } from "@/components/primitives/ActionLink";
 import { Figure } from "@/components/primitives/Figure";
 import { Reveal } from "@/components/primitives/Reveal";
 import { Rule } from "@/components/primitives/Rule";
@@ -11,14 +10,17 @@ import type { HomeStatementContent } from "@/content/types";
  * The differentiator, at its shortest, on a centred axis.
  *
  * Everything sits on one column down the middle: label, statement, the
- * sentence to carry away, the way in, and then the gaze itself. A single axis
- * with wide margins is what makes a page feel composed rather than filled, and
- * it lets the headline take the width it needs instead of being squeezed into
- * a side column.
+ * sentence to carry away, and then the gaze itself.
+ *
+ * Kept compact on purpose. It carries the two sentences the whole site turns
+ * on and nothing else — no reasoning, no way out to another page — because
+ * Mariela now follows immediately, and a long manifesto before her was
+ * delaying the one thing the home most needs to establish: that there is a
+ * person behind the gaze. Losing height here costs the idea nothing.
  */
 export function Statement({ content }: { content: HomeStatementContent }) {
   return (
-    <Section ground="paper" rhythm="act" aria-labelledby="declaracion-titulo">
+    <Section ground="paper" rhythm="beat" aria-labelledby="declaracion-titulo">
       <Container width="wide">
         <div className="flex flex-col items-center text-center">
           <Reveal>
@@ -35,18 +37,12 @@ export function Statement({ content }: { content: HomeStatementContent }) {
             </Display>
           </Reveal>
 
-          <Rule width="short" className="mt-2xl" />
+          <Rule width="short" className="mt-xl" />
 
-          <Reveal delay={180} className="mt-2xl">
+          <Reveal delay={180} className="mt-xl">
             <PullQuote className="mx-auto max-w-[30ch]">
               {content.pullQuote}
             </PullQuote>
-          </Reveal>
-
-          <Reveal delay={270} className="mt-2xl">
-            <QuietLink href={content.action.href}>
-              {content.action.label}
-            </QuietLink>
           </Reveal>
         </div>
 
@@ -56,7 +52,7 @@ export function Statement({ content }: { content: HomeStatementContent }) {
           illustration: the text says the eyes are where the piece begins, and
           this is what that looks like at the scale Mariela draws it.
         */}
-        <Reveal variant="image" className="mt-4xl block">
+        <Reveal variant="image" className="mt-3xl block">
           <Figure
             src="/obra/oltre-lo-sguardo/mirada.jpg"
             alt="Recorte ampliado de la obra Oltre lo Sguardo sobre los ojos de la figura, con el detalle del carboncillo en las pestañas y el iris."

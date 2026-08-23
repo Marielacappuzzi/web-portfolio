@@ -1,4 +1,3 @@
-import { processSteps } from "../process";
 import type { AboutPage } from "../types";
 
 /**
@@ -19,17 +18,10 @@ export const about: AboutPage = {
       "El arte se convirtió en mi profesión, pero también en una *manera de mirar*.",
   },
   intro: [
-    "Mi relación profesional con el arte comenzó en 2021, a partir de una exploración personal que fue ocupando cada vez más espacio en mi vida.",
-    "Me formé en dibujo figurativo trabajando con grafito y carboncillo, exploré la pintura al óleo y, con el tiempo, regresé al carboncillo como lenguaje principal.",
-    "En ese recorrido comprendí que lo que más me interesaba no era reproducir una imagen con precisión, sino descubrir cuánto podían decir una mirada, un gesto o la relación entre dos figuras.",
-    "Hoy mi trabajo evoluciona desde el retrato hacia una producción más personal y autoral, en la que utilizo la figuración para explorar y contar historias humanas.",
-    /*
-     * From the works document, where it appears under Sueño de Primavera. It
-     * is the only record of an exhibition anywhere in the project, so it also
-     * belongs here — the subject was added to give the sentence a home outside
-     * that page; every other word is hers.
-     */
-    "Sueño de Primavera, mi reinterpretación de Rêve de printemps de William-Adolphe Bouguereau, fue mi primera obra de gran formato y formó parte de mi primera exposición.",
+    "Mariela Crapuzzi es una artista boliviana dedicada al realismo figurativo contemporáneo. Su formación comenzó en 2022 en la Academia de Artes Figurativas de Santa Cruz de la Sierra, donde estudió dibujo y pintura antes de especializarse en carboncillo.",
+    "En el centro de su trabajo está la emoción: aquello que sostiene una imagen, un vínculo, una experiencia o una forma de mirar. No busca únicamente representar lo visible, sino hacer sensible aquello que existe detrás.",
+    "El realismo no es el fin, sino el medio. Y el carboncillo, al prescindir del color, concentra la mirada en la luz, la expresión y la profundidad.",
+    "Sueño de Primavera, su reinterpretación de Rêve de printemps de William-Adolphe Bouguereau, fue su primera obra de gran formato y formó parte de su primera exposición.",
   ],
 
   /* Copy.md §2 — the reasoning the home only hints at */
@@ -69,12 +61,43 @@ export const about: AboutPage = {
     caption: "El carboncillo y el lápiz.",
   },
 
-  /* Copy.md §6 */
-  process: {
-    eyebrow: "Del relato a la obra",
-    title: "Toda obra comienza antes del *primer trazo*.",
+  /*
+   * The five operational stages (escuchar, encontrar la imagen, interpretar,
+   * crear, proteger y entregar) live on /encargos and only there. Repeating
+   * them here made this page read as a how-to-hire-me instead of an artist
+   * statement. The same practice is described from the inside: how she looks,
+   * what she keeps, and what realism is actually for.
+   *
+   * Written from the concepts the client supplied on 2026-08-20. The source
+   * document "Acerca de la artista" never reached the workspace, so this needs
+   * Mariela's approval before launch. See docs/CONTENT_PENDING.md.
+   */
+  vision: {
+    eyebrow: "La mirada",
+    title: "Cada obra comienza preguntándome qué *merece permanecer*.",
     intro:
-      "El proceso comienza escuchando. Antes de definir una composición necesito comprender qué historia existe detrás, qué emoción debe permanecer y qué elementos son realmente esenciales.",
-    steps: processSteps,
+      "Antes de decidir una composición necesito entender qué sostiene la imagen. No todo lo que aparece en una fotografía merece ser trasladado, y no todo lo que importa está a la vista.",
+    ideas: [
+      {
+        title: "Cómo miro",
+        body: "Busco aquello que sostiene la imagen: una expresión, un gesto, la relación entre dos figuras. Lo demás acompaña.",
+      },
+      {
+        title: "Cómo interpreto",
+        body: "Decido qué potenciar, qué transformar y qué dejar fuera. Una obra fiel no es la que copia, sino la que conserva el significado.",
+      },
+      {
+        title: "Por qué el carboncillo",
+        body: "Al desaparecer el color, la atención se concentra. La luz, la expresión y la profundidad adquieren otro peso.",
+      },
+      {
+        title: "Qué intento conservar",
+        body: "La emoción que sostiene un vínculo o una experiencia. Aquello que una imagen, por sí sola, no alcanza a decir.",
+      },
+      {
+        title: "Cómo entiendo el realismo",
+        body: "El realismo no es el fin, sino el medio: la herramienta para hacer sensible aquello que existe detrás de lo visible.",
+      },
+    ],
   },
 };

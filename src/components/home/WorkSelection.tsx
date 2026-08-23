@@ -1,10 +1,8 @@
-import Link from "next/link";
 import { Container, Section } from "@/components/layout/Section";
 import { ActionButton } from "@/components/primitives/ActionLink";
-import { Badge } from "@/components/primitives/Badge";
 import { Reveal } from "@/components/primitives/Reveal";
 import { Display, Eyebrow } from "@/components/primitives/Type";
-import { ArtworkFrame } from "@/components/work/ArtworkFrame";
+import { WorkGrid } from "@/components/work/WorkGrid";
 import type { HomeWorkContent, Work } from "@/content/types";
 
 interface WorkSelectionProps {
@@ -13,17 +11,15 @@ interface WorkSelectionProps {
 }
 
 /**
- * The three narrative pieces, on the home, as images and names only.
+ * A taste of the catalogue, ahead of the three narrative pieces.
  *
- * Yulia Bas's homepage carries no captions at all — the work is the argument
- * and the project name is the entry point. This keeps the concept label
- * (origin → interpretation → a voice of her own) because it is what orients the
- * sequence, and sends everything else to /obra and the editorial pages.
+ * This section and "Obras destacadas" below it do different jobs, so they are
+ * built differently: this one is a hang — several works at gallery scale, each
+ * with its own proportion and its own sheet — while the featured block gives
+ * three pieces a shared frame and reads as a sequence.
  *
- * The three cards share one 4/5 frame. Elsewhere on the site each piece keeps
- * its own proportion, but here they are read as a row: with native ratios the
- * titles land at three different heights and the row reads as an accident
- * rather than a sequence. This is the one place a shared crop earns its cost.
+ * The pieces shown here exclude the featured three, so the home never repeats
+ * the same works twice in a row.
  */
 export function WorkSelection({ content, works }: WorkSelectionProps) {
   if (works.length === 0) return null;
@@ -43,34 +39,7 @@ export function WorkSelection({ content, works }: WorkSelectionProps) {
           </Reveal>
         </div>
 
-        <ul className="mt-2xl grid grid-cols-1 gap-3xl md:mt-3xl md:grid-cols-3 md:gap-x-[3vw]">
-          {works.map((work, i) => (
-            <li key={work.slug} className="group flex">
-              <Link href={`/obra/${work.slug}`} className="flex w-full flex-col">
-                <Reveal variant="image" delay={i * 120}>
-                  <ArtworkFrame
-                    work={work}
-                    aspect="aspect-[4/5]"
-                    focus="50% 30%"
-                    sizes="(min-width: 768px) 30vw, 100vw"
-                    className={
-                      work.image
-                        ? "transition-transform duration-900 ease-out-quart group-hover:scale-[1.02] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
-                        : undefined
-                    }
-                  />
-                </Reveal>
-
-                <Reveal delay={i * 120 + 120} className="mt-md">
-                  {work.concept ? <Badge>{work.concept}</Badge> : null}
-                  <p className="mt-xs font-serif text-xl font-light leading-tight tracking-tight text-fg-strong">
-                    {work.title}
-                  </p>
-                </Reveal>
-              </Link>
-            </li>
-          ))}
-        </ul>
+        <WorkGrid works={works} className="mt-3xl md:mt-4xl" />
 
         <Reveal className="mt-3xl flex justify-center">
           <ActionButton href={content.action.href}>

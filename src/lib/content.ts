@@ -106,6 +106,21 @@ export async function getCommissionVideos(): Promise<Work[]> {
     .sort(byOrder);
 }
 
+/**
+ * The gallery selection shown on the home, above the featured block.
+ *
+ * Featured pieces are excluded: they get their own section directly below, and
+ * showing the same three works twice in a row would make the home look like it
+ * is repeating itself. This is where curation happens as the catalogue grows —
+ * not in the component.
+ */
+export async function getGallerySelection(limit = 4): Promise<Work[]> {
+  return works
+    .filter((work) => !work.featured)
+    .sort(byOrder)
+    .slice(0, limit);
+}
+
 /** Works that get their own editorial page — drives generateStaticParams. */
 export async function getEditorialWorks(): Promise<Work[]> {
   return works.filter((work) => work.hasEditorialPage).sort(byOrder);

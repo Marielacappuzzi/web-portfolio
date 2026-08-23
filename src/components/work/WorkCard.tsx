@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { ArtworkFrame } from "./ArtworkFrame";
-import { WorkMeta } from "./WorkMeta";
+import { WorkIdentity, WorkSpecs } from "./WorkMeta";
 import { Reveal } from "@/components/primitives/Reveal";
 import type { Work } from "@/content/types";
 import { cn } from "@/lib/cn";
@@ -33,8 +33,13 @@ interface WorkCardProps {
 }
 
 /**
- * One piece in the gallery. Image first, metadata under it, nothing on top of
- * the work. Becomes a link only when the piece has an editorial page.
+ * One piece in the gallery, in Mariela's order:
+ *
+ *     image → title → year → curatorial line → technical sheet
+ *
+ * The curatorial line is hers and sits between the name and the specs, where
+ * it gets read. The sheet closes the block, set apart by a hairline so it
+ * reads as a caption to the piece rather than a continuation of the writing.
  */
 export function WorkCard({
   work,
@@ -62,20 +67,22 @@ export function WorkCard({
         />
       </Frame>
 
-      <Frame delay={delay + 120} className="mt-md">
-        <WorkMeta work={work} />
+      <Frame delay={delay + 120} className="mt-lg">
+        <WorkIdentity work={work} />
 
         {/*
           One sentence — the idea the piece turns on, never the full text.
-          Copy.md is explicit that long descriptions do not belong inside the
-          grid, but a single line lets Mariela's voice reach the works that do
-          not have an editorial page of their own.
+          Copy.md rules out long descriptions inside the grid, but a single
+          line lets Mariela's voice reach the works that have no editorial page
+          of their own.
         */}
         {work.shortStory ? (
           <p className="mt-md max-w-[46ch] font-serif text-lg font-light italic leading-snug text-pretty text-fg">
             {work.shortStory}
           </p>
         ) : null}
+
+        <WorkSpecs work={work} className="mt-lg border-t border-rule pt-md" />
       </Frame>
     </>
   );

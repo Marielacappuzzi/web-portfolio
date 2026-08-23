@@ -44,7 +44,7 @@ export const commissions: CommissionsPage = {
 
   practical: {
     eyebrow: "Antes de comenzar",
-    title: "Lo práctico, *sin letra chica*.",
+    title: "Detalles del encargo",
     topics: [
       "Fotografías de referencia necesarias",
       "Formatos disponibles",

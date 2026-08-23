@@ -49,13 +49,38 @@ export const home: HomeContent = {
     ],
     pullQuote:
       "Todo lo demás se construye para acompañar y reforzar esa mirada.",
-    action: { label: "Conocer mi mirada", href: "/sobre-mi" },
   },
 
   /*
    * 3 — Obra seleccionada. Copy.md §3 heading. The three featured pieces show
    * as image and title; their texts live on /obra and the editorial pages.
    */
+  /*
+   * 3 — La artista. Copy supplied by the client on 2026-08-20.
+   *
+   * Placed before the work so a visitor meets the person behind the gaze
+   * before exploring the pieces, and composed text-left / image-right — the
+   * mirror of /sobre-mi, so the two never read as the same block twice.
+   *
+   * NOTE: the title is first person and the body is third. Every other line on
+   * the site is first person. Flagged for the client; used exactly as supplied
+   * until they decide.
+   */
+  artist: {
+    eyebrow: "La artista",
+    title:
+      "El arte se convirtió en mi profesión, pero también en una *manera de mirar*.",
+    paragraphs: [
+      "Mariela Crapuzzi es una artista boliviana dedicada al realismo figurativo contemporáneo. En el centro de su trabajo está la emoción: aquello que sostiene una imagen, un vínculo, una experiencia o una forma de mirar.",
+      "En el carboncillo encontró un lenguaje capaz de llevar esa búsqueda hacia lo esencial. La ausencia de color concentra la atención en la luz, la expresión y la profundidad.",
+    ],
+    action: { label: "Conocer mi recorrido", href: "/sobre-mi" },
+    image: {
+      src: "/estudio/mariela-mesa-de-trabajo.jpg",
+      alt: "Mariela Crapuzzi en su mesa de trabajo, con un carboncillo en la mano, los lápices alineados junto a un guante de dibujo y la fotografía de referencia de una leona en una tableta.",
+    },
+  },
+
   work: {
     eyebrow: "Obra seleccionada",
     title: "Historias llevadas al *carboncillo*.",
@@ -66,6 +91,15 @@ export const home: HomeContent = {
    * 4 — Iniciar una conversación. Copy.md §10. This is the equivalent of Yulia
    * Bas's ENQUIRIES block: one way in, plus a quiet route to commissions.
    */
+  /*
+   * 5 — Obras destacadas: the three pieces with an editorial page, in the
+   * sequence origin → interpretation → a voice of her own. No headline of its
+   * own; the concept labels orient the sequence and no copy was invented.
+   */
+  featured: {
+    eyebrow: "Obras destacadas",
+  },
+
   contact: {
     eyebrow: "Iniciar una conversación",
     title: "Cuéntame la historia que te gustaría convertir en una *obra*.",
