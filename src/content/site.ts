@@ -3,10 +3,12 @@ import type { SiteContent } from "./types";
 /**
  * Site-level content. Copy is verbatim from docs/Copy.md — Footer section.
  *
- * No public email address, by decision: publishing one hands it to scrapers,
- * and the contact form already delivers to Mariela’s inbox. Instagram is the
- * only direct channel; everything else goes through /contacto. `email` stays
- * null and nothing renders a row for it.
+ * PENDING — the public email address.
+ *
+ * It was dropped on the grounds that publishing one feeds scrapers, but the
+ * client has since asked for email as a secondary channel alongside Instagram.
+ * /contacto and the footer render a row for it the moment this value is set,
+ * and nothing at all while it is null: no placeholder, no invented address.
  *
  * The surname is Crapuzzi, confirmed by Mariela and by the signed certificate
  * of authenticity. The repository and GitHub handle spell it otherwise; this

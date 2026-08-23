@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Container, Section } from "./Section";
-import { InstagramIcon } from "@/components/primitives/Icon";
+import { InstagramIcon, MailIcon } from "@/components/primitives/Icon";
 import { Rule } from "@/components/primitives/Rule";
 import type { SiteContent } from "@/content/types";
 
@@ -16,9 +16,9 @@ import type { SiteContent } from "@/content/types";
  * Channels carry line icons at the same 1px weight as every rule on the site,
  * so they read as drawn marks rather than UI.
  *
- * No email address here, by decision: publishing one hands it to scrapers,
- * and the form already delivers to Mariela's inbox. Instagram is the only
- * direct channel; everything else goes through /contacto.
+ * The email row renders only once an address exists in site.ts. It was
+ * dropped on scraping grounds, but the client asked for email as a secondary
+ * channel; while the value is null nothing renders, so no placeholder ships.
  */
 
 /** Column heading. Quieter than an Eyebrow — this is furniture, not voice. */
@@ -99,6 +99,15 @@ export function SiteFooter({ site }: { site: SiteContent }) {
                   >
                     <InstagramIcon />
                     {site.instagramHandle}
+                  </a>
+                </li>
+              ) : null}
+
+              {site.email ? (
+                <li>
+                  <a href={`mailto:${site.email}`} className={linkClass}>
+                    <MailIcon />
+                    {site.email}
                   </a>
                 </li>
               ) : null}

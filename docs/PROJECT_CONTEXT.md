@@ -3,21 +3,32 @@
 Documento de síntesis. Consolida el briefing, la estrategia y las decisiones tomadas
 antes de escribir código. Fuentes de verdad, en orden de prioridad:
 
-1. `docs/Copy.md` — copy aprobado. Se usa verbatim.
-2. `docs/Estructura.md` — lista final de páginas.
-3. `docs/Estrategia.md` — posicionamiento, función de cada página, dirección visual.
-4. Instrucciones de dirección de arte recibidas el 2026-08-08 (ver §6, Conflictos).
+1. `Mariela_Crapuzzi_Acerca_de_la_Artista.docx` — texto de la artista. Verbatim
+   en `/sobre-mi`. **Manda sobre la biografía de `Copy.md`.**
+2. `Mariela_Crapuzzi_Obras_Textos_Fichas_Web_FINAL_v2` — textos y fichas de obra.
+3. `Fichas_tecnicas_obras_..._v4.pdf` — criterio de presentación de la ficha.
+4. `docs/Copy.md` — copy aprobado del resto del sitio. Se usa verbatim.
+5. `docs/Estructura.md` — lista final de páginas.
+6. `docs/Estrategia.md` — posicionamiento, función de cada página, dirección visual.
+7. Instrucciones de dirección de arte del 2026-08-08 y del 2026-08-20 (ver §6).
 
 ---
 
 ## 1. Quién es
 
-Mariela Crapuzzi. Artista visual especializada en carboncillo. Santa Cruz de la
-Sierra, Bolivia. Relación profesional con el arte desde 2021.
+Mariela Crapuzzi. Artista boliviana dedicada al **realismo figurativo
+contemporáneo**. Santa Cruz de la Sierra.
 
-Recorrido: dibujo figurativo (grafito y carboncillo) → pintura al óleo → regreso
-al carboncillo como lenguaje principal. Hoy evoluciona del retrato por encargo
-hacia una producción autoral.
+Formación desde **2022** en la Academia de Artes Figurativas de Santa Cruz de la
+Sierra: dibujo y pintura, y luego especialización en carboncillo.
+
+> **Conflicto de fechas.** `Copy.md` dice *"Mi relación profesional con el arte
+> comenzó en 2021"*. `Acerca de la Artista` —posterior y firmado por Mariela—
+> sitúa la formación en 2022. El sitio usa **2022**; la frase de 2021 no se
+> publica en ninguna página.
+
+En el centro de su trabajo está la emoción como materia de la obra. El realismo
+no es el fin, sino el medio.
 
 ## 2. Diferencial
 

@@ -81,3 +81,24 @@ carpeta local usan otra grafía; `site.ts` es la autoridad. Cierra el ítem 6.
 - **Ficha técnica incompleta** → la línea simplemente no se renderiza.
 
 Ningún pendiente rompe la maquetación, y ninguno se disimula.
+
+
+---
+
+## Revisión del 2026-08-23
+
+**Resuelto.** Llegó `Mariela_Crapuzzi_Acerca_de_la_Artista.docx`. La intro y el
+bloque «La mirada» de `/sobre-mi` son ahora **texto de Mariela, verbatim**; solo
+las etiquetas cortas de cada idea son editoriales. Queda resuelto también el
+conflicto 2021 / 2022: manda **2022**, por ser el documento más reciente y
+firmado por ella.
+
+**Abierto.**
+
+| # | Qué falta | Dónde se resuelve | Impacto |
+| --- | --- | --- | --- |
+| A | **Correo público.** Se había quitado por scraping, pero el cliente lo pidió como canal secundario. El footer y `/contacto` renderizan la fila en cuanto exista el valor; mientras sea `null` no se muestra nada. | `src/content/site.ts` → `email` | **B** |
+| B | **Voz mezclada.** `Acerca de la Artista` está en tercera persona; el copy aprobado del resto del sitio, en primera. Conviven en la misma página. No se reescribió ninguno de los dos: cambiarlo sería alterar texto aprobado. | Decisión del cliente | **A** |
+| C | **Fotografía definitiva de Jesús, la oveja y el lobo.** La obra sigue sin terminar. | `works.ts` → `image` | **B** |
+| D | **Destino del formulario:** `RESEND_API_KEY`, `CONTACT_FROM`, `CONTACT_TO`. | Variables de entorno | **B** |
+| E | **Recorte de seis fotografías** con pared, cinta o márgenes de papel a la vista. | `public/obra/` | **A** |
