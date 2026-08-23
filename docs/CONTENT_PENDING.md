@@ -97,8 +97,8 @@ firmado por ella.
 
 | # | Qué falta | Dónde se resuelve | Impacto |
 | --- | --- | --- | --- |
-| A | **Correo público.** Se había quitado por scraping, pero el cliente lo pidió como canal secundario. El footer y `/contacto` renderizan la fila en cuanto exista el valor; mientras sea `null` no se muestra nada. | `src/content/site.ts` → `email` | **B** |
-| B | **Voz mezclada.** `Acerca de la Artista` está en tercera persona; el copy aprobado del resto del sitio, en primera. Conviven en la misma página. No se reescribió ninguno de los dos: cambiarlo sería alterar texto aprobado. | Decisión del cliente | **A** |
+| A | ~~Correo público~~ — **cerrado.** No se publica dirección de correo. Instagram es el único canal directo; el resto pasa por el formulario. | — | — |
+| B | ~~Voz mezclada~~ — **cerrado.** `Acerca de la Artista` se pasó a primera persona. Solo cambian pronombres y desinencias verbales; ninguna frase se reescribió, cortó ni agregó. | — | — |
 | C | **Fotografía definitiva de Jesús, la oveja y el lobo.** La obra sigue sin terminar. | `works.ts` → `image` | **B** |
 | D | **Destino del formulario:** `RESEND_API_KEY`, `CONTACT_FROM`, `CONTACT_TO`. | Variables de entorno | **B** |
 | E | **Recorte de seis fotografías** con pared, cinta o márgenes de papel a la vista. | `public/obra/` | **A** |

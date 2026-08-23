@@ -18,18 +18,21 @@ export const about: AboutPage = {
       "El arte se convirtió en mi profesión, pero también en una *manera de mirar*.",
   },
   /*
-   * Verbatim from Mariela_Crapuzzi_Acerca_de_la_Artista.docx — her own text,
-   * not a paraphrase. Only the opening two paragraphs live here; the rest of
-   * that document carries the ideas and is set as `vision` below, so nothing
-   * is repeated on the page.
+   * From Mariela_Crapuzzi_Acerca_de_la_Artista.docx. Her text, moved from the
+   * third person to the first at the client's request: the document was
+   * written about her, and the rest of the site speaks as her. Only pronouns
+   * and verb endings change — no sentence is rewritten, cut or added.
+   *
+   * Only the opening two paragraphs live here; the rest of that document
+   * carries the ideas and is set as `vision` below, so nothing repeats.
    *
    * The closing line comes from the works document, under Sueño de Primavera.
    * It is the only record of an exhibition anywhere in the project.
    */
   intro: [
-    "Mariela Crapuzzi es una artista boliviana dedicada al realismo figurativo contemporáneo.",
-    "Su formación comenzó en 2022 en la Academia de Artes Figurativas de Santa Cruz de la Sierra, donde cursó estudios de dibujo y pintura, para posteriormente especializarse en carboncillo.",
-    "Sueño de Primavera, su reinterpretación de Rêve de printemps de William-Adolphe Bouguereau, fue su primera obra de gran formato y formó parte de su primera exposición.",
+    "Soy una artista boliviana dedicada al realismo figurativo contemporáneo.",
+    "Mi formación comenzó en 2022 en la Academia de Artes Figurativas de Santa Cruz de la Sierra, donde cursé estudios de dibujo y pintura, para posteriormente especializarme en carboncillo.",
+    "Sueño de Primavera, mi reinterpretación de Rêve de printemps de William-Adolphe Bouguereau, fue mi primera obra de gran formato y formó parte de mi primera exposición.",
   ],
 
   /* Copy.md §2 — the reasoning the home only hints at */
@@ -75,25 +78,21 @@ export const about: AboutPage = {
    * them here made this page read as a how-to-hire-me instead of an artist
    * statement.
    *
-   * Every sentence below is verbatim from the closing paragraphs of
-   * Mariela_Crapuzzi_Acerca_de_la_Artista.docx. Only the short labels are
-   * editorial — they name each idea so the block can be read at a glance, and
-   * they carry no claim of their own.
-   *
-   * NOTE ON VOICE: that document is written in the third person, while the
-   * approved copy on the rest of this page is first person. The two are mixed
-   * on the page as a result. Flagged for the client rather than rewritten,
-   * because rewriting would mean altering approved text.
+   * Every sentence below comes from the closing paragraphs of
+   * Mariela_Crapuzzi_Acerca_de_la_Artista.docx, moved to the first person to
+   * match the rest of the site. Only the short labels are editorial — they
+   * name each idea so the block reads at a glance and claim nothing of their
+   * own.
    */
   vision: {
     eyebrow: "La mirada",
     title: "Cada obra comienza intentando reconocer qué *merece permanecer*.",
     intro:
-      "Ya sea a partir de una historia que le es confiada o de una composición propia. Es allí, en ese encuentro entre imagen y emoción, donde comienza su trabajo.",
+      "Ya sea a partir de una historia que me es confiada o de una composición propia. Es allí, en ese encuentro entre imagen y emoción, donde comienza mi trabajo.",
     ideas: [
       {
         title: "La emoción como materia",
-        body: "Le interesa reconocer aquello que sostiene una imagen —un vínculo, una experiencia, una forma de mirar— y llevarlo a un lugar donde pueda ser percibido con mayor intensidad.",
+        body: "Me interesa reconocer aquello que sostiene una imagen —un vínculo, una experiencia, una forma de mirar— y llevarlo a un lugar donde pueda ser percibido con mayor intensidad.",
       },
       {
         title: "Más allá de lo visible",
@@ -101,7 +100,7 @@ export const about: AboutPage = {
       },
       {
         title: "Por qué el carboncillo",
-        body: "En el carboncillo encontró un lenguaje especialmente afín a esa búsqueda. La ausencia de color concentra la mirada en lo esencial: la luz, la expresión y la profundidad.",
+        body: "En el carboncillo encontré un lenguaje especialmente afín a esa búsqueda. La ausencia de color concentra la mirada en lo esencial: la luz, la expresión y la profundidad.",
       },
       {
         title: "El realismo como medio",

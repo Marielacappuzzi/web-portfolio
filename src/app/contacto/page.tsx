@@ -5,7 +5,6 @@ import { PageHeader } from "@/components/layout/PageHeader";
 import {
   InstagramIcon,
   LocationIcon,
-  MailIcon,
 } from "@/components/primitives/Icon";
 import { Reveal } from "@/components/primitives/Reveal";
 import { Eyebrow, Prose } from "@/components/primitives/Type";
@@ -61,20 +60,6 @@ export default async function ContactPage() {
                       >
                         <InstagramIcon className="shrink-0 text-fg-faint transition-colors duration-300 group-hover:text-fg-strong" />
                         {site.instagramHandle}
-                      </a>
-                    </li>
-                  ) : null}
-
-                  {/*
-                    Email as a secondary channel, requested by the client. It
-                    renders only once an address exists in site.ts — no
-                    placeholder, and no row at all while it is null.
-                  */}
-                  {site.email ? (
-                    <li>
-                      <a href={`mailto:${site.email}`} className={channelClass}>
-                        <MailIcon className="shrink-0 text-fg-faint transition-colors duration-300 group-hover:text-fg-strong" />
-                        {site.email}
                       </a>
                     </li>
                   ) : null}

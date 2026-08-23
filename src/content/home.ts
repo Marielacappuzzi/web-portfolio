@@ -62,17 +62,16 @@ export const home: HomeContent = {
    * before exploring the pieces, and composed text-left / image-right — the
    * mirror of /sobre-mi, so the two never read as the same block twice.
    *
-   * NOTE: the title is first person and the body is third. Every other line on
-   * the site is first person. Flagged for the client; used exactly as supplied
-   * until they decide.
+   * Moved to the first person at the client's request, so the block matches
+   * the title above it and every other line on the site.
    */
   artist: {
     eyebrow: "La artista",
     title:
       "El arte se convirtió en mi profesión, pero también en una *manera de mirar*.",
     paragraphs: [
-      "Mariela Crapuzzi es una artista boliviana dedicada al realismo figurativo contemporáneo. En el centro de su trabajo está la emoción: aquello que sostiene una imagen, un vínculo, una experiencia o una forma de mirar.",
-      "En el carboncillo encontró un lenguaje capaz de llevar esa búsqueda hacia lo esencial. La ausencia de color concentra la atención en la luz, la expresión y la profundidad.",
+      "Soy una artista boliviana dedicada al realismo figurativo contemporáneo. En el centro de mi trabajo está la emoción: aquello que sostiene una imagen, un vínculo, una experiencia o una forma de mirar.",
+      "En el carboncillo encontré un lenguaje capaz de llevar esa búsqueda hacia lo esencial. La ausencia de color concentra la atención en la luz, la expresión y la profundidad.",
     ],
     action: { label: "Conocer mi recorrido", href: "/sobre-mi" },
     image: {
