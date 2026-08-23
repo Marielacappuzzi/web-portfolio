@@ -67,7 +67,7 @@ carpeta local usan otra grafía; `site.ts` es la autoridad. Cierra el ítem 6.
 | 19c | El hero mantiene la plancha de "imagen pendiente" en lugar de usar otra obra | Sí, por instrucción expresa: no reemplazar la obra principal por otra. Revisable ahora que hay nueve obras fotografiadas | **A** |
 | 20 | Título "La Leona con su instinto" en lugar de "La leona y su cría" | Sí, por ser el copy aprobado | **M** |
 | 21 | Destino del formulario de contacto | Sí | **Resuelto** — Resend, entregando en `marielacrapuzzi9@gmail.com`. Falta cargar las tres variables en Vercel y verificar el dominio en Resend; ver `.env.example`. |
-| 22 | Dominio definitivo | No | **M** — necesario para `metadataBase`, sitemap y URLs canónicas. |
+| 22 | Dominio definitivo | Sí | **Resuelto** — `marielacrapuzzi.com`. Se resuelve en `src/lib/site-url.ts`: gana `NEXT_PUBLIC_SITE_URL`, después el host que Vercel inyecta, y localhost en desarrollo. |
 
 ---
 

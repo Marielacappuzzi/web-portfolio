@@ -4,6 +4,7 @@ import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { SmoothScroll } from "@/components/primitives/SmoothScroll";
 import { getSite, getWorks } from "@/lib/content";
+import { siteUrl } from "@/lib/site-url";
 import "./globals.css";
 
 /**
@@ -23,19 +24,6 @@ const instrumentSans = Instrument_Sans({
   subsets: ["latin"],
   display: "swap",
 });
-
-/**
- * Absolute base for canonical and Open Graph URLs.
- *
- * Vercel injects VERCEL_PROJECT_PRODUCTION_URL on every deployment, so the
- * site is correct from the first push even before a custom domain is pointed
- * at it. Set NEXT_PUBLIC_SITE_URL once the real domain exists — it wins.
- */
-const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL ??
-  (process.env.VERCEL_PROJECT_PRODUCTION_URL
-    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-    : "http://localhost:3000");
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
