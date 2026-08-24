@@ -179,8 +179,17 @@ export interface ProcessBlock extends SectionHeading {
 
 /** The full-bleed portada behind the hero. */
 export interface CoverContent {
+  /** Landscape file, used from the `sm` breakpoint up. */
   src: string;
   alt: string;
+  /**
+   * Portrait file for phones. Optional: without it the landscape image is
+   * recropped, which works but wastes most of a 2.56:1 frame on a narrow
+   * screen. A separate file is composed for that shape rather than cut down
+   * to it, so the subject keeps its placement instead of drifting out of the
+   * crop.
+   */
+  mobileSrc?: string;
   /** `object-position` holding the crop as the frame narrows, e.g. "50% 30%". */
   focus?: string;
 }

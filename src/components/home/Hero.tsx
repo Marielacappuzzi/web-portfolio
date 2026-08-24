@@ -18,20 +18,25 @@ interface HeroProps {
  * reads as composed. Contrast comes from the scrim inside CoverImage, so the
  * words stay legible without a panel behind them.
  *
- * `data-ground="chamber"` because the band is dark: it flips the semantic
- * colours so the same components render light type without a single override.
+ * `data-ground="paper"` because the portada is a pale wall — measured at 0.72
+ * luminance where the sentence sits. Light type would need the picture
+ * darkened to work, and darkening a photograph to make room for words is
+ * exactly the kind of shouting the brief rules out. Dark type on a light veil
+ * leaves the work as it was photographed.
  */
 export function Hero({ content }: HeroProps) {
   return (
     <section
-      data-ground="chamber"
+      data-ground="paper"
       aria-labelledby="hero-titulo"
       className="relative isolate text-fg"
     >
       <CoverImage
         src={content.cover?.src ?? null}
         alt={content.cover?.alt ?? ""}
+        mobileSrc={content.cover?.mobileSrc}
         focus={content.cover?.focus}
+        scrim="light"
       />
 
       {/*
@@ -39,7 +44,7 @@ export function Hero({ content }: HeroProps) {
         keeps its exact 1920 × 750 proportion, and returns to normal flow
         under `sm`, where a phone-sized crop has no room to hold both.
       */}
-      <div className="inset-0 bg-ink px-0 pb-2xl pt-xl sm:absolute sm:flex sm:items-end sm:bg-transparent sm:pb-3xl sm:pt-0">
+      <div className="inset-0 bg-bg px-0 pb-2xl pt-xl sm:absolute sm:flex sm:items-end sm:bg-transparent sm:pb-3xl sm:pt-0">
         <Container width="wide" className="w-full">
           <div className="max-w-[46ch]">
             <Reveal>

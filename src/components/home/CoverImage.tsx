@@ -3,9 +3,11 @@ import { Pending } from "@/components/primitives/Pending";
 import { cn } from "@/lib/cn";
 
 interface CoverImageProps {
-  /** Null until the portada has been produced. */
+  /** Landscape file. Null until the portada has been produced. */
   src: string | null;
   alt: string;
+  /** Portrait file for phones. Falls back to recropping `src` without it. */
+  mobileSrc?: string;
   /** Where the crop holds as the frame narrows, e.g. "50% 30%". */
   focus?: string;
   /**
@@ -13,6 +15,11 @@ interface CoverImageProps {
    * passes a taller set because the photographs are portrait.
    */
   aspect?: string;
+  /**
+   * How the scrim reads. `light` veils a pale photograph so dark type stays
+   * legible; `dark` weights the lower left for light type over charcoal.
+   */
+  scrim?: "light" | "dark";
   /** Shown inside the placeholder so it is clear which picture is missing. */
   pendingLabel?: string;
   className?: string;
@@ -21,48 +28,68 @@ interface CoverImageProps {
 /**
  * The full-bleed band behind the opening sentence.
  *
- * Three proportions rather than one crop, because 1920 × 750 (2.56:1) turns
- * into a letterbox slot on a phone. The band grows taller as the viewport
- * narrows so the figure keeps room to breathe:
+ * Two files, not one crop. 1920 × 750 is 2.56:1, and on a phone that becomes
+ * a letterbox slot — recropping it to portrait would push the frame out of
+ * shot. The portrait file is composed for that shape instead, with the picture
+ * low and the wall open above it, and `<picture>` hands the browser whichever
+ * one fits. The landscape file is never downloaded on a phone.
  *
- *   · phone   4/5   — nearly portrait, the figure reads at arm's length
- *   · tablet  16/9  — the familiar landscape
- *   · desktop 1920 × 750 exactly
- *
- * A scrim sits over the picture. It is the one place on the site where
- * something is laid over the work, and it exists for a single reason: white
- * type on charcoal needs contrast to stay legible, and the alternative —
- * moving the words off the image — is what the brief asks against here. It is
- * a vertical gradient weighted to the left, so it darkens the column the text
- * occupies and leaves the rest of the picture alone.
+ * The scrim is the one place on the site where anything is laid over the work,
+ * and it earns that only because type needs contrast. Both directions exist
+ * because the ground under the words decides which way to go: the home portada
+ * is a pale wall, so it takes a light veil and dark type; a charcoal band
+ * takes the dark one. Measuring the picture beats assuming, and this one reads
+ * at 0.72 luminance where the sentence sits.
  */
 export function CoverImage({
   src,
   alt,
+  mobileSrc,
   focus,
   aspect = "aspect-[4/5] sm:aspect-[16/9] lg:aspect-[1920/750]",
+  scrim = "dark",
   pendingLabel = "Portada 1920 × 750",
   className,
 }: CoverImageProps) {
   return (
     <div
       className={cn(
-        "relative w-full overflow-hidden bg-ink",
+        "relative w-full overflow-hidden",
+        scrim === "light" ? "bg-paper" : "bg-ink",
         aspect,
         className,
       )}
     >
       {src ? (
-        <Image
-          src={src}
-          alt={alt}
-          fill
-          priority
-          quality={90}
-          sizes="100vw"
-          className="object-cover"
-          style={focus ? { objectPosition: focus } : undefined}
-        />
+        mobileSrc ? (
+          /*
+            next/image cannot switch source files by breakpoint, so the art
+            direction happens in markup. `fetchPriority` and `decoding` are set
+            explicitly because this is the LCP element on every visit.
+          */
+          <picture>
+            <source media="(min-width: 640px)" srcSet={src} />
+            <img
+              src={mobileSrc}
+              alt={alt}
+              fetchPriority="high"
+              decoding="async"
+              className="absolute inset-0 h-full w-full object-cover"
+              style={focus ? { objectPosition: focus } : undefined}
+            />
+          </picture>
+        ) : (
+          <Image
+            src={src}
+            alt={alt}
+            fill
+            priority
+            quality={90}
+            sizes="100vw"
+            className="object-cover"
+            style={focus ? { objectPosition: focus } : undefined}
+          />
+        )
       ) : (
         <div className="absolute inset-0 flex items-center justify-center">
           <Pending kind="asset" detail={pendingLabel} />
@@ -70,17 +97,31 @@ export function CoverImage({
       )}
 
       {/*
-        Legibility scrim. Strongest at the lower left where the type sits,
-        clearing entirely towards the top right so the artwork stays visible.
+        Legibility veil. Strongest where the type sits, clearing towards the
+        far corner so the work itself stays untouched.
       */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 bg-gradient-to-t from-ink/85 via-ink/45 to-transparent"
-      />
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 bg-gradient-to-r from-ink/70 via-ink/20 to-transparent"
-      />
+      {src ? (
+        <>
+          <div
+            aria-hidden="true"
+            className={cn(
+              "absolute inset-0",
+              scrim === "light"
+                ? "bg-gradient-to-t from-paper/80 via-paper/30 to-transparent"
+                : "bg-gradient-to-t from-ink/85 via-ink/45 to-transparent",
+            )}
+          />
+          <div
+            aria-hidden="true"
+            className={cn(
+              "absolute inset-0",
+              scrim === "light"
+                ? "bg-gradient-to-r from-paper/85 via-paper/25 to-transparent"
+                : "bg-gradient-to-r from-ink/70 via-ink/20 to-transparent",
+            )}
+          />
+        </>
+      ) : null}
     </div>
   );
 }

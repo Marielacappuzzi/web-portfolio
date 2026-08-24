@@ -14,6 +14,18 @@ El PDF de fichas técnicas y la carpeta `IMAGENES MARIELA/` cerraron los ítems
 fotografía y ficha completa, y las dos fotografías de Mariela están integradas.
 Detalle en `ASSET_INVENTORY.md`.
 
+## Resuelto el 2026-08-23
+
+La portada del inicio está entregada en dos archivos: `public/portada/
+inicio.jpg` (1920 × 750) y `inicio-movil.jpg` (960 × 1500). Muestran *Bajo su
+Protección* enmarcada sobre una pared clara. `CoverImage` sirve cada una por
+`<picture>`, de modo que un teléfono nunca descarga la de escritorio.
+
+La pared mide 0,72 de luminancia donde va el texto, así que el hero pasó a
+fondo claro con tipografía oscura: oscurecer la fotografía para poder poner
+texto blanco habría sido hacer gritar a la técnica por encima de la obra.
+Cierra el ítem 0.
+
 ## Resuelto el 2026-08-22
 
 Sin correo público en el sitio, por decisión de Mariela: publicar una
@@ -33,7 +45,6 @@ carpeta local usan otra grafía; `site.ts` es la autoridad. Cierra el ítem 6.
 
 | # | Qué falta | Dónde se resuelve | Impacto |
 | --- | --- | --- | --- |
-| 0 | **Portada del inicio**, 1920 × 750 | `public/portada/inicio.jpg` → `home.ts` → `hero.cover` | **B** — el hero muestra hoy una placa declarada. Necesita aire a la izquierda para el titular; ver `CoverImage`. |
 | 0b | **Página editorial para _Oltre lo Sguardo_** | `works.ts` → `hasEditorialPage` | **M** — sus 7 fotografías ya están descritas y declaradas, pero la obra no tiene página propia, así que sólo se ve el recorte de la mirada en el inicio. La estrategia nombra tres obras editoriales y ésta no está entre ellas: decisión de Mariela, no técnica. |
 | 1 | Fotografía definitiva de **Jesús, la oveja y el lobo** | `works.ts` → `image` | **B** — es la obra del hero. Sigue sin terminar; confirmado en el briefing y ausente del PDF. |
 | 4 | **Instagram**: handle y URL | `site.ts` → `instagramHandle`, `instagramUrl` | **B** |
