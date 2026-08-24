@@ -51,3 +51,28 @@ export function LocationIcon(props: IconProps) {
     </svg>
   );
 }
+
+/**
+ * Points down: this label opens something rather than only leading somewhere.
+ * Rotated by the caller when the panel is open.
+ */
+export function ChevronDownIcon(props: IconProps) {
+  return (
+    <svg {...base} width={12} height={12} {...props}>
+      <path d="m5 9 7 7 7-7" />
+    </svg>
+  );
+}
+
+/**
+ * Points out and away: this link leads to a page of its own, as opposed to a
+ * sibling that scrolls to a card on the page you are already on.
+ */
+export function ArrowUpRightIcon(props: IconProps) {
+  return (
+    <svg {...base} width={12} height={12} {...props}>
+      <path d="M7 17 17 7" />
+      <path d="M8 7h9v9" />
+    </svg>
+  );
+}

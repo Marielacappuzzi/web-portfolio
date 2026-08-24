@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
+import { ArrowUpRightIcon } from "@/components/primitives/Icon";
 import type { NavChild } from "@/content/types";
 
 interface NavSubmenuProps {
@@ -83,16 +84,41 @@ export function NavSubmenu({ items, labelledBy, open }: NavSubmenuProps) {
         />
 
         <ul className="flex flex-col gap-2xs">
-          {items.map((child) => (
-            <li key={child.href} data-submenu-item>
-              <Link
-                href={child.href}
-                className="block font-serif text-base font-light leading-snug text-fg transition-colors duration-300 hover:text-fg-strong"
+          {items.map((child, index) => {
+            /*
+              The editorial pieces lead the list, so the first anchor link is
+              where the two kinds part. A rule there separates them without a
+              heading — the arrows already say which is which.
+            */
+            const startsAnchors =
+              !child.editorial && Boolean(items[index - 1]?.editorial);
+
+            return (
+              <li
+                key={child.href}
+                data-submenu-item
+                className={startsAnchors ? "mt-xs border-t border-rule pt-sm" : undefined}
               >
-                {child.label}
-              </Link>
-            </li>
-          ))}
+                <Link
+                  href={child.href}
+                  className="group flex items-center gap-2xs font-serif text-base font-light leading-snug text-fg transition-colors duration-300 hover:text-fg-strong"
+                >
+                  {child.label}
+
+                  {/*
+                    Only on the pieces that lead somewhere new. It waits for
+                    the pointer so the resting list stays a column of titles
+                    rather than a column of titles and marks.
+                  */}
+                  {child.editorial ? (
+                    <ArrowUpRightIcon
+                      className="shrink-0 text-fg-faint opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                    />
+                  ) : null}
+                </Link>
+              </li>
+            );
+          })}
         </ul>
       </div>
     </div>

@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import type { NavChild, NavItem } from "@/content/types";
 import { cn } from "@/lib/cn";
 import { lockScroll } from "@/lib/smooth-scroll";
+import { ChevronDownIcon } from "@/components/primitives/Icon";
 import { NavSubmenu } from "./NavSubmenu";
 import type { Ground } from "./Section";
 
@@ -145,7 +146,23 @@ export function SiteHeader({
                         active ? "text-fg-strong" : "text-fg hover:text-fg-strong",
                       )}
                     >
-                      {item.label}
+                      <span className="relative inline-flex items-center gap-1">
+                        {item.label}
+
+                        {/*
+                          The chevron says the label opens something. It sits
+                          inside the same span as the text so the hover rule
+                          below underlines the pair, not the word alone.
+                        */}
+                        {hasChildren ? (
+                          <ChevronDownIcon
+                            className={cn(
+                              "transition-transform duration-300 ease-out-quart",
+                              open ? "rotate-180" : "rotate-0",
+                            )}
+                          />
+                        ) : null}
+                      </span>
                       <span
                         aria-hidden="true"
                         className={cn(

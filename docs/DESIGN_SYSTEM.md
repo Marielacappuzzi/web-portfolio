@@ -147,6 +147,21 @@ catálogo de producto.
   proporción correcta, hairline, y el título con la marca de pendiente. Se lee
   como una decisión, no como un error.
 
+## Navegación
+
+«Obra» despliega el catálogo al pasar el puntero. Dos señales, porque el
+panel contiene dos clases de enlace:
+
+- Un **chevron** junto a la etiqueta indica que abre algo, y rota al abrirse.
+  Sin él, un menú desplegable sólo se descubre por accidente.
+- Las tres obras con página propia encabezan la lista y llevan una **flecha
+  diagonal** al pasar el puntero: van a otra página. Las demás son anclas a su
+  ficha en la galería y no llevan marca.
+
+Los dos grupos se separan con una línea, no con un título: las flechas ya
+dicen cuál es cuál. La flecha espera al puntero para que la lista en reposo
+sea una columna de títulos y no una de títulos con símbolos.
+
 ## Contraste (medido, no estimado)
 
 Los tonos sobre papel se midieron contra `#f4f4f2`. `fg-muted` estaba en

@@ -125,10 +125,19 @@ export interface PrintEdition {
 
 /* ---------------------------------------------------------------- site --- */
 
-/** A work listed under a nav item. */
+/**
+ * A work listed under a nav item.
+ *
+ * Two kinds of destination sit in the same list, and they behave differently
+ * once clicked: a piece with its own editorial page leads somewhere new, the
+ * rest scroll to a card in the gallery. The menu marks the difference rather
+ * than making the reader discover it.
+ */
 export interface NavChild {
   label: string;
   href: string;
+  /** True when the link opens a page of its own rather than an anchor. */
+  editorial?: boolean;
 }
 
 export interface NavItem {
