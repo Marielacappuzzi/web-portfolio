@@ -198,6 +198,18 @@
   }
 }
 
+/*
+ * reCAPTCHA v3 badge.
+ *
+ * Hidden deliberately. It is a fixed widget pinned to a corner of every page,
+ * and this site has no interface furniture anywhere else. Google allows this
+ * exactly as long as the notice appears in the form instead, which it does —
+ * see ContactForm.
+ */
+.grecaptcha-badge {
+  visibility: hidden;
+}
+
 /* ============================================================
    MOTION PRIMITIVES
 

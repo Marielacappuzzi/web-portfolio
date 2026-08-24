@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getContactPage } from "@/lib/content";
 import { sendContact, validate } from "@/lib/contact";
+import { verifyRecaptcha } from "@/lib/recaptcha";
 
 /**
  * POST /api/contacto
@@ -28,6 +29,24 @@ export async function POST(request: Request) {
 
   if (String(payload.empresa ?? "").trim()) {
     return NextResponse.json({ ok: true });
+  }
+
+  /*
+   * reCAPTCHA v3 scores the visit rather than challenging anyone. It runs
+   * after the honeypot — that one is free and catches the cheap bots — and
+   * only a confident rejection stops the request. A missing key, a missing
+   * token or a failed call all let the enquiry through: a commission lost to
+   * a blocked script is worse than a piece of spam in a filtered inbox.
+   */
+  const recaptcha = await verifyRecaptcha(
+    typeof payload.recaptchaToken === "string" ? payload.recaptchaToken : undefined,
+    "contacto",
+  );
+
+  if (!recaptcha.ok) {
+    // Nothing useful to a bot, nothing alarming to the rare person caught by
+    // a low score — the form simply reports it could not send.
+    return NextResponse.json({ ok: false, reason: "send-failed" }, { status: 429 });
   }
 
   const page = await getContactPage();

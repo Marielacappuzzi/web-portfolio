@@ -4,7 +4,14 @@ import { type FormEvent, useState } from "react";
 import { ContactSent } from "./ContactSent";
 import { Pending } from "@/components/primitives/Pending";
 import type { ContactPage, FormField } from "@/content/types";
+import { getRecaptchaToken, loadRecaptcha } from "@/lib/recaptcha-client";
 import { cn } from "@/lib/cn";
+
+/*
+ * Public by design — it identifies the site to Google and is visible in the
+ * page source either way. The secret key never leaves the server.
+ */
+const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
 
 type Status =
   | "idle"
@@ -59,11 +66,20 @@ export function ContactForm({ page }: { page: ContactPage }) {
     setMissing([]);
     setStatus("sending");
 
+    /*
+      Ask Google to score the visit. `undefined` when reCAPTCHA is not
+      configured or could not load, which the server treats as "not proven,
+      not refused" — a blocked script must not cost Mariela an enquiry.
+    */
+    const recaptchaToken = siteKey
+      ? await getRecaptchaToken(siteKey, "contacto")
+      : undefined;
+
     try {
       const response = await fetch("/api/contacto", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+        body: JSON.stringify({ ...data, recaptchaToken }),
       });
 
       const body = await response.json().catch(() => ({}));
@@ -94,7 +110,18 @@ export function ContactForm({ page }: { page: ContactPage }) {
   }
 
   return (
-    <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-xl">
+    <form
+      onSubmit={handleSubmit}
+      noValidate
+      /*
+        Fetch the script the first time someone touches a field rather than on
+        page load: most visitors never write, and they should not pay ~80KB
+        and a third-party connection for a form they do not use. By the time
+        anyone finishes typing it is ready.
+      */
+      onFocus={siteKey ? () => void loadRecaptcha(siteKey) : undefined}
+      className="flex flex-col gap-xl"
+    >
       <div className="grid grid-cols-1 gap-lg sm:grid-cols-2">
         {page.fields.map((field) => (
           <Field
@@ -153,6 +180,36 @@ export function ContactForm({ page }: { page: ContactPage }) {
           ) : null}
         </div>
       </div>
+
+      {/*
+        Google requires this wherever the floating badge is hidden, and the
+        badge is hidden because a fixed widget in the corner is exactly the
+        kind of interface furniture this site does without. The text is the
+        alternative Google itself documents.
+      */}
+      {siteKey ? (
+        <p className="font-sans text-xs leading-relaxed text-fg-faint">
+          Este sitio está protegido por reCAPTCHA y se aplican la{" "}
+          <a
+            href="https://policies.google.com/privacy"
+            target="_blank"
+            rel="noreferrer noopener"
+            className="underline decoration-rule underline-offset-4 transition-colors duration-300 hover:text-fg"
+          >
+            Política de privacidad
+          </a>{" "}
+          y los{" "}
+          <a
+            href="https://policies.google.com/terms"
+            target="_blank"
+            rel="noreferrer noopener"
+            className="underline decoration-rule underline-offset-4 transition-colors duration-300 hover:text-fg"
+          >
+            Términos del servicio
+          </a>{" "}
+          de Google.
+        </p>
+      ) : null}
     </form>
   );
 }
