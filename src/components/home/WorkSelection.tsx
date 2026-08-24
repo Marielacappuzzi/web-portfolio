@@ -28,9 +28,11 @@ export function WorkSelection({ content, works }: WorkSelectionProps) {
     <Section ground="paper" rhythm="act" aria-labelledby="obra-titulo">
       <Container width="wide">
         <div className="flex flex-col items-center text-center">
-          <Reveal>
-            <Eyebrow>{content.eyebrow}</Eyebrow>
-          </Reveal>
+          {content.eyebrow ? (
+            <Reveal>
+              <Eyebrow>{content.eyebrow}</Eyebrow>
+            </Reveal>
+          ) : null}
 
           <Reveal delay={90} className="mt-lg">
             <Display id="obra-titulo" measure={24} className="mx-auto">

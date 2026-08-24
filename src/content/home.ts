@@ -100,7 +100,6 @@ export const home: HomeContent = {
   },
 
   contact: {
-    eyebrow: "Iniciar una conversación",
     title: "Cuéntame la historia que te gustaría convertir en una *obra*.",
     paragraph:
       "Puede ser un recuerdo, una persona, un animal, un vínculo o una idea que todavía no encontró su imagen.",

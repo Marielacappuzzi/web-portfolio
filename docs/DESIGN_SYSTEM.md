@@ -147,6 +147,25 @@ catálogo de producto.
   proporción correcta, hairline, y el título con la marca de pendiente. Se lee
   como una decisión, no como un error.
 
+## Contraste (medido, no estimado)
+
+Los tonos sobre papel se midieron contra `#f4f4f2`. `fg-muted` estaba en
+3,8:1 y `fg-faint` en 2,3:1 — ambos por debajo de AA, y se notaba justamente
+en el formulario, donde son las etiquetas y los textos de ayuda. Ahora:
+
+| Token | Valor | Contraste | Cumple |
+| --- | --- | --- | --- |
+| `fg-strong` | `#111110` | 17,2:1 | AA texto |
+| `fg` | `#3d3d3b` | 9,9:1 | AA texto |
+| `fg-muted` | `#5e5e5a` | 5,9:1 | AA texto |
+| `fg-faint` | `#7c7c78` | 3,8:1 | AA grande / UI |
+| `rule` | `#ddddd8` | 1,2:1 | decorativo |
+| `field` | `#b4b4ad` | 1,7:1 | borde de campo |
+
+`rule` y `field` son deliberadamente distintos: una línea de 1px es ornamento
+y debe quedar callada, pero el borde de un campo es lo que indica dónde
+escribir. Un mismo tono para ambos deja el formulario invisible.
+
 ## Enlaces y acciones
 
 Sin esquinas redondeadas y sin relleno en reposo — el relleno aparece sólo

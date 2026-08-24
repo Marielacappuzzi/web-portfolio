@@ -19,12 +19,12 @@ type Status =
  *
  * An underline reads as one more hairline on a page already made of them; a
  * bordered box reads unmistakably as "type here", which is what a form owes
- * the person filling it in. The border still uses the ground's own rule colour
- * and thickens to the text colour on focus, so the field belongs to the same
- * system without becoming an interface widget.
+ * the person filling it in. The border reads a shade darker than a decorative
+ * rule — a hairline is ornament, but the edge of a field is what tells you
+ * where to type — and thickens to the text colour on focus.
  */
 const fieldBase = cn(
-  "w-full border border-rule bg-bg px-4 py-3",
+  "w-full border border-field bg-bg px-4 py-3",
   "font-sans text-base text-fg-strong placeholder:text-fg-faint",
   "transition-colors duration-200",
   "hover:border-fg-muted",

@@ -97,30 +97,26 @@ export function CoverImage({
       )}
 
       {/*
-        Legibility veil. Strongest where the type sits, clearing towards the
-        far corner so the work itself stays untouched.
+        Legibility veil, on the text column only.
+
+        One horizontal pass that fades out by the midpoint, so the half of the
+        frame holding the work is never touched. An earlier version added a
+        vertical wash across the full width as well; it dulled the picture to
+        light words that were already legible.
+
+        Below `sm` the type sits under the image rather than on it, so no veil
+        is needed at all.
       */}
       {src ? (
-        <>
-          <div
-            aria-hidden="true"
-            className={cn(
-              "absolute inset-0",
-              scrim === "light"
-                ? "bg-gradient-to-t from-paper/80 via-paper/30 to-transparent"
-                : "bg-gradient-to-t from-ink/85 via-ink/45 to-transparent",
-            )}
-          />
-          <div
-            aria-hidden="true"
-            className={cn(
-              "absolute inset-0",
-              scrim === "light"
-                ? "bg-gradient-to-r from-paper/85 via-paper/25 to-transparent"
-                : "bg-gradient-to-r from-ink/70 via-ink/20 to-transparent",
-            )}
-          />
-        </>
+        <div
+          aria-hidden="true"
+          className={cn(
+            "absolute inset-0 hidden sm:block",
+            scrim === "light"
+              ? "bg-gradient-to-r from-paper/90 via-paper/45 via-35% to-transparent to-55%"
+              : "bg-gradient-to-r from-ink/85 via-ink/40 via-35% to-transparent to-55%",
+          )}
+        />
       ) : null}
     </div>
   );

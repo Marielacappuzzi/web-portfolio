@@ -46,9 +46,11 @@ export function PageHeader({ heading, lead, image }: PageHeaderProps) {
           )}
         >
           <div className={cn(withImage && "lg:col-span-6")}>
-            <Reveal>
-              <Eyebrow>{heading.eyebrow}</Eyebrow>
-            </Reveal>
+            {heading.eyebrow ? (
+              <Reveal>
+                <Eyebrow>{heading.eyebrow}</Eyebrow>
+              </Reveal>
+            ) : null}
 
             <Reveal delay={90} className="mt-md">
               <Display as="h1" id="pagina-titulo">

@@ -46,7 +46,7 @@ export function ProseSection({
             </Reveal>
 
             {block.pullQuote ? (
-              <Reveal delay={180} className="mt-2xl">
+              <Reveal delay={180} className="mt-xl">
                 <PullQuote className="max-w-[32ch]">{block.pullQuote}</PullQuote>
               </Reveal>
             ) : null}

@@ -65,7 +65,7 @@ export function Hero({ content }: HeroProps) {
 
             <Reveal
               delay={360}
-              className="mt-xl flex flex-wrap items-center gap-x-lg gap-y-md"
+              className="mt-lg-plus flex flex-wrap items-center gap-x-lg gap-y-md"
             >
               <ActionButton href={content.primaryAction.href}>
                 {content.primaryAction.label}

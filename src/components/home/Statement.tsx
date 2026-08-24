@@ -23,9 +23,11 @@ export function Statement({ content }: { content: HomeStatementContent }) {
     <Section ground="paper" rhythm="beat" aria-labelledby="declaracion-titulo">
       <Container width="wide">
         <div className="flex flex-col items-center text-center">
-          <Reveal>
-            <Eyebrow>{content.eyebrow}</Eyebrow>
-          </Reveal>
+          {content.eyebrow ? (
+            <Reveal>
+              <Eyebrow>{content.eyebrow}</Eyebrow>
+            </Reveal>
+          ) : null}
 
           <Reveal delay={90} className="mt-lg">
             <Display id="declaracion-titulo" measure={24} className="mx-auto">
@@ -37,7 +39,7 @@ export function Statement({ content }: { content: HomeStatementContent }) {
             </Display>
           </Reveal>
 
-          <Rule width="short" className="mt-xl" />
+          <Rule width="short" className="mt-lg-plus" />
 
           <Reveal delay={180} className="mt-xl">
             <PullQuote className="mx-auto max-w-[30ch]">

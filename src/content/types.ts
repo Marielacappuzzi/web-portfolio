@@ -152,9 +152,15 @@ export interface SiteContent {
 
 /* --------------------------------------------------- shared copy blocks --- */
 
-/** Eyebrow + display heading. The unit every page section opens with. */
+/**
+ * Eyebrow + display heading. The unit every page section opens with.
+ *
+ * The eyebrow is optional: some sections read better with the headline
+ * carrying the whole weight, and that is a content decision rather than a
+ * component one. Omit it and nothing renders in its place.
+ */
 export interface SectionHeading {
-  eyebrow: string;
+  eyebrow?: string;
   title: string;
 }
 
@@ -214,7 +220,7 @@ export interface HeroContent {
  * /sobre-mi. See docs/PROJECT_CONTEXT.md §8.
  */
 export interface HomeStatementContent {
-  eyebrow: string;
+  eyebrow?: string;
   titleLines: string[];
   pullQuote: string;
 }
@@ -269,7 +275,7 @@ export interface AboutPage {
   heading: SectionHeading;
   intro: string[];
   statement: {
-    eyebrow: string;
+    eyebrow?: string;
     titleLines: string[];
     paragraphs: string[];
     pullQuote: string;

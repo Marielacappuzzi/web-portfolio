@@ -37,10 +37,6 @@ export default async function AboutPage() {
       {/* Who she is, next to the portrait. */}
       <Section ground="paper" rhythm="beat" aria-labelledby="recorrido-titulo">
         <Container width="wide">
-          <h2 id="recorrido-titulo" className="sr-only">
-            Recorrido
-          </h2>
-
           <div className="grid gap-2xl lg:grid-cols-12 lg:items-start lg:gap-x-[5vw]">
             <div className="lg:col-span-5">
               <Reveal variant="image">
@@ -54,9 +50,17 @@ export default async function AboutPage() {
               </Reveal>
             </div>
 
-            <Reveal delay={120} className="lg:col-span-6 lg:col-start-7">
-              <Prose paragraphs={page.intro} lead />
-            </Reveal>
+            <div className="lg:col-span-6 lg:col-start-7">
+              <Reveal>
+                <Display as="h2" size="sub" id="recorrido-titulo">
+                  {withEmphasis("*Mariela Crapuzzi*")}
+                </Display>
+              </Reveal>
+
+              <Reveal delay={120} className="mt-lg">
+                <Prose paragraphs={page.intro} lead />
+              </Reveal>
+            </div>
           </div>
         </Container>
       </Section>
@@ -70,9 +74,11 @@ export default async function AboutPage() {
         <Container width="wide">
           <div className="grid gap-2xl lg:grid-cols-12 lg:gap-x-[4vw]">
             <div className="lg:col-span-5">
-              <Reveal>
-                <Eyebrow>{page.statement.eyebrow}</Eyebrow>
-              </Reveal>
+              {page.statement.eyebrow ? (
+                <Reveal>
+                  <Eyebrow>{page.statement.eyebrow}</Eyebrow>
+                </Reveal>
+              ) : null}
 
               <Reveal delay={90} className="mt-lg">
                 <Display id="mirada-titulo">
@@ -84,7 +90,7 @@ export default async function AboutPage() {
                 </Display>
               </Reveal>
 
-              <Rule width="short" className="mt-xl" />
+              <Rule width="short" className="mt-lg-plus" />
 
               <Reveal delay={180} className="mt-lg">
                 <PullQuote>{page.statement.pullQuote}</PullQuote>
