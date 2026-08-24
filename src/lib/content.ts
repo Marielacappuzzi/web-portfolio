@@ -101,7 +101,9 @@ export async function getCommissionVideos(): Promise<Work[]> {
   return works
     .filter(
       (work) =>
-        work.kind === "commission" && work.processVideo && !work.hasEditorialPage,
+        work.kind === "commission" &&
+        (work.processVideos?.length ?? 0) > 0 &&
+        !work.hasEditorialPage,
     )
     .sort(byOrder);
 }

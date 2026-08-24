@@ -86,13 +86,23 @@ export const works: Work[] = [
         caption: "Certificado de autenticidad, firmado.",
       },
     ],
-    processVideo: {
-      youtubeId: "5C6ba3LGlvs",
-      poster: "/obra/bajo-su-proteccion/principal.jpg",
-      label: "Mariela Crapuzzi trabajando la obra Bajo su Protección.",
-      portrait: true,
-      caption: "La obra, en proceso.",
-    },
+    processVideos: [
+      {
+        src: "/video/bajo-su-proteccion-en-proceso.mp4",
+        poster: "/video/bajo-su-proteccion-en-proceso.jpg",
+        label: "Mariela Crapuzzi trabajando la obra Bajo su Protección.",
+        portrait: true,
+        caption: "La obra, en proceso.",
+      },
+      {
+        src: "/video/bajo-su-proteccion-obra.mp4",
+        poster: "/video/bajo-su-proteccion-obra.jpg",
+        label:
+          "Primer plano del carboncillo sobre el rostro de la cría, con la mano de Mariela trabajando el detalle.",
+        portrait: true,
+        caption: "El detalle, de cerca.",
+      },
+    ],
     concept: "INTERPRETAR UNA HISTORIA",
     shortStory:
       "Esta obra nació de un encargo inspirado en el vínculo entre una madre y su hija.",
@@ -120,8 +130,8 @@ export const works: Work[] = [
     image: {
       src: "/obra/oltre-lo-sguardo/principal.jpg",
       alt: "Carboncillo de una mujer joven de cabello ondulado y blusa de encaje de cuello alto, sosteniendo la mirada hacia quien observa.",
-      width: 1440,
-      height: 1920,
+      width: 1242,
+      height: 1802,
     },
     detailImages: [
       {
@@ -194,8 +204,8 @@ export const works: Work[] = [
     image: {
       src: "/obra/materia/principal.jpg",
       alt: "Carboncillo de un hombre de perfil con rastas largas y chaqueta de jean, la mirada dirigida fuera del encuadre.",
-      width: 1440,
-      height: 1920,
+      width: 1267,
+      height: 1751,
     },
     shortStory: "Algunas imágenes se sienten antes de comprenderse.",
     longStory: [
@@ -222,7 +232,7 @@ export const works: Work[] = [
       src: "/obra/toro-salvaje/principal.jpg",
       alt: "Carboncillo de un caballo al galope de frente, la crin al viento y el cuerpo emergiendo de un fondo de polvo y sombra.",
       width: 1080,
-      height: 1920,
+      height: 1880,
     },
     shortStory: "Hay una fuerza que no necesita imponerse para hacerse visible.",
     longStory: [
@@ -246,8 +256,8 @@ export const works: Work[] = [
     image: {
       src: "/obra/gracia/principal.jpg",
       alt: "Carboncillo de una niña pequeña con un lazo de encaje en el cabello y un vestido de puntilla, de ojos grandes y expresión serena.",
-      width: 1079,
-      height: 1920,
+      width: 953,
+      height: 1178,
     },
     shortStory: "Hay miradas que parecen conservar algo intacto.",
     longStory: [
@@ -271,8 +281,8 @@ export const works: Work[] = [
     image: {
       src: "/obra/nina/principal.jpg",
       alt: "Carboncillo de una perra golden retriever echada sobre una manta, con la boca abierta y la mirada hacia el frente.",
-      width: 1385,
-      height: 1920,
+      width: 1242,
+      height: 1806,
     },
     shortStory:
       "La identidad de Nina aparece también en el movimiento, en la energía, en esa forma particular de estar en el mundo.",
@@ -297,16 +307,18 @@ export const works: Work[] = [
     image: {
       src: "/obra/huella/principal.jpg",
       alt: "Carboncillo de un bulldog francés de frente, con las orejas erguidas y una mancha clara en el pecho.",
-      width: 1079,
-      height: 1920,
+      width: 847,
+      height: 1232,
     },
-    processVideo: {
-      youtubeId: "RRJQB24ORfk",
-      poster: "/obra/huella/principal.jpg",
-      label: "El retrato de Huella en proceso.",
-      portrait: true,
-      caption: "Huella, en proceso.",
-    },
+    processVideos: [
+      {
+        src: "/video/huella-en-proceso.mp4",
+        poster: "/video/huella-en-proceso.jpg",
+        label: "El retrato de Huella en proceso.",
+        portrait: true,
+        caption: "Huella, en proceso.",
+      },
+    ],
     shortStory:
       "Existen vínculos que nos habitan aun cuando la ausencia ocupa su lugar.",
     longStory: [
@@ -334,13 +346,14 @@ export const works: Work[] = [
       width: 1452,
       height: 1920,
     },
-    processVideo: {
-      youtubeId: "GMRRZVhBfCs",
-      poster: "/obra/molly/principal.jpg",
-      label: "El retrato de Molly en proceso.",
-      portrait: true,
-      caption: "Molly, en proceso.",
-    },
+    processVideos: [
+      {
+        src: "/video/molly-en-proceso.mp4",
+        poster: "/video/molly-en-proceso.jpg",
+        label: "El retrato de Molly en proceso.",
+        caption: "Molly, en proceso.",
+      },
+    ],
     shortStory:
       "En Molly, gran parte de su identidad parecía estar en el color.",
     longStory: [
@@ -442,13 +455,17 @@ export const works: Work[] = [
     kind: "personal",
     image: null,
     ratio: "portrait",
-    processVideo: {
-      youtubeId: "KtbyzqQGTbw",
-      label:
-        "Jesús, la oveja y el lobo en proceso, sobre el tablero de Mariela Crapuzzi.",
-      portrait: true,
-      caption: "La obra en curso. Las fotografías definitivas llegarán al terminarla.",
-    },
+    processVideos: [
+      {
+        src: "/video/jesus-en-proceso.mp4",
+        poster: "/video/jesus-en-proceso.jpg",
+        label:
+          "Jesús, la oveja y el lobo en proceso, sobre el tablero de Mariela Crapuzzi.",
+        portrait: true,
+        caption:
+          "La obra en curso. Las fotografías definitivas llegarán al terminarla.",
+      },
+    ],
     concept: "UNA VOZ PROPIA",
     shortStory:
       "Mi primera obra personal y el comienzo de una etapa más autoral: una búsqueda en la que la figuración se convierte en una manera de explorar ideas, símbolos e historias humanas.",

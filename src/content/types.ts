@@ -29,16 +29,18 @@ export interface WorkImage {
 }
 
 /**
- * A silent process clip. `youtubeId` is a stopgap: a local MP4 loops without
- * player chrome, cookies or a third-party request, and is lighter once the
- * file is trimmed and compressed. See docs/CONTENT_PENDING.md.
+ * A piece of process footage, served from /public.
+ *
+ * Local files, not an embed: the player is ours, so there is no third-party
+ * chrome over the work, no cookies and no request to Google. The originals ran
+ * to 180 MB between them and were re-encoded to under 10 MB, which is what
+ * made keeping them in the repository possible at all.
  */
 export interface VideoSource {
-  youtubeId?: string;
-  src?: string;
+  src: string;
   poster?: string;
   label: string;
-  /** True for 9:16 clips, which are framed portrait rather than cropped. */
+  /** True for 9:16 clips, framed portrait rather than cropped. */
   portrait?: boolean;
   caption?: string;
 }
@@ -79,7 +81,7 @@ export interface Work {
    */
   framedImages?: WorkImage[];
   /** Shown in "El proceso" on the editorial page. */
-  processVideo?: VideoSource;
+  processVideos?: VideoSource[];
 
   /** One or two sentences. Used in the gallery and the editorial page opening. */
   shortStory?: string;

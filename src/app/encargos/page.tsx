@@ -5,7 +5,7 @@ import { ProcessList } from "@/components/blocks/ProcessList";
 import { Container, Section } from "@/components/layout/Section";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { Reveal } from "@/components/primitives/Reveal";
-import { SilentVideo } from "@/components/primitives/SilentVideo";
+import { VideoPlayer } from "@/components/primitives/VideoPlayer";
 import { Eyebrow, Prose } from "@/components/primitives/Type";
 import { ArtworkFrame } from "@/components/work/ArtworkFrame";
 import { WorkIdentity, WorkSpecs } from "@/components/work/WorkMeta";
@@ -152,14 +152,13 @@ export default async function CommissionsPage() {
               {filmed.map((work, i) => (
                 <li key={work.slug}>
                   <Reveal variant="image" delay={i * 120}>
-                    <SilentVideo
-                      youtubeId={work.processVideo?.youtubeId}
-                      src={work.processVideo?.src}
-                      poster={work.processVideo?.poster}
-                      label={work.processVideo?.label ?? work.title}
+                    <VideoPlayer
+                      src={work.processVideos![0].src}
+                      poster={work.processVideos![0].poster}
+                      label={work.processVideos![0].label ?? work.title}
                       caption={`${work.title}, ${work.year}`}
                       aspect={
-                        work.processVideo?.portrait
+                        work.processVideos![0].portrait
                           ? "aspect-[9/16] sm:aspect-[3/4]"
                           : "aspect-video"
                       }
