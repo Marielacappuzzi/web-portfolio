@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import type { NavChild, NavItem } from "@/content/types";
 import { cn } from "@/lib/cn";
 import { lockScroll } from "@/lib/smooth-scroll";
-import { ChevronDownIcon } from "@/components/primitives/Icon";
+import { ArrowUpRightIcon, ChevronDownIcon } from "@/components/primitives/Icon";
 import { NavSubmenu } from "./NavSubmenu";
 import type { Ground } from "./Section";
 
@@ -222,23 +222,52 @@ export function SiteHeader({
         inert={!menuOpen}
         aria-hidden={!menuOpen}
         className={cn(
-          "fixed inset-0 z-40 flex flex-col justify-center transition-opacity duration-500 md:hidden",
+          "fixed inset-0 z-40 overflow-y-auto overscroll-contain transition-opacity duration-500 md:hidden",
           menuOpen ? "opacity-100" : "pointer-events-none opacity-0",
         )}
       >
-        <nav aria-label="Principal (móvil)" className="gutter">
+        <nav aria-label="Principal (móvil)" className="gutter flex min-h-full flex-col justify-center py-28">
           <ul className="flex flex-col gap-lg">
-            {nav.map((item) => (
-              <li key={item.href}>
-                <Link
-                  href={item.href}
-                  onClick={() => setMenuOpen(false)}
-                  className="font-serif text-3xl font-light tracking-display text-fg-strong"
-                >
-                  {item.label}
-                </Link>
-              </li>
-            ))}
+            {nav.map((item) => {
+              const children = navChildren[item.href];
+
+              return (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    onClick={() => setMenuOpen(false)}
+                    className="font-serif text-3xl font-light tracking-display text-fg-strong"
+                  >
+                    {item.label}
+                  </Link>
+
+                  {/*
+                    The catalogue, listed rather than hidden behind a tap.
+                    There is no hover on a phone, so a disclosure would be one
+                    more thing to discover; the panel is already a page of its
+                    own and has the room.
+                  */}
+                  {children && children.length > 0 ? (
+                    <ul className="mt-md flex flex-col gap-2xs border-l border-rule pl-md">
+                      {children.map((child) => (
+                        <li key={child.href}>
+                          <Link
+                            href={child.href}
+                            onClick={() => setMenuOpen(false)}
+                            className="flex items-center gap-2xs font-serif text-base font-light text-fg transition-colors duration-300 hover:text-fg-strong"
+                          >
+                            {child.label}
+                            {child.editorial ? (
+                              <ArrowUpRightIcon className="shrink-0 text-fg-faint" />
+                            ) : null}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : null}
+                </li>
+              );
+            })}
           </ul>
         </nav>
       </div>
