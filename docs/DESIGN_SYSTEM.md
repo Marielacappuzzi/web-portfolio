@@ -147,6 +147,28 @@ catálogo de producto.
   proporción correcta, hairline, y el título con la marca de pendiente. Se lee
   como una decisión, no como un error.
 
+## Llegadas
+
+Nada llega de golpe.
+
+- **Anclas de la misma página** — Lenis las recorre con la misma curva que
+  la rueda, con 96px de holgura para el encabezado fijo. `scroll-behavior`
+  del navegador queda en `auto` porque competiría por el mismo gesto.
+- **Anclas desde otra página** — el navegador salta al elemento antes de que
+  Lenis exista, así que la página arranca arriba y baja sola. Espera a las
+  tipografías: el destino todavía no está en su posición final.
+- **Cambio de página** — un fundido cruzado de 260/380 ms con la API de View
+  Transitions del navegador. El clic se intercepta *antes* de navegar: la
+  API captura el cuadro actual, ejecuta el cambio y cruza ambos. Hacerlo
+  después capturaría dos veces la misma página.
+
+El encabezado y el pie llevan `view-transition-name` propio y se quedan
+quietos. Un marco que se desvanece en cada navegación llama la atención
+sobre el mecanismo en lugar de sobre la obra.
+
+Todo esto se apaga con `prefers-reduced-motion`, y un navegador sin soporte
+navega como antes.
+
 ## Navegación
 
 «Obra» despliega el catálogo al pasar el puntero. Dos señales, porque el

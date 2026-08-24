@@ -37,7 +37,9 @@ const linkClass =
 export function SiteFooter({ site }: { site: SiteContent }) {
 
   return (
-    <Section as="footer" ground="chamber" rhythm="none" className="pt-3xl pb-lg">
+    <Section
+      as="footer"
+      style={{ viewTransitionName: "site-footer" }} ground="chamber" rhythm="none" className="pt-3xl pb-lg">
       <Container width="wide">
         <div className="grid grid-cols-1 gap-2xl sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1.2fr] lg:gap-xl">
           <div className="max-w-narrow">

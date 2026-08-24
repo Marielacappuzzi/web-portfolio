@@ -3,6 +3,7 @@ import { Instrument_Sans, Newsreader } from "next/font/google";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { SmoothScroll } from "@/components/primitives/SmoothScroll";
+import { PageTransition } from "@/components/primitives/PageTransition";
 import { getSite, getWorks } from "@/lib/content";
 import { siteUrl } from "@/lib/site-url";
 import "./globals.css";
@@ -74,6 +75,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body data-ground="paper" className="flex min-h-full flex-col">
         <SmoothScroll />
+        <PageTransition />
 
         <a
           href="#contenido"

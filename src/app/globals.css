@@ -211,6 +211,61 @@
 }
 
 /* ============================================================
+   VIEW TRANSITIONS
+
+   A crossfade between routes. Navigation used to replace the
+   whole screen at once, which reads as a hard cut on a site
+   whose manner is otherwise unhurried.
+
+   Only the main region moves. The header and footer are named
+   and pinned still: a chrome that fades on every navigation
+   draws attention to the mechanism instead of the work.
+   ============================================================ */
+
+::view-transition-old(root) {
+  animation: 260ms var(--ease-out-quart) both fade-out;
+}
+
+::view-transition-new(root) {
+  animation: 380ms var(--ease-out-quart) both fade-in;
+}
+
+@keyframes fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+/* The frame holds still while its contents change. */
+::view-transition-group(site-header),
+::view-transition-group(site-footer) {
+  animation: none;
+}
+
+::view-transition-old(site-header),
+::view-transition-old(site-footer) {
+  display: none;
+}
+
+/*
+ * A reader who asked for less motion gets none of this. The API
+ * has no opt-out of its own, so the animations are simply given
+ * no duration.
+ */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
+
+/* ============================================================
    MOTION PRIMITIVES
 
    GSAP owns reveal motion; the tweens live in src/lib/reveal.ts.

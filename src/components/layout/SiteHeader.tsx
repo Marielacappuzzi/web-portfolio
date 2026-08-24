@@ -67,6 +67,9 @@ export function SiteHeader({
   return (
     <>
       <header
+        // Named so the view transition can hold it still: chrome that fades
+        // on every navigation draws attention to the mechanism.
+        style={{ viewTransitionName: "site-header" }}
         data-ground={ground}
         className={cn(
           "fixed inset-x-0 top-0 z-50 transition-colors duration-500",

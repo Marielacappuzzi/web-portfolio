@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import { cn } from "@/lib/cn";
 
 /**
@@ -15,6 +15,7 @@ interface SectionProps {
   className?: string;
   id?: string;
   as?: "section" | "div" | "footer" | "header" | "article";
+  style?: CSSProperties;
   "aria-labelledby"?: string;
 }
 
@@ -31,6 +32,7 @@ export function Section({
   rhythm = "beat",
   className,
   id,
+  style,
   as: Tag = "section",
   ...rest
 }: SectionProps) {
@@ -38,6 +40,7 @@ export function Section({
     <Tag
       id={id}
       data-ground={ground}
+      style={style}
       className={cn("scroll-mt-24", rhythms[rhythm], className)}
       {...rest}
     >

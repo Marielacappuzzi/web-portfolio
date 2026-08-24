@@ -61,6 +61,72 @@ export function SmoothScroll() {
 
       document.fonts.ready covers the reflow; the load event covers the rest.
     */
+    /*
+      Same-page anchors, eased rather than jumped.
+
+      `scroll-behavior` is `auto` because CSS smooth scrolling would fight
+      Lenis for the same gesture, which leaves a bare hash link landing with a
+      hard cut. Lenis scrolls to the target itself instead, on the same easing
+      as the wheel, so arriving at a section feels like scrolling to it.
+
+      The offset clears the fixed header — without it the heading you asked
+      for sits underneath the navigation.
+    */
+    const onAnchorClick = (event: MouseEvent) => {
+      // Let the browser handle modified clicks: new tab, new window, download.
+      if (event.defaultPrevented) return;
+      if (event.button !== 0) return;
+      if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+
+      const anchor = (event.target as Element | null)?.closest?.("a");
+      if (!anchor) return;
+
+      const href = anchor.getAttribute("href");
+      if (!href) return;
+
+      // Only same-document hashes. A cross-page link is Next.js’s business.
+      const url = new URL(href, window.location.href);
+      if (url.origin !== window.location.origin) return;
+      if (url.pathname !== window.location.pathname) return;
+      if (!url.hash || url.hash === "#") return;
+
+      const target = document.querySelector(url.hash);
+      if (!(target instanceof HTMLElement)) return;
+
+      event.preventDefault();
+      lenis.scrollTo(target, { offset: -96 });
+
+      // Keep the address bar honest without letting it jump the page.
+      window.history.pushState(null, "", url.hash);
+    };
+
+    document.addEventListener("click", onAnchorClick);
+
+    /*
+      Arriving with a hash already in the URL — the catalogue in the menu
+      links to /obra#materia from any page.
+
+      The browser jumps to the element before Lenis exists. Start at the top
+      instead and ease down, so a link from the navigation reads the same way
+      as one clicked in place. It waits a frame for layout, and for fonts,
+      because the target has not settled at its final position yet.
+    */
+    if (window.location.hash) {
+      const target = document.querySelector(window.location.hash);
+
+      if (target instanceof HTMLElement) {
+        window.scrollTo(0, 0);
+
+        const settle = () => lenis.scrollTo(target, { offset: -96 });
+
+        if (document.fonts?.status === "loaded") {
+          requestAnimationFrame(settle);
+        } else {
+          document.fonts?.ready.then(() => requestAnimationFrame(settle));
+        }
+      }
+    }
+
     const refresh = () => ScrollTrigger.refresh();
 
     if (document.readyState === "complete") {
@@ -73,6 +139,7 @@ export function SmoothScroll() {
 
     return () => {
       setLenis(null);
+      document.removeEventListener("click", onAnchorClick);
       window.removeEventListener("load", refresh);
       gsap.ticker.remove(raf);
       lenis.destroy();
