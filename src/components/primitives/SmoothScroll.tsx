@@ -48,8 +48,32 @@ export function SmoothScroll() {
     const previousBehavior = document.documentElement.style.scrollBehavior;
     document.documentElement.style.scrollBehavior = "auto";
 
+    /*
+      Recalculate trigger positions once the page has settled.
+
+      Every ScrollTrigger measures where its element sits at the moment it is
+      created. Two things move everything afterwards: web fonts arrive and
+      reflow the text (both faces are `display: swap`), and images decode. A
+      pinned section whose end was computed against the shorter page holds the
+      reader in place past the point it should have released — which is the
+      "stuck, cannot keep scrolling" people report, and why it repeats at
+      several points down the page rather than one.
+
+      document.fonts.ready covers the reflow; the load event covers the rest.
+    */
+    const refresh = () => ScrollTrigger.refresh();
+
+    if (document.readyState === "complete") {
+      refresh();
+    } else {
+      window.addEventListener("load", refresh, { once: true });
+    }
+
+    document.fonts?.ready.then(refresh).catch(() => {});
+
     return () => {
       setLenis(null);
+      window.removeEventListener("load", refresh);
       gsap.ticker.remove(raf);
       lenis.destroy();
       document.documentElement.style.scrollBehavior = previousBehavior;
