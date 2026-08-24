@@ -55,7 +55,28 @@ export function WorkGallery({ images, label }: WorkGalleryProps) {
     gsap.registerPlugin(ScrollTrigger);
 
     const ctx = gsap.context(() => {
-      const distance = () => rail.scrollWidth - rail.clientWidth;
+      /*
+        How far the rail has to travel.
+
+        Not `scrollWidth - clientWidth`: the rail is `overflow-x-visible` from
+        `md`, and on a visible overflow `scrollWidth` equals `clientWidth` —
+        the part hanging outside is not counted. That returned a distance of
+        zero at exactly the breakpoint where the pin runs, so the section
+        pinned and then released immediately, holding the reader still for a
+        gesture that went nowhere.
+
+        Measuring the last plate against the first gives the true run
+        regardless of overflow, and it survives a resize because it is read
+        again on refresh.
+      */
+      const distance = () => {
+        const plates = rail.children;
+        const last = plates[plates.length - 1] as HTMLElement | undefined;
+        if (!last) return 0;
+
+        const run = last.offsetLeft + last.offsetWidth - rail.clientWidth;
+        return Math.max(0, run);
+      };
       if (distance() <= 0) return;
 
       gsap.to(rail, {

@@ -58,7 +58,6 @@ export const commissions: CommissionsPage = {
   },
 
   closing: {
-    eyebrow: "Iniciar una conversación",
     title: "Cuéntame la historia que te gustaría convertir en una *obra*.",
     paragraph:
       "Compárteme brevemente qué te gustaría conservar o transmitir. Ese será el primer paso para comprender si podemos transformarlo en una obra.",

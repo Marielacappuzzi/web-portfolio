@@ -127,10 +127,19 @@ export interface PrintEdition {
 
 /* ---------------------------------------------------------------- site --- */
 
-/** A work listed under a nav item. */
+/**
+ * A work listed under a nav item.
+ *
+ * Two kinds of destination sit in the same list, and they behave differently
+ * once clicked: a piece with its own editorial page leads somewhere new, the
+ * rest scroll to a card in the gallery. The menu marks the difference rather
+ * than making the reader discover it.
+ */
 export interface NavChild {
   label: string;
   href: string;
+  /** True when the link opens a page of its own rather than an anchor. */
+  editorial?: boolean;
 }
 
 export interface NavItem {
@@ -154,9 +163,15 @@ export interface SiteContent {
 
 /* --------------------------------------------------- shared copy blocks --- */
 
-/** Eyebrow + display heading. The unit every page section opens with. */
+/**
+ * Eyebrow + display heading. The unit every page section opens with.
+ *
+ * The eyebrow is optional: some sections read better with the headline
+ * carrying the whole weight, and that is a content decision rather than a
+ * component one. Omit it and nothing renders in its place.
+ */
 export interface SectionHeading {
-  eyebrow: string;
+  eyebrow?: string;
   title: string;
 }
 
@@ -181,8 +196,17 @@ export interface ProcessBlock extends SectionHeading {
 
 /** The full-bleed portada behind the hero. */
 export interface CoverContent {
+  /** Landscape file, used from the `sm` breakpoint up. */
   src: string;
   alt: string;
+  /**
+   * Portrait file for phones. Optional: without it the landscape image is
+   * recropped, which works but wastes most of a 2.56:1 frame on a narrow
+   * screen. A separate file is composed for that shape rather than cut down
+   * to it, so the subject keeps its placement instead of drifting out of the
+   * crop.
+   */
+  mobileSrc?: string;
   /** `object-position` holding the crop as the frame narrows, e.g. "50% 30%". */
   focus?: string;
 }
@@ -207,7 +231,7 @@ export interface HeroContent {
  * /sobre-mi. See docs/PROJECT_CONTEXT.md §8.
  */
 export interface HomeStatementContent {
-  eyebrow: string;
+  eyebrow?: string;
   titleLines: string[];
   pullQuote: string;
 }
@@ -262,7 +286,7 @@ export interface AboutPage {
   heading: SectionHeading;
   intro: string[];
   statement: {
-    eyebrow: string;
+    eyebrow?: string;
     titleLines: string[];
     paragraphs: string[];
     pullQuote: string;

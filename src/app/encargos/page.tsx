@@ -107,14 +107,19 @@ export default async function CommissionsPage() {
               </Eyebrow>
             </Reveal>
 
-            <ul className="mt-2xl grid grid-cols-2 gap-lg md:grid-cols-4 md:gap-x-[2vw]">
+            {/*
+              One column on a phone. Two half-width portraits side by side
+              leave each piece about 160px wide — too small to read a charcoal
+              at, which is the only reason the row exists.
+            */}
+            <ul className="mt-2xl grid grid-cols-1 gap-2xl sm:grid-cols-2 sm:gap-lg md:grid-cols-4 md:gap-x-[2vw]">
               {commissioned.map((work, i) => (
                 <li key={work.slug}>
                   <Reveal variant="image" delay={Math.min(i, 3) * 90}>
                     <ArtworkFrame
                       work={work}
                       ratio="portrait"
-                      sizes="(min-width: 768px) 22vw, 45vw"
+                      sizes="(min-width: 768px) 22vw, (min-width: 640px) 45vw, 92vw"
                     />
                   </Reveal>
                   <Reveal delay={Math.min(i, 3) * 90 + 120} className="mt-md">

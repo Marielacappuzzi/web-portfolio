@@ -22,9 +22,11 @@ export function Artist({ content }: { content: HomeArtistContent }) {
       <Container width="wide">
         <div className="grid items-center gap-2xl lg:grid-cols-12 lg:gap-x-[5vw]">
           <div className="lg:col-span-5">
-            <Reveal>
-              <Eyebrow>{content.eyebrow}</Eyebrow>
-            </Reveal>
+            {content.eyebrow ? (
+              <Reveal>
+                <Eyebrow>{content.eyebrow}</Eyebrow>
+              </Reveal>
+            ) : null}
 
             <Reveal delay={90} className="mt-lg">
               <Display id="artista-titulo" measure={22}>
@@ -36,7 +38,7 @@ export function Artist({ content }: { content: HomeArtistContent }) {
               <Prose paragraphs={content.paragraphs} />
             </Reveal>
 
-            <Reveal delay={270} className="mt-2xl">
+            <Reveal delay={270} className="mt-xl">
               <ActionButton href={content.action.href}>
                 {content.action.label}
               </ActionButton>

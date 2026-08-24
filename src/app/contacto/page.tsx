@@ -89,7 +89,7 @@ export default async function ContactPage() {
                 <ContactForm page={page} />
               </Reveal>
 
-              <Reveal delay={180} className="mt-2xl">
+              <Reveal delay={180} className="mt-xl">
                 <p className="max-w-[52ch] font-sans text-sm leading-relaxed text-fg-muted">
                   {page.confirmation}
                 </p>

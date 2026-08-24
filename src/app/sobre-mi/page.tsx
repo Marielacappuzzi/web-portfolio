@@ -37,10 +37,6 @@ export default async function AboutPage() {
       {/* Who she is, next to the portrait. */}
       <Section ground="paper" rhythm="beat" aria-labelledby="recorrido-titulo">
         <Container width="wide">
-          <h2 id="recorrido-titulo" className="sr-only">
-            Recorrido
-          </h2>
-
           <div className="grid gap-2xl lg:grid-cols-12 lg:items-start lg:gap-x-[5vw]">
             <div className="lg:col-span-5">
               <Reveal variant="image">
@@ -54,9 +50,17 @@ export default async function AboutPage() {
               </Reveal>
             </div>
 
-            <Reveal delay={120} className="lg:col-span-6 lg:col-start-7">
-              <Prose paragraphs={page.intro} lead />
-            </Reveal>
+            <div className="lg:col-span-6 lg:col-start-7">
+              <Reveal>
+                <Display as="h2" size="sub" id="recorrido-titulo">
+                  {withEmphasis("*Mariela Crapuzzi*")}
+                </Display>
+              </Reveal>
+
+              <Reveal delay={120} className="mt-lg">
+                <Prose paragraphs={page.intro} lead />
+              </Reveal>
+            </div>
           </div>
         </Container>
       </Section>
@@ -70,9 +74,11 @@ export default async function AboutPage() {
         <Container width="wide">
           <div className="grid gap-2xl lg:grid-cols-12 lg:gap-x-[4vw]">
             <div className="lg:col-span-5">
-              <Reveal>
-                <Eyebrow>{page.statement.eyebrow}</Eyebrow>
-              </Reveal>
+              {page.statement.eyebrow ? (
+                <Reveal>
+                  <Eyebrow>{page.statement.eyebrow}</Eyebrow>
+                </Reveal>
+              ) : null}
 
               <Reveal delay={90} className="mt-lg">
                 <Display id="mirada-titulo">
@@ -84,30 +90,52 @@ export default async function AboutPage() {
                 </Display>
               </Reveal>
 
-              <Rule width="short" className="mt-xl" />
+              <Rule width="short" className="mt-lg-plus" />
 
               <Reveal delay={180} className="mt-lg">
                 <PullQuote>{page.statement.pullQuote}</PullQuote>
               </Reveal>
             </div>
 
-            <Reveal delay={90} className="lg:col-span-6 lg:col-start-7">
-              <Prose paragraphs={page.statement.paragraphs} />
-            </Reveal>
+            <div className="flex flex-col lg:col-span-6 lg:col-start-7">
+              {/*
+                On a phone the picture comes first, right under the sentence
+                that ends the left column, and the reasoning follows it. On a
+                wide screen the reasoning sits beside the heading and the
+                picture closes the section — order swaps, markup does not.
+              */}
+              <Reveal variant="image" className="order-first lg:order-last lg:mt-xl">
+                <Figure
+                  src="/estudio/mariela-trabajando.jpg"
+                  alt="Mariela Crapuzzi trabajando de pie frente a un tablero, con un carboncillo en la mano enguantada, sobre el dibujo de un caballo al galope."
+                  pendingLabel=""
+                  aspect="aspect-[3/2]"
+                  sizes="(min-width: 1024px) 48vw, 100vw"
+                  caption="En el estudio, sobre «Toro Salvaje»."
+                />
+              </Reveal>
+
+              <Reveal delay={90} className="mt-xl lg:mt-0">
+                <Prose paragraphs={page.statement.paragraphs} />
+              </Reveal>
+            </div>
           </div>
         </Container>
       </Section>
 
       {/* What she works with. */}
+      {/*
+        The video belongs to the reading column, not to the page: centred
+        under both columns it left the sticky heading nothing to travel
+        beside, and read as a separate section rather than as the evidence
+        for the paragraph above it.
+      */}
       <ProseSection
         block={page.language}
         ground="chamber"
         headingId="lenguaje-titulo"
-      />
-
-      {page.languageVideo ? (
-        <Section ground="chamber" rhythm="none" className="pb-4xl">
-          <Container width="wide">
+        aside={
+          page.languageVideo ? (
             <Reveal variant="image">
               <VideoPlayer
                 src={page.languageVideo.src}
@@ -119,31 +147,12 @@ export default async function AboutPage() {
                     ? "aspect-[9/16] sm:aspect-[3/4]"
                     : "aspect-video"
                 }
+                className="mx-auto max-w-[26rem] sm:max-w-[30rem]"
               />
             </Reveal>
-          </Container>
-        </Section>
-      ) : null}
-
-      {/*
-        Mariela at the board, mid-piece. It sits between the material and the
-        method because it is the evidence for both — and because the brief asks
-        that she be present without the page becoming a personal-brand shoot.
-      */}
-      <Section ground="paper" rhythm="none" className="pt-3xl">
-        <Container width="wide">
-          <Reveal variant="image">
-            <Figure
-              src="/estudio/mariela-trabajando.jpg"
-              alt="Mariela Crapuzzi trabajando de pie frente a un tablero, con un carboncillo en la mano enguantada, sobre el dibujo de un caballo al galope."
-              pendingLabel=""
-              aspect="aspect-[3/2]"
-              sizes="(min-width: 1024px) 90vw, 100vw"
-              caption="En el estudio, sobre «Toro Salvaje»."
-            />
-          </Reveal>
-        </Container>
-      </Section>
+          ) : null
+        }
+      />
 
       {/* How she works. The anchor the whole site links to. */}
       <VisionList

@@ -79,9 +79,22 @@ rewrite:
   is a build error — that is the one mistake that would publish a live API key
   in a public JavaScript file.
 
-Spam is handled by a honeypot field rather than a CAPTCHA. It costs the
-visitor nothing, which matters on a page meant to read as the beginning of a
-conversation.
+Spam is handled in two layers, neither of which shows anyone a puzzle.
+
+A honeypot field catches the cheap bots: invisible, off the tab order, filled
+by scripts and never by people. Behind it, reCAPTCHA v3 scores the visit
+silently — no grid of traffic lights, which matters on a page meant to read
+as the beginning of a conversation.
+
+**reCAPTCHA never blocks on failure.** A missing key, a blocked script, a
+slow response and a network error all let the enquiry through; only a
+confident rejection from Google stops it, and the threshold sits below
+Google's default. An enquiry that silently never arrives costs Mariela a
+commission she will never know about. A spam message costs one line in an
+inbox that already filters spam.
+
+The floating badge is hidden, so the notice Google requires appears in the
+form instead — the alternative Google itself documents.
 
 ### Setting it up
 

@@ -147,6 +147,62 @@ catálogo de producto.
   proporción correcta, hairline, y el título con la marca de pendiente. Se lee
   como una decisión, no como un error.
 
+## Llegadas
+
+Nada llega de golpe.
+
+- **Anclas de la misma página** — Lenis las recorre con la misma curva que
+  la rueda, con 96px de holgura para el encabezado fijo. `scroll-behavior`
+  del navegador queda en `auto` porque competiría por el mismo gesto.
+- **Anclas desde otra página** — el navegador salta al elemento antes de que
+  Lenis exista, así que la página arranca arriba y baja sola. Espera a las
+  tipografías: el destino todavía no está en su posición final.
+- **Cambio de página** — un fundido cruzado de 260/380 ms con la API de View
+  Transitions del navegador. El clic se intercepta *antes* de navegar: la
+  API captura el cuadro actual, ejecuta el cambio y cruza ambos. Hacerlo
+  después capturaría dos veces la misma página.
+
+El encabezado y el pie llevan `view-transition-name` propio y se quedan
+quietos. Un marco que se desvanece en cada navegación llama la atención
+sobre el mecanismo en lugar de sobre la obra.
+
+Todo esto se apaga con `prefers-reduced-motion`, y un navegador sin soporte
+navega como antes.
+
+## Navegación
+
+«Obra» despliega el catálogo al pasar el puntero. Dos señales, porque el
+panel contiene dos clases de enlace:
+
+- Un **chevron** junto a la etiqueta indica que abre algo, y rota al abrirse.
+  Sin él, un menú desplegable sólo se descubre por accidente.
+- Las tres obras con página propia encabezan la lista y llevan una **flecha
+  diagonal** al pasar el puntero: van a otra página. Las demás son anclas a su
+  ficha en la galería y no llevan marca.
+
+Los dos grupos se separan con una línea, no con un título: las flechas ya
+dicen cuál es cuál. La flecha espera al puntero para que la lista en reposo
+sea una columna de títulos y no una de títulos con símbolos.
+
+## Contraste (medido, no estimado)
+
+Los tonos sobre papel se midieron contra `#f4f4f2`. `fg-muted` estaba en
+3,8:1 y `fg-faint` en 2,3:1 — ambos por debajo de AA, y se notaba justamente
+en el formulario, donde son las etiquetas y los textos de ayuda. Ahora:
+
+| Token | Valor | Contraste | Cumple |
+| --- | --- | --- | --- |
+| `fg-strong` | `#111110` | 17,2:1 | AA texto |
+| `fg` | `#3d3d3b` | 9,9:1 | AA texto |
+| `fg-muted` | `#5e5e5a` | 5,9:1 | AA texto |
+| `fg-faint` | `#7c7c78` | 3,8:1 | AA grande / UI |
+| `rule` | `#ddddd8` | 1,2:1 | decorativo |
+| `field` | `#b4b4ad` | 1,7:1 | borde de campo |
+
+`rule` y `field` son deliberadamente distintos: una línea de 1px es ornamento
+y debe quedar callada, pero el borde de un campo es lo que indica dónde
+escribir. Un mismo tono para ambos deja el formulario invisible.
+
 ## Enlaces y acciones
 
 Sin esquinas redondeadas y sin relleno en reposo — el relleno aparece sólo

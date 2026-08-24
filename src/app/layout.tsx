@@ -3,6 +3,7 @@ import { Instrument_Sans, Newsreader } from "next/font/google";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { SmoothScroll } from "@/components/primitives/SmoothScroll";
+import { PageTransition } from "@/components/primitives/PageTransition";
 import { getSite, getWorks } from "@/lib/content";
 import { siteUrl } from "@/lib/site-url";
 import "./globals.css";
@@ -45,17 +46,25 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
   const [site, works] = await Promise.all([getSite(), getWorks()]);
 
   /*
-   * "Obra" drops the catalogue. A piece with its own editorial page goes
-   * there; everything else anchors to its card in the gallery, which is why
-   * WorkCard carries an id.
+   * "Obra" drops the catalogue. The three pieces with an editorial page lead
+   * the list and are marked as such; the rest anchor to their card in the
+   * gallery, which is why WorkCard carries an id.
+   *
+   * Ordering by destination rather than by catalogue order puts the pages
+   * worth visiting first, and keeps the two kinds of link from interleaving —
+   * a list that alternates between "goes somewhere" and "scrolls down" is
+   * harder to read than two groups.
    */
   const navChildren = {
-    "/obra": works.map((work) => ({
-      label: work.title,
-      href: work.hasEditorialPage
-        ? `/obra/${work.slug}`
-        : `/obra#${work.slug}`,
-    })),
+    "/obra": [...works]
+      .sort((a, b) => Number(b.hasEditorialPage) - Number(a.hasEditorialPage))
+      .map((work) => ({
+        label: work.title,
+        href: work.hasEditorialPage
+          ? `/obra/${work.slug}`
+          : `/obra#${work.slug}`,
+        editorial: work.hasEditorialPage,
+      })),
   };
 
   return (
@@ -66,6 +75,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body data-ground="paper" className="flex min-h-full flex-col">
         <SmoothScroll />
+        <PageTransition />
 
         <a
           href="#contenido"

@@ -21,20 +21,20 @@ export const home: HomeContent = {
     primaryAction: { label: "Explorar la obra", href: "/obra" },
     secondaryAction: { label: "Conocer mi proceso", href: "/sobre-mi#proceso" },
     /*
-     * PENDING. The portada is a dedicated 1920 x 750 photograph, not a
-     * catalogue piece: the hero needs a wide crop with room on the left for
-     * the sentence, and no existing work is shot that way. Until it is
-     * produced, CoverImage renders a declared plate at the right proportion.
-     * See docs/CONTENT_PENDING.md.
+     * The portada: the work framed on a wall, not a photograph of the sheet.
+     * The home opens on how a piece lives in a room, which is the question a
+     * visitor arrives with — the catalogue answers what each piece looks like.
      *
-     * When the file lands, drop it at /portada/inicio.jpg and fill this in:
-     *   cover: {
-     *     src: "/portada/inicio.jpg",
-     *     alt: "...",
-     *     focus: "60% 40%",
-     *   },
+     * Two files rather than one crop. The landscape frame leaves its left half
+     * clear for the sentence; on a phone that half disappears, so the portrait
+     * file is composed with the frame low and the wall open above it.
      */
-    cover: null,
+    cover: {
+      src: "/portada/inicio.jpg",
+      mobileSrc: "/portada/inicio-movil.jpg",
+      alt: "La obra Bajo su Protección enmarcada en negro sobre una pared clara, con un aparador bajo, unos libros y un ramo de olivo debajo.",
+      focus: "70% 50%",
+    },
   },
 
   /*
@@ -100,7 +100,6 @@ export const home: HomeContent = {
   },
 
   contact: {
-    eyebrow: "Iniciar una conversación",
     title: "Cuéntame la historia que te gustaría convertir en una *obra*.",
     paragraph:
       "Puede ser un recuerdo, una persona, un animal, un vínculo o una idea que todavía no encontró su imagen.",

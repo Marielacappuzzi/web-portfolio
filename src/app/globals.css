@@ -55,6 +55,9 @@
   --spacing-sm: 1rem;
   --spacing-md: 1.5rem;
   --spacing-lg: 2.5rem;
+  /* The jump from lg to xl is 1.5rem wide, which is a long way to leave
+     between a heading and the sentence under it. This fills it. */
+  --spacing-lg-plus: 3.25rem;
   --spacing-xl: 4rem;
   --spacing-2xl: 6rem;
   --spacing-3xl: clamp(5rem, 10vw, 9rem);
@@ -80,6 +83,7 @@
   --color-fg-muted: var(--ground-fg-muted);
   --color-fg-faint: var(--ground-fg-faint);
   --color-rule: var(--ground-rule);
+  --color-field: var(--ground-field);
 }
 
 /* ============================================================
@@ -92,18 +96,25 @@
     --ground-bg: #f4f4f2;
     --ground-fg-strong: #111110;
     --ground-fg: #3d3d3b;
-    --ground-fg-muted: #7c7c78;
-    --ground-fg-faint: #a3a39e;
+    /* Measured against the paper ground: muted reaches 5.9:1 and faint 3.8:1,
+       so labels pass AA for text and help lines pass for UI. The earlier pair
+       sat at 3.8 and 2.3, which failed outright on a form. */
+    --ground-fg-muted: #5e5e5a;
+    --ground-fg-faint: #7c7c78;
     --ground-rule: #ddddd8;
+    /* Form borders. A hairline rule is decoration and stays quiet; the edge of
+       an input is what tells you where to type, so it carries more weight. */
+    --ground-field: #b4b4ad;
   }
 
   [data-ground="paper-bright"] {
     --ground-bg: #fafaf9;
     --ground-fg-strong: #111110;
     --ground-fg: #3d3d3b;
-    --ground-fg-muted: #7c7c78;
-    --ground-fg-faint: #a3a39e;
+    --ground-fg-muted: #5e5e5a;
+    --ground-fg-faint: #7c7c78;
     --ground-rule: #e4e4df;
+    --ground-field: #b4b4ad;
   }
 
   /*
@@ -118,6 +129,7 @@
     --ground-fg-muted: rgba(255, 255, 255, 0.55);
     --ground-fg-faint: rgba(255, 255, 255, 0.38);
     --ground-rule: rgba(255, 255, 255, 0.18);
+    --ground-field: rgba(255, 255, 255, 0.34);
   }
 
   /* --- Base ------------------------------------------------ */
@@ -183,6 +195,73 @@
     html {
       scroll-behavior: smooth;
     }
+  }
+}
+
+/*
+ * reCAPTCHA v3 badge.
+ *
+ * Hidden deliberately. It is a fixed widget pinned to a corner of every page,
+ * and this site has no interface furniture anywhere else. Google allows this
+ * exactly as long as the notice appears in the form instead, which it does —
+ * see ContactForm.
+ */
+.grecaptcha-badge {
+  visibility: hidden;
+}
+
+/* ============================================================
+   VIEW TRANSITIONS
+
+   A crossfade between routes. Navigation used to replace the
+   whole screen at once, which reads as a hard cut on a site
+   whose manner is otherwise unhurried.
+
+   Only the main region moves. The header and footer are named
+   and pinned still: a chrome that fades on every navigation
+   draws attention to the mechanism instead of the work.
+   ============================================================ */
+
+::view-transition-old(root) {
+  animation: 260ms var(--ease-out-quart) both fade-out;
+}
+
+::view-transition-new(root) {
+  animation: 380ms var(--ease-out-quart) both fade-in;
+}
+
+@keyframes fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+/* The frame holds still while its contents change. */
+::view-transition-group(site-header),
+::view-transition-group(site-footer) {
+  animation: none;
+}
+
+::view-transition-old(site-header),
+::view-transition-old(site-footer) {
+  display: none;
+}
+
+/*
+ * A reader who asked for less motion gets none of this. The API
+ * has no opt-out of its own, so the animations are simply given
+ * no duration.
+ */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
   }
 }
 

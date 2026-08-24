@@ -1,5 +1,4 @@
 import { Container, Section } from "@/components/layout/Section";
-import { Pending } from "@/components/primitives/Pending";
 import { Reveal } from "@/components/primitives/Reveal";
 import { Display, Eyebrow } from "@/components/primitives/Type";
 
@@ -63,7 +62,11 @@ export function PendingTopics({
                 <span className="font-serif text-lg font-light leading-snug text-fg-strong">
                   {topic}
                 </span>
-                <Pending kind="data" />
+
+                {/* The count gives the outline a sequence to read down. */}
+                <span className="font-sans text-2xs tabular-nums tracking-label text-fg-faint">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
               </Reveal>
             ))}
           </ul>

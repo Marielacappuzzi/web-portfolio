@@ -37,7 +37,6 @@ export const about: AboutPage = {
 
   /* Copy.md §2 — the reasoning the home only hints at */
   statement: {
-    eyebrow: "Más allá de la imagen",
     titleLines: [
       "No busco reproducir lo que veo.",
       "Busco encontrar lo que esa imagen *puede decir*.",

@@ -42,9 +42,11 @@ export function ContactCallout({
     >
       <Container width="wide">
         <div className="flex flex-col items-center text-center">
-          <Reveal>
-            <Eyebrow>{content.eyebrow}</Eyebrow>
-          </Reveal>
+          {content.eyebrow ? (
+            <Reveal>
+              <Eyebrow>{content.eyebrow}</Eyebrow>
+            </Reveal>
+          ) : null}
 
           <Reveal delay={90} className="mt-lg">
             <Display id={headingId} measure={22} className="mx-auto">
@@ -60,7 +62,7 @@ export function ContactCallout({
 
           <Reveal
             delay={270}
-            className="mt-2xl flex flex-wrap items-baseline justify-center gap-x-xl gap-y-md"
+            className="mt-xl flex flex-wrap items-baseline justify-center gap-x-xl gap-y-md"
           >
             <ActionButton href={content.primaryAction.href}>
               {content.primaryAction.label}

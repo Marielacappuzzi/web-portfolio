@@ -161,7 +161,7 @@ export default async function WorkPage({ params }: PageProps<"/obra/[slug]">) {
           </Container>
 
           {/* Read sideways — see WorkGallery for why, and how it degrades. */}
-          <div className="mt-2xl">
+          <div className="mt-xl">
             <WorkGallery
               images={work.detailImages}
               label={"Detalles de " + work.title}
@@ -354,14 +354,14 @@ export default async function WorkPage({ params }: PageProps<"/obra/[slug]">) {
                   </ul>
                 </Reveal>
 
-                <Reveal delay={90} className="mt-2xl">
+                <Reveal delay={90} className="mt-xl">
                   <Eyebrow as="h3">{work.printEdition.details.label}</Eyebrow>
                   <p className="mt-md max-w-[62ch] font-sans text-sm leading-relaxed text-pretty text-fg">
                     {work.printEdition.details.body}
                   </p>
                 </Reveal>
 
-                <Reveal delay={180} className="mt-2xl">
+                <Reveal delay={180} className="mt-xl">
                   <Eyebrow as="h3">{work.printEdition.delivery.label}</Eyebrow>
                   <div className="mt-md flex flex-col gap-sm">
                     {work.printEdition.delivery.lines.map((line) => (
