@@ -44,17 +44,17 @@ export function SiteFooter({ site }: { site: SiteContent }) {
         <div className="grid grid-cols-1 gap-2xl sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1.2fr] lg:gap-xl">
           <div className="max-w-narrow">
             {/*
-              The full lockup, at the size it was drawn for. Its background is
-              the same #303030 as the chamber ground, so it sits flush with no
+              The lockup, at the size it was drawn for. Its background is the
+              same #303030 as the chamber ground, so it sits flush with no
               visible edge — which is why the ground colour was matched to the
               logo rather than the other way round.
             */}
             <Image
-              src="/marca/lockup-claro.png"
+              src="/marca/logo-footer.png"
               alt={site.name}
-              width={500}
-              height={315}
-              className="h-auto w-[12rem] sm:w-[13rem]"
+              width={169}
+              height={104}
+              className="h-auto w-[10.5rem] sm:w-[11.5rem]"
             />
             <p className="mt-sm max-w-[34ch] font-sans text-sm leading-relaxed text-fg-muted">
               {site.role}
