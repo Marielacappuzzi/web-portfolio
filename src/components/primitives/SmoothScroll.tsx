@@ -74,7 +74,8 @@ export function SmoothScroll() {
     */
     const onAnchorClick = (event: MouseEvent) => {
       // Let the browser handle modified clicks: new tab, new window, download.
-      if (event.defaultPrevented) return;
+      // No `defaultPrevented` check: same-page anchors are `next/link` too,
+      // and Link prevents the default before this could see it.
       if (event.button !== 0) return;
       if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
 
@@ -94,13 +95,15 @@ export function SmoothScroll() {
       if (!(target instanceof HTMLElement)) return;
 
       event.preventDefault();
+      event.stopPropagation();
       lenis.scrollTo(target, { offset: -96 });
 
       // Keep the address bar honest without letting it jump the page.
       window.history.pushState(null, "", url.hash);
     };
 
-    document.addEventListener("click", onAnchorClick);
+    // Capture phase, ahead of React and of Link.
+    document.addEventListener("click", onAnchorClick, true);
 
     /*
       Arriving with a hash already in the URL — the catalogue in the menu
@@ -139,7 +142,7 @@ export function SmoothScroll() {
 
     return () => {
       setLenis(null);
-      document.removeEventListener("click", onAnchorClick);
+      document.removeEventListener("click", onAnchorClick, true);
       window.removeEventListener("load", refresh);
       gsap.ticker.remove(raf);
       lenis.destroy();
