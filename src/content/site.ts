@@ -37,7 +37,7 @@ export const site: SiteContent = {
 
   legalNav: [
     { label: "Política de privacidad", href: "/privacidad" },
-    { label: "Aviso legal", href: "/aviso-legal" },
+    { label: "Términos y condiciones", href: "/terminos" },
   ],
 
   copyright: "© 2026 Mariela Crapuzzi. Todos los derechos reservados.",

@@ -77,6 +77,63 @@ export function ArrowUpRightIcon(props: IconProps) {
   );
 }
 
+/* --- Player controls ------------------------------------------------------
+ * Drawn on the same 24px grid and the same 1px stroke as the rest, so the
+ * control row reads as a line of marks rather than as a media widget. Play is
+ * the one filled shape on the site: a triangle in outline at this weight
+ * disappears at small sizes, and it is the single affordance a viewer must
+ * never have to hunt for.
+ * ------------------------------------------------------------------------ */
+
+export function PlayIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props} fill="currentColor" stroke="none">
+      <path d="M8 5.5v13l11-6.5z" />
+    </svg>
+  );
+}
+
+export function PauseIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props} fill="currentColor" stroke="none">
+      <rect x="7" y="5.5" width="3.2" height="13" />
+      <rect x="13.8" y="5.5" width="3.2" height="13" />
+    </svg>
+  );
+}
+
+export function SoundOnIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M4 9.5h3.5L12 6v12l-4.5-3.5H4z" />
+      <path d="M15.5 9.5a3.5 3.5 0 0 1 0 5" />
+      <path d="M18 7a7 7 0 0 1 0 10" />
+    </svg>
+  );
+}
+
+export function SoundOffIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M4 9.5h3.5L12 6v12l-4.5-3.5H4z" />
+      <path d="m16 9.5 4.5 5M20.5 9.5l-4.5 5" />
+    </svg>
+  );
+}
+
+export function FullscreenIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" />
+    </svg>
+  );
+}
+
+/* --- Direction ------------------------------------------------------------
+ * Marks that say where a link goes. Same grid and stroke as everything else,
+ * so an arrow reads as one more drawn line rather than as an interface glyph.
+ * ------------------------------------------------------------------------ */
+
 /** Points the way a secondary action leads. Nudged on hover by the caller. */
 export function ArrowRightIcon(props: IconProps) {
   return (
@@ -97,7 +154,7 @@ export function ArrowUpIcon(props: IconProps) {
   );
 }
 
-/** A drawn tick for a checked box. */
+/** A drawn tick for a checked box. Heavier, so it holds at 14px. */
 export function CheckIcon(props: IconProps) {
   return (
     <svg {...base} width={14} height={14} strokeWidth={2} {...props}>

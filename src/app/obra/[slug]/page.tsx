@@ -10,11 +10,12 @@ import { Figure } from "@/components/primitives/Figure";
 import { Pending } from "@/components/primitives/Pending";
 import { Reveal } from "@/components/primitives/Reveal";
 import { ScrollReveal } from "@/components/primitives/ScrollReveal";
-import { SilentVideo } from "@/components/primitives/SilentVideo";
+import { VideoPlayer } from "@/components/primitives/VideoPlayer";
 import { Rule } from "@/components/primitives/Rule";
 import { Display, Eyebrow, Prose } from "@/components/primitives/Type";
 import { WorkSpecs } from "@/components/work/WorkMeta";
 import { getEditorialWorks, getNextWork, getWork } from "@/lib/content";
+import { cn } from "@/lib/cn";
 
 export async function generateStaticParams() {
   const works = await getEditorialWorks();
@@ -205,7 +206,8 @@ export default async function WorkPage({ params }: PageProps<"/obra/[slug]">) {
         </Section>
       ) : null}
 
-      {work.processVideo || (work.processImages && work.processImages.length > 0) ? (
+      {(work.processVideos?.length ?? 0) > 0 ||
+      (work.processImages && work.processImages.length > 0) ? (
         <Section ground="paper" rhythm="act" aria-labelledby="proceso-obra-titulo">
           <Container width="wide">
             <div className="grid gap-2xl lg:grid-cols-12 lg:gap-x-[4vw]">
@@ -218,22 +220,33 @@ export default async function WorkPage({ params }: PageProps<"/obra/[slug]">) {
               </div>
 
               <div className="lg:col-span-8 lg:col-start-5">
-                {work.processVideo ? (
-                  <Reveal variant="image" className="mb-2xl block">
-                    <SilentVideo
-                      youtubeId={work.processVideo.youtubeId}
-                      src={work.processVideo.src}
-                      poster={work.processVideo.poster}
-                      label={work.processVideo.label}
-                      caption={work.processVideo.caption}
-                      aspect={
-                        work.processVideo.portrait
-                          ? "aspect-[9/16] sm:aspect-[3/4]"
-                          : "aspect-video"
-                      }
-                      className="mx-auto max-w-[26rem] sm:max-w-[32rem]"
-                    />
-                  </Reveal>
+                {work.processVideos && work.processVideos.length > 0 ? (
+                  <ul
+                    className={cn(
+                      "mb-2xl grid gap-lg",
+                      work.processVideos.length > 1
+                        ? "sm:grid-cols-2 sm:gap-x-[3vw]"
+                        : "mx-auto max-w-[30rem]",
+                    )}
+                  >
+                    {work.processVideos.map((clip, i) => (
+                      <li key={clip.src}>
+                        <Reveal variant="image" delay={i * 120}>
+                          <VideoPlayer
+                            src={clip.src}
+                            poster={clip.poster}
+                            label={clip.label}
+                            caption={clip.caption}
+                            aspect={
+                              clip.portrait
+                                ? "aspect-[9/16] sm:aspect-[3/4]"
+                                : "aspect-video"
+                            }
+                          />
+                        </Reveal>
+                      </li>
+                    ))}
+                  </ul>
                 ) : null}
 
                 <div className="grid grid-cols-1 gap-lg sm:grid-cols-3 sm:gap-x-[2vw]">

@@ -65,7 +65,8 @@ export const about: AboutPage = {
 
   /* The material itself, as evidence for the section above it. */
   languageVideo: {
-    youtubeId: "1IVD_FhWfUE",
+    src: "/video/carboncillo.mp4",
+    poster: "/video/carboncillo.jpg",
     label: "Primer plano del carboncillo y el lápiz sobre el papel.",
     portrait: true,
     caption: "El carboncillo y el lápiz.",

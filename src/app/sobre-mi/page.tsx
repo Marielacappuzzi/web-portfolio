@@ -6,7 +6,7 @@ import { Container, Section } from "@/components/layout/Section";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { Figure } from "@/components/primitives/Figure";
 import { Reveal } from "@/components/primitives/Reveal";
-import { SilentVideo } from "@/components/primitives/SilentVideo";
+import { VideoPlayer } from "@/components/primitives/VideoPlayer";
 import { Rule } from "@/components/primitives/Rule";
 import { Display, Eyebrow, Prose, PullQuote } from "@/components/primitives/Type";
 import { getAboutPage, getHome } from "@/lib/content";
@@ -137,8 +137,7 @@ export default async function AboutPage() {
         aside={
           page.languageVideo ? (
             <Reveal variant="image">
-              <SilentVideo
-                youtubeId={page.languageVideo.youtubeId}
+              <VideoPlayer
                 src={page.languageVideo.src}
                 poster={page.languageVideo.poster}
                 label={page.languageVideo.label}
@@ -148,7 +147,7 @@ export default async function AboutPage() {
                     ? "aspect-[9/16] sm:aspect-[3/4]"
                     : "aspect-video"
                 }
-                className="max-w-[26rem] sm:max-w-[30rem]"
+                className="mx-auto max-w-[26rem] sm:max-w-[30rem]"
               />
             </Reveal>
           ) : null

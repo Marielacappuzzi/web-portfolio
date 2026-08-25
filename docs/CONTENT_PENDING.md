@@ -113,3 +113,33 @@ firmado por ella.
 | C | **Fotografía definitiva de Jesús, la oveja y el lobo.** La obra sigue sin terminar. | `works.ts` → `image` | **B** |
 | D | **Destino del formulario:** `RESEND_API_KEY`, `CONTACT_FROM`, `CONTACT_TO`. | Variables de entorno | **B** |
 | E | **Recorte de seis fotografías** con pared, cinta o márgenes de papel a la vista. | `public/obra/` | **A** |
+
+
+---
+
+## Revisión del 2026-08-24
+
+**Resuelto.** El cliente entregó el contenido de `/encargos` («Detalles del
+encargo»: fotografías, formatos, tiempos, reserva, pago, entrega y envíos), la
+Política de privacidad y los Términos y condiciones. Las tres páginas están
+completas y ya no queda ningún marcador de pendiente en ellas, salvo el correo.
+
+`/aviso-legal` pasó a **`/terminos`**, con redirección permanente desde la ruta
+vieja. El footer enlaza a las dos.
+
+**Preguntas frecuentes.** De las catorce preguntas entregadas se publican
+**cuatro**. Las otras diez —fotografías, formatos, tiempos, reserva, pago,
+envíos, embalaje, enmarcado y tipos de encargo— ya estaban respondidas palabra
+por palabra en «Detalles del encargo», una pantalla más arriba. Sobreviven las
+que agregan algo: cómo se encarga una obra, y las tres tranquilidades que una
+persona necesita antes de escribir —que la imagen no tiene que estar decidida,
+que se pueden combinar referencias, y que una fotografía antigua o pobre no
+descarta nada.
+
+**Abierto.**
+
+| # | Qué falta | Dónde | Impacto |
+| --- | --- | --- | --- |
+| A | **Correo de contacto.** Es lo único que falta en las páginas legales: aparece cuatro veces en Privacidad y dos en Términos como marcador declarado, nunca como dirección inventada. También lo esperan el footer y `/contacto`. | `src/content/site.ts` → `email` | **B** |
+| C | Fotografía definitiva de *Jesús, la oveja y el lobo*. | `works.ts` → `image` | **B** |
+| D | Destino del formulario: `RESEND_API_KEY`, `CONTACT_FROM`, `CONTACT_TO`. | Entorno | **B** |

@@ -2,7 +2,7 @@ import { home } from "@/content/home";
 import { about } from "@/content/pages/about";
 import { commissions } from "@/content/pages/commissions";
 import { contact } from "@/content/pages/contact";
-import { legalNotice, privacy } from "@/content/pages/legal";
+import { privacy, terms } from "@/content/pages/legal";
 import { workIndex } from "@/content/pages/work-index";
 import { site } from "@/content/site";
 import { works } from "@/content/works";
@@ -59,8 +59,8 @@ export async function getPrivacyPage(): Promise<LegalPage> {
   return privacy;
 }
 
-export async function getLegalNoticePage(): Promise<LegalPage> {
-  return legalNotice;
+export async function getTermsPage(): Promise<LegalPage> {
+  return terms;
 }
 
 /* ---------------------------------------------------------------- works --- */
@@ -101,7 +101,9 @@ export async function getCommissionVideos(): Promise<Work[]> {
   return works
     .filter(
       (work) =>
-        work.kind === "commission" && work.processVideo && !work.hasEditorialPage,
+        work.kind === "commission" &&
+        (work.processVideos?.length ?? 0) > 0 &&
+        !work.hasEditorialPage,
     )
     .sort(byOrder);
 }

@@ -29,16 +29,18 @@ export interface WorkImage {
 }
 
 /**
- * A silent process clip. `youtubeId` is a stopgap: a local MP4 loops without
- * player chrome, cookies or a third-party request, and is lighter once the
- * file is trimmed and compressed. See docs/CONTENT_PENDING.md.
+ * A piece of process footage, served from /public.
+ *
+ * Local files, not an embed: the player is ours, so there is no third-party
+ * chrome over the work, no cookies and no request to Google. The originals ran
+ * to 180 MB between them and were re-encoded to under 10 MB, which is what
+ * made keeping them in the repository possible at all.
  */
 export interface VideoSource {
-  youtubeId?: string;
-  src?: string;
+  src: string;
   poster?: string;
   label: string;
-  /** True for 9:16 clips, which are framed portrait rather than cropped. */
+  /** True for 9:16 clips, framed portrait rather than cropped. */
   portrait?: boolean;
   caption?: string;
 }
@@ -79,7 +81,7 @@ export interface Work {
    */
   framedImages?: WorkImage[];
   /** Shown in "El proceso" on the editorial page. */
-  processVideo?: VideoSource;
+  processVideos?: VideoSource[];
 
   /** One or two sentences. Used in the gallery and the editorial page opening. */
   shortStory?: string;
@@ -316,13 +318,37 @@ export interface CommissionsPage {
   paragraphs: string[];
   kinds: { label: string; items: string[] };
   process: ProcessBlock;
-  /** Formats, timings, deposit, shipping, FAQ — no approved copy exists yet. */
+  /** Formats, timings, deposit, shipping — the practical detail. */
   practical: {
     eyebrow: string;
     title: string;
-    topics: string[];
+    sections: DetailSection[];
+  };
+  faq: {
+    eyebrow: string;
+    title: string;
+    items: FaqItem[];
   };
   closing: HomeContactContent;
+}
+
+/** A titled block of prose. Bullets only where a list is genuinely a list. */
+export interface DetailSection {
+  title: string;
+  body: string[];
+  bullets?: string[];
+}
+
+/**
+ * One question and its answer.
+ *
+ * The FAQ exists to extend "Detalles del encargo", never to restate it. A
+ * question already answered in full a screen above earns nothing by being
+ * asked again.
+ */
+export interface FaqItem {
+  question: string;
+  answer: string[];
 }
 
 /* ----------------------------------------------------------- /contacto --- */
@@ -353,6 +379,13 @@ export interface ContactPage {
 
 export interface LegalPage {
   heading: SectionHeading;
-  /** Sections that require real ownership data before they can be written. */
-  topics: string[];
+  /** Shown under the title, e.g. "Última actualización: 2026". */
+  updated: string;
+  intro: string[];
+  sections: DetailSection[];
+  /**
+   * True where the section needs the contact address that does not exist yet.
+   * The page renders a declared marker there instead of an invented mailbox.
+   */
+  contactSectionIndexes?: number[];
 }

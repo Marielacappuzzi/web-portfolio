@@ -149,8 +149,8 @@ Las diez rutas están construidas y el build las prerenderiza estáticamente.
 | `/sobre-mi` | Sobre Mariela, con la sección `#proceso` |
 | `/encargos` | Encargos |
 | `/contacto` | Formulario |
-| `/privacidad` | Política de privacidad — pendiente de redacción |
-| `/aviso-legal` | Aviso legal — pendiente de redacción |
+| `/privacidad` | Política de privacidad |
+| `/terminos` | Términos y condiciones (antes `/aviso-legal`, que redirige) |
 
 Más `sitemap.xml`, `robots.txt` y una página 404.
 
