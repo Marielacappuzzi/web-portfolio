@@ -70,6 +70,13 @@ export interface Work {
   image: WorkImage | null;
   /** Fallback only. When `image` exists its intrinsic ratio wins. */
   ratio?: Ratio;
+  /**
+   * Where the crop holds on the editorial cover, e.g. "50% 30%". Every work
+   * is a portrait photograph in a landscape band, so something is always cut;
+   * this decides what survives. Default keeps the upper third, which is where
+   * the gaze sits in most of them — and the gaze is the point.
+   */
+  coverFocus?: string;
   detailImages?: WorkImage[];
   processImages?: WorkImage[];
   /**

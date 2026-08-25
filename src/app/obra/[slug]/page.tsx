@@ -72,8 +72,16 @@ export default async function WorkPage({ params }: PageProps<"/obra/[slug]">) {
         <CoverImage
           src={work.image?.src ?? null}
           alt={work.image?.alt ?? work.title}
-          focus="50% 28%"
-          aspect="aspect-[3/4] sm:aspect-[4/3] lg:aspect-[16/9]"
+          focus={work.coverFocus ?? "50% 28%"}
+          /*
+            A fixed height rather than a ratio. Every cover here is a portrait
+            photograph of a portrait-format drawing — around 0.6 — and a 16/9
+            frame threw away two thirds of it to fill the width. Capping the
+            band at 750px keeps the opening in proportion to the page and lets
+            `focus` choose which part of the work is shown, instead of the
+            frame deciding by force of shape.
+          */
+          aspect="h-[60vh] min-h-[26rem] sm:h-[70vh] lg:h-[750px]"
           zoomOnScroll
           pendingLabel={work.title}
         />

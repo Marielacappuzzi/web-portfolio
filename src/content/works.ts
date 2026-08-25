@@ -19,6 +19,8 @@ import type { Work } from "./types";
 export const works: Work[] = [
   {
     slug: "bajo-su-proteccion",
+    /* Las dos miradas, alineadas una sobre otra, a un tercio de la altura. */
+    coverFocus: "50% 30%",
     title: "Bajo su Protección",
     year: 2026,
     technique: "Carboncillo sobre papel 100% algodón, 270 g/m²",
@@ -359,6 +361,8 @@ export const works: Work[] = [
 
   {
     slug: "sueno-de-primavera",
+    /* El rostro de la figura central y los querubines que la rodean. */
+    coverFocus: "50% 26%",
     title: "Sueño de Primavera",
     attribution: "after William-Adolphe Bouguereau, Rêve de printemps (1901)",
     year: 2022,
@@ -441,6 +445,8 @@ export const works: Work[] = [
    */
   {
     slug: "jesus-la-oveja-y-el-lobo",
+    /* Las fauces del lobo, que es lo que la obra pone primero. */
+    coverFocus: "50% 22%",
     title: "Jesús, la oveja y el lobo",
     kind: "personal",
     /*
