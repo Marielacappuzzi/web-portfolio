@@ -102,7 +102,7 @@ export function ArtworkFrame({
         className={cn(
           "object-cover",
           zoomOnHover &&
-            "transition-transform duration-900 ease-out-quart group-hover:scale-[1.06] motion-reduce:transition-none motion-reduce:group-hover:scale-100",
+            "transition-transform duration-1000 ease-out-quart group-hover:scale-[1.025] motion-reduce:transition-none motion-reduce:group-hover:scale-100",
         )}
         style={focus ? { objectPosition: focus } : undefined}
       />

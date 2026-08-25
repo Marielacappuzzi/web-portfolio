@@ -36,14 +36,14 @@ export const site: SiteContent = {
   instagramUrl: "https://www.instagram.com/marielacrapuzzi_art",
 
   nav: [
-    { label: "Obra", href: "/obra" },
+    { label: "Obras", href: "/obra" },
     { label: "Sobre mí", href: "/sobre-mi" },
     { label: "Encargos", href: "/encargos" },
     { label: "Contacto", href: "/contacto" },
   ],
 
   footerNav: [
-    { label: "Obra", href: "/obra" },
+    { label: "Obras", href: "/obra" },
     { label: "Sobre mí", href: "/sobre-mi" },
     { label: "Encargos", href: "/encargos" },
     { label: "Contacto", href: "/contacto" },

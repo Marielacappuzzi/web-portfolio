@@ -44,7 +44,7 @@ export function FeaturedWorks({ content, works }: FeaturedWorksProps) {
             as="h2"
             id="destacadas-titulo"
             size="section"
-            className="text-center italic"
+            className="text-center"
           >
             {content.eyebrow}
           </Display>

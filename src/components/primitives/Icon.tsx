@@ -134,12 +134,15 @@ export function FullscreenIcon(props: IconProps) {
  * so an arrow reads as one more drawn line rather than as an interface glyph.
  * ------------------------------------------------------------------------ */
 
-/** Points the way a secondary action leads. Nudged on hover by the caller. */
+/**
+ * A chevron, not an arrow. The shaft made it read as a button glyph next to
+ * type this quiet; the bare turn of a line says the same thing and stays a
+ * drawn mark like every other rule on the site.
+ */
 export function ArrowRightIcon(props: IconProps) {
   return (
-    <svg {...base} width={14} height={14} {...props}>
-      <path d="M4 12h15" />
-      <path d="m13 6 6 6-6 6" />
+    <svg {...base} width={12} height={12} {...props}>
+      <path d="m9 6 6 6-6 6" />
     </svg>
   );
 }

@@ -66,12 +66,42 @@ export function PageTransition() {
       document.startViewTransition(() => {
         router.push(url.pathname + url.search + url.hash);
 
-        // Resolve on the next frame so the browser has something new to cross
-        // to. Waiting for the route to finish would hold the fade open for as
-        // long as the page took, which is the opposite of unhurried.
-        return new Promise<void>((resolve) =>
-          requestAnimationFrame(() => resolve()),
-        );
+        /*
+          Resolve when the DOM has actually changed, not on the next frame.
+
+          `router.push` only schedules the navigation — it returns void, and
+          Next has not rendered the new route by the time the next frame
+          runs. Resolving there left the browser holding the captured frame,
+          waiting for a mutation that had not happened yet, until it gave up:
+          `TimeoutError: Transition was aborted because of timeout in DOM
+          update`, on every navigation, and a page that felt stalled.
+
+          A MutationObserver on <main> resolves on the first real change. The
+          timeout is a floor, not the mechanism: if a route is genuinely slow
+          the fade ends and the page arrives when it arrives, rather than the
+          reader watching a frozen frame.
+        */
+        return new Promise<void>((resolve) => {
+          const main = document.querySelector("main");
+          if (!main) {
+            resolve();
+            return;
+          }
+
+          let settled = false;
+          const finish = () => {
+            if (settled) return;
+            settled = true;
+            observer.disconnect();
+            clearTimeout(timer);
+            resolve();
+          };
+
+          const observer = new MutationObserver(finish);
+          observer.observe(main, { childList: true, subtree: true });
+
+          const timer = setTimeout(finish, 400);
+        });
       });
     };
 

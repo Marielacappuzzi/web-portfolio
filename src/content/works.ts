@@ -436,7 +436,18 @@ export const works: Work[] = [
     slug: "jesus-la-oveja-y-el-lobo",
     title: "Jesús, la oveja y el lobo",
     kind: "personal",
-    image: null,
+    /*
+     * The piece is unfinished, so this is the work in progress rather than a
+     * finished plate: the wolf resolved, the sheet still on the board, her
+     * hand in the frame. Better than a declared placeholder, and honest about
+     * what it is — the caption says so wherever it appears.
+     */
+    image: {
+      src: "/obra/jesus-oveja-lobo/jesus-en-proceso.jpg",
+      alt: "La obra en proceso: el lobo a carboncillo con las fauces abiertas, y la mano de Mariela trabajando sobre él con un difumino.",
+      width: 900,
+      height: 1600,
+    },
     ratio: "portrait",
     processVideos: [
       {

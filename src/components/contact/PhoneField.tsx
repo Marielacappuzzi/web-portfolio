@@ -53,6 +53,14 @@ export function PhoneField({
         code,
         name: names[code] ?? code,
         prefix: `+${getCountryCallingCode(code)}`,
+        /*
+          The flag is the two letters of the country code shifted into the
+          regional-indicator block, which every platform renders as its flag.
+          No image, no icon font, no extra request.
+        */
+        flag: String.fromCodePoint(
+          ...[...code].map((ch) => 0x1f1e6 + ch.charCodeAt(0) - 65),
+        ),
       }))
       .sort((a, b) => a.name.localeCompare(b.name, "es"));
   }, []);
@@ -70,11 +78,21 @@ export function PhoneField({
         value={country}
         disabled={disabled}
         onChange={(event) => setCountry(event.target.value)}
-        className={cn(className, "w-[7.5rem] shrink-0 pr-2")}
+        /*
+          `className` opens with `w-full`, and appending a width does not beat
+          it — Tailwind emits both and the later rule in the sheet wins, not
+          the later class in the attribute. The select stretched to the full
+          row and left the number input with nothing, which is why the field
+          could not be typed into. Replacing the token is the fix.
+        */
+        className={cn(
+          className.replace("w-full", ""),
+          "w-[8.5rem] shrink-0 pr-2",
+        )}
       >
         {countries.map((item) => (
           <option key={item.code} value={item.code}>
-            {item.prefix} · {item.code}
+            {item.flag} {item.prefix}
           </option>
         ))}
       </select>

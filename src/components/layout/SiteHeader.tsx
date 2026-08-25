@@ -109,7 +109,7 @@ export function SiteHeader({
               browser to fetch the other file — the gap before it arrived is
               the flicker where the logo appeared alone, ahead of the panel.
             */}
-            <span className="relative block h-10 w-[7.5rem] md:h-12 md:w-[9rem]">
+            <span className="relative block h-10 w-[5.75rem] md:h-12 md:w-[6.9rem]">
               <Image
                 src="/marca/mc-monograma.png"
                 alt={name}

@@ -8,6 +8,7 @@ import { Pending } from "@/components/primitives/Pending";
 import { PhoneField } from "./PhoneField";
 import type { ContactPage, FormField } from "@/content/types";
 import { getRecaptchaToken, loadRecaptcha } from "@/lib/recaptcha-client";
+import { CheckIcon } from "@/components/primitives/Icon";
 import { cn } from "@/lib/cn";
 
 /*
@@ -156,25 +157,42 @@ export function ContactForm({ page }: { page: ContactPage }) {
         would make the tick meaningless.
       */}
       <div className="flex items-start gap-sm">
-        <input
-          id="campo-privacidad"
-          name="privacidad"
-          type="checkbox"
-          checked={consent}
-          onChange={(event) => {
-            setConsent(event.target.checked);
-            if (event.target.checked && status === "consent") setStatus("idle");
-          }}
-          disabled={busy}
-          aria-invalid={status === "consent" || undefined}
-          className={cn(
-            "mt-1 h-4 w-4 shrink-0 cursor-pointer appearance-none border border-rule bg-bg",
-            "transition-colors duration-200 hover:border-fg-muted",
-            "checked:border-fg-strong checked:bg-fg-strong",
-            "focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-current",
-            "aria-[invalid=true]:border-fg-strong",
-          )}
-        />
+        {/*
+          The tick sits over the box rather than inside it: a styled checkbox
+          has no glyph of its own, so checked only filled the square. The mark
+          is what says yes — a fill alone reads as a state, not an answer.
+        */}
+        <span className="relative mt-1 block h-4 w-4 shrink-0">
+          <input
+            id="campo-privacidad"
+            name="privacidad"
+            type="checkbox"
+            checked={consent}
+            onChange={(event) => {
+              setConsent(event.target.checked);
+              if (event.target.checked && status === "consent") setStatus("idle");
+            }}
+            disabled={busy}
+            aria-invalid={status === "consent" || undefined}
+            className={cn(
+              "absolute inset-0 h-full w-full cursor-pointer appearance-none border border-rule bg-bg",
+              "transition-colors duration-200 hover:border-fg-muted",
+              "checked:border-fg-strong checked:bg-fg-strong",
+              "focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-current",
+              "aria-[invalid=true]:border-fg-strong",
+            )}
+          />
+          <CheckIcon
+            aria-hidden="true"
+            width={12}
+            height={12}
+            className={cn(
+              "pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2",
+              "text-bg transition-opacity duration-200",
+              consent ? "opacity-100" : "opacity-0",
+            )}
+          />
+        </span>
         <label
           htmlFor="campo-privacidad"
           className="max-w-[62ch] cursor-pointer font-sans text-sm leading-relaxed text-fg"
