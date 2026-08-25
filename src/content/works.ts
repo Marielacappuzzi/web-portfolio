@@ -31,29 +31,12 @@ export const works: Work[] = [
       width: 1315,
       height: 1920,
     },
-    detailImages: [
-      {
-        src: "/obra/bajo-su-proteccion/extra-01.jpg",
-        alt: "Encuadre cerrado de la obra sobre la mirada de la leona y la de su cría, alineadas una sobre la otra.",
-        width: 1080,
-        height: 1920,
-        caption: "La mirada, punto de partida de la obra.",
-      },
-      {
-        src: "/obra/bajo-su-proteccion/extra-07.jpg",
-        alt: "La obra completa vista de frente: la leona emerge de la penumbra y la cría se apoya contra su pecho, entre la hierba alta.",
-        width: 1080,
-        height: 1920,
-        caption: "La composición completa.",
-      },
-      {
-        src: "/obra/bajo-su-proteccion/extra-02.jpg",
-        alt: "La obra fotografiada de cerca, donde se distingue el grano del carboncillo en el pelaje y en la hierba.",
-        width: 1080,
-        height: 1920,
-        caption: "El grano del carboncillo sobre el papel.",
-      },
-    ],
+    /*
+     * No detail crops. The three that were here were closer framings of the
+     * same composition the cover already shows at full width — the reader had
+     * just scrolled past it. What this piece has that the others do not is the
+     * process: the drawing half-finished, the studio, the signed certificate.
+     */
     framedImages: [
       {
         src: "/obra/bajo-su-proteccion/extra-04.jpg",

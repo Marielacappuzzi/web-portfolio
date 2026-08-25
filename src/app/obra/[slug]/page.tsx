@@ -12,6 +12,7 @@ import { Reveal } from "@/components/primitives/Reveal";
 import { ScrollReveal } from "@/components/primitives/ScrollReveal";
 import { VideoPlayer } from "@/components/primitives/VideoPlayer";
 import { Rule } from "@/components/primitives/Rule";
+import { ArrowRightIcon } from "@/components/primitives/Icon";
 import { Display, Eyebrow, Prose } from "@/components/primitives/Type";
 import { WorkSpecs } from "@/components/work/WorkMeta";
 import { getEditorialWorks, getNextWork, getWork } from "@/lib/content";
@@ -221,60 +222,64 @@ export default async function WorkPage({ params }: PageProps<"/obra/[slug]">) {
               </div>
 
               <div className="lg:col-span-8 lg:col-start-5">
-                {work.processVideos && work.processVideos.length > 0 ? (
-                  <ul
-                    className={cn(
-                      "mb-2xl grid gap-lg",
-                      work.processVideos.length > 1
-                        ? "sm:grid-cols-2 sm:gap-x-[3vw]"
-                        : "mx-auto max-w-[30rem]",
-                    )}
-                  >
-                    {work.processVideos.map((clip, i) => (
-                      <li key={clip.src}>
-                        <Reveal variant="image" delay={i * 120}>
-                          <VideoPlayer
-                            src={clip.src}
-                            poster={clip.poster}
-                            label={clip.label}
-                            caption={clip.caption}
-                            aspect={
-                              clip.portrait
-                                ? "aspect-[9/16] sm:aspect-[3/4]"
-                                : "aspect-video"
-                            }
-                          />
-                        </Reveal>
-                      </li>
-                    ))}
-                  </ul>
-                ) : null}
-
-                <div className="grid grid-cols-1 gap-lg sm:grid-cols-3 sm:gap-x-[2vw]">
-                  {(work.processImages ?? []).map((image, i) => (
-                    <Reveal key={image.src} variant="image" delay={i * 90}>
-                      <Figure
-                        src={image.src}
-                        alt={image.alt}
-                        caption={image.caption}
-                        pendingLabel=""
-                        aspect="aspect-square"
-                        sizes="(min-width: 640px) 28vw, 100vw"
-                      />
-                    </Reveal>
+                {/*
+                  One grid for both, not two. The clips sat in their own row
+                  and the photographs in another at a different proportion,
+                  which read as two unrelated blocks stacked. A single run at
+                  one shape makes it a record of the work, and it absorbs the
+                  photographs still to come without needing a new rule.
+                */}
+                <ul className="grid grid-cols-1 gap-lg sm:grid-cols-2 sm:gap-x-[3vw] lg:grid-cols-3">
+                  {(work.processVideos ?? []).map((clip, i) => (
+                    <li key={clip.src}>
+                      <Reveal variant="image" delay={i * 90}>
+                        <VideoPlayer
+                          src={clip.src}
+                          poster={clip.poster}
+                          label={clip.label}
+                          caption={clip.caption}
+                          aspect="aspect-[3/4]"
+                        />
+                      </Reveal>
+                    </li>
                   ))}
-                </div>
+
+                  {(work.processImages ?? []).map((image, i) => (
+                    <li key={image.src}>
+                      <Reveal
+                        variant="image"
+                        delay={((work.processVideos?.length ?? 0) + i) * 90}
+                      >
+                        <Figure
+                          src={image.src}
+                          alt={image.alt}
+                          caption={image.caption}
+                          pendingLabel=""
+                          aspect="aspect-[3/4]"
+                          sizes="(min-width: 1024px) 26vw, (min-width: 640px) 42vw, 100vw"
+                        />
+                      </Reveal>
+                    </li>
+                  ))}
+                </ul>
               </div>
             </div>
           </Container>
         </Section>
       ) : null}
 
-      {/* Technical sheet — last, and quiet. */}
-      <Section ground="paper" rhythm="beat" aria-labelledby="ficha-titulo">
+      {/*
+        Technical sheet — last, and quiet, but not adrift. It used to sit on
+        the same ground as the section above with only a rule between them,
+        which read as an appendix someone forgot to place. The brighter paper
+        marks it as its own closing block without raising its voice.
+      */}
+      <Section
+        ground="paper-bright"
+        rhythm="beat"
+        aria-labelledby="ficha-titulo"
+      >
         <Container width="wide">
-          <Rule width="full" />
-
           <div className="mt-lg grid gap-lg lg:grid-cols-12 lg:gap-x-[4vw]">
             <div className="lg:col-span-3">
               <Reveal>
@@ -396,11 +401,22 @@ export default async function WorkPage({ params }: PageProps<"/obra/[slug]">) {
             <Reveal delay={90} className="mt-md">
               <Link
                 href={`/obra/${nextWork.slug}`}
-                className="group inline-block"
+                className="group inline-flex items-center gap-md"
               >
                 <Display className="transition-opacity duration-500 group-hover:opacity-60">
                   {nextWork.title}
                 </Display>
+
+                {/*
+                  The title alone gave no sign it was a link. The arrow says
+                  so, at the size of the type it belongs to rather than as a
+                  small mark tacked on beside it.
+                */}
+                <ArrowRightIcon
+                  width={28}
+                  height={28}
+                  className="shrink-0 text-fg-muted transition-transform duration-500 ease-out-quart group-hover:translate-x-2 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0"
+                />
               </Link>
             </Reveal>
           </Container>
