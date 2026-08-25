@@ -208,7 +208,7 @@ export function ContactForm({ page }: { page: ContactPage }) {
         </label>
       </div>
 
-      <div className="flex flex-col gap-md">
+      <div className="flex flex-col gap-lg">
         <button
           type="submit"
           disabled={busy}
@@ -257,6 +257,10 @@ export function ContactForm({ page }: { page: ContactPage }) {
         </div>
       </div>
 
+      {/* Set apart under a rule: this is Google’s wording, not Mariela’s,
+          and it was sitting between the button and the confirmation as
+          though it were hers. */}
+      <div className="mt-md border-t border-rule pt-md">
       {/*
         Google requires this wherever the floating badge is hidden, and the
         badge is hidden because a fixed widget in the corner is exactly the
@@ -286,6 +290,7 @@ export function ContactForm({ page }: { page: ContactPage }) {
           de Google.
         </p>
       ) : null}
+      </div>
     </form>
   );
 }
