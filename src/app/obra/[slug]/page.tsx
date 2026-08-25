@@ -197,13 +197,44 @@ export default async function WorkPage({ params }: PageProps<"/obra/[slug]">) {
             </Reveal>
           </Container>
 
-          {/* Read sideways — see WorkGallery for why, and how it degrades. */}
-          <div className="mt-xl">
-            <WorkGallery
-              images={work.detailImages}
-              label={"Detalles de " + work.title}
-            />
-          </div>
+          {/*
+            Three or more read sideways — see WorkGallery. Two do not: the run
+            never travels far enough to pin, so they fell into a scroller that
+            had nothing to scroll and sat at the wrong size. A grid holds them
+            instead, each keeping the proportion it was photographed at rather
+            than being cropped to a shared box.
+          */}
+          {work.detailImages.length > 2 ? (
+            <div className="mt-xl">
+              <WorkGallery
+                images={work.detailImages}
+                label={"Detalles de " + work.title}
+              />
+            </div>
+          ) : (
+            <Container width="wide">
+              <ul className="mt-xl grid grid-cols-1 gap-lg sm:grid-cols-2 sm:gap-x-[3vw]">
+                {work.detailImages.map((image, i) => (
+                  <li key={image.src}>
+                    <Reveal variant="image" delay={i * 120}>
+                      <Figure
+                        src={image.src}
+                        alt={image.alt}
+                        caption={image.caption}
+                        pendingLabel=""
+                        /* Its own proportion, not a shared box: these two
+                           were photographed at 0.72 and 0.56, and cropping
+                           both to one shape is what put them wrong. */
+                        width={image.width}
+                        height={image.height}
+                        sizes="(min-width: 640px) 45vw, 100vw"
+                      />
+                    </Reveal>
+                  </li>
+                ))}
+              </ul>
+            </Container>
+          )}
         </Section>
       ) : null}
 
@@ -342,6 +373,20 @@ export default async function WorkPage({ params }: PageProps<"/obra/[slug]">) {
 
             <Reveal delay={90} className="lg:col-span-5 lg:col-start-6">
               <WorkSpecs work={work} detail="full" />
+
+              {/*
+                Where a print exists, say what became of the original in the
+                same breath. “La obra original” as a bare heading over a
+                specification read as a stray block; naming its state is what
+                makes the edition below it mean something.
+              */}
+              {work.printEdition ? (
+                <p className="mt-lg max-w-[46ch] font-serif text-lg font-light italic leading-snug text-fg">
+                  La pieza original pertenece a una colección privada. La
+                  edición impresa, abajo, es la forma en que puede adquirirse
+                  hoy.
+                </p>
+              ) : null}
               {!work.year && !work.technique && !work.dimensions ? (
                 <div className="mt-md">
                   <Pending kind="data" detail="Año, técnica y medidas" />

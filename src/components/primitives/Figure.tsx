@@ -11,6 +11,13 @@ interface FigureProps {
   /** Shown inside the placeholder so it is obvious which photograph is missing. */
   pendingLabel: string;
   aspect?: string;
+  /**
+   * Intrinsic size. Given both, the frame takes the photograph’s own ratio
+   * and `aspect` is ignored — nothing is cropped. Use where the pictures are
+   * not meant to line up with each other.
+   */
+  width?: number;
+  height?: number;
   /** `object-position` when the aspect crops, e.g. "50% 30%". */
   focus?: string;
   caption?: string;
@@ -34,6 +41,8 @@ export function Figure({
   sizes,
   pendingLabel,
   aspect = "aspect-[4/5]",
+  width,
+  height,
   focus,
   caption,
   priority,
@@ -41,7 +50,12 @@ export function Figure({
   className,
 }: FigureProps) {
   const inner = src ? (
-    <div className={cn("relative w-full overflow-hidden", aspect)}>
+    <div
+      className={cn("relative w-full overflow-hidden", !width && aspect)}
+      style={
+        width && height ? { aspectRatio: `${width} / ${height}` } : undefined
+      }
+    >
       <Image
         src={src}
         alt={alt}
