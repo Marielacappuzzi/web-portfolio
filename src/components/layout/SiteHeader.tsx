@@ -32,8 +32,21 @@ export function SiteHeader({
 }: SiteHeaderProps) {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [openBranch, setOpenBranch] = useState<string | null>(null);
   /** href of the nav item whose submenu is open, if any. */
   const [openMenu, setOpenMenu] = useState<string | null>(null);
+
+  /*
+    Close on tap rather than on the route changing. The panel used to stay up
+    after a link was followed, with the page already changed underneath it.
+    Doing it here rather than in an effect keyed on the pathname avoids the
+    cascading render React warns about, and it closes on the gesture rather
+    than a beat later.
+  */
+  const closeMenu = () => {
+    setMenuOpen(false);
+    setOpenBranch(null);
+  };
 
   // Escape closes; the page underneath does not scroll while it is open.
   useEffect(() => {
@@ -90,18 +103,37 @@ export function SiteHeader({
               illegible; the mark carries the identity on its own and the full
               lockup gets its proper size in the footer.
             */}
-            <Image
-              src={
-                menuOpen
-                  ? "/marca/mc-monograma-claro.png"
-                  : "/marca/mc-monograma.png"
-              }
-              alt={name}
-              width={500}
-              height={menuOpen ? 185 : 218}
-              priority
-              className="h-8 w-auto md:h-10"
-            />
+            {/*
+              Both marks render, one over the other, and opacity picks. An
+              earlier version swapped the `src`, so opening the menu sent the
+              browser to fetch the other file — the gap before it arrived is
+              the flicker where the logo appeared alone, ahead of the panel.
+            */}
+            <span className="relative block h-10 w-[7.5rem] md:h-12 md:w-[9rem]">
+              <Image
+                src="/marca/mc-monograma.png"
+                alt={name}
+                fill
+                priority
+                sizes="144px"
+                className={cn(
+                  "object-contain object-left transition-opacity duration-300",
+                  menuOpen ? "opacity-0" : "opacity-100",
+                )}
+              />
+              <Image
+                src="/marca/mc-monograma-claro.png"
+                alt=""
+                aria-hidden="true"
+                fill
+                priority
+                sizes="144px"
+                className={cn(
+                  "object-contain object-left transition-opacity duration-300",
+                  menuOpen ? "opacity-100" : "opacity-0",
+                )}
+              />
+            </span>
           </Link>
 
           <nav aria-label="Principal" className="hidden md:block">
@@ -229,44 +261,87 @@ export function SiteHeader({
           menuOpen ? "opacity-100" : "pointer-events-none opacity-0",
         )}
       >
-        <nav aria-label="Principal (móvil)" className="gutter flex min-h-full flex-col justify-center py-28">
+        <nav
+          aria-label="Principal (móvil)"
+          className="gutter flex min-h-full flex-col justify-center py-28"
+        >
           <ul className="flex flex-col gap-lg">
             {nav.map((item) => {
               const children = navChildren[item.href];
+              const hasChildren = Boolean(children && children.length > 0);
+              const branchOpen = openBranch === item.href;
 
               return (
                 <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    onClick={() => setMenuOpen(false)}
-                    className="font-serif text-3xl font-light tracking-display text-fg-strong"
-                  >
-                    {item.label}
-                  </Link>
+                  <div className="flex items-center justify-between gap-md">
+                    <Link
+                      href={item.href}
+                      onClick={closeMenu}
+                      className="font-serif text-3xl font-light tracking-display text-fg-strong"
+                    >
+                      {item.label}
+                    </Link>
+
+                    {/*
+                      A separate control, not a link. Tapping the word should
+                      go to the gallery; tapping the arrow should open the list
+                      — one target cannot do both, and merging them means every
+                      reader who wants /obra has to close a panel first.
+                    */}
+                    {hasChildren ? (
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setOpenBranch(branchOpen ? null : item.href)
+                        }
+                        aria-expanded={branchOpen}
+                        aria-label={`${branchOpen ? "Ocultar" : "Mostrar"} las obras`}
+                        className="-mr-2 flex h-11 w-11 shrink-0 items-center justify-center text-fg"
+                      >
+                        <ChevronDownIcon
+                          width={18}
+                          height={18}
+                          className={cn(
+                            "transition-transform duration-400 ease-in-out-quart",
+                            branchOpen ? "rotate-180" : "rotate-0",
+                          )}
+                        />
+                      </button>
+                    ) : null}
+                  </div>
 
                   {/*
-                    The catalogue, listed rather than hidden behind a tap.
-                    There is no hover on a phone, so a disclosure would be one
-                    more thing to discover; the panel is already a page of its
-                    own and has the room.
+                    Collapsed to nothing rather than hidden: a 1fr/0fr grid row
+                    animates to the list’s own height, so it opens smoothly
+                    without anyone hard-coding a max-height that will be wrong
+                    the day a work is added.
                   */}
-                  {children && children.length > 0 ? (
-                    <ul className="mt-md flex flex-col gap-2xs border-l border-rule pl-md">
-                      {children.map((child) => (
-                        <li key={child.href}>
-                          <Link
-                            href={child.href}
-                            onClick={() => setMenuOpen(false)}
-                            className="flex items-center gap-2xs font-serif text-base font-light text-fg transition-colors duration-300 hover:text-fg-strong"
-                          >
-                            {child.label}
-                            {child.editorial ? (
-                              <ArrowUpRightIcon className="shrink-0 text-fg-faint" />
-                            ) : null}
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
+                  {hasChildren ? (
+                    <div
+                      className={cn(
+                        "grid transition-[grid-template-rows] duration-500 ease-in-out-quart",
+                        "motion-reduce:transition-none",
+                        branchOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]",
+                      )}
+                    >
+                      <ul className="overflow-hidden">
+                        <li className="h-md" aria-hidden="true" />
+                        {children!.map((child) => (
+                          <li key={child.href} className="border-l border-rule pl-md">
+                            <Link
+                              href={child.href}
+                              onClick={closeMenu}
+                              className="flex items-center gap-2xs py-2xs font-serif text-base font-light text-fg"
+                            >
+                              {child.label}
+                              {child.editorial ? (
+                                <ArrowUpRightIcon className="shrink-0 text-fg-faint" />
+                              ) : null}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
                   ) : null}
                 </li>
               );

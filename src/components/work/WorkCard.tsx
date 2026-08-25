@@ -78,7 +78,13 @@ export function WorkCard({
           </p>
         ) : null}
 
-        <WorkSpecs work={work} className="mt-lg border-t border-rule pt-md" />
+        {/*
+          Even on both sides of the rule. It sat at 2.5rem above and 1.5rem
+          below, which pushed the technical lines away from the work they
+          describe and left the rule floating nearer the sentence than the
+          specification it introduces.
+        */}
+        <WorkSpecs work={work} className="mt-md border-t border-rule pt-md" />
       </Frame>
     </>
   );

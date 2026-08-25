@@ -13,8 +13,6 @@ import {
   FullscreenIcon,
   PauseIcon,
   PlayIcon,
-  SoundOffIcon,
-  SoundOnIcon,
 } from "./Icon";
 import { cn } from "@/lib/cn";
 
@@ -70,7 +68,6 @@ export function VideoPlayer({
 
   const [started, setStarted] = useState(false);
   const [playing, setPlaying] = useState(false);
-  const [muted, setMuted] = useState(false);
   const [time, setTime] = useState(0);
   const [duration, setDuration] = useState(0);
 
@@ -94,12 +91,6 @@ export function VideoPlayer({
     );
   }, []);
 
-  const toggleMute = useCallback(() => {
-    const el = video.current;
-    if (!el) return;
-    el.muted = !el.muted;
-    setMuted(el.muted);
-  }, []);
 
   const toggleFullscreen = useCallback(() => {
     const el = wrapper.current;
@@ -125,9 +116,6 @@ export function VideoPlayer({
       case "ArrowLeft":
         event.preventDefault();
         seekBy(-5);
-        break;
-      case "m":
-        toggleMute();
         break;
       case "f":
         toggleFullscreen();
@@ -175,6 +163,14 @@ export function VideoPlayer({
           poster={poster}
           preload="metadata"
           playsInline
+          /*
+            Always silent. The footage carries an audio track, but these are
+            records of a hand working, not clips with sound design — and a
+            page that starts talking when someone presses play is the
+            opposite of the manner this site keeps. `muted` also lets the
+            browser autoplay if that is ever wanted.
+          */
+          muted
           aria-label={label}
           onClick={toggle}
           className="absolute inset-0 h-full w-full cursor-pointer object-cover"
@@ -259,17 +255,6 @@ export function VideoPlayer({
 
         <div className="ml-auto flex items-center gap-md">
           <button
-            type="button"
-            onClick={toggleMute}
-            aria-label={muted ? "Activar el sonido" : "Silenciar"}
-            aria-pressed={muted}
-            className="text-fg-strong transition-opacity duration-300 hover:opacity-60"
-          >
-            {muted ? <SoundOffIcon /> : <SoundOnIcon />}
-          </button>
-
-          <button
-            type="button"
             onClick={toggleFullscreen}
             aria-label="Pantalla completa"
             className="text-fg-strong transition-opacity duration-300 hover:opacity-60"

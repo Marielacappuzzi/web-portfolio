@@ -35,7 +35,7 @@ export default async function AboutPage() {
       <PageHeader heading={page.heading} />
 
       {/* Who she is, next to the portrait. */}
-      <Section ground="paper" rhythm="beat" aria-labelledby="recorrido-titulo">
+      <Section ground="paper" rhythm="tight" aria-labelledby="recorrido-titulo">
         <Container width="wide">
           <div className="grid gap-2xl lg:grid-cols-12 lg:items-start lg:gap-x-[5vw]">
             <div className="lg:col-span-5">
