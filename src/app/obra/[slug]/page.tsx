@@ -15,6 +15,7 @@ import { Rule } from "@/components/primitives/Rule";
 import { ArrowRightIcon } from "@/components/primitives/Icon";
 import { Display, Eyebrow, Prose } from "@/components/primitives/Type";
 import { WorkSpecs } from "@/components/work/WorkMeta";
+import { cn } from "@/lib/cn";
 import { getEditorialWorks, getNextWork, getWork } from "@/lib/content";
 
 export async function generateStaticParams() {
@@ -55,6 +56,9 @@ export default async function WorkPage({ params }: PageProps<"/obra/[slug]">) {
   if (!work || !work.hasEditorialPage) notFound();
 
   const nextWork = await getNextWork(slug);
+
+  const processCount =
+    (work.processVideos?.length ?? 0) + (work.processImages?.length ?? 0);
 
   return (
     <>
@@ -236,7 +240,23 @@ export default async function WorkPage({ params }: PageProps<"/obra/[slug]">) {
                   one shape makes it a record of the work, and it absorbs the
                   photographs still to come without needing a new rule.
                 */}
-                <ul className="grid grid-cols-1 gap-lg sm:grid-cols-2 sm:gap-x-[3vw] lg:grid-cols-3">
+                {/*
+                  Columns follow the count. Three is right for a run of
+                  material and wrong for a single clip, which ended up a third
+                  of the width with two empty cells beside it — a record of
+                  one thing should not look like a gap where two others should
+                  have been.
+                */}
+                <ul
+                  className={cn(
+                    "grid grid-cols-1 gap-lg sm:gap-x-[3vw]",
+                    processCount === 1
+                      ? "max-w-[26rem]"
+                      : processCount === 2
+                        ? "sm:grid-cols-2"
+                        : "sm:grid-cols-2 lg:grid-cols-3",
+                  )}
+                >
                   {(work.processVideos ?? []).map((clip, i) => (
                     <li key={clip.src}>
                       <Reveal variant="image" delay={i * 90}>
