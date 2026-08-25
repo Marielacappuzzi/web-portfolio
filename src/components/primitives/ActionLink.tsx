@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { ArrowRightIcon } from "@/components/primitives/Icon";
 import { cn } from "@/lib/cn";
 
 /**
@@ -55,18 +56,36 @@ export function ActionButton({ href, children, className }: ActionLinkProps) {
   );
 }
 
-/** Secondary. Reads as running text with a quiet underline. */
+/**
+ * Secondary. A firmer sibling to the framed button: small caps on a hairline
+ * that spans the text, with an arrow that steps forward under the pointer.
+ *
+ * It used to read as running prose with an underline, which left it looking
+ * like an afterthought beside the button it sits next to. Same weight and the
+ * same cap height as the button now, so the pair sits on one line and the
+ * difference between them is emphasis rather than importance.
+ */
 export function QuietLink({ href, children, className }: ActionLinkProps) {
   return (
     <Link
       href={href}
       className={cn(
-        "font-sans text-sm text-fg underline decoration-rule decoration-1 underline-offset-[6px]",
-        "transition-colors duration-300 hover:text-fg-strong hover:decoration-current",
+        "group inline-flex items-center gap-2xs py-sm",
+        "font-sans text-2xs font-medium uppercase tracking-label",
+        "border-b border-fg-muted text-fg-strong",
+        "transition-colors duration-300 hover:border-fg-strong",
         className,
       )}
     >
       {children}
+
+      <ArrowRightIcon
+        className={cn(
+          "shrink-0 transition-transform duration-300 ease-out-quart",
+          "group-hover:translate-x-1 motion-reduce:transition-none",
+          "motion-reduce:group-hover:translate-x-0",
+        )}
+      />
     </Link>
   );
 }

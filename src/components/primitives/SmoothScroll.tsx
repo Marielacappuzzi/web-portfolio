@@ -132,6 +132,18 @@ export function SmoothScroll() {
 
     const refresh = () => ScrollTrigger.refresh();
 
+    /*
+      Lenis caches the scroll limit. Anything that changes the page height
+      after mount — an accordion opening, a font landing, an image decoding —
+      leaves it scrolling to a boundary that has moved, which shows up as the
+      wheel stopping short of the end.
+    */
+    const observer = new ResizeObserver(() => {
+      lenis.resize();
+      ScrollTrigger.refresh();
+    });
+    observer.observe(document.body);
+
     if (document.readyState === "complete") {
       refresh();
     } else {
@@ -142,6 +154,7 @@ export function SmoothScroll() {
 
     return () => {
       setLenis(null);
+      observer.disconnect();
       document.removeEventListener("click", onAnchorClick, true);
       window.removeEventListener("load", refresh);
       gsap.ticker.remove(raf);

@@ -76,3 +76,32 @@ export function ArrowUpRightIcon(props: IconProps) {
     </svg>
   );
 }
+
+/** Points the way a secondary action leads. Nudged on hover by the caller. */
+export function ArrowRightIcon(props: IconProps) {
+  return (
+    <svg {...base} width={14} height={14} {...props}>
+      <path d="M4 12h15" />
+      <path d="m13 6 6 6-6 6" />
+    </svg>
+  );
+}
+
+/** Rises to the top of the page. */
+export function ArrowUpIcon(props: IconProps) {
+  return (
+    <svg {...base} width={16} height={16} {...props}>
+      <path d="M12 19V5" />
+      <path d="m6 11 6-6 6 6" />
+    </svg>
+  );
+}
+
+/** A drawn tick for a checked box. */
+export function CheckIcon(props: IconProps) {
+  return (
+    <svg {...base} width={14} height={14} strokeWidth={2} {...props}>
+      <path d="m5 12 5 5L19 7" />
+    </svg>
+  );
+}
