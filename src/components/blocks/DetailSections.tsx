@@ -1,5 +1,6 @@
 import { Container, Section } from "@/components/layout/Section";
 import type { Ground } from "@/components/layout/Section";
+import { Disclosure } from "@/components/primitives/Disclosure";
 import { Reveal } from "@/components/primitives/Reveal";
 import { Display, Eyebrow } from "@/components/primitives/Type";
 import type { DetailSection } from "@/content/types";
@@ -29,6 +30,23 @@ export function DetailSections({
   id,
   headingId,
 }: DetailSectionsProps) {
+  /*
+    Fold each untitled section into the panel above it. The formats block is
+    written as two entries — a heading with its list, then two more paragraphs
+    — and only the first carries a title.
+  */
+  const groups = sections.reduce<
+    { title: string; sections: typeof sections }[]
+  >((acc, section) => {
+    if (section.title) {
+      acc.push({ title: section.title, sections: [section] });
+    } else if (acc.length > 0) {
+      acc[acc.length - 1].sections.push(section);
+    }
+
+    return acc;
+  }, []);
+
   return (
     <Section ground={ground} rhythm="act" id={id} aria-labelledby={headingId}>
       <Container width="wide">
@@ -46,50 +64,47 @@ export function DetailSections({
           </div>
 
           <div className="lg:col-span-7 lg:col-start-6">
-            {sections.map((section, i) => (
-              <Reveal
-                key={`${section.title}-${i}`}
-                delay={Math.min(i, 3) * 60}
-                className={cn(
-                  section.title ? "border-t border-rule pt-lg" : "pt-0",
-                  i === 0 && "border-t-0 pt-0",
-                  "pb-lg last:pb-0",
-                )}
-              >
-                {section.title ? (
-                  <h3 className="font-serif text-xl font-light leading-tight tracking-tight text-fg-strong">
-                    {section.title}
-                  </h3>
-                ) : null}
+            {/*
+              Eight headings of practical copy, collapsed. Laid out in full it
+              was a wall the reader had to scroll past to reach anything else,
+              and each heading answers a separate question — nobody needs all
+              eight at once.
 
-                <div
-                  className={cn(
-                    "flex flex-col gap-md",
-                    section.title && "mt-md",
-                  )}
-                >
-                  {section.body.map((paragraph, j) => (
-                    <p
-                      key={j}
-                      className="max-w-[62ch] font-sans text-base leading-relaxed text-pretty text-fg"
-                    >
-                      {paragraph}
-                    </p>
+              A section with no title is a continuation of the one above it
+              (the formats block is split in two), so it folds into that panel
+              rather than becoming a disclosure with nothing to press.
+            */}
+            {groups.map((group, i) => (
+              <Reveal key={`${group.title}-${i}`} delay={Math.min(i, 3) * 60}>
+                <Disclosure summary={group.title}>
+                  {group.sections.map((section, s) => (
+                    <div key={s} className={cn(s > 0 && "mt-md")}>
+                      <div className="flex flex-col gap-md">
+                        {section.body.map((paragraph, j) => (
+                          <p
+                            key={j}
+                            className="max-w-[62ch] font-sans text-base leading-relaxed text-pretty text-fg"
+                          >
+                            {paragraph}
+                          </p>
+                        ))}
+                      </div>
+
+                      {section.bullets && section.bullets.length > 0 ? (
+                        <ul className="mt-md flex flex-col gap-2xs">
+                          {section.bullets.map((bullet) => (
+                            <li
+                              key={bullet}
+                              className="font-serif text-lg font-light leading-snug text-fg-strong"
+                            >
+                              {bullet}
+                            </li>
+                          ))}
+                        </ul>
+                      ) : null}
+                    </div>
                   ))}
-                </div>
-
-                {section.bullets && section.bullets.length > 0 ? (
-                  <ul className="mt-md flex flex-col gap-2xs">
-                    {section.bullets.map((bullet) => (
-                      <li
-                        key={bullet}
-                        className="font-serif text-lg font-light leading-snug text-fg-strong"
-                      >
-                        {bullet}
-                      </li>
-                    ))}
-                  </ul>
-                ) : null}
+                </Disclosure>
               </Reveal>
             ))}
           </div>

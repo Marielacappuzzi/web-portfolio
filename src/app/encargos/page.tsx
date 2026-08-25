@@ -131,7 +131,10 @@ export default async function CommissionsPage() {
                   </Reveal>
                   <Reveal delay={Math.min(i, 3) * 90 + 120} className="mt-md">
                     <WorkIdentity work={work} />
-                    <WorkSpecs work={work} className="mt-sm" />
+                    <WorkSpecs
+                      work={work}
+                      className="mt-md border-t border-rule pt-md"
+                    />
                   </Reveal>
                 </li>
               ))}
@@ -154,32 +157,41 @@ export default async function CommissionsPage() {
       {filmed.length > 0 ? (
         <Section ground="paper" rhythm="beat" aria-labelledby="filmados-titulo">
           <Container width="wide">
-            <Reveal>
-              <Eyebrow as="h2" id="filmados-titulo">
-                Obras en proceso
-              </Eyebrow>
-            </Reveal>
+            {/*
+              Heading beside the clips rather than above them, the way every
+              other section on the site is set. Centred over a full-width row
+              the two videos had nothing to belong to.
+            */}
+            <div className="grid gap-2xl lg:grid-cols-12 lg:items-start lg:gap-x-[4vw]">
+              <div className="lg:col-span-3">
+                <Reveal>
+                  <Eyebrow as="h2" id="filmados-titulo">
+                    Obras en proceso
+                  </Eyebrow>
+                </Reveal>
+              </div>
 
-            <ul className="mt-2xl grid grid-cols-1 gap-xl sm:grid-cols-2 sm:gap-x-[4vw]">
-              {filmed.map((work, i) => (
-                <li key={work.slug}>
-                  <Reveal variant="image" delay={i * 120}>
-                    <VideoPlayer
-                      src={work.processVideos![0].src}
-                      poster={work.processVideos![0].poster}
-                      label={work.processVideos![0].label ?? work.title}
-                      caption={`${work.title}, ${work.year}`}
-                      aspect={
-                        work.processVideos![0].portrait
-                          ? "aspect-[9/16]"
-                          : "aspect-video"
-                      }
-                      className="max-w-[22rem]"
-                    />
-                  </Reveal>
-                </li>
-              ))}
-            </ul>
+              <ul className="grid grid-cols-1 gap-xl sm:grid-cols-2 sm:gap-x-[3vw] lg:col-span-8 lg:col-start-5">
+                {filmed.map((work, i) => (
+                  <li key={work.slug}>
+                    <Reveal variant="image" delay={i * 120}>
+                      <VideoPlayer
+                        src={work.processVideos![0].src}
+                        poster={work.processVideos![0].poster}
+                        label={work.processVideos![0].label ?? work.title}
+                        caption={`${work.title}, ${work.year}`}
+                        aspect={
+                          work.processVideos![0].portrait
+                            ? "aspect-[9/16]"
+                            : "aspect-video"
+                        }
+                        className="max-w-[22rem]"
+                      />
+                    </Reveal>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </Container>
         </Section>
       ) : null}

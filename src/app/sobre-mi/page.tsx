@@ -56,9 +56,9 @@ export default async function AboutPage() {
                   as="h2"
                   size="section"
                   id="recorrido-titulo"
-                  /* Her name should not share a weight with the paragraph
-                     under it: it is the heading of the section, not a label. */
-                  className="font-normal"
+                  /* Light, like every other display heading. It was set at
+                     normal weight to lift it off the paragraph, but size
+                     already does that and the extra weight read as bold. */
                 >
                   {withEmphasis("*Mariela Crapuzzi*")}
                 </Display>
