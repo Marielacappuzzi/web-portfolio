@@ -57,6 +57,12 @@ export default async function WorkPage({ params }: PageProps<"/obra/[slug]">) {
 
   const nextWork = await getNextWork(slug);
 
+  /*
+    A crop for the story column. Prefer a detail, fall back to a framed shot;
+    the main plate is already the cover, so reusing it would only repeat.
+  */
+  const storyImage = work.detailImages?.[0] ?? work.framedImages?.[0] ?? null;
+
   const processCount =
     (work.processVideos?.length ?? 0) + (work.processImages?.length ?? 0);
 
@@ -135,6 +141,24 @@ export default async function WorkPage({ params }: PageProps<"/obra/[slug]">) {
                   La historia
                 </Eyebrow>
               </Reveal>
+
+              {/*
+                The heading column ran out after two words and left a column
+                of air beside the text. The first detail crop fills it — a
+                closer look at the piece the paragraphs are about, which is
+                what a reader glancing left actually wants.
+              */}
+              {storyImage ? (
+                <Reveal variant="image" delay={120} className="mt-xl block">
+                  <Figure
+                    src={storyImage.src}
+                    alt={storyImage.alt}
+                    pendingLabel=""
+                    aspect="aspect-[3/4]"
+                    sizes="(min-width: 1024px) 24vw, 100vw"
+                  />
+                </Reveal>
+              ) : null}
             </div>
 
             <div className="lg:col-span-6 lg:col-start-6">

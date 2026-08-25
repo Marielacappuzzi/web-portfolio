@@ -48,6 +48,22 @@ export function SiteHeader({
     setOpenBranch(null);
   };
 
+  /*
+    PageTransition intercepts link clicks in the capture phase and stops them
+    propagating, so React never sees them and the onClick below never ran —
+    the panel stayed open over a page that had already changed. It dispatches
+    this instead, which carries past the stopped bubble.
+  */
+  useEffect(() => {
+    const onNavigate = () => {
+      setMenuOpen(false);
+      setOpenBranch(null);
+    };
+
+    document.addEventListener("site:navigate", onNavigate);
+    return () => document.removeEventListener("site:navigate", onNavigate);
+  }, []);
+
   // Escape closes; the page underneath does not scroll while it is open.
   useEffect(() => {
     if (!menuOpen) return;

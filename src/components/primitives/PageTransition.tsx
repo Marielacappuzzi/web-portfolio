@@ -63,6 +63,15 @@ export function PageTransition() {
       event.preventDefault();
       event.stopPropagation();
 
+      /*
+        Tell the rest of the page a navigation started. `stopPropagation` above
+        is what keeps next/link from handling the click twice, but it also
+        stops React ever seeing it — so the mobile menu’s own onClick never
+        ran and the panel stayed open over a page that had already changed.
+        A document event carries past the stopped bubble.
+      */
+      document.dispatchEvent(new CustomEvent("site:navigate"));
+
       document.startViewTransition(() => {
         router.push(url.pathname + url.search + url.hash);
 
