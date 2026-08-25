@@ -147,12 +147,38 @@ export interface NavItem {
   href: string;
 }
 
+/**
+ * An address whose real mailbox and printed form differ.
+ *
+ * The account was created with a misspelling of the surname. `address` is the
+ * mailbox that actually receives — every mailto and every action uses it —
+ * while `display` is the corrected spelling the reader sees.
+ *
+ * This is a deliberate trade the client asked for, and it has a real cost:
+ * anyone who retypes what they read instead of clicking will reach nothing.
+ * Registering the corrected address and forwarding it would remove the trap.
+ */
+export interface LegalEmail {
+  /** The mailbox that receives. Never shown. */
+  address: string;
+  /** What the reader sees. Never used to send. */
+  display: string;
+}
+
 export interface SiteContent {
   name: string;
   role: string;
   location: string;
-  /** Null until confirmed. The UI shows a pending marker rather than a guess. */
+  /**
+   * The address shown as a contact channel in the footer and on /contacto.
+   * Null by decision — publishing one there feeds scrapers.
+   */
   email: string | null;
+  /**
+   * The address a legal document has to name, so someone can ask for their
+   * data. Kept separate from `email` precisely because it appears only there.
+   */
+  legalEmail: LegalEmail | null;
   instagramHandle: string | null;
   instagramUrl: string | null;
   nav: NavItem[];

@@ -143,3 +143,25 @@ descarta nada.
 | A | **Correo de contacto.** Es lo único que falta en las páginas legales: aparece cuatro veces en Privacidad y dos en Términos como marcador declarado, nunca como dirección inventada. También lo esperan el footer y `/contacto`. | `src/content/site.ts` → `email` | **B** |
 | C | Fotografía definitiva de *Jesús, la oveja y el lobo*. | `works.ts` → `image` | **B** |
 | D | Destino del formulario: `RESEND_API_KEY`, `CONTACT_FROM`, `CONTACT_TO`. | Entorno | **B** |
+
+
+---
+
+## Revisión del 2026-08-24 (2)
+
+**Correo cargado, solo en las páginas legales.** `web.marielacrappuzzi@gmail.com`
+vive en `site.legalEmail` y aparece únicamente en Privacidad y Términos, que es
+donde hay que nombrar una dirección: es adonde alguien escribe para pedir que
+borren sus datos. Sigue sin aparecer en el footer ni en `/contacto`, que
+enrutan por el formulario, y por eso `site.email` sigue en `null`.
+
+> **Ojo con la grafía.** El buzón real dice `crappuzzi` (doble p); el texto que
+> se muestra dice `crapuzzi`. Los enlaces `mailto` usan siempre el real, así
+> que hacer clic funciona. Pero **quien copie el texto a mano escribirá a una
+> casilla que no existe**. Registrar la dirección corregida y reenviarla al
+> buzón real cerraría el agujero.
+
+**Teléfono internacional.** `react-phone-number-input` aporta los 245
+territorios, sus prefijos y los nombres de país en español. Se usan sus datos,
+no su componente: ese trae su propia hoja de estilos y traería un segundo
+lenguaje visual al formulario.
