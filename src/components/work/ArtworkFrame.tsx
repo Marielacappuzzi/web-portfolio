@@ -27,6 +27,13 @@ interface ArtworkFrameProps {
   focus?: string;
   /** Drop the passepartout where the image is meant to run full-bleed. */
   bare?: boolean;
+  /**
+   * Zoom the photograph inside its frame when an ancestor `group` is hovered.
+   * The frame itself never moves: growing the whole card shifts everything
+   * around it and reads as a card lifting, where the work should be the thing
+   * that comes closer.
+   */
+  zoomOnHover?: boolean;
   className?: string;
 }
 
@@ -50,6 +57,7 @@ export function ArtworkFrame({
   aspect,
   focus,
   bare = false,
+  zoomOnHover = false,
   className,
 }: ArtworkFrameProps) {
   const forced = aspect ?? (ratio ? fallbackRatios[ratio] : undefined);
@@ -91,7 +99,11 @@ export function ArtworkFrame({
         sizes={sizes}
         priority={priority}
         quality={90}
-        className="object-cover"
+        className={cn(
+          "object-cover",
+          zoomOnHover &&
+            "transition-transform duration-900 ease-out-quart group-hover:scale-[1.06] motion-reduce:transition-none motion-reduce:group-hover:scale-100",
+        )}
         style={focus ? { objectPosition: focus } : undefined}
       />
     </div>

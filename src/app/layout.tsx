@@ -70,10 +70,18 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="es"
-      className={`${newsreader.variable} ${instrumentSans.variable} h-full antialiased`}
+      className={`${newsreader.variable} ${instrumentSans.variable} antialiased`}
       suppressHydrationWarning
     >
-      <body data-ground="paper" className="flex min-h-full flex-col">
+      {/*
+        No `h-full` on <html>, deliberately. `height: 100%` pins the root box
+        to the viewport, and Lenis reads `scrollHeight` off this chain to know
+        where scrolling ends — so it stopped short, a little before the footer,
+        on every long page. The scrollbar still worked because it does not use
+        that measurement. `min-h-dvh` keeps a short page filling the screen
+        without capping a long one.
+      */}
+      <body data-ground="paper" className="flex min-h-dvh flex-col">
         <SmoothScroll />
         <PageTransition />
 

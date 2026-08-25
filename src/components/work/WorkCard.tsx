@@ -59,11 +59,7 @@ export function WorkCard({
           work={work}
           sizes={sizes}
           priority={priority}
-          className={
-            work.image
-              ? "transition-transform duration-900 ease-out-quart group-hover:scale-[1.02] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
-              : undefined
-          }
+          zoomOnHover
         />
       </Frame>
 

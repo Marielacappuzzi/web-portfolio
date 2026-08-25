@@ -53,11 +53,7 @@ export function FeaturedWorks({ content, works }: FeaturedWorksProps) {
                     aspect="aspect-[4/5]"
                     focus="50% 30%"
                     sizes="(min-width: 768px) 30vw, 100vw"
-                    className={
-                      work.image
-                        ? "transition-transform duration-900 ease-out-quart group-hover:scale-[1.02] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
-                        : undefined
-                    }
+                    zoomOnHover
                   />
                 </Reveal>
 
