@@ -335,6 +335,13 @@ export const works: Work[] = [
         poster: "/video/molly-en-proceso.jpg",
         label: "El retrato de Molly en proceso.",
         caption: "Molly, en proceso.",
+        /*
+         * The file is a 1280x720 container, but the picture inside it is a
+         * 396x720 vertical strip with black bars either side — shot on a
+         * phone and exported into a landscape frame. Declaring it portrait
+         * lets object-cover crop the bars away instead of showing them.
+         */
+        portrait: true,
       },
     ],
     shortStory:
