@@ -73,13 +73,18 @@ export default async function CommissionsPage() {
                 </Eyebrow>
               </Reveal>
 
-              <ul className="mt-lg flex flex-col gap-2xs">
+              {/*
+                One per line, each on its own rule. Stacked at a 0.5rem gap
+                they read as a single paragraph broken oddly, and the whole
+                point is that these are distinct things to ask for.
+              */}
+              <ul className="mt-lg">
                 {page.kinds.items.map((item, i) => (
                   <Reveal
                     key={item}
                     as="li"
                     delay={Math.min(i, 3) * 60 + 120}
-                    className="font-serif text-lg font-light leading-snug text-fg-strong"
+                    className="border-t border-rule py-md font-serif text-lg font-light leading-snug text-fg-strong last:border-b"
                   >
                     {item}
                   </Reveal>
@@ -121,6 +126,7 @@ export default async function CommissionsPage() {
                       work={work}
                       ratio="portrait"
                       sizes="(min-width: 768px) 22vw, (min-width: 640px) 45vw, 92vw"
+                      zoomOnHover
                     />
                   </Reveal>
                   <Reveal delay={Math.min(i, 3) * 90 + 120} className="mt-md">
@@ -165,10 +171,10 @@ export default async function CommissionsPage() {
                       caption={`${work.title}, ${work.year}`}
                       aspect={
                         work.processVideos![0].portrait
-                          ? "aspect-[9/16] sm:aspect-[3/4]"
+                          ? "aspect-[9/16]"
                           : "aspect-video"
                       }
-                      className="mx-auto max-w-[24rem]"
+                      className="max-w-[22rem]"
                     />
                   </Reveal>
                 </li>

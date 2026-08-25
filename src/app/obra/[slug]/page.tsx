@@ -16,7 +16,6 @@ import { ArrowRightIcon } from "@/components/primitives/Icon";
 import { Display, Eyebrow, Prose } from "@/components/primitives/Type";
 import { WorkSpecs } from "@/components/work/WorkMeta";
 import { getEditorialWorks, getNextWork, getWork } from "@/lib/content";
-import { cn } from "@/lib/cn";
 
 export async function generateStaticParams() {
   const works = await getEditorialWorks();
