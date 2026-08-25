@@ -66,7 +66,14 @@ export function ScrollScale({
   }, [from, to]);
 
   return (
-    <div ref={outer} className={cn("relative overflow-hidden", className)}>
+    /*
+      No `relative` of its own. The work cover passes `absolute inset-0`, and
+      Tailwind emits both — the sheet order decides, not the attribute, so
+      `relative` won and the wrapper collapsed to nothing. The image inside it
+      is positioned `absolute` against that box, so it had no box to fill and
+      the cover rendered empty. Positioning belongs to whoever places this.
+    */
+    <div ref={outer} className={cn("overflow-hidden", className)}>
       <div ref={inner} className="h-full w-full origin-center will-change-transform">
         {children}
       </div>
