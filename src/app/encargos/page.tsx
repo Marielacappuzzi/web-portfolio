@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { ContactCallout } from "@/components/blocks/ContactCallout";
-import { PendingTopics } from "@/components/blocks/PendingTopics";
+import { DetailSections } from "@/components/blocks/DetailSections";
+import { Faq } from "@/components/blocks/Faq";
 import { ProcessList } from "@/components/blocks/ProcessList";
 import { Container, Section } from "@/components/layout/Section";
 import { PageHeader } from "@/components/layout/PageHeader";
@@ -177,13 +178,22 @@ export default async function CommissionsPage() {
         </Section>
       ) : null}
 
-      {/* The practical detail, declared rather than invented. */}
-      <PendingTopics
+      {/* The practical detail, now that the client has supplied it. */}
+      <DetailSections
         eyebrow={page.practical.eyebrow}
         title={page.practical.title}
-        topics={page.practical.topics}
-        note="Estos apartados están definidos pero todavía no tienen texto aprobado. Se completan con los formatos, tiempos y condiciones reales de Mariela."
+        sections={page.practical.sections}
         headingId="practico-titulo"
+      />
+
+      {/* Only what the block above does not already answer. */}
+      <Faq
+        eyebrow={page.faq.eyebrow}
+        title={page.faq.title}
+        items={page.faq.items}
+        ground="paper-bright"
+        id="preguntas"
+        headingId="faq-titulo"
       />
 
       <ContactCallout

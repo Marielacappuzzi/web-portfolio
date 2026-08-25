@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+
 import { type FormEvent, useState } from "react";
 import { ContactSent } from "./ContactSent";
 import { Pending } from "@/components/primitives/Pending";
@@ -15,6 +17,7 @@ const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
 
 type Status =
   | "idle"
+  | "consent"
   | "sending"
   | "sent"
   | "invalid"
@@ -42,6 +45,7 @@ const fieldBase = cn(
 
 export function ContactForm({ page }: { page: ContactPage }) {
   const [status, setStatus] = useState<Status>("idle");
+  const [consent, setConsent] = useState(false);
   const [missing, setMissing] = useState<string[]>([]);
 
   const busy = status === "sending";
@@ -51,6 +55,11 @@ export function ContactForm({ page }: { page: ContactPage }) {
     if (busy) return;
 
     const data = Object.fromEntries(new FormData(event.currentTarget));
+
+    if (!consent) {
+      setStatus("consent");
+      return;
+    }
 
     const empty = page.fields
       .filter((field) => field.required)
@@ -139,6 +148,47 @@ export function ContactForm({ page }: { page: ContactPage }) {
         <input id="campo-empresa" name="empresa" tabIndex={-1} autoComplete="off" />
       </div>
 
+      {/*
+        Consent to the privacy policy, unticked by default and required before
+        anything is sent. It covers this one enquiry: there is no newsletter
+        and no marketing to opt into, so bundling a second purpose in here
+        would make the tick meaningless.
+      */}
+      <div className="flex items-start gap-sm">
+        <input
+          id="campo-privacidad"
+          name="privacidad"
+          type="checkbox"
+          checked={consent}
+          onChange={(event) => {
+            setConsent(event.target.checked);
+            if (event.target.checked && status === "consent") setStatus("idle");
+          }}
+          disabled={busy}
+          aria-invalid={status === "consent" || undefined}
+          className={cn(
+            "mt-1 h-4 w-4 shrink-0 cursor-pointer appearance-none border border-rule bg-bg",
+            "transition-colors duration-200 hover:border-fg-muted",
+            "checked:border-fg-strong checked:bg-fg-strong",
+            "focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-current",
+            "aria-[invalid=true]:border-fg-strong",
+          )}
+        />
+        <label
+          htmlFor="campo-privacidad"
+          className="max-w-[62ch] cursor-pointer font-sans text-sm leading-relaxed text-fg"
+        >
+          He leído y acepto la{" "}
+          <Link
+            href="/privacidad"
+            className="text-fg-strong underline decoration-rule decoration-1 underline-offset-[4px] transition-colors duration-300 hover:decoration-current"
+          >
+            Política de Privacidad
+          </Link>{" "}
+          y el tratamiento de mis datos para gestionar mi consulta.
+        </label>
+      </div>
+
       <div className="flex flex-col gap-md">
         <button
           type="submit"
@@ -155,6 +205,13 @@ export function ContactForm({ page }: { page: ContactPage }) {
         </button>
 
         <div aria-live="polite" className="min-h-6">
+          {status === "consent" ? (
+            <p className="font-sans text-sm text-fg-strong">
+              Para enviar tu consulta necesitamos que aceptes la Política de
+              Privacidad.
+            </p>
+          ) : null}
+
           {status === "invalid" ? (
             <p className="font-sans text-sm text-fg-strong">
               {missing.length === 1

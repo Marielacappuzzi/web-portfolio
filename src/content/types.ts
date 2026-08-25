@@ -318,13 +318,37 @@ export interface CommissionsPage {
   paragraphs: string[];
   kinds: { label: string; items: string[] };
   process: ProcessBlock;
-  /** Formats, timings, deposit, shipping, FAQ — no approved copy exists yet. */
+  /** Formats, timings, deposit, shipping — the practical detail. */
   practical: {
     eyebrow: string;
     title: string;
-    topics: string[];
+    sections: DetailSection[];
+  };
+  faq: {
+    eyebrow: string;
+    title: string;
+    items: FaqItem[];
   };
   closing: HomeContactContent;
+}
+
+/** A titled block of prose. Bullets only where a list is genuinely a list. */
+export interface DetailSection {
+  title: string;
+  body: string[];
+  bullets?: string[];
+}
+
+/**
+ * One question and its answer.
+ *
+ * The FAQ exists to extend "Detalles del encargo", never to restate it. A
+ * question already answered in full a screen above earns nothing by being
+ * asked again.
+ */
+export interface FaqItem {
+  question: string;
+  answer: string[];
 }
 
 /* ----------------------------------------------------------- /contacto --- */
@@ -355,6 +379,13 @@ export interface ContactPage {
 
 export interface LegalPage {
   heading: SectionHeading;
-  /** Sections that require real ownership data before they can be written. */
-  topics: string[];
+  /** Shown under the title, e.g. "Última actualización: 2026". */
+  updated: string;
+  intro: string[];
+  sections: DetailSection[];
+  /**
+   * True where the section needs the contact address that does not exist yet.
+   * The page renders a declared marker there instead of an invented mailbox.
+   */
+  contactSectionIndexes?: number[];
 }
