@@ -83,7 +83,7 @@ export const home: HomeContent = {
   work: {
     eyebrow: "Obra seleccionada",
     title: "Historias llevadas al *carboncillo*.",
-    action: { label: "Ver toda la obra", href: "/obra" },
+    action: { label: "Ver todas las obras", href: "/obra" },
   },
 
   /*

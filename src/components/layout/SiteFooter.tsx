@@ -41,20 +41,25 @@ export function SiteFooter({ site }: { site: SiteContent }) {
       as="footer"
       style={{ viewTransitionName: "site-footer" }} ground="chamber" rhythm="none" className="pt-3xl pb-lg">
       <Container width="wide">
-        <div className="grid grid-cols-1 gap-2xl sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1.2fr] lg:gap-xl">
+        {/*
+          Three columns: who she is, where to go, how to reach her. Legal used
+          to hold a column of its own, which gave two links the same weight as
+          the whole navigation. They belong in the bottom row beside the
+          copyright, which is where a reader looks for them.
+        */}
+        <div className="grid grid-cols-1 gap-2xl sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr] lg:gap-xl">
           <div className="max-w-narrow">
             {/*
-              The lockup, at the size it was drawn for. Its background is the
-              same #303030 as the chamber ground, so it sits flush with no
-              visible edge — which is why the ground colour was matched to the
-              logo rather than the other way round.
+              The lockup at its native 169px. Rendered any larger it softens —
+              the file has no more detail to give. Its background is the same
+              #303030 as the chamber ground, so it sits flush with no edge.
             */}
             <Image
               src="/marca/logo-footer.png"
               alt={site.name}
               width={169}
               height={104}
-              className="h-auto w-[10.5rem] sm:w-[11.5rem]"
+              className="h-auto w-[9rem]"
             />
             <p className="mt-sm max-w-[34ch] font-sans text-sm leading-relaxed text-fg-muted">
               {site.role}
@@ -65,19 +70,6 @@ export function SiteFooter({ site }: { site: SiteContent }) {
             <ColumnLabel>Navegación</ColumnLabel>
             <ul id="footer-nav-titulo" className="mt-md flex flex-col gap-xs">
               {site.footerNav.map((item) => (
-                <li key={item.href}>
-                  <Link href={item.href} className={linkClass}>
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
-
-          <nav aria-labelledby="footer-legal-titulo">
-            <ColumnLabel>Legal</ColumnLabel>
-            <ul id="footer-legal-titulo" className="mt-md flex flex-col gap-xs">
-              {site.legalNav.map((item) => (
                 <li key={item.href}>
                   <Link href={item.href} className={linkClass}>
                     {item.label}
@@ -120,9 +112,23 @@ export function SiteFooter({ site }: { site: SiteContent }) {
 
         <Rule width="full" className="mt-3xl" />
 
-        <p className="mt-md font-sans text-xs text-fg-faint">
-          {site.copyright}
-        </p>
+        {/* Copyright left, legal right, on one line where both are expected. */}
+        <div className="mt-md flex flex-col gap-xs sm:flex-row sm:items-center sm:justify-between">
+          <p className="font-sans text-xs text-fg-faint">{site.copyright}</p>
+
+          <ul className="flex flex-wrap gap-x-lg gap-y-2xs">
+            {site.legalNav.map((item) => (
+              <li key={item.href}>
+                <Link
+                  href={item.href}
+                  className="font-sans text-xs text-fg-faint transition-colors duration-300 hover:text-fg"
+                >
+                  {item.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
       </Container>
     </Section>
   );

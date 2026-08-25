@@ -74,6 +74,7 @@ export default async function WorkPage({ params }: PageProps<"/obra/[slug]">) {
           alt={work.image?.alt ?? work.title}
           focus="50% 28%"
           aspect="aspect-[3/4] sm:aspect-[4/3] lg:aspect-[16/9]"
+          zoomOnScroll
           pendingLabel={work.title}
         />
 
@@ -82,7 +83,7 @@ export default async function WorkPage({ params }: PageProps<"/obra/[slug]">) {
             <div className="max-w-[46ch]">
               {work.concept ? (
                 <Reveal>
-                  <Badge>{work.concept}</Badge>
+                  <Badge onImage>{work.concept}</Badge>
                 </Reveal>
               ) : null}
 
@@ -94,7 +95,7 @@ export default async function WorkPage({ params }: PageProps<"/obra/[slug]">) {
                 {/* The year sits immediately under the title, never buried in
                     the technical sheet at the foot of the page. */}
                 {work.year || work.attribution ? (
-                  <p className="mt-md font-sans text-sm leading-normal text-fg-muted">
+                  <p className="mt-md font-sans text-sm leading-normal text-fg">
                     {[work.attribution, work.year].filter(Boolean).join(" · ")}
                   </p>
                 ) : null}

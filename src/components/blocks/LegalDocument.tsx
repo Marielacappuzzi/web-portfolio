@@ -25,7 +25,13 @@ export function LegalDocument({ page, site }: LegalDocumentProps) {
 
   return (
     <Section ground="paper" rhythm="act" aria-labelledby="legal-titulo">
-      <Container width="text">
+      {/*
+        `default` rather than `text`. A legal page is scanned for a clause,
+        not read like prose, and the narrow measure turned these into a very
+        long scroll. It also matches the PageHeader above, so the title and
+        the text it introduces share one left edge.
+      */}
+      <Container width="default">
         <Reveal>
           <p className="font-sans text-2xs uppercase tracking-label text-fg-faint">
             {page.updated}

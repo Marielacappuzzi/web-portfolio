@@ -52,7 +52,14 @@ export default async function AboutPage() {
 
             <div className="lg:col-span-6 lg:col-start-7">
               <Reveal>
-                <Display as="h2" size="sub" id="recorrido-titulo">
+                <Display
+                  as="h2"
+                  size="section"
+                  id="recorrido-titulo"
+                  /* Her name should not share a weight with the paragraph
+                     under it: it is the heading of the section, not a label. */
+                  className="font-normal"
+                >
                   {withEmphasis("*Mariela Crapuzzi*")}
                 </Display>
               </Reveal>
@@ -147,7 +154,7 @@ export default async function AboutPage() {
                     ? "aspect-[9/16] sm:aspect-[3/4]"
                     : "aspect-video"
                 }
-                className="mx-auto max-w-[26rem] sm:max-w-[30rem]"
+                className="max-w-[26rem] sm:max-w-[30rem]"
               />
             </Reveal>
           ) : null

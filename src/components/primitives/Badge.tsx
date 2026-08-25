@@ -4,6 +4,12 @@ import { cn } from "@/lib/cn";
 interface BadgeProps {
   children: ReactNode;
   as?: ElementType;
+  /**
+   * Over a photograph rather than on a ground. The muted default is tuned for
+   * paper; on charcoal it drops to 55% white and stops carrying, so this
+   * raises both the border and the label to full strength.
+   */
+  onImage?: boolean;
   className?: string;
 }
 
@@ -19,15 +25,22 @@ interface BadgeProps {
  * so the badge answers the pointer along with the image instead of sitting
  * inert next to it.
  */
-export function Badge({ children, as: Tag = "span", className }: BadgeProps) {
+export function Badge({
+  children,
+  as: Tag = "span",
+  onImage = false,
+  className,
+}: BadgeProps) {
   return (
     <Tag
       className={cn(
-        "inline-block border border-rule px-2xs py-3xs",
-        "font-sans text-2xs font-medium uppercase tracking-label text-fg-muted",
+        "inline-block border px-2xs py-3xs",
+        "font-sans text-2xs font-medium uppercase tracking-label",
         "transition-colors duration-500 ease-out-quart",
-        "group-hover:border-fg-faint group-hover:text-fg",
         "motion-reduce:transition-none",
+        onImage
+          ? "border-fg text-fg-strong"
+          : "border-rule text-fg-muted group-hover:border-fg-faint group-hover:text-fg",
         className,
       )}
     >

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { Pending } from "@/components/primitives/Pending";
+import { ScrollScale } from "@/components/primitives/ScrollScale";
 import { cn } from "@/lib/cn";
 
 interface CoverImageProps {
@@ -22,6 +23,12 @@ interface CoverImageProps {
   scrim?: "light" | "dark";
   /** Shown inside the placeholder so it is clear which picture is missing. */
   pendingLabel?: string;
+  /**
+   * Scale the photograph as the band scrolls past, inside its fixed frame.
+   * The frame never moves; only the picture grows, so the work comes towards
+   * the reader rather than the layout shifting under them.
+   */
+  zoomOnScroll?: boolean;
   className?: string;
 }
 
@@ -48,6 +55,7 @@ export function CoverImage({
   focus,
   aspect = "aspect-[4/5] sm:aspect-[16/9] lg:aspect-[1920/750]",
   scrim = "dark",
+  zoomOnScroll = false,
   pendingLabel = "Portada 1920 × 750",
   className,
 }: CoverImageProps) {
@@ -79,16 +87,18 @@ export function CoverImage({
             />
           </picture>
         ) : (
-          <Image
-            src={src}
-            alt={alt}
-            fill
-            priority
-            quality={90}
-            sizes="100vw"
-            className="object-cover"
-            style={focus ? { objectPosition: focus } : undefined}
-          />
+          <ScrollScale className="absolute inset-0" to={zoomOnScroll ? 1.08 : 1}>
+            <Image
+              src={src}
+              alt={alt}
+              fill
+              priority
+              quality={90}
+              sizes="100vw"
+              className="object-cover"
+              style={focus ? { objectPosition: focus } : undefined}
+            />
+          </ScrollScale>
         )
       ) : (
         <div className="absolute inset-0 flex items-center justify-center">

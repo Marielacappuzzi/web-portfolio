@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { LegalDocument } from "@/components/blocks/LegalDocument";
 import { PageHeader } from "@/components/layout/PageHeader";
+import { BackToTop } from "@/components/primitives/BackToTop";
 import { getSite, getTermsPage } from "@/lib/content";
 
 export const metadata: Metadata = {
@@ -15,6 +16,7 @@ export default async function TermsPage() {
     <>
       <PageHeader heading={page.heading} />
       <LegalDocument page={page} site={site} />
+      <BackToTop />
     </>
   );
 }

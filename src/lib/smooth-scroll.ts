@@ -25,3 +25,16 @@ export function lockScroll(locked: boolean): void {
   if (locked) instance.stop();
   else instance.start();
 }
+
+/**
+ * Eases to the top of the page. Falls back to the browser when Lenis never
+ * started — reduced motion, or before mount.
+ */
+export function scrollToTop(): void {
+  if (instance) {
+    instance.scrollTo(0);
+    return;
+  }
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}

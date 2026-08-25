@@ -1,10 +1,12 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ArrowUpRightIcon } from "@/components/primitives/Icon";
 import type { NavChild } from "@/content/types";
+import { cn } from "@/lib/cn";
 
 interface NavSubmenuProps {
   items: NavChild[];
@@ -28,6 +30,7 @@ interface NavSubmenuProps {
  */
 export function NavSubmenu({ items, labelledBy, open }: NavSubmenuProps) {
   const root = useRef<HTMLDivElement>(null);
+  const pathname = usePathname();
 
   useEffect(() => {
     const el = root.current;
@@ -90,6 +93,13 @@ export function NavSubmenu({ items, labelledBy, open }: NavSubmenuProps) {
               where the two kinds part. A rule there separates them without a
               heading — the arrows already say which is which.
             */
+            /*
+              Which piece the reader is on. Only editorial links can match: an
+              anchor shares its path with the gallery, so marking those would
+              light up every one of them at once on /obra.
+            */
+            const current = child.editorial && pathname === child.href;
+
             const startsAnchors =
               !child.editorial && Boolean(items[index - 1]?.editorial);
 
@@ -101,7 +111,14 @@ export function NavSubmenu({ items, labelledBy, open }: NavSubmenuProps) {
               >
                 <Link
                   href={child.href}
-                  className="group flex items-center gap-2xs font-serif text-base font-light leading-snug text-fg transition-colors duration-300 hover:text-fg-strong"
+                  className={cn(
+                    "group flex items-center gap-2xs font-serif text-base leading-snug",
+                    "transition-colors duration-300",
+                    current
+                      ? "font-normal text-fg-strong"
+                      : "font-light text-fg hover:text-fg-strong",
+                  )}
+                  aria-current={current ? "page" : undefined}
                 >
                   {child.label}
 
