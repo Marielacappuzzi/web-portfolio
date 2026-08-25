@@ -85,12 +85,17 @@ export function LegalDocument({ page, site }: LegalDocumentProps) {
 
               {needsAddress.has(i) ? (
                 <div className="mt-md">
-                  {site.email ? (
+                  {site.legalEmail ? (
+                    /*
+                       The label and the target differ on purpose: the mailbox
+                       carries a misspelling the printed form corrects. Clicking
+                       always reaches the real inbox.
+                    */
                     <a
-                      href={`mailto:${site.email}`}
+                      href={`mailto:${site.legalEmail.address}`}
                       className="font-sans text-base text-fg-strong underline decoration-rule decoration-1 underline-offset-[6px] transition-colors duration-300 hover:decoration-current"
                     >
-                      {site.email}
+                      {site.legalEmail.display}
                     </a>
                   ) : (
                     <Pending kind="data" detail="Correo de contacto" />

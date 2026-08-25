@@ -18,6 +18,20 @@ export const site: SiteContent = {
   role: "Artista visual especializada en carboncillo.",
   location: "Santa Cruz de la Sierra, Bolivia",
   email: null,
+
+  /*
+   * Shown only in the privacy policy and the terms, where naming an address is
+   * the point — it is where someone writes to ask for their data. It is
+   * deliberately absent from the footer and /contacto, which route through the
+   * form instead.
+   *
+   * The mailbox is spelled "crappuzzi"; the printed form is "crapuzzi". See
+   * LegalEmail in types.ts for why, and for what it costs.
+   */
+  legalEmail: {
+    address: "web.marielacrappuzzi@gmail.com",
+    display: "web.marielacrapuzzi@gmail.com",
+  },
   instagramHandle: "@marielacrapuzzi_art",
   instagramUrl: "https://www.instagram.com/marielacrapuzzi_art",
 

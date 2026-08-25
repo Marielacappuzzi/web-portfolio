@@ -5,6 +5,7 @@ import Link from "next/link";
 import { type FormEvent, useState } from "react";
 import { ContactSent } from "./ContactSent";
 import { Pending } from "@/components/primitives/Pending";
+import { PhoneField } from "./PhoneField";
 import type { ContactPage, FormField } from "@/content/types";
 import { getRecaptchaToken, loadRecaptcha } from "@/lib/recaptcha-client";
 import { cn } from "@/lib/cn";
@@ -328,6 +329,14 @@ function Field({
             </option>
           ))}
         </select>
+      ) : field.kind === "tel" ? (
+        <PhoneField
+          id={id}
+          name={field.name}
+          describedBy={hintId}
+          disabled={disabled}
+          className={fieldBase}
+        />
       ) : (
         <input {...shared} type={field.kind} className={fieldBase} />
       )}
