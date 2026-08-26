@@ -29,6 +29,12 @@ interface CoverImageProps {
    * the reader rather than the layout shifting under them.
    */
   zoomOnScroll?: boolean;
+  /**
+   * An even wash over the whole picture, on top of the gradient. Set it where
+   * the source is soft — a phone still blown up to fill a screen — because a
+   * darker frame hides grain that a bright one puts on display.
+   */
+  dim?: boolean;
   className?: string;
 }
 
@@ -56,6 +62,7 @@ export function CoverImage({
   aspect = "aspect-[4/5] sm:aspect-[16/9] lg:aspect-[1920/750]",
   scrim = "dark",
   zoomOnScroll = false,
+  dim = false,
   pendingLabel = "Portada 1920 × 750",
   className,
 }: CoverImageProps) {
@@ -105,6 +112,14 @@ export function CoverImage({
           <Pending kind="asset" detail={pendingLabel} />
         </div>
       )}
+
+      {/*
+        An even wash, when asked for. It goes under the gradient below, so the
+        column holding the type is still the darkest part of the frame.
+      */}
+      {src && dim ? (
+        <div aria-hidden="true" className="absolute inset-0 bg-ink/45" />
+      ) : null}
 
       {/*
         Legibility veil, on the text column only.

@@ -84,14 +84,18 @@ export default async function WorkPage({ params }: PageProps<"/obra/[slug]">) {
           alt={work.image?.alt ?? work.title}
           focus={work.coverFocus ?? "50% 28%"}
           /*
-            A fixed height rather than a ratio. Every cover here is a portrait
-            photograph of a portrait-format drawing — around 0.6 — and a 16/9
-            frame threw away two thirds of it to fill the width. Capping the
-            band at 750px keeps the opening in proportion to the page and lets
-            `focus` choose which part of the work is shown, instead of the
-            frame deciding by force of shape.
+            The full height of the device. `dvh` rather than `vh`: on a phone
+            the browser chrome makes 100vh taller than the screen, so the band
+            would push its own caption off the bottom.
           */
-          aspect="h-[60vh] min-h-[26rem] sm:h-[70vh] lg:h-[750px]"
+          aspect="h-[100dvh]"
+          /*
+            These covers are phone photographs of drawings, blown up to fill a
+            screen, and the grain shows. A darker frame hides what a bright one
+            puts on display — and the work itself is charcoal, so dark is where
+            it belongs anyway.
+          */
+          dim
           zoomOnScroll
           pendingLabel={work.title}
         />
