@@ -7,24 +7,25 @@ import type { HeroContent } from "@/content/types";
 
 interface HeroProps {
   content: HeroContent;
+  /** From site.ts, so the name is never written twice. */
+  name: string;
+  role: string;
 }
 
 /**
- * The opening: one cover band, with the sentence set over it on the left.
+ * The opening: a photograph of Mariela working, then her name.
  *
- * The type sits on the image rather than under it, ranged left on the same
- * axis the rest of the page uses. Centred type over a photograph has nowhere
- * to align to and drifts; a left edge gives every line the same start and
- * reads as composed. Contrast comes from the scrim inside CoverImage, so the
- * words stay legible without a panel behind them.
+ * The type is under the band, not over it. The cover is now the charcoal
+ * itself — the horse fills the left half, exactly where the sentence used to
+ * sit — and putting words there would mean veiling the drawing to make them
+ * legible. Below the band the page is white, the name has as much size as it
+ * wants, and nothing is laid over the work. It is also the order Mariela
+ * described: the photograph first, then who made it.
  *
- * `data-ground="paper"` because the portada is a pale wall — measured at 0.72
- * luminance where the sentence sits. Light type would need the picture
- * darkened to work, and darkening a photograph to make room for words is
- * exactly the kind of shouting the brief rules out. Dark type on a light veil
- * leaves the work as it was photographed.
+ * Her name is the h1. On an artist's home it is the true heading, and it was
+ * previously set as a label two sizes smaller than a sentence about the work.
  */
-export function Hero({ content }: HeroProps) {
+export function Hero({ content, name, role }: HeroProps) {
   return (
     <section
       data-ground="paper"
@@ -36,47 +37,46 @@ export function Hero({ content }: HeroProps) {
         alt={content.cover?.alt ?? ""}
         mobileSrc={content.cover?.mobileSrc}
         focus={content.cover?.focus}
-        scrim="light"
+        scrim="none"
       />
 
-      {/*
-        The type layer. It is absolutely placed on wide screens so the band
-        keeps its exact 1920 × 750 proportion, and returns to normal flow
-        under `sm`, where a phone-sized crop has no room to hold both.
-      */}
-      <div className="inset-0 bg-bg px-0 pb-2xl pt-xl sm:absolute sm:flex sm:items-end sm:bg-transparent sm:pb-3xl sm:pt-0">
-        <Container width="wide" className="w-full">
-          <div className="max-w-[46ch]">
-            <Reveal>
-              <Eyebrow>{content.eyebrow}</Eyebrow>
-            </Reveal>
+      <Container width="wide" className="pb-3xl pt-2xl sm:pt-3xl">
+        <Reveal>
+          <Display as="h1" size="cover" id="hero-titulo" measure={14}>
+            {name}
+          </Display>
+        </Reveal>
 
-            <Reveal delay={120} className="mt-md">
-              <Display as="h1" size="cover" id="hero-titulo" measure={20}>
-                {content.title}
-              </Display>
-            </Reveal>
+        <Reveal delay={120} className="mt-md">
+          <Eyebrow>{role}</Eyebrow>
+        </Reveal>
 
-            <Reveal delay={240} className="mt-lg">
-              <p className="max-w-[52ch] font-sans text-base leading-relaxed text-pretty text-fg">
-                {content.description}
-              </p>
-            </Reveal>
+        <div className="mt-2xl max-w-[52ch]">
+          <Reveal delay={240}>
+            <p className="font-serif text-xl font-light leading-snug text-pretty text-fg-strong">
+              {content.title}
+            </p>
+          </Reveal>
 
-            <Reveal
-              delay={360}
-              className="mt-lg-plus flex flex-wrap items-center gap-x-lg gap-y-md"
-            >
-              <ActionButton href={content.primaryAction.href}>
-                {content.primaryAction.label}
-              </ActionButton>
-              <QuietLink href={content.secondaryAction.href}>
-                {content.secondaryAction.label}
-              </QuietLink>
-            </Reveal>
-          </div>
-        </Container>
-      </div>
+          <Reveal delay={360} className="mt-lg">
+            <p className="font-sans text-base leading-relaxed text-pretty text-fg">
+              {content.description}
+            </p>
+          </Reveal>
+
+          <Reveal
+            delay={480}
+            className="mt-lg-plus flex flex-wrap items-center gap-x-lg gap-y-md"
+          >
+            <ActionButton href={content.primaryAction.href}>
+              {content.primaryAction.label}
+            </ActionButton>
+            <QuietLink href={content.secondaryAction.href}>
+              {content.secondaryAction.label}
+            </QuietLink>
+          </Reveal>
+        </div>
+      </Container>
     </section>
   );
 }

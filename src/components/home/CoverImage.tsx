@@ -20,7 +20,7 @@ interface CoverImageProps {
    * How the scrim reads. `light` veils a pale photograph so dark type stays
    * legible; `dark` weights the lower left for light type over charcoal.
    */
-  scrim?: "light" | "dark";
+  scrim?: "light" | "dark" | "none";
   /** Shown inside the placeholder so it is clear which picture is missing. */
   pendingLabel?: string;
   /**
@@ -70,7 +70,7 @@ export function CoverImage({
     <div
       className={cn(
         "relative w-full overflow-hidden",
-        scrim === "light" ? "bg-paper" : "bg-ink",
+        scrim === "none" ? "hidden" : scrim === "light" ? "bg-paper" : "bg-ink",
         aspect,
         className,
       )}
@@ -132,7 +132,7 @@ export function CoverImage({
         Below `sm` the type sits under the image rather than on it, so no veil
         is needed at all.
       */}
-      {src ? (
+      {src && scrim !== "none" ? (
         <div
           aria-hidden="true"
           className={cn(

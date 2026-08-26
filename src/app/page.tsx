@@ -3,7 +3,7 @@ import { Artist } from "@/components/home/Artist";
 import { FeaturedWorks } from "@/components/home/FeaturedWorks";
 import { Hero } from "@/components/home/Hero";
 import { Statement } from "@/components/home/Statement";
-import { getFeaturedWorks, getHome } from "@/lib/content";
+import { getFeaturedWorks, getHome, getSite } from "@/lib/content";
 
 /**
  * Home — six sections.
@@ -21,14 +21,15 @@ import { getFeaturedWorks, getHome } from "@/lib/content";
  * conceptual weight without delaying her entrance.
  */
 export default async function HomePage() {
-  const [content, featured] = await Promise.all([
+  const [content, featured, site] = await Promise.all([
     getHome(),
     getFeaturedWorks(),
+    getSite(),
   ]);
 
   return (
     <>
-      <Hero content={content.hero} />
+      <Hero content={content.hero} name={site.name} role={site.role} />
       <Statement content={content.statement} />
       <Artist content={content.artist} />
       <FeaturedWorks content={content.featured} works={featured} />

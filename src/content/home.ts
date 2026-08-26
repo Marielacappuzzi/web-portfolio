@@ -21,19 +21,20 @@ export const home: HomeContent = {
     primaryAction: { label: "Explorar la obra", href: "/obra" },
     secondaryAction: { label: "Conocer mi proceso", href: "/sobre-mi#proceso" },
     /*
-     * The portada: the work framed on a wall, not a photograph of the sheet.
-     * The home opens on how a piece lives in a room, which is the question a
-     * visitor arrives with — the catalogue answers what each piece looks like.
+     * The portada: Mariela drawing, with the charcoal in her hand.
+     * She asked for this over the framed piece that opened the site before —
+     * it says what she does in the first second, which a photograph of a wall
+     * cannot. She sits on the right of the frame, so the horse's head fills
+     * the left and the type now lives under the band rather than over it.
      *
-     * Two files rather than one crop. The landscape frame leaves its left half
-     * clear for the sentence; on a phone that half disappears, so the portrait
-     * file is composed with the frame low and the wall open above it.
+     * Two files: the landscape band is cropped from the middle of the
+     * original, and phones get the full portrait frame.
      */
     cover: {
-      src: "/portada/inicio.jpg",
-      mobileSrc: "/portada/inicio-movil.jpg",
-      alt: "La obra Bajo su Protección enmarcada en negro sobre una pared clara, con un aparador bajo, unos libros y un ramo de olivo debajo.",
-      focus: "70% 50%",
+      src: "/portada/pintando.jpg",
+      mobileSrc: "/portada/pintando-movil.jpg",
+      alt: "Mariela Crapuzzi dibujando a carboncillo sobre la obra Toro Salvaje: la cabeza del caballo a la izquierda y su mano con el lápiz sobre la crin.",
+      focus: "50% 50%",
     },
   },
 
