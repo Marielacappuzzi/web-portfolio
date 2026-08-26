@@ -6,6 +6,8 @@ import { SmoothScroll } from "@/components/primitives/SmoothScroll";
 import { PageTransition } from "@/components/primitives/PageTransition";
 import { getSite, getWorks } from "@/lib/content";
 import { siteUrl } from "@/lib/site-url";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 
 /**
@@ -99,6 +101,19 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
         </main>
 
         <SiteFooter site={site} />
+
+        {/*
+          Vercel observability. Runtime logs need nothing here — they are
+          collected by the platform and read from the project dashboard.
+          These two are the part that does require the page: Analytics
+          reports which pages are visited, Speed Insights reports how fast
+          they load for real visitors rather than in a lab.
+
+          Neither sets a cookie or identifies anyone, so no consent banner is
+          required — which matters on a site whose whole manner is quiet.
+        */}
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
