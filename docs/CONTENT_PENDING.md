@@ -165,3 +165,38 @@ enrutan por el formulario, y por eso `site.email` sigue en `null`.
 territorios, sus prefijos y los nombres de país en español. Se usan sus datos,
 no su componente: ese trae su propia hoja de estilos y traería un segundo
 lenguaje visual al formulario.
+
+
+---
+
+## Revisión del 2026-08-26 — reestructura de arquitectura
+
+**Hecho.** «Jesús, la oveja y el lobo» pasó a **El Rescate** en todo el sitio,
+incluidos slug (`/obra/el-rescate`), carpetas de assets y nombres de video; la
+ruta vieja redirige. La home tiene un solo bloque de obra —«Obras insignia», con
+El Rescate primero— y la grilla completa vive solo en `/obra`, dividida en
+«Obras destacadas» y «Todas las obras». Sobre mí perdió las cuatro tarjetas
+duplicadas, la mención a Sueño de Primavera y la frase repetida del inicio.
+Oltre lo Sguardo quedó en gris neutro (R=G=B=89; venía con R−B de 30,6 en el
+archivo fuente, no por CSS). Ninguna página repite una imagen.
+
+**Falta material fotográfico para las tres destacadas.** La estructura ya está
+lista y cada bloque aparece solo si tiene imágenes, así que nada se rompe
+mientras tanto — pero hoy se ven así:
+
+| Obra | Principal | Detalle | Enmarcada en pared |
+| --- | --- | --- | --- |
+| **El Rescate** | obra en proceso | ❌ falta | ❌ falta |
+| **Bajo su Protección** | ✅ | ✅ ×3 | ✅ |
+| **Sueño de Primavera** | ✅ | ✅ ×2 | ✅ |
+
+**El Rescate es el caso urgente:** su página tiene una sola fotografía —la obra
+en proceso— más el video. Al terminarla hacen falta la placa definitiva, al
+menos un recorte de detalle y un mockup enmarcado.
+
+Dónde van: `public/obra/el-rescate/`, declaradas en `src/content/works.ts` como
+`image`, `detailImages` y `framedImages`.
+
+> El bloque «La historia» toma prestada una imagen de detalle o de pared **solo
+> si esa sección tiene otra de sobra**, así que añadir fotos nunca deja una
+> sección vacía ni vuelve a duplicar nada.

@@ -38,14 +38,24 @@ export const site: SiteContent = {
   nav: [
     { label: "Obras", href: "/obra" },
     { label: "Sobre mí", href: "/sobre-mi" },
-    { label: "Encargos", href: "/encargos" },
+    /*
+     * Named as the visitor's intention rather than as a category. "Encargos"
+     * describes a kind of page; this says what pressing it does, which is the
+     * one route on the site someone arrives already wanting.
+     */
+    { label: "Quiero hacer un encargo", href: "/encargos" },
     { label: "Contacto", href: "/contacto" },
   ],
 
   footerNav: [
     { label: "Obras", href: "/obra" },
     { label: "Sobre mí", href: "/sobre-mi" },
-    { label: "Encargos", href: "/encargos" },
+    /*
+     * Named as the visitor's intention rather than as a category. "Encargos"
+     * describes a kind of page; this says what pressing it does, which is the
+     * one route on the site someone arrives already wanting.
+     */
+    { label: "Quiero hacer un encargo", href: "/encargos" },
     { label: "Contacto", href: "/contacto" },
   ],
 

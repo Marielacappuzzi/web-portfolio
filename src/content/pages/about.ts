@@ -32,14 +32,25 @@ export const about: AboutPage = {
   intro: [
     "Soy una artista boliviana dedicada al realismo figurativo contemporáneo.",
     "Mi formación comenzó en 2022 en la Academia de Artes Figurativas de Santa Cruz de la Sierra, donde cursé estudios de dibujo y pintura, para posteriormente especializarme en carboncillo.",
-    "Sueño de Primavera, mi reinterpretación de Rêve de printemps de William-Adolphe Bouguereau, fue mi primera obra de gran formato y formó parte de mi primera exposición.",
+    /*
+     * Bouguereau stays as a referent, but detached from the work he inspired.
+     * Naming Sueño de Primavera here dragged a piece — and its edition — into
+     * a page that is meant to be about Mariela and nothing else.
+     */
+    "Entre mis referentes está William-Adolphe Bouguereau, cuya sensibilidad para la figura y la expresión marcó mi manera de mirar desde los primeros años de formación.",
   ],
 
   /* Copy.md §2 — the reasoning the home only hints at */
   statement: {
+    /*
+     * Not the home's two lines again. That sentence is the site's opening
+     * statement and belongs there; reading it twice on the way through made
+     * the second time feel like a page that had run out of things to say.
+     * Same idea, said from the inside of the work rather than as a manifesto.
+     */
     titleLines: [
-      "No busco reproducir lo que veo.",
-      "Busco encontrar lo que esa imagen *puede decir*.",
+      "Dibujar es una forma de mirar",
+      "hasta que la imagen *empieza a hablar*.",
     ],
     paragraphs: [
       "Detrás de cada obra existe una historia, un vínculo o una emoción que no siempre es visible a primera vista.",

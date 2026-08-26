@@ -17,7 +17,7 @@ import {
 import { cn } from "@/lib/cn";
 
 interface VideoPlayerProps {
-  /** Path under /public, e.g. "/video/jesus-en-proceso.mp4". */
+  /** Path under /public, e.g. "/video/el-rescate-en-proceso.mp4". */
   src: string;
   /** Still frame. Carries the frame before the file is touched. */
   poster?: string;

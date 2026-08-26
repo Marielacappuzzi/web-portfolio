@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { ContactCallout } from "@/components/blocks/ContactCallout";
-import { VisionList } from "@/components/blocks/VisionList";
 import { ProseSection } from "@/components/blocks/ProseSection";
 import { Container, Section } from "@/components/layout/Section";
 import { PageHeader } from "@/components/layout/PageHeader";
@@ -140,6 +139,7 @@ export default async function AboutPage() {
       <ProseSection
         block={page.language}
         ground="chamber"
+        id="proceso"
         headingId="lenguaje-titulo"
         aside={
           page.languageVideo ? (
@@ -162,11 +162,16 @@ export default async function AboutPage() {
       />
 
       {/* How she works. The anchor the whole site links to. */}
-      <VisionList
-        block={page.vision}
-        id="proceso"
-        headingId="proceso-titulo"
-      />
+      {/*
+        The four "La mirada" cards are gone. They restated, in four headings,
+        exactly what the prose above already says — the emotion as material,
+        what lies beyond the visible, why charcoal, realism as a means. The
+        paragraphs are Mariela's approved text; the cards were a second telling
+        of it, and the page read as if it did not trust its own writing.
+
+        The #proceso anchor moves to the charcoal section, which is what the
+        rest of the site was pointing at anyway.
+      */}
 
       <ContactCallout content={home.contact} />
     </>

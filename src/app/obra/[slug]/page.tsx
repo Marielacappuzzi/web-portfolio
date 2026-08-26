@@ -58,10 +58,29 @@ export default async function WorkPage({ params }: PageProps<"/obra/[slug]">) {
   const nextWork = await getNextWork(slug);
 
   /*
-    A crop for the story column. Prefer a detail, fall back to a framed shot;
-    the main plate is already the cover, so reusing it would only repeat.
+    A crop for the story column, and then the sections below skip it.
+    It used to take detailImages[0] and leave the galleries untouched, so the
+    same photograph appeared twice on one page — once beside the story and
+    again under "El detalle" or "En una pared". A page that shows a visitor the
+    same image twice looks like it has run out of material.
+
+    An image is only borrowed when the section it comes from has one to spare,
+    so nothing below is ever left empty to fill the column above.
   */
-  const storyImage = work.detailImages?.[0] ?? work.framedImages?.[0] ?? null;
+  const details = work.detailImages ?? [];
+  const framed = work.framedImages ?? [];
+
+  const storyFromDetails = details.length > 1;
+  const storyFromFramed = !storyFromDetails && framed.length > 1;
+
+  const storyImage = storyFromDetails
+    ? details[0]
+    : storyFromFramed
+      ? framed[0]
+      : null;
+
+  const detailImages = storyFromDetails ? details.slice(1) : details;
+  const framedImages = storyFromFramed ? framed.slice(1) : framed;
 
   const processCount =
     (work.processVideos?.length ?? 0) + (work.processImages?.length ?? 0);
@@ -186,7 +205,7 @@ export default async function WorkPage({ params }: PageProps<"/obra/[slug]">) {
         most works have photographs, a visitor should not be shown scaffolding.
         What is still missing is tracked in docs/CONTENT_PENDING.md.
       */}
-      {work.detailImages && work.detailImages.length > 0 ? (
+      {detailImages.length > 0 ? (
         <Section
           ground="chamber"
           rhythm="act"
@@ -208,17 +227,17 @@ export default async function WorkPage({ params }: PageProps<"/obra/[slug]">) {
             instead, each keeping the proportion it was photographed at rather
             than being cropped to a shared box.
           */}
-          {work.detailImages.length > 2 ? (
+          {detailImages.length > 2 ? (
             <div className="mt-xl">
               <WorkGallery
-                images={work.detailImages}
+                images={detailImages}
                 label={"Detalles de " + work.title}
               />
             </div>
           ) : (
             <Container width="wide">
               <ul className="mt-xl grid grid-cols-1 gap-lg sm:grid-cols-2 sm:gap-x-[3vw]">
-                {work.detailImages.map((image, i) => (
+                {detailImages.map((image, i) => (
                   <li key={image.src}>
                     <Reveal variant="image" delay={i * 120}>
                       <Figure
@@ -247,7 +266,7 @@ export default async function WorkPage({ params }: PageProps<"/obra/[slug]">) {
         looks like; this answers how large it is and how it lives in a room,
         which is the question a visitor considering a commission actually has.
       */}
-      {work.framedImages && work.framedImages.length > 0 ? (
+      {framedImages.length > 0 ? (
         <Section ground="paper" rhythm="act" aria-labelledby="enmarcada-titulo">
           <Container width="wide">
             <div className="grid gap-2xl lg:grid-cols-12 lg:gap-x-[4vw]">
@@ -260,7 +279,7 @@ export default async function WorkPage({ params }: PageProps<"/obra/[slug]">) {
               </div>
 
               <div className="grid grid-cols-1 gap-lg sm:grid-cols-2 sm:gap-x-[3vw] lg:col-span-8 lg:col-start-5">
-                {work.framedImages.map((image, i) => (
+                {framedImages.map((image, i) => (
                   <ScrollReveal key={image.src} distance={i % 2 ? 88 : 56}>
                     <Figure
                       src={image.src}

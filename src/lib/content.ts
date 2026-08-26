@@ -116,6 +116,11 @@ export async function getCommissionVideos(): Promise<Work[]> {
  * is repeating itself. This is where curation happens as the catalogue grows —
  * not in the component.
  */
+/** Everything that is not one of the three flagships. */
+export async function getRestOfCatalogue(): Promise<Work[]> {
+  return works.filter((work) => !work.featured).sort(byOrder);
+}
+
 export async function getGallerySelection(limit = 4): Promise<Work[]> {
   return works
     .filter((work) => !work.featured)

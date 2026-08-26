@@ -3,8 +3,14 @@ import { ContactCallout } from "@/components/blocks/ContactCallout";
 import { Container, Section } from "@/components/layout/Section";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { Reveal } from "@/components/primitives/Reveal";
+import { Eyebrow } from "@/components/primitives/Type";
 import { WorkGrid } from "@/components/work/WorkGrid";
-import { getHome, getWorkIndexPage, getWorks } from "@/lib/content";
+import {
+  getFeaturedWorks,
+  getHome,
+  getRestOfCatalogue,
+  getWorkIndexPage,
+} from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "Obra",
@@ -20,9 +26,10 @@ export const metadata: Metadata = {
  * adding them later is a query change rather than a rebuild.
  */
 export default async function WorkIndexPage() {
-  const [page, works, home] = await Promise.all([
+  const [page, featured, rest, home] = await Promise.all([
     getWorkIndexPage(),
-    getWorks(),
+    getFeaturedWorks(),
+    getRestOfCatalogue(),
     getHome(),
   ]);
 
@@ -33,12 +40,43 @@ export default async function WorkIndexPage() {
         lead={page.description}
       />
 
-      <Section ground="paper" rhythm="beat">
-        <Container width="wide">
-          {works.length > 0 ? (
-            <WorkGrid works={works} />
-          ) : (
+      {/*
+        The three flagships, grouped and on their own ground.
+        They were mixed into the same grid as everything else, which meant the
+        site's one real hierarchy — these three carry the argument, the rest is
+        the catalogue — was invisible. A slightly lighter ground separates them
+        without raising the contrast enough to read as a different site.
+      */}
+      {featured.length > 0 ? (
+        <Section
+          ground="paper-bright"
+          rhythm="act"
+          aria-labelledby="destacadas-titulo"
+        >
+          <Container width="wide">
             <Reveal>
+              <Eyebrow as="h2" id="destacadas-titulo">
+                {page.featuredEyebrow}
+              </Eyebrow>
+            </Reveal>
+
+            <WorkGrid works={featured} className="mt-2xl" />
+          </Container>
+        </Section>
+      ) : null}
+
+      <Section ground="paper" rhythm="act" aria-labelledby="todas-titulo">
+        <Container width="wide">
+          <Reveal>
+            <Eyebrow as="h2" id="todas-titulo">
+              {page.restEyebrow}
+            </Eyebrow>
+          </Reveal>
+
+          {rest.length > 0 ? (
+            <WorkGrid works={rest} className="mt-2xl" />
+          ) : (
+            <Reveal className="mt-2xl">
               <p className="max-w-[52ch] font-sans text-base leading-relaxed text-fg-muted">
                 {page.emptyMessage}
               </p>

@@ -80,23 +80,18 @@ export const home: HomeContent = {
     },
   },
 
-  work: {
-    eyebrow: "Obra seleccionada",
-    title: "Historias llevadas al *carboncillo*.",
-    action: { label: "Ver todas las obras", href: "/obra" },
-  },
-
   /*
-   * 4 — Iniciar una conversación. Copy.md §10. This is the equivalent of Yulia
-   * Bas's ENQUIRIES block: one way in, plus a quiet route to commissions.
-   */
-  /*
-   * 5 — Obras destacadas: the three pieces with an editorial page, in the
-   * sequence origin → interpretation → a voice of her own. No headline of its
-   * own; the concept labels orient the sequence and no copy was invented.
+   * 4 — Obras insignia.
+   *
+   * One block of work on the home, not two. "Obra seleccionada" sat directly
+   * above "Obras destacadas" with a five-piece grid between them, and nobody
+   * could tell what separated the two. The full catalogue now lives only on
+   * /obra, where a visitor goes to browse; the home shows the three pieces the
+   * site is actually built around and sends everyone there for the rest.
    */
   featured: {
-    eyebrow: "Obras destacadas",
+    eyebrow: "Obras insignia",
+    action: { label: "Ver todas las obras", href: "/obra" },
   },
 
   contact: {

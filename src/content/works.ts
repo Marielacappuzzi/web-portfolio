@@ -435,7 +435,7 @@ export const works: Work[] = [
     },
 
     order: 9,
-    featuredOrder: 1,
+    featuredOrder: 3,
   },
 
   /*
@@ -444,10 +444,10 @@ export const works: Work[] = [
    * docs/Copy.md §4. Adding `image` here replaces the placeholder everywhere.
    */
   {
-    slug: "jesus-la-oveja-y-el-lobo",
+    slug: "el-rescate",
     /* Las fauces del lobo, que es lo que la obra pone primero. */
     coverFocus: "50% 22%",
-    title: "Jesús, la oveja y el lobo",
+    title: "El Rescate",
     kind: "personal",
     /*
      * The piece is unfinished, so this is the work in progress rather than a
@@ -456,7 +456,7 @@ export const works: Work[] = [
      * what it is — the caption says so wherever it appears.
      */
     image: {
-      src: "/obra/jesus-oveja-lobo/jesus-en-proceso.jpg",
+      src: "/obra/el-rescate/en-proceso.jpg",
       alt: "La obra en proceso: el lobo a carboncillo con las fauces abiertas, y la mano de Mariela trabajando sobre él con un difumino.",
       width: 900,
       height: 1600,
@@ -464,10 +464,10 @@ export const works: Work[] = [
     ratio: "portrait",
     processVideos: [
       {
-        src: "/video/jesus-en-proceso.mp4",
-        poster: "/video/jesus-en-proceso.jpg",
+        src: "/video/el-rescate-en-proceso.mp4",
+        poster: "/video/el-rescate-en-proceso.jpg",
         label:
-          "Jesús, la oveja y el lobo en proceso, sobre el tablero de Mariela Crapuzzi.",
+          "El Rescate en proceso, sobre el tablero de Mariela Crapuzzi.",
         portrait: true,
         caption:
           "La obra en curso. Las fotografías definitivas llegarán al terminarla.",
@@ -481,6 +481,6 @@ export const works: Work[] = [
     hasEditorialPage: true,
     printAvailable: false,
     order: 10,
-    featuredOrder: 3,
+    featuredOrder: 1,
   },
 ];

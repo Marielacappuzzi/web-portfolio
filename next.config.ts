@@ -10,6 +10,12 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       { source: "/aviso-legal", destination: "/terminos", permanent: true },
+      /* The work was renamed "El Rescate"; the old slug still resolves. */
+      {
+        source: "/obra/jesus-la-oveja-y-el-lobo",
+        destination: "/obra/el-rescate",
+        permanent: true,
+      },
     ];
   },
 

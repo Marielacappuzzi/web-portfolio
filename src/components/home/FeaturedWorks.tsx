@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Container, Section } from "@/components/layout/Section";
+import { ActionButton } from "@/components/primitives/ActionLink";
 import { Badge } from "@/components/primitives/Badge";
 import { Reveal } from "@/components/primitives/Reveal";
 import { ArrowRightIcon } from "@/components/primitives/Icon";
@@ -65,7 +66,19 @@ export function FeaturedWorks({ content, works }: FeaturedWorksProps) {
                 </Reveal>
 
                 <Reveal delay={i * 120 + 120} className="mt-md">
-                  {work.concept ? <Badge>{work.concept}</Badge> : null}
+                  <span className="flex flex-wrap items-center gap-2xs">
+                    {work.concept ? <Badge>{work.concept}</Badge> : null}
+
+                    {/*
+                      The only commercial signal outside the work's own page,
+                      and deliberately just a signal: no price, no stock, no
+                      call to buy. Those belong to /obra/sueno-de-primavera,
+                      which is where this card already leads.
+                    */}
+                    {work.printAvailable ? (
+                      <Badge>Print disponible</Badge>
+                    ) : null}
+                  </span>
                   <p className="mt-xs font-serif text-xl font-light leading-tight tracking-tight text-fg-strong">
                     {work.title}
                   </p>
@@ -96,6 +109,13 @@ export function FeaturedWorks({ content, works }: FeaturedWorksProps) {
             </li>
           ))}
         </ul>
+
+        {/* The catalogue lives on /obra now, so the home has to point there. */}
+        <Reveal className="mt-3xl flex justify-center">
+          <ActionButton href={content.action.href}>
+            {content.action.label}
+          </ActionButton>
+        </Reveal>
       </Container>
     </Section>
   );

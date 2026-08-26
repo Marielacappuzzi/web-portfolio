@@ -294,13 +294,14 @@ export interface HomeArtistContent extends SectionHeading {
 
 export interface HomeFeaturedContent {
   eyebrow: string;
+  /** The way through to the full catalogue, now that the home shows only three. */
+  action: NavItem;
 }
 
 export interface HomeContent {
   hero: HeroContent;
   statement: HomeStatementContent;
   artist: HomeArtistContent;
-  work: HomeWorkContent;
   featured: HomeFeaturedContent;
   contact: HomeContactContent;
 }
@@ -309,6 +310,10 @@ export interface HomeContent {
 
 export interface WorkIndexPage extends SectionHeading {
   description: string;
+  /** Heading over the three flagships, grouped above the catalogue. */
+  featuredEyebrow: string;
+  /** Heading over everything else. */
+  restEyebrow: string;
   /** Shown when the catalogue is still empty. */
   emptyMessage: string;
 }
