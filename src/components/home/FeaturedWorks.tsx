@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { Container, Section } from "@/components/layout/Section";
 import { ActionButton } from "@/components/primitives/ActionLink";
-import { Badge } from "@/components/primitives/Badge";
 import { Reveal } from "@/components/primitives/Reveal";
 import { ArrowRightIcon } from "@/components/primitives/Icon";
 import { Display } from "@/components/primitives/Type";
@@ -19,8 +18,9 @@ interface FeaturedWorksProps {
  *
  * Images and names only. Yulia Bas's homepage carries no captions at all — the
  * work is the argument and the project name is the entry point. The concept
- * label stays because it is what orients the sequence; everything else lives
- * on /obra and the editorial pages.
+ * labels that used to head each card are gone with everything else: they read
+ * as three more things to take in above three titles, on the one screen that
+ * should ask nothing of the visitor. What each piece is about is on its page.
  *
  * The three cards share one 4/5 frame. Elsewhere each piece keeps its own
  * proportion, but here they are read as a row: with native ratios the titles
@@ -66,20 +66,7 @@ export function FeaturedWorks({ content, works }: FeaturedWorksProps) {
                 </Reveal>
 
                 <Reveal delay={i * 120 + 120} className="mt-md">
-                  <span className="flex flex-wrap items-center gap-2xs">
-                    {work.concept ? <Badge>{work.concept}</Badge> : null}
-
-                    {/*
-                      The only commercial signal outside the work's own page,
-                      and deliberately just a signal: no price, no stock, no
-                      call to buy. Those belong to /obra/sueno-de-primavera,
-                      which is where this card already leads.
-                    */}
-                    {work.printAvailable ? (
-                      <Badge>Print disponible</Badge>
-                    ) : null}
-                  </span>
-                  <p className="mt-xs font-serif text-xl font-light leading-tight tracking-tight text-fg-strong">
+                  <p className="font-serif text-xl font-light leading-tight tracking-tight text-fg-strong">
                     {work.title}
                   </p>
 

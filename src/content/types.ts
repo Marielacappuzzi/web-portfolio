@@ -245,7 +245,12 @@ export interface CoverContent {
 }
 
 export interface HeroContent {
-  eyebrow: string;
+  /*
+    No eyebrow. It read "Mariela Crapuzzi · Artista visual" above a sentence
+    about the work; both halves are now said properly — the name as the
+    heading, the role as the line under it, both from site.ts so neither is
+    written twice.
+  */
   title: string;
   description: string;
   primaryAction: NavItem;

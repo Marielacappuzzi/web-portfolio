@@ -4,6 +4,7 @@ import { CoverImage } from "@/components/home/CoverImage";
 import { Reveal } from "@/components/primitives/Reveal";
 import { Display, Eyebrow } from "@/components/primitives/Type";
 import type { HeroContent } from "@/content/types";
+import { withEmphasis } from "@/lib/emphasis";
 
 interface HeroProps {
   content: HeroContent;
@@ -42,7 +43,13 @@ export function Hero({ content, name, role }: HeroProps) {
 
       <Container width="wide" className="pb-3xl pt-2xl sm:pt-3xl">
         <Reveal>
-          <Display as="h1" size="cover" id="hero-titulo" measure={14}>
+          {/*
+            `hero`, the top of the scale — up to 5.75rem. `cover` was made
+            deliberately smaller so a sentence could sit beside a drawing
+            without towering over it; a name under a photograph has no such
+            neighbour, and this one is meant to be the first thing read.
+          */}
+          <Display as="h1" size="hero" id="hero-titulo" measure={18}>
             {name}
           </Display>
         </Reveal>
@@ -53,8 +60,14 @@ export function Hero({ content, name, role }: HeroProps) {
 
         <div className="mt-2xl max-w-[52ch]">
           <Reveal delay={240}>
+            {/*
+              The sentence carries *emphasis* markup from Copy.md, which the
+              Display component would have resolved for it. Demoted to a
+              paragraph — the name is the heading now — it has to resolve its
+              own, or the asterisks print.
+            */}
             <p className="font-serif text-xl font-light leading-snug text-pretty text-fg-strong">
-              {content.title}
+              {withEmphasis(content.title)}
             </p>
           </Reveal>
 

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { ArtworkFrame } from "./ArtworkFrame";
-import { WorkIdentity, WorkSpecs } from "./WorkMeta";
+import { WorkIdentity } from "./WorkMeta";
 import { ArrowRightIcon } from "@/components/primitives/Icon";
 import { Reveal } from "@/components/primitives/Reveal";
 import type { Work } from "@/content/types";
@@ -34,13 +34,18 @@ interface WorkCardProps {
 }
 
 /**
- * One piece in the gallery, in Mariela's order:
+ * One piece in the gallery: image, title, year. Nothing else.
  *
- *     image → title → year → curatorial line → technical sheet
+ * The card used to carry the curatorial line and the technical sheet as well.
+ * Read down a grid of ten that became ten paragraphs competing with ten
+ * drawings, and the writing lost twice — it was too short to say anything and
+ * too long to skim. Mariela asked for the grid to be images and names, with
+ * everything else waiting on the other side of the click.
  *
- * The curatorial line is hers and sits between the name and the specs, where
- * it gets read. The sheet closes the block, set apart by a hairline so it
- * reads as a caption to the piece rather than a continuation of the writing.
+ * The full order she set — image → title → year → curatorial text → technical
+ * sheet — still holds; it now lives where there is room for it, on the work's
+ * own page. What survives here is its first half, which is what a wall label
+ * carries too.
  */
 export function WorkCard({
   work,
@@ -66,26 +71,6 @@ export function WorkCard({
 
       <Frame delay={delay + 120} className="mt-lg">
         <WorkIdentity work={work} />
-
-        {/*
-          One sentence — the idea the piece turns on, never the full text.
-          Copy.md rules out long descriptions inside the grid, but a single
-          line lets Mariela's voice reach the works that have no editorial page
-          of their own.
-        */}
-        {work.shortStory ? (
-          <p className="mt-md max-w-[46ch] font-serif text-lg font-light italic leading-snug text-pretty text-fg">
-            {work.shortStory}
-          </p>
-        ) : null}
-
-        {/*
-          Even on both sides of the rule. It sat at 2.5rem above and 1.5rem
-          below, which pushed the technical lines away from the work they
-          describe and left the rule floating nearer the sentence than the
-          specification it introduces.
-        */}
-        <WorkSpecs work={work} className="mt-md border-t border-rule pt-md" />
 
         {/*
           Only the pieces with a page of their own. The card is a link either

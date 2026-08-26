@@ -9,7 +9,7 @@ import { Reveal } from "@/components/primitives/Reveal";
 import { VideoPlayer } from "@/components/primitives/VideoPlayer";
 import { Eyebrow, Prose } from "@/components/primitives/Type";
 import { ArtworkFrame } from "@/components/work/ArtworkFrame";
-import { WorkIdentity, WorkSpecs } from "@/components/work/WorkMeta";
+import { WorkIdentity } from "@/components/work/WorkMeta";
 import {
   getCommissionVideos,
   getCommissionedWorks,
@@ -130,11 +130,8 @@ export default async function CommissionsPage() {
                     />
                   </Reveal>
                   <Reveal delay={Math.min(i, 3) * 90 + 120} className="mt-md">
+                    {/* Name and year, like every other preview on the site. */}
                     <WorkIdentity work={work} />
-                    <WorkSpecs
-                      work={work}
-                      className="mt-md border-t border-rule pt-md"
-                    />
                   </Reveal>
                 </li>
               ))}

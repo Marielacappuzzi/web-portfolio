@@ -70,7 +70,13 @@ export function CoverImage({
     <div
       className={cn(
         "relative w-full overflow-hidden",
-        scrim === "none" ? "hidden" : scrim === "light" ? "bg-paper" : "bg-ink",
+        /*
+          The ground behind the photograph, seen only while it loads and in
+          the letterbox if one ever appears. `none` means no veil and no
+          tinted ground — the band is the picture and nothing else.
+        */
+        scrim === "light" && "bg-paper",
+        scrim === "dark" && "bg-ink",
         aspect,
         className,
       )}

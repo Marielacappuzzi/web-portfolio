@@ -14,7 +14,6 @@ import type { HomeContent } from "./types";
 export const home: HomeContent = {
   /* 1 — Hero. Copy.md §1 */
   hero: {
-    eyebrow: "Mariela Crapuzzi · Artista visual",
     title: "Una mirada puede contener una *historia entera*.",
     description:
       "A través del realismo figurativo y el carboncillo, transformo recuerdos, vínculos y emociones en obras creadas para conservar aquello que una imagen, por sí sola, no alcanza a decir.",
