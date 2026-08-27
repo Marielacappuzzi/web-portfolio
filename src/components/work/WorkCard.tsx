@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { ArtworkFrame } from "./ArtworkFrame";
-import { WorkIdentity, WorkSpecs } from "./WorkMeta";
+import { WorkIdentity } from "./WorkMeta";
 import { ArrowRightIcon } from "@/components/primitives/Icon";
 import { Reveal } from "@/components/primitives/Reveal";
 import type { Work } from "@/content/types";
@@ -82,12 +82,12 @@ export function WorkCard({
         */}
 
         {/*
-          Even on both sides of the rule. It sat at 2.5rem above and 1.5rem
-          below, which pushed the technical lines away from the work they
-          describe and left the rule floating nearer the sentence than the
-          specification it introduces.
+          Image and name, nothing else. The technical sheet moved to the work
+          page: in a grid it was a second block of small type under every
+          thumbnail, and the client reads that as noise. Someone scanning the
+          gallery is choosing what to open — the sheet is what they get when
+          they arrive.
         */}
-        <WorkSpecs work={work} className="mt-md border-t border-rule pt-md" />
 
         {/*
           Only the pieces with a page of their own. The card is a link either

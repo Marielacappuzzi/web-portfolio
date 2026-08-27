@@ -73,9 +73,15 @@ export const home: HomeContent = {
       "En el carboncillo encontré un lenguaje capaz de llevar esa búsqueda hacia lo esencial. La ausencia de color concentra la atención en la luz, la expresión y la profundidad.",
     ],
     action: { label: "Conocer mi recorrido", href: "/sobre-mi" },
+    /*
+     * Not the selfie. The previous photograph had her looking into a phone
+     * camera, which reads as a social post rather than as a working artist —
+     * the client asked for it out. This one is taken over her shoulder while
+     * she works: the drawing leads and she is present without performing.
+     */
     image: {
-      src: "/estudio/mariela-mesa-de-trabajo.jpg",
-      alt: "Mariela Crapuzzi en su mesa de trabajo, con un carboncillo en la mano, los lápices alineados junto a un guante de dibujo y la fotografía de referencia de una leona en una tableta.",
+      src: "/estudio/mariela-trabajando.jpg",
+      alt: "Mariela Crapuzzi de espaldas, trabajando con la mano enguantada sobre un carboncillo de un caballo al galope montado en la pared del estudio.",
     },
   },
 

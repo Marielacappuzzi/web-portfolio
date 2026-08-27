@@ -64,7 +64,21 @@ export function Hero({ content }: HeroProps) {
             ) : null}
 
             <Reveal>
-              <Display as="h1" size="hero" id="hero-titulo" measure={14}>
+              {/*
+                A measure of 14ch broke "Mariela Crapuzzi" — sixteen
+                characters — across two lines, which is what made it read
+                small however large the type was set. On one line it takes the
+                width it deserves. `text-name` runs above the display scale
+                because this is the one piece of type the brief asks to
+                dominate.
+              */}
+              <Display
+                as="h1"
+                size="hero"
+                id="hero-titulo"
+                measure={20}
+                className="text-name leading-none"
+              >
                 {content.title}
               </Display>
             </Reveal>

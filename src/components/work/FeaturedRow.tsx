@@ -50,8 +50,12 @@ export function FeaturedRow({ works, className }: FeaturedRowProps) {
 
             <Reveal delay={i * 120 + 120} className="mt-md">
               <div className="flex flex-wrap items-center gap-2xs">
-                {work.concept ? <Badge>{work.concept}</Badge> : null}
-
+                {/*
+                  No concept label. It was a phrase lifted from the text of
+                  the work itself, which is what the client asked to remove
+                  from the previews. The availability badge stays: that is a
+                  fact about the piece, not a description of it.
+                */}
                 {work.printAvailable ? (
                   <Badge>Edición disponible</Badge>
                 ) : null}

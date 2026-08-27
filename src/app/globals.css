@@ -29,6 +29,9 @@
   --text-2xl: clamp(1.75rem, 1.4rem + 1.65vw, 2.625rem);
   --text-3xl: clamp(2.25rem, 1.6rem + 2.9vw, 4rem);
   --text-4xl: clamp(2.75rem, 1.7rem + 4.7vw, 5.75rem);
+  /* Her name, and nothing else. It is the first thing a visitor should take
+     in, so it sits a step above the display scale. */
+  --text-name: clamp(3.25rem, 2rem + 5.6vw, 7rem);
   /* Cover headline: sits over the portada, so it stays well under 4xl and
      holds two or three lines instead of towering over the artwork. */
   --text-cover: clamp(2rem, 1.35rem + 2.1vw, 3.25rem);
