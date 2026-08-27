@@ -26,13 +26,15 @@ export const about: AboutPage = {
    * Only the opening two paragraphs live here; the rest of that document
    * carries the ideas and is set as `vision` below, so nothing repeats.
    *
-   * The closing line comes from the works document, under Sueño de Primavera.
+   * The closing line comes from the works document. It names Bouguereau but
+   * not the piece: that work has its own page, and the brief keeps every
+   * mention of it there rather than scattered across the site.
    * It is the only record of an exhibition anywhere in the project.
    */
   intro: [
     "Soy una artista boliviana dedicada al realismo figurativo contemporáneo.",
     "Mi formación comenzó en 2022 en la Academia de Artes Figurativas de Santa Cruz de la Sierra, donde cursé estudios de dibujo y pintura, para posteriormente especializarme en carboncillo.",
-    "Sueño de Primavera, mi reinterpretación de Rêve de printemps de William-Adolphe Bouguereau, fue mi primera obra de gran formato y formó parte de mi primera exposición.",
+    "Mi primera obra de gran formato fue una reinterpretación de un óleo de William-Adolphe Bouguereau, y formó parte de mi primera exposición.",
   ],
 
   /* Copy.md §2 — the reasoning the home only hints at */

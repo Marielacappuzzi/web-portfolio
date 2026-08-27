@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { ContactCallout } from "@/components/blocks/ContactCallout";
-import { VisionList } from "@/components/blocks/VisionList";
 import { ProseSection } from "@/components/blocks/ProseSection";
 import { Container, Section } from "@/components/layout/Section";
 import { PageHeader } from "@/components/layout/PageHeader";
@@ -161,12 +160,13 @@ export default async function AboutPage() {
         }
       />
 
-      {/* How she works. The anchor the whole site links to. */}
-      <VisionList
-        block={page.vision}
-        id="proceso"
-        headingId="proceso-titulo"
-      />
+      {/*
+        The four cards are gone. "La emoción como materia", "Más allá de lo
+        visible", "Por qué el carboncillo" and "El realismo como medio" each
+        restated, in a heading and a paragraph, something the running text
+        above them had already said — the brief calls it out as duplication
+        and keeps the prose.
+      */}
 
       <ContactCallout content={home.contact} />
     </>
