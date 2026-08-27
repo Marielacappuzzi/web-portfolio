@@ -41,7 +41,7 @@ export default async function HomePage() {
         <Container width="wide">
           <Reveal>
             <Display as="h2" id="obras-titulo" measure={20}>
-              Obras
+              Obras *destacadas*
             </Display>
           </Reveal>
 

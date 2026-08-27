@@ -165,3 +165,29 @@ export function CheckIcon(props: IconProps) {
     </svg>
   );
 }
+
+/**
+ * Says a card opens the piece in place rather than leading to a page.
+ *
+ * Four corners pulling outwards — the sign every image viewer uses, drawn at
+ * the same hairline weight as the rules rather than borrowed from an icon set.
+ */
+export function ExpandIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M14 4h6v6" />
+      <path d="M10 20H4v-6" />
+      <path d="M20 4 13.5 10.5" />
+      <path d="M4 20l6.5-6.5" />
+    </svg>
+  );
+}
+
+/** Closes the lightbox. A drawn cross at the weight of every other rule. */
+export function CloseIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M6 6 18 18M18 6 6 18" />
+    </svg>
+  );
+}

@@ -97,8 +97,11 @@ export interface Work {
 
   /** Concept label for the three narrative pieces, e.g. "EL ORIGEN". */
   concept?: string;
-  /** Copy for the link that opens the editorial page. */
-  featuredLinkLabel?: string;
+  /*
+   * No per-work link label. Every card that leads somewhere now says "Ver la
+   * obra", because every one of them does the same thing — three buttons in a
+   * row phrasing one action three ways reads as an oversight, not as voice.
+   */
 
   featured: boolean;
   hasEditorialPage: boolean;

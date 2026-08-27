@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { ArtworkFrame } from "./ArtworkFrame";
 import { WorkIdentity } from "./WorkMeta";
-import { ArrowRightIcon } from "@/components/primitives/Icon";
+import { ArrowRightIcon, ExpandIcon } from "@/components/primitives/Icon";
 import { Reveal } from "@/components/primitives/Reveal";
 import type { Work } from "@/content/types";
 import { cn } from "@/lib/cn";
@@ -59,6 +59,12 @@ export function WorkCard({
   // When an ancestor drives the motion, render a plain wrapper instead.
   const Frame = plain ? PlainBlock : Reveal;
 
+  /*
+    Whether the card leads anywhere. A plate with no page and no panel must
+    not advertise an action it cannot perform.
+  */
+  const interactive = work.hasEditorialPage || Boolean(onOpen);
+
   const content = (
     <>
       <Frame variant="image" delay={delay} className="block">
@@ -90,12 +96,18 @@ export function WorkCard({
         */}
 
         {/*
-          Only the pieces with a page of their own. The card is a link either
-          way, but three of these lead somewhere and the rest do not, and the
-          grid gave no way to tell. A span, not a link: it sits inside the
-          card’s own anchor and nesting links is invalid.
+          Every card that does something says so.
+
+          Only the pieces with a page carried a label before, so the other
+          eight were photographs a visitor could click without any sign that
+          clicking did anything — the whole lightbox was invisible unless you
+          guessed. They now carry their own affordance, worded for what they
+          actually do: a page opens, a plate expands.
+
+          A span, not a link: it sits inside the card's own anchor or button,
+          and nesting one interactive element in another is invalid.
         */}
-        {work.hasEditorialPage ? (
+        {interactive ? (
           <span
             className={cn(
               "mt-md inline-flex items-center gap-2xs py-2xs",
@@ -104,8 +116,21 @@ export function WorkCard({
               "transition-colors duration-300 group-hover:border-fg-strong",
             )}
           >
-            {work.featuredLinkLabel ?? "Descubrir la obra"}
-            <ArrowRightIcon className="shrink-0 transition-transform duration-300 ease-out-quart group-hover:translate-x-1 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0" />
+            {work.hasEditorialPage ? (
+              <>
+                Ver la obra
+                <ArrowRightIcon className="shrink-0 transition-transform duration-300 ease-out-quart group-hover:translate-x-1 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0" />
+              </>
+            ) : (
+              <>
+                Ampliar la obra
+                <ExpandIcon
+                  width={13}
+                  height={13}
+                  className="shrink-0 transition-transform duration-300 ease-out-quart group-hover:scale-110 motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+                />
+              </>
+            )}
           </span>
         ) : null}
       </Frame>
@@ -125,7 +150,7 @@ export function WorkCard({
             type="button"
             onClick={onOpen}
             aria-label={`${work.title}, ver en tamaño completo`}
-            className="block w-full cursor-pointer text-left"
+            className="block w-full cursor-zoom-in text-left focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-current"
           >
             {content}
           </button>

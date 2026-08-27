@@ -57,9 +57,15 @@ export const site: SiteContent = {
   nav: [
     { label: "Inicio", href: "/" },
     { label: "Obras", href: "/obra" },
-    { label: "Sobre Mariela", href: "/sobre-mi" },
+    { label: "Sobre mí", href: "/sobre-mi" },
     { label: "Encargos", href: "/encargos" },
-    { label: "Contacto", href: "/contacto" },
+    /*
+     * Contacto is out of the main menu for now, at the client's request. The
+     * page still exists and is still reachable — from the footer, from the
+     * closing block on every page, and by URL. What it stops doing is sitting
+     * beside Encargos in the header, where two ways to write to Mariela
+     * competed and the wrong one was often the shorter word.
+     */
   ],
 
   footerNav: [

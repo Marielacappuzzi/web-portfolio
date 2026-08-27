@@ -24,6 +24,17 @@ interface FigureProps {
   priority?: boolean;
   /** Drop the passepartout where the image runs full-bleed. */
   bare?: boolean;
+  /**
+   * Grow the photograph inside its frame while the pointer is over it, and
+   * settle back when it leaves.
+   *
+   * The frame never moves and the picture never leaves it: the wrapper owns
+   * `overflow-hidden`, so what the viewer sees is the image coming closer
+   * within a fixed opening, not a card lifting off the page. The scale is
+   * 1.04 — enough to register as movement, small enough that nothing
+   * important drifts out of the crop.
+   */
+  zoomOnHover?: boolean;
   className?: string;
 }
 
@@ -47,6 +58,7 @@ export function Figure({
   caption,
   priority,
   bare = false,
+  zoomOnHover = false,
   className,
 }: FigureProps) {
   const inner = src ? (
@@ -63,7 +75,11 @@ export function Figure({
         sizes={sizes}
         priority={priority}
         quality={90}
-        className="object-cover"
+        className={cn(
+          "object-cover",
+          zoomOnHover &&
+            "transition-transform duration-[900ms] ease-out-quart group-hover:scale-[1.04] motion-reduce:transition-none motion-reduce:group-hover:scale-100",
+        )}
         style={focus ? { objectPosition: focus } : undefined}
       />
     </div>
@@ -80,7 +96,7 @@ export function Figure({
   );
 
   return (
-    <figure className={cn("w-full", className)}>
+    <figure className={cn("group w-full", zoomOnHover && "cursor-default", className)}>
       {bare ? inner : <Mat>{inner}</Mat>}
 
       {caption ? (

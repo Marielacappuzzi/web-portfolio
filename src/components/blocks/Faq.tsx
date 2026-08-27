@@ -12,6 +12,7 @@ interface FaqProps {
   ground?: Ground;
   id?: string;
   headingId?: string;
+  className?: string;
 }
 
 /**
@@ -31,11 +32,18 @@ export function Faq({
   ground = "paper",
   id,
   headingId,
+  className,
 }: FaqProps) {
   if (items.length === 0) return null;
 
   return (
-    <Section ground={ground} rhythm="act" id={id} aria-labelledby={headingId}>
+    <Section
+      ground={ground}
+      rhythm="act"
+      id={id}
+      aria-labelledby={headingId}
+      className={className}
+    >
       <Container width="wide">
         <div className="grid gap-2xl lg:grid-cols-12 lg:gap-x-[4vw]">
           <div className="lg:col-span-4">

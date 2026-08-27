@@ -61,6 +61,25 @@ export default async function CommissionsPage() {
         </Container>
       </Section>
 
+
+      {/*
+        The detail, before the form.
+
+        It used to sit after it, on the reasoning that nobody should have to
+        read eight headings to ask a price. But they are disclosures — all
+        closed, seven lines of type — and the questions they answer are the
+        ones somebody needs settled *before* they fill anything in: what
+        formats exist, how long it takes, what the deposit is. Putting them
+        after meant the form asked for a format above an accordion that
+        explained what the formats were.
+      */}
+      <DetailSections
+        eyebrow={page.practical.eyebrow}
+        title={page.practical.title}
+        sections={page.practical.sections}
+        headingId="practico-titulo"
+      />
+
       {/* The form. The point of the page. */}
       <Section
         id="cotizar"
@@ -91,20 +110,18 @@ export default async function CommissionsPage() {
         </Container>
       </Section>
 
-      {/* For whoever wants to read further. */}
-      <DetailSections
-        eyebrow={page.practical.eyebrow}
-        title={page.practical.title}
-        sections={page.practical.sections}
-        headingId="practico-titulo"
-      />
-
       <Faq
         eyebrow={page.faq.eyebrow}
         title={page.faq.title}
         items={page.faq.items}
         ground="chamber"
         headingId="faq-titulo"
+        /*
+          The footer is chamber too, so without an edge the last question and
+          the copyright sit on one uninterrupted field and the page looks like
+          it stopped rather than ended.
+        */
+        className="border-b border-rule"
       />
     </>
   );

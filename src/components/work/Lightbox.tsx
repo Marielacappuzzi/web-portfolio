@@ -1,8 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useEffect } from "react";
-import { ArrowRightIcon } from "@/components/primitives/Icon";
+import { useCallback, useEffect, useRef } from "react";
+import { ArrowRightIcon, CloseIcon } from "@/components/primitives/Icon";
+import { Mat } from "@/components/primitives/Mat";
 import { WorkIdentity, WorkSpecs } from "./WorkMeta";
 import { lockScroll } from "@/lib/smooth-scroll";
 import type { Work } from "@/content/types";
@@ -16,6 +17,15 @@ interface LightboxProps {
   onNavigate: (index: number) => void;
 }
 
+/** The two controls at the foot of the sheet. Same shape, mirrored. */
+const stepButton = cn(
+  "group inline-flex cursor-pointer items-center gap-2xs py-2xs",
+  "font-sans text-2xs font-medium uppercase tracking-label",
+  "border-b border-fg-muted text-fg-strong",
+  "transition-colors duration-300 hover:border-fg-strong",
+  "focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-current",
+);
+
 /**
  * A work at full size, with its technical record.
  *
@@ -23,8 +33,19 @@ interface LightboxProps {
  * enough to look. This is where a piece is actually seen — so the image gets
  * the room and the sheet sits beside it, quiet.
  *
- * Keyboard: Escape closes, arrows move. Those are the three keys anyone tries,
- * and a gallery that ignores them feels broken rather than minimal.
+ * The plate is matted, like every other image on the site. It was bare here,
+ * which made the one place a drawing is shown large the one place it was not
+ * framed: the picture floated on the dark ground with nothing holding it, and
+ * a charcoal on cream paper needs an edge or it bleeds into the field.
+ *
+ * The controls are matched to the cards that opened them — the same hairline
+ * under small caps, the same arrow that travels on hover — so moving from the
+ * gallery into the panel does not feel like arriving in a different interface.
+ * They also carry a real pointer cursor, which a bare `<button>` does not.
+ *
+ * Keyboard: Escape closes, arrows move, focus is trapped while it is open and
+ * handed back to whatever opened it on the way out. Those are the keys anyone
+ * tries, and a gallery that ignores them feels broken rather than minimal.
  *
  * Lenis is stopped while it is open. Setting `overflow: hidden` would not be
  * enough — Lenis drives the page on its own clock and would keep scrolling the
@@ -33,6 +54,11 @@ interface LightboxProps {
 export function Lightbox({ works, index, onClose, onNavigate }: LightboxProps) {
   const open = index !== null;
   const work = open ? works[index] : null;
+
+  const panel = useRef<HTMLDivElement>(null);
+  const closeButton = useRef<HTMLButtonElement>(null);
+  /** Whatever had focus when the panel opened, to hand it back on close. */
+  const opener = useRef<HTMLElement | null>(null);
 
   const go = useCallback(
     (step: number) => {
@@ -47,11 +73,36 @@ export function Lightbox({ works, index, onClose, onNavigate }: LightboxProps) {
     if (!open) return;
 
     lockScroll(true);
+    opener.current = document.activeElement as HTMLElement | null;
+    closeButton.current?.focus();
 
     const onKey = (event: KeyboardEvent) => {
       if (event.key === "Escape") onClose();
       if (event.key === "ArrowRight") go(1);
       if (event.key === "ArrowLeft") go(-1);
+
+      /*
+        Focus stays inside. Without this, tabbing walks into the catalogue
+        behind the overlay — reachable by keyboard, invisible on screen, which
+        is the worst of both.
+      */
+      if (event.key === "Tab") {
+        const focusables = panel.current?.querySelectorAll<HTMLElement>(
+          'button:not([disabled]), a[href], [tabindex]:not([tabindex="-1"])',
+        );
+        if (!focusables || focusables.length === 0) return;
+
+        const first = focusables[0];
+        const last = focusables[focusables.length - 1];
+
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first.focus();
+        }
+      }
     };
 
     document.addEventListener("keydown", onKey);
@@ -59,6 +110,7 @@ export function Lightbox({ works, index, onClose, onNavigate }: LightboxProps) {
     return () => {
       document.removeEventListener("keydown", onKey);
       lockScroll(false);
+      opener.current?.focus();
     };
   }, [open, onClose, go]);
 
@@ -66,27 +118,23 @@ export function Lightbox({ works, index, onClose, onNavigate }: LightboxProps) {
 
   return (
     <div
+      ref={panel}
       role="dialog"
       aria-modal="true"
       aria-label={work.title}
       data-ground="chamber"
-      className={cn(
-        "fixed inset-0 z-50 flex flex-col overflow-y-auto overscroll-contain bg-ink/97",
-        "transition-opacity duration-400",
-      )}
+      className="fixed inset-0 z-50 flex flex-col overflow-y-auto overscroll-contain bg-ink/97 transition-opacity duration-400"
       onClick={onClose}
     >
       {/* Close. Top right, where a reader reaches for it without looking. */}
       <button
+        ref={closeButton}
         type="button"
         onClick={onClose}
         aria-label="Cerrar"
-        className="fixed right-6 top-6 z-10 flex h-11 w-11 items-center justify-center text-fg-strong transition-opacity duration-300 hover:opacity-60"
+        className="fixed right-6 top-6 z-10 flex h-11 w-11 cursor-pointer items-center justify-center text-fg-strong transition-opacity duration-300 hover:opacity-60 focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-current"
       >
-        <span aria-hidden="true" className="relative block h-4 w-4">
-          <span className="absolute left-0 top-1/2 h-px w-4 rotate-45 bg-current" />
-          <span className="absolute left-0 top-1/2 h-px w-4 -rotate-45 bg-current" />
-        </span>
+        <CloseIcon width={18} height={18} />
       </button>
 
       <div
@@ -96,51 +144,66 @@ export function Lightbox({ works, index, onClose, onNavigate }: LightboxProps) {
       >
         <div className="grid gap-2xl lg:grid-cols-12 lg:items-center lg:gap-x-[4vw]">
           <div className="lg:col-span-8">
-            <div
-              className="relative w-full"
-              style={{
-                aspectRatio: `${work.image.width} / ${work.image.height}`,
-                maxHeight: "72vh",
-              }}
-            >
-              <Image
-                src={work.image.src}
-                alt={work.image.alt}
-                fill
-                quality={90}
-                sizes="(min-width: 1024px) 66vw, 92vw"
-                className="object-contain"
-                priority
-              />
-            </div>
+            {/*
+              Matted, like every other image on the site. `object-contain`
+              inside the sheet's own ratio, so the drawing is never cropped
+              and never stretched — the mat takes whatever shape it has.
+            */}
+            <Mat>
+              <div
+                className="relative w-full"
+                style={{
+                  aspectRatio: `${work.image.width} / ${work.image.height}`,
+                  maxHeight: "70vh",
+                }}
+              >
+                <Image
+                  src={work.image.src}
+                  alt={work.image.alt}
+                  fill
+                  quality={92}
+                  sizes="(min-width: 1024px) 66vw, 92vw"
+                  className="object-contain"
+                  priority
+                />
+              </div>
+            </Mat>
           </div>
 
+          {/* The label: title, year, then the sheet — Mariela's order. */}
           <div className="lg:col-span-4">
             <WorkIdentity work={work} />
             <WorkSpecs work={work} className="mt-md border-t border-rule pt-md" />
 
             {works.length > 1 ? (
-              <div className="mt-xl flex items-center gap-lg">
-                <button
-                  type="button"
-                  onClick={() => go(-1)}
-                  aria-label="Obra anterior"
-                  className="group flex items-center gap-2xs font-sans text-2xs uppercase tracking-label text-fg transition-colors duration-300 hover:text-fg-strong"
-                >
-                  <ArrowRightIcon className="rotate-180 transition-transform duration-300 group-hover:-translate-x-1" />
-                  Anterior
-                </button>
+              <>
+                {/* Where you are in the run, so nothing feels endless. */}
+                <p className="mt-xl font-sans text-2xs uppercase tracking-label text-fg-muted">
+                  {(index ?? 0) + 1} / {works.length}
+                </p>
 
-                <button
-                  type="button"
-                  onClick={() => go(1)}
-                  aria-label="Obra siguiente"
-                  className="group flex items-center gap-2xs font-sans text-2xs uppercase tracking-label text-fg transition-colors duration-300 hover:text-fg-strong"
-                >
-                  Siguiente
-                  <ArrowRightIcon className="transition-transform duration-300 group-hover:translate-x-1" />
-                </button>
-              </div>
+                <div className="mt-sm flex flex-wrap items-center gap-x-xl gap-y-md">
+                  <button
+                    type="button"
+                    onClick={() => go(-1)}
+                    aria-label="Obra anterior"
+                    className={stepButton}
+                  >
+                    <ArrowRightIcon className="shrink-0 rotate-180 transition-transform duration-300 ease-out-quart group-hover:-translate-x-1 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0" />
+                    Anterior
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => go(1)}
+                    aria-label="Obra siguiente"
+                    className={stepButton}
+                  >
+                    Siguiente
+                    <ArrowRightIcon className="shrink-0 transition-transform duration-300 ease-out-quart group-hover:translate-x-1 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0" />
+                  </button>
+                </div>
+              </>
             ) : null}
           </div>
         </div>

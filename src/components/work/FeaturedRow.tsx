@@ -77,7 +77,15 @@ export function FeaturedRow({ works, className }: FeaturedRowProps) {
                   "transition-colors duration-300 group-hover:border-fg-strong",
                 )}
               >
-                {work.featuredLinkLabel ?? "Ver la obra"}
+                {/*
+                  The same three words on all three. Each piece used to carry
+                  its own label — "Descubrir la historia", "Descubrir la obra",
+                  "Conocer la obra" — which was an editorial flourish and read
+                  as an inconsistency: three buttons side by side, doing the
+                  same thing, saying it differently. A row of controls should
+                  vary when the action varies, and here it does not.
+                */}
+                Ver la obra
                 <ArrowRightIcon className="shrink-0 transition-transform duration-300 ease-out-quart group-hover:translate-x-1 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0" />
               </span>
             </Reveal>

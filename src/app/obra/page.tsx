@@ -39,6 +39,8 @@ export default async function WorkIndexPage() {
       <PageHeader
         heading={{ eyebrow: page.eyebrow, title: page.title }}
         lead={page.description}
+        /* The chamber section below already draws the edge. */
+        rule={false}
       />
 
       {/*
@@ -52,8 +54,9 @@ export default async function WorkIndexPage() {
         <Section ground="chamber" rhythm="act" aria-labelledby="destacadas-titulo">
           <Container width="wide">
             <Reveal>
+              {/* Same emphasis as the home, so the two read as one site. */}
               <Display as="h2" id="destacadas-titulo" measure={20}>
-                Obras destacadas
+                Obras *destacadas*
               </Display>
             </Reveal>
 

@@ -58,6 +58,7 @@ export function Artist({ content }: { content: HomeArtistContent }) {
                 pendingLabel="Mariela trabajando"
                 aspect="aspect-[4/5]"
                 sizes="(min-width: 1024px) 46vw, 100vw"
+                zoomOnHover
               />
             </Reveal>
           </div>

@@ -8,7 +8,7 @@ import type { WorkIndexPage } from "../types";
  * change rather than a rebuild.
  */
 export const workIndex: WorkIndexPage = {
-  eyebrow: "Obra seleccionada",
+  eyebrow: "Obras seleccionadas",
   title: "Historias llevadas al *carboncillo*.",
   description:
     "Obras personales, retratos por encargo y piezas nacidas de vínculos, recuerdos e ideas que encontraron una forma de ser contadas.",

@@ -325,6 +325,9 @@
 @utility action-frame {
   position: relative;
   isolation: isolate;
+  /* A control should say so under the pointer. `<button>` does not do this on
+     its own, and neither does an anchor styled as one. */
+  cursor: pointer;
   border: 1px solid currentColor;
   color: var(--ground-fg-strong);
   transition: color 380ms var(--ease-out-quart);
@@ -362,6 +365,7 @@
 
 
 @utility action-line {
+  cursor: pointer;
   position: relative;
   display: inline-block;
   padding-bottom: 0.5rem;
@@ -406,5 +410,31 @@
   .action-line:hover::after,
   .action-line:focus-visible::after {
     animation: none;
+  }
+}
+
+/*
+ * Pointer on anything clickable.
+ *
+ * Browsers give `<button>` the default arrow, not a hand — a convention from
+ * desktop toolbars that stopped making sense once buttons started looking like
+ * links. Every control on this site is a drawn line or a hairline frame, so
+ * without this the only feedback a hover gives is a colour change, which is
+ * easy to miss on a quiet page.
+ *
+ * Disabled controls are excluded: they are still buttons, and a hand over
+ * something that will not respond is a lie.
+ */
+@layer base {
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]),
+  summary,
+  label[for],
+  select {
+    cursor: pointer;
+  }
+
+  button:disabled {
+    cursor: not-allowed;
   }
 }

@@ -14,6 +14,8 @@ interface PageHeaderImage {
 }
 
 interface PageHeaderProps {
+  /** Draw the hairline that closes the header. Default true. */
+  rule?: boolean;
   heading: SectionHeading;
   /** One short paragraph at most. Longer text belongs in the page body. */
   lead?: string;
@@ -28,7 +30,12 @@ interface PageHeaderProps {
  * arrival the hero gets — the page begins with air, not with content pushed
  * against the navigation.
  */
-export function PageHeader({ heading, lead, image }: PageHeaderProps) {
+export function PageHeader({
+  heading,
+  lead,
+  image,
+  rule = true,
+}: PageHeaderProps) {
   const withImage = Boolean(image);
 
   return (
@@ -83,7 +90,12 @@ export function PageHeader({ heading, lead, image }: PageHeaderProps) {
           ) : null}
         </div>
 
-        <Rule width="full" className="mt-3xl" delay={270} />
+        {/*
+          The closing rule is optional. On /obra the section straight below is
+          "Obras destacadas" on its own darker ground, and a full-width hairline
+          immediately above that edge draws two lines where the page needs one.
+        */}
+        {rule ? <Rule width="full" className="mt-3xl" delay={270} /> : null}
       </Container>
     </Section>
   );

@@ -65,7 +65,7 @@ export const home: HomeContent = {
    * the title above it and every other line on the site.
    */
   artist: {
-    eyebrow: "La artista",
+    eyebrow: "Sobre mí",
     title:
       "El arte se convirtió en mi profesión, pero también en una *manera de mirar*.",
     paragraphs: [

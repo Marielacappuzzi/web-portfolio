@@ -65,33 +65,48 @@ export function Hero({ content }: HeroProps) {
 
             <Reveal>
               {/*
-                A measure of 14ch broke "Mariela Crapuzzi" — sixteen
-                characters — across two lines, which is what made it read
-                small however large the type was set. On one line it takes the
-                width it deserves. `text-name` runs above the display scale
-                because this is the one piece of type the brief asks to
-                dominate.
+                `text-name` ran to 7rem, above the whole display scale. At that
+                size the name stopped reading as a name and started reading as
+                a banner — and it left the three lines under it looking like a
+                caption. The display scale's own top step is enough: it is
+                still the largest type on the site.
+
+                One line, always. A measure of 14ch broke "Mariela Crapuzzi"
+                across two, which is what made it read small however large it
+                was set.
               */}
               <Display
                 as="h1"
                 size="hero"
                 id="hero-titulo"
                 measure={20}
-                className="text-name leading-none"
+                className="leading-none"
               >
                 {content.title}
               </Display>
             </Reveal>
 
             {content.subtitle ? (
-              <Reveal delay={120} className="mt-sm">
-                <p className="font-sans text-base leading-snug text-fg">
+              <Reveal delay={120} className="mt-xs">
+                {/*
+                  What she does, and it has to be read. It was at the body size
+                  in the muted tone, so the one line that answers "what is this
+                  site" was the quietest thing on the screen. Up a step, at
+                  full strength, and medium — enough to hold its own under the
+                  name without competing with it.
+                */}
+                <p className="font-sans text-lg font-medium leading-snug text-fg-strong">
                   {content.subtitle}
                 </p>
               </Reveal>
             ) : null}
 
-            <Reveal delay={240} className="mt-lg">
+            {/*
+              The three blocks under the name sit closer together now. At
+              sm/lg/xl they read as four separate things stacked in a column;
+              the name, the role and the sentence are one introduction.
+            */}
+            <Reveal delay={240} className="mt-md">
               <p className="max-w-[46ch] font-sans text-sm leading-relaxed text-pretty text-fg">
                 {content.description}
               </p>
@@ -99,7 +114,13 @@ export function Hero({ content }: HeroProps) {
 
             <Reveal
               delay={360}
-              className="mt-xl flex flex-wrap items-center gap-x-lg gap-y-md"
+              /*
+                One row, never two. `flex-wrap` let "Solicitar un encargo" drop
+                under "Ver obras" at the narrow widths the type column takes on
+                a laptop, which read as one primary action and one afterthought
+                rather than two ways in.
+              */
+              className="mt-lg flex flex-nowrap items-center gap-x-lg"
             >
               <ActionButton href={content.primaryAction.href}>
                 {content.primaryAction.label}

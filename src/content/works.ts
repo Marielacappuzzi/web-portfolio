@@ -96,7 +96,6 @@ export const works: Work[] = [
       "La composición fue construida alrededor de esa idea. La cría ocupa el frente mientras la leona emerge detrás de ella, envolviéndola con su cuerpo y sosteniendo la escena con la mirada. Los contrastes profundos del carboncillo acentúan su carácter y dan peso a una imagen en la que conviven protección y fuerza.",
       "Más que representar la maternidad de una única manera, la obra deja abierta una pregunta sobre aquello que somos capaces de sostener cuando algo verdaderamente nos importa.",
     ],
-    featuredLinkLabel: "Descubrir la historia",
     featured: true,
     hasEditorialPage: true,
     printAvailable: false,
@@ -399,7 +398,6 @@ export const works: Work[] = [
       "La elección estuvo también ligada a mi formación en dibujo figurativo y a la tradición clásica que acompañaba ese aprendizaje. Reinterpretarla en carboncillo significó trasladar ese universo a un lenguaje diferente, despojado del color, donde la luz, los contrastes y las miradas adquirieran otro peso.",
       "Fue mi primera obra de gran formato y formó parte de mi primera exposición. Más que reproducir una imagen que admiraba, el proceso me permitió reconocer algo que continuaría apareciendo en mi trabajo años después: mi interés por aquello que una mirada puede contener sin llegar a explicarlo.",
     ],
-    featuredLinkLabel: "Descubrir la obra",
     featured: true,
     hasEditorialPage: true,
     printAvailable: true,
@@ -481,7 +479,6 @@ export const works: Work[] = [
     concept: "UNA VOZ PROPIA",
     shortStory:
       "Mi primera obra personal y el comienzo de una etapa más autoral: una búsqueda en la que la figuración se convierte en una manera de explorar ideas, símbolos e historias humanas.",
-    featuredLinkLabel: "Conocer la obra",
     featured: true,
     hasEditorialPage: true,
     printAvailable: false,
