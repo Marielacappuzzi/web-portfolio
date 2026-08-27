@@ -1,205 +1,97 @@
 import type { Metadata } from "next";
-import { ContactCallout } from "@/components/blocks/ContactCallout";
 import { DetailSections } from "@/components/blocks/DetailSections";
 import { Faq } from "@/components/blocks/Faq";
-import { ProcessList } from "@/components/blocks/ProcessList";
 import { Container, Section } from "@/components/layout/Section";
 import { PageHeader } from "@/components/layout/PageHeader";
+import { ActionButton } from "@/components/primitives/ActionLink";
 import { Reveal } from "@/components/primitives/Reveal";
-import { VideoPlayer } from "@/components/primitives/VideoPlayer";
-import { Eyebrow, Prose } from "@/components/primitives/Type";
-import { ArtworkFrame } from "@/components/work/ArtworkFrame";
-import { WorkIdentity, WorkSpecs } from "@/components/work/WorkMeta";
-import {
-  getCommissionVideos,
-  getCommissionedWorks,
-  getCommissionsPage,
-} from "@/lib/content";
+import { ContactForm } from "@/components/contact/ContactForm";
+import { Display } from "@/components/primitives/Type";
+import { getCommissionsPage } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "Encargos",
   description:
-    "Un retrato no comienza con una fotografía. Comienza con una conversación.",
+    "Retratos de personas, mascotas, homenajes y composiciones creadas a partir de una historia, una imagen o un vínculo.",
 };
 
 /**
- * /encargos
+ * /encargos — a page that exists to produce a quotation request.
  *
- * Presented as an experience, not a service listing: the conversation, the
- * five stages, then the practical detail. No pricing, no urgency, no repeated
- * buttons — the page ends with the same single invitation the home does.
+ * It used to open with five stages of creative process and a second gallery of
+ * finished commissions before anyone could ask for anything. Both are gone at
+ * the client's instruction: someone who arrives here has already decided, and
+ * making them read how Mariela thinks before they can write is a page serving
+ * itself.
  *
- * PENDING: the practical block has no approved copy. It ships as a declared
- * outline rather than invented figures. See docs/CONTENT_PENDING.md #16.
+ * The order is now: what can be asked for, what to send, the form, and then —
+ * for whoever wants it — the detail and the questions.
  */
 export default async function CommissionsPage() {
-  const [page, commissioned, filmed] = await Promise.all([
-    getCommissionsPage(),
-    /* Three, not four. The brief asks for variety over volume here: a row
-       of examples is evidence, and past a point it becomes a catalogue that
-       competes with the actual gallery further up the page. */
-    getCommissionedWorks(3),
-    getCommissionVideos(),
-  ]);
+  const page = await getCommissionsPage();
 
   return (
     <>
       <PageHeader
-        heading={page.heading}
-        image={{
-          /*
-           * A real photograph, not a staged interior. The mockup showed a
-           * framed print in a living room; this shows the artist beside a
-           * finished piece, which carries the scale of the work and the fact
-           * that a person made it — the two things a commission page has to
-           * establish before anything else.
-           */
-          src: "/estudio/mariela-con-obra.jpg",
-          alt: "Mariela Crapuzzi de pie junto al retrato terminado de Molly, montado sobre un caballete en su estudio.",
-          aspect: "aspect-[4/5]",
-          caption: "Junto a «Molly», una vez terminada.",
+        heading={{
+          title: "Una obra creada a partir de aquello que quieres conservar.",
         }}
+        lead="Retratos de personas, mascotas, homenajes y composiciones creadas a partir de una historia, una imagen o un vínculo."
       />
 
-      {/* What a commission is. */}
-      <Section ground="paper" rhythm="beat" aria-labelledby="tipos-titulo">
+      {/* What to send, in one paragraph, and the way down to the form. */}
+      <Section ground="paper" rhythm="beat">
         <Container width="wide">
           <div className="grid gap-2xl lg:grid-cols-12 lg:gap-x-[4vw]">
-            <Reveal className="lg:col-span-6">
-              <Prose paragraphs={page.paragraphs} lead />
-            </Reveal>
-
-            <div className="lg:col-span-4 lg:col-start-9">
-              <Reveal delay={90}>
-                <Eyebrow as="h2" id="tipos-titulo">
-                  {page.kinds.label}
-                </Eyebrow>
+            <div className="lg:col-span-7 lg:col-start-6">
+              <Reveal>
+                <p className="max-w-[62ch] font-sans text-lg leading-relaxed text-pretty text-fg">
+                  Elige el formato que tienes en mente, comparte brevemente la
+                  idea detrás de la obra y envía las fotografías de referencia
+                  disponibles. Con esa información, Mariela podrá evaluar el
+                  proyecto y enviarte una cotización personalizada.
+                </p>
               </Reveal>
 
-              {/*
-                One per line, each on its own rule. Stacked at a 0.5rem gap
-                they read as a single paragraph broken oddly, and the whole
-                point is that these are distinct things to ask for.
-              */}
-              <ul className="mt-lg">
-                {page.kinds.items.map((item, i) => (
-                  <Reveal
-                    key={item}
-                    as="li"
-                    delay={Math.min(i, 3) * 60 + 120}
-                    className="border-t border-rule py-md font-serif text-lg font-light leading-snug text-fg-strong last:border-b"
-                  >
-                    {item}
-                  </Reveal>
-                ))}
-              </ul>
+              <Reveal delay={120} className="mt-xl">
+                <ActionButton href="#cotizar">Cotizar un encargo</ActionButton>
+              </Reveal>
             </div>
           </div>
         </Container>
       </Section>
 
-      {/*
-        Commissions already made. The page argues that a portrait starts with a
-        conversation; four finished pieces are the only evidence that carries
-        real weight, and they cost no extra copy.
-      */}
-      {commissioned.length > 0 ? (
-        <Section
-          ground="paper"
-          rhythm="beat"
-          aria-labelledby="realizados-titulo"
-        >
-          <Container width="wide">
-            <Reveal>
-              <Eyebrow as="h2" id="realizados-titulo">
-                Encargos realizados
-              </Eyebrow>
-            </Reveal>
+      {/* The form. The point of the page. */}
+      <Section
+        id="cotizar"
+        ground="paper-bright"
+        rhythm="act"
+        aria-labelledby="cotizar-titulo"
+      >
+        <Container width="wide">
+          <div className="grid gap-2xl lg:grid-cols-12 lg:gap-x-[4vw]">
+            <div className="lg:col-span-4">
+              <Reveal>
+                <Display id="cotizar-titulo" measure={18}>
+                  {page.quote.heading.title}
+                </Display>
+              </Reveal>
 
-            {/*
-              One column on a phone. Two half-width portraits side by side
-              leave each piece about 160px wide — too small to read a charcoal
-              at, which is the only reason the row exists.
-            */}
-            <ul className="mt-2xl grid grid-cols-1 gap-2xl sm:grid-cols-2 sm:gap-lg md:grid-cols-4 md:gap-x-[2vw]">
-              {commissioned.map((work, i) => (
-                <li key={work.slug}>
-                  <Reveal variant="image" delay={Math.min(i, 3) * 90}>
-                    <ArtworkFrame
-                      work={work}
-                      ratio="portrait"
-                      sizes="(min-width: 768px) 22vw, (min-width: 640px) 45vw, 92vw"
-                      zoomOnHover
-                    />
-                  </Reveal>
-                  <Reveal delay={Math.min(i, 3) * 90 + 120} className="mt-md">
-                    <WorkIdentity work={work} />
-                    <WorkSpecs
-                      work={work}
-                      className="mt-md border-t border-rule pt-md"
-                    />
-                  </Reveal>
-                </li>
-              ))}
-            </ul>
-          </Container>
-        </Section>
-      ) : null}
-
-      {/* How it happens. */}
-      <ProcessList
-        block={page.process}
-        ground="chamber"
-        headingId="proceso-encargo-titulo"
-      />
-
-      {/*
-        Two commissions being made. The five stages above describe the process;
-        these show it, which is the one thing a list of stages cannot do.
-      */}
-      {filmed.length > 0 ? (
-        <Section ground="paper" rhythm="beat" aria-labelledby="filmados-titulo">
-          <Container width="wide">
-            {/*
-              Heading beside the clips rather than above them, the way every
-              other section on the site is set. Centred over a full-width row
-              the two videos had nothing to belong to.
-            */}
-            <div className="grid gap-2xl lg:grid-cols-12 lg:items-start lg:gap-x-[4vw]">
-              <div className="lg:col-span-3">
-                <Reveal>
-                  <Eyebrow as="h2" id="filmados-titulo">
-                    Obras en proceso
-                  </Eyebrow>
-                </Reveal>
-              </div>
-
-              <ul className="grid grid-cols-1 gap-xl sm:grid-cols-2 sm:gap-x-[3vw] lg:col-span-8 lg:col-start-5">
-                {filmed.map((work, i) => (
-                  <li key={work.slug}>
-                    <Reveal variant="image" delay={i * 120}>
-                      <VideoPlayer
-                        src={work.processVideos![0].src}
-                        poster={work.processVideos![0].poster}
-                        label={work.processVideos![0].label ?? work.title}
-                        caption={`${work.title}, ${work.year}`}
-                        aspect={
-                          work.processVideos![0].portrait
-                            ? "aspect-[9/16]"
-                            : "aspect-video"
-                        }
-                        className="max-w-[22rem]"
-                      />
-                    </Reveal>
-                  </li>
-                ))}
-              </ul>
+              <Reveal delay={90} className="mt-lg">
+                <p className="max-w-[46ch] font-sans text-base leading-relaxed text-pretty text-fg">
+                  {page.quote.paragraphs[0]}
+                </p>
+              </Reveal>
             </div>
-          </Container>
-        </Section>
-      ) : null}
 
-      {/* The practical detail, now that the client has supplied it. */}
+            <div className="lg:col-span-7 lg:col-start-6">
+              <ContactForm page={page.quote} />
+            </div>
+          </div>
+        </Container>
+      </Section>
+
+      {/* For whoever wants to read further. */}
       <DetailSections
         eyebrow={page.practical.eyebrow}
         title={page.practical.title}
@@ -207,19 +99,12 @@ export default async function CommissionsPage() {
         headingId="practico-titulo"
       />
 
-      {/* Only what the block above does not already answer. */}
       <Faq
         eyebrow={page.faq.eyebrow}
         title={page.faq.title}
         items={page.faq.items}
-        ground="paper-bright"
-        id="preguntas"
+        ground="chamber"
         headingId="faq-titulo"
-      />
-
-      <ContactCallout
-        content={page.closing}
-        headingId="cierre-encargos-titulo"
       />
     </>
   );

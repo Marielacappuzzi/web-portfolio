@@ -121,14 +121,10 @@ export const commissions: CommissionsPage = {
     eyebrow: "Preguntas frecuentes",
     title: "Lo que suelen preguntarme.",
     items: [
-      {
-        question: "¿Cómo puedo encargar una obra?",
-        answer: [
-          "Todo comienza con una conversación.",
-          "Puedes compartir la historia o intención detrás de la obra, las fotografías disponibles, el formato que estás considerando y cualquier referencia o idea que ayude a comprender aquello que quieres conservar o expresar.",
-          "A partir de esa información se evalúa el proyecto y la mejor manera de llevarlo a una obra.",
-        ],
-      },
+      /*
+        "¿Cómo puedo encargar una obra?" removed: the form above answers it
+        by asking for exactly what its answer described.
+      */
       {
         question:
           "¿Puedo encargar una obra aunque todavía no tenga clara la imagen final?",
@@ -167,5 +163,79 @@ export const commissions: CommissionsPage = {
     paragraph:
       "Compárteme brevemente qué te gustaría conservar o transmitir. Ese será el primer paso para comprender si podemos transformarlo en una obra.",
     primaryAction: { label: "Solicitar un encargo", href: "/#contacto" },
+  },
+
+  /*
+   * The quotation form. It is the point of the page: everything above it
+   * exists to get someone here, and everything below is for whoever wants
+   * to read further before writing.
+   *
+   * PENDING: reference photographs cannot be attached. The contact endpoint
+   * posts JSON to Resend and has no file handling; improvising an upload
+   * without storage would be worse than asking for them by reply, so the
+   * confirmation says so plainly instead.
+   */
+  quote: {
+    heading: { title: "Cotiza tu obra por *encargo*." },
+    paragraphs: [
+      "Cuéntame brevemente qué te gustaría convertir en una obra, selecciona el formato que tienes en mente y comparte las referencias disponibles. Con esa información podré evaluar el proyecto y enviarte una cotización.",
+    ],
+    fields: [
+      { name: "nombre", label: "Nombre", kind: "text", required: true },
+      {
+        name: "correo",
+        label: "Correo electrónico",
+        kind: "email",
+        required: true,
+      },
+      {
+        name: "telefono",
+        label: "Teléfono",
+        hint: "Opcional",
+        kind: "tel",
+        required: false,
+      },
+      { name: "lugar", label: "País o ciudad", kind: "text", required: true },
+      {
+        name: "motivo",
+        label: "Tipo de encargo",
+        kind: "select",
+        required: true,
+        options: [
+          "Retrato de persona",
+          "Retrato de mascota",
+          "Homenaje",
+          "Composición simbólica",
+          "Obra a partir de una historia o concepto",
+          "Otro",
+        ],
+      },
+      {
+        name: "formato",
+        label: "Formato deseado",
+        kind: "select",
+        required: true,
+        options: [
+          "27 × 33 cm",
+          "30 × 42 cm",
+          "50 × 70 cm",
+          "70 × 100 cm",
+          "Quiero asesoramiento sobre el formato",
+        ],
+      },
+      {
+        name: "mensaje",
+        label: "Descripción del encargo",
+        hint: "Cuéntame brevemente qué te gustaría representar, para quién es la obra y cualquier información que consideres relevante.",
+        kind: "textarea",
+        required: true,
+      },
+    ],
+    submitLabel: "Solicitar cotización",
+    confirmation:
+      "Gracias por escribirme. Revisaré tu proyecto y te enviaré una cotización.",
+    confirmationNote:
+      "Si tienes fotografías de referencia, puedes responder a mi correo y adjuntarlas.",
+    channelsLabel: "También puedes escribirme por",
   },
 };

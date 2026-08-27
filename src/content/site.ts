@@ -47,10 +47,19 @@ export const site: SiteContent = {
    * "Quiero hacer un encargo" is phrased as the visitor would say it, not as
    * a category name — it is the one entry that carries an intention.
    */
+  /*
+   * Five entries, and the home carries the whole journey. Obras and Sobre
+   * Mariela are anchors on that page rather than separate destinations —
+   * a visitor should be able to understand the project without leaving.
+   * Encargos and Contacto keep their own routes: both end in a form, and a
+   * form deserves a page it can be linked to.
+   */
   nav: [
+    { label: "Inicio", href: "/" },
     { label: "Obras", href: "/obra" },
-    { label: "Sobre mí", href: "/sobre-mi" },
-    { label: "Quiero hacer un encargo", href: "/encargos" },
+    { label: "Sobre Mariela", href: "/sobre-mi" },
+    { label: "Encargos", href: "/encargos" },
+    { label: "Contacto", href: "/contacto" },
   ],
 
   footerNav: [

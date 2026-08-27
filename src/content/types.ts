@@ -373,6 +373,12 @@ export interface CommissionsPage {
     items: FaqItem[];
   };
   closing: HomeContactContent;
+  /**
+   * The quotation form. Shares the shape of ContactPage because it is the
+   * same machinery — a different set of fields and a different destination
+   * in the reader head, not a second implementation.
+   */
+  quote: ContactPage;
 }
 
 /** A titled block of prose. Bullets only where a list is genuinely a list. */

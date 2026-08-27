@@ -1,23 +1,29 @@
 import { ContactCallout } from "@/components/blocks/ContactCallout";
+import { Container, Section } from "@/components/layout/Section";
+import { ActionButton } from "@/components/primitives/ActionLink";
+import { Reveal } from "@/components/primitives/Reveal";
+import { Display } from "@/components/primitives/Type";
 import { Artist } from "@/components/home/Artist";
-import { FeaturedWorks } from "@/components/home/FeaturedWorks";
+import { FeaturedRow } from "@/components/work/FeaturedRow";
 import { Hero } from "@/components/home/Hero";
-import { Statement } from "@/components/home/Statement";
 import { getFeaturedWorks, getHome } from "@/lib/content";
 
 /**
- * Home — four blocks, and no catalogue.
+ * The home, as the whole journey.
  *
- *   1. Hero        who she is, on the studio photograph
- *   2. Declaración what she is after, in two lines
- *   3. La artista  who is doing the looking
- *   4. Insignia    the three works that carry a story
- *   5. Contacto    one way in
+ *   Hero            who she is and what she does
+ *   Obras           three pieces, large
+ *   Sobre Mariela   the artist behind them
+ *   Encargos        what can be asked for, and how
+ *   Contacto        one way in
  *
- * The general grid is gone. There used to be two consecutive blocks of work
- * here — "Obra seleccionada" above "Obras destacadas" — and a visitor could
- * not tell what separated them. The catalogue now lives on /obra, and the home
- * shows only the three pieces that are meant to lead somewhere.
+ * A visitor should understand the project without leaving this page. The
+ * internal routes still exist — /obra holds the full catalogue, /encargos the
+ * quotation form — but nobody is made to travel between them to grasp what
+ * Mariela does.
+ *
+ * The order is the hierarchy the brief sets: Mariela, then the work, then the
+ * essentials, then the ask. Not concept, concept, concept, work, ask.
  */
 export default async function HomePage() {
   const [content, featured] = await Promise.all([getHome(), getFeaturedWorks()]);
@@ -27,14 +33,30 @@ export default async function HomePage() {
       <Hero content={content.hero} />
 
       {/*
-        The proposition, in two lines. It belongs here rather than on Sobre mí:
-        the brief keeps this sentence on the home and asks for the biography
-        page to say the same thing differently, which it now does.
+        Obras — three pieces, given room. No editorial card per work: the brief
+        asks for large images and fewer explanations here, and the catalogue is
+        one click away.
       */}
-      <Statement content={content.statement} />
+      <Section id="obras" ground="paper" rhythm="act" aria-labelledby="obras-titulo">
+        <Container width="wide">
+          <Reveal>
+            <Display as="h2" id="obras-titulo" measure={20}>
+              Obras
+            </Display>
+          </Reveal>
 
+          <FeaturedRow works={featured} className="mt-2xl" />
+
+          <Reveal className="mt-3xl flex justify-center">
+            <ActionButton href="/obra">Ver todas las obras</ActionButton>
+          </Reveal>
+        </Container>
+      </Section>
+
+      {/* Sobre Mariela — the artist, in short. */}
       <Artist content={content.artist} />
-      <FeaturedWorks content={content.featured} works={featured} />
+
+      {/* Contacto — one ask, at the end. */}
       <ContactCallout content={content.contact} />
     </>
   );

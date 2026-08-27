@@ -16,6 +16,11 @@ export const contact: ContactPage = {
     "Compárteme brevemente qué te gustaría conservar o transmitir. Ese será el primer paso para comprender si podemos transformarlo en una obra.",
   ],
 
+  /*
+    Four fields. Teléfono and País/ciudad moved to the quotation form, where
+    they earn their place — this one is for a general question, and every
+    extra box on a form is a reason not to write.
+  */
   fields: [
     {
       name: "nombre",
@@ -30,19 +35,6 @@ export const contact: ContactPage = {
       hint: "¿Dónde puedo responderte?",
       kind: "email",
       required: true,
-    },
-    {
-      name: "telefono",
-      label: "Teléfono",
-      hint: "Opcional",
-      kind: "tel",
-      required: false,
-    },
-    {
-      name: "lugar",
-      label: "País o ciudad",
-      kind: "text",
-      required: false,
     },
     {
       name: "motivo",
