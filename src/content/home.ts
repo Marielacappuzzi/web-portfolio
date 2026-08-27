@@ -20,20 +20,23 @@ export const home: HomeContent = {
     primaryAction: { label: "Explorar la obra", href: "/obra" },
     secondaryAction: { label: "Conocer mi proceso", href: "/sobre-mi#proceso" },
     /*
-     * The portada: Mariela drawing, with the charcoal in her hand.
-     * She asked for this over the framed piece that opened the site before —
-     * it says what she does in the first second, which a photograph of a wall
-     * cannot. She sits on the right of the frame, so the horse's head fills
-     * the left and the type now lives under the band rather than over it.
+     * The portada: Mariela at the easel, drawing the lioness and her cub.
      *
-     * Two files: the landscape band is cropped from the middle of the
-     * original, and phones get the full portrait frame.
+     * Composed for a cover — she and the sheet hold the right, and the left is
+     * bare studio wall with nothing in it, which is where the sentence goes.
+     * That wall measures 0.14 relative luminance, so the type over it is light
+     * and the veil is dark; see Hero for the arithmetic.
+     *
+     * Two files. The landscape one is the frame whole at 16:9, trimmed to 2:1
+     * by the browser on wide screens. The portrait one is cut from x=760 so a
+     * phone still gets the lioness, the cub, her hand on the charcoal and her
+     * face — everything the picture is about, in a shape that holds it.
      */
     cover: {
-      src: "/portada/pintando.jpg",
-      mobileSrc: "/portada/pintando-movil.jpg",
-      alt: "Mariela Crapuzzi dibujando a carboncillo sobre la obra Toro Salvaje: la cabeza del caballo a la izquierda y su mano con el lápiz sobre la crin.",
-      focus: "50% 50%",
+      src: "/portada/estudio.jpg",
+      mobileSrc: "/portada/estudio-movil.jpg",
+      alt: "Mariela Crapuzzi en su taller, dibujando a carboncillo una leona y su cachorro sobre un pliego montado en el caballete, con el lápiz apoyado en el rostro de la leona.",
+      focus: "50% 38%",
     },
   },
 

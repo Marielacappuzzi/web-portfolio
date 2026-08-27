@@ -17,10 +17,22 @@ interface CoverImageProps {
    */
   aspect?: string;
   /**
-   * How the scrim reads. `light` veils a pale photograph so dark type stays
-   * legible; `dark` weights the lower left for light type over charcoal.
+   * How the scrim reads.
+   *
+   * `light` veils a pale photograph so dark type stays legible. `dark` weights
+   * the left heavily for light type over charcoal. `soft` is the same
+   * direction as `dark` at roughly two thirds the weight — for a photograph
+   * whose left is already a mid-tone wall, where a full veil would flatten the
+   * warmth it was lit for. `none` shows the picture untouched.
    */
-  scrim?: "light" | "dark" | "none";
+  scrim?: "light" | "dark" | "soft" | "none";
+  /**
+   * Where `<picture>` swaps the portrait file for the landscape one. It
+   * defaults to the `sm` breakpoint; the home hero raises it to `md` so the
+   * file and the layout change in the same breath — the type moves on top of
+   * the band at exactly the width where the band gets wide enough to hold it.
+   */
+  mobileMedia?: string;
   /** Shown inside the placeholder so it is clear which picture is missing. */
   pendingLabel?: string;
   /**
@@ -61,6 +73,7 @@ export function CoverImage({
   focus,
   aspect = "aspect-[4/5] sm:aspect-[16/9] lg:aspect-[1920/750]",
   scrim = "dark",
+  mobileMedia = "(min-width: 640px)",
   zoomOnScroll = false,
   dim = false,
   pendingLabel = "Portada 1920 × 750",
@@ -76,7 +89,7 @@ export function CoverImage({
           tinted ground — the band is the picture and nothing else.
         */
         scrim === "light" && "bg-paper",
-        scrim === "dark" && "bg-ink",
+        (scrim === "dark" || scrim === "soft") && "bg-ink",
         aspect,
         className,
       )}
@@ -89,7 +102,7 @@ export function CoverImage({
             explicitly because this is the LCP element on every visit.
           */
           <picture>
-            <source media="(min-width: 640px)" srcSet={src} />
+            <source media={mobileMedia} srcSet={src} />
             <img
               src={mobileSrc}
               alt={alt}
@@ -142,10 +155,21 @@ export function CoverImage({
         <div
           aria-hidden="true"
           className={cn(
-            "absolute inset-0 hidden sm:block",
-            scrim === "light"
-              ? "bg-gradient-to-r from-paper/90 via-paper/45 via-35% to-transparent to-55%"
-              : "bg-gradient-to-r from-ink/85 via-ink/40 via-35% to-transparent to-55%",
+            "absolute inset-0",
+            /*
+              `soft` appears at `xl` because that is where the hero it serves
+              moves its type onto the band — the bare wall is 29% of the
+              picture's width, and narrower than that it cannot hold a
+              sentence. Below it the veil would darken a photograph nothing is
+              written over.
+            */
+            scrim === "soft" ? "hidden xl:block" : "hidden sm:block",
+            scrim === "light" &&
+              "bg-gradient-to-r from-paper/90 via-paper/45 via-35% to-transparent to-55%",
+            scrim === "dark" &&
+              "bg-gradient-to-r from-ink/85 via-ink/40 via-35% to-transparent to-55%",
+            scrim === "soft" &&
+              "bg-gradient-to-r from-ink/60 via-ink/30 via-38% to-transparent to-58%",
           )}
         />
       ) : null}
