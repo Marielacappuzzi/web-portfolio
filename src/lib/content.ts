@@ -84,6 +84,17 @@ export async function getFeaturedWorks(): Promise<Work[]> {
 }
 
 /** Commissioned pieces with a photograph — the evidence on /encargos. */
+/**
+ * The catalogue minus the flagship pieces.
+ *
+ * The home groups the three that carry a story first, then everything else.
+ * Listing a flagship twice on one page would read as a mistake rather than as
+ * emphasis, so this excludes them.
+ */
+export async function getGalleryWorks(): Promise<Work[]> {
+  return works.filter((work) => !work.featured).sort(byOrder);
+}
+
 export async function getCommissionedWorks(limit = 4): Promise<Work[]> {
   return works
     .filter((work) => work.kind === "commission" && work.image)

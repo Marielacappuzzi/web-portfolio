@@ -34,6 +34,7 @@ export function FeaturedWorks({ content, works }: FeaturedWorksProps) {
 
   return (
     <Section
+      id="obras"
       ground="paper-bright"
       rhythm="act"
       aria-labelledby="destacadas-titulo"

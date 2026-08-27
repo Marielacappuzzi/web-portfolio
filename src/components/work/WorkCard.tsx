@@ -31,6 +31,11 @@ interface WorkCardProps {
    * card — two tweens on the same opacity fight each other.
    */
   plain?: boolean;
+  /**
+   * Opens the work at full size. Only for pieces without a page of their own:
+   * those lead somewhere, these open in place.
+   */
+  onOpen?: () => void;
 }
 
 /**
@@ -49,6 +54,7 @@ export function WorkCard({
   className,
   delay = 0,
   plain = false,
+  onOpen,
 }: WorkCardProps) {
   // When an ancestor drives the motion, render a plain wrapper instead.
   const Frame = plain ? PlainBlock : Reveal;
@@ -68,16 +74,12 @@ export function WorkCard({
         <WorkIdentity work={work} />
 
         {/*
-          One sentence — the idea the piece turns on, never the full text.
-          Copy.md rules out long descriptions inside the grid, but a single
-          line lets Mariela's voice reach the works that have no editorial page
-          of their own.
+          No interpretive line here. The brief is explicit: under each work,
+          the technical record and nothing else — name, year, technique,
+          measurements, availability. A poetic sentence beside every thumbnail
+          reads as filler by the third one, and the works that have something
+          to say have a page where they say it properly.
         */}
-        {work.shortStory ? (
-          <p className="mt-md max-w-[46ch] font-serif text-lg font-light italic leading-snug text-pretty text-fg">
-            {work.shortStory}
-          </p>
-        ) : null}
 
         {/*
           Even on both sides of the rule. It sat at 2.5rem above and 1.5rem
@@ -111,6 +113,26 @@ export function WorkCard({
   );
 
   if (!work.hasEditorialPage) {
+    /*
+      No page of its own, so it opens in place. A button rather than a link:
+      it goes nowhere, and announcing a destination that does not exist is
+      worse than announcing nothing.
+    */
+    if (onOpen) {
+      return (
+        <figure id={work.slug} className={cn("group scroll-mt-32", className)}>
+          <button
+            type="button"
+            onClick={onOpen}
+            aria-label={`${work.title}, ver en tamaño completo`}
+            className="block w-full cursor-pointer text-left"
+          >
+            {content}
+          </button>
+        </figure>
+      );
+    }
+
     return (
       <figure id={work.slug} className={cn("group scroll-mt-32", className)}>
         {content}

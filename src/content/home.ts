@@ -13,27 +13,26 @@ import type { HomeContent } from "./types";
  */
 export const home: HomeContent = {
   /* 1 — Hero. Copy.md §1 */
+  /* 1 — Hero. Copy aprobado en los lineamientos de reestructuración. */
   hero: {
-    eyebrow: "Mariela Crapuzzi · Artista visual",
-    title: "Una mirada puede contener una *historia entera*.",
-    description:
-      "A través del realismo figurativo y el carboncillo, transformo recuerdos, vínculos y emociones en obras creadas para conservar aquello que una imagen, por sí sola, no alcanza a decir.",
-    primaryAction: { label: "Explorar la obra", href: "/obra" },
-    secondaryAction: { label: "Conocer mi proceso", href: "/sobre-mi#proceso" },
     /*
-     * The portada: the work framed on a wall, not a photograph of the sheet.
-     * The home opens on how a piece lives in a room, which is the question a
-     * visitor arrives with — the catalogue answers what each piece looks like.
-     *
-     * Two files rather than one crop. The landscape frame leaves its left half
-     * clear for the sentence; on a phone that half disappears, so the portrait
-     * file is composed with the frame low and the wall open above it.
+     * Her name is the headline now, not a line of prose above it. The brief
+     * is explicit: the name has to read large and be the first thing anyone
+     * takes in — a visitor should know whose site this is before they read a
+     * word of anything else.
      */
+    eyebrow: null,
+    title: "Mariela Crapuzzi",
+    subtitle: "Artista visual especializada en carboncillo",
+    description:
+      "Creo obras de realismo figurativo que combinan precisión, sensibilidad y expresión para representar aquello que hace única a cada historia.",
+    primaryAction: { label: "Ver obras", href: "#obras" },
+    secondaryAction: { label: "Solicitar un encargo", href: "#encargos" },
     cover: {
-      src: "/portada/inicio.jpg",
-      mobileSrc: "/portada/inicio-movil.jpg",
-      alt: "La obra Bajo su Protección enmarcada en negro sobre una pared clara, con un aparador bajo, unos libros y un ramo de olivo debajo.",
-      focus: "70% 50%",
+      src: "/portada/banner-home.jpg",
+      mobileSrc: "/portada/banner-home-mobile.jpg",
+      alt: "Mariela Crapuzzi en su estudio, trabajando a carboncillo el retrato de una leona con su cría sobre un caballete junto a la ventana.",
+      focus: "65% 45%",
     },
   },
 

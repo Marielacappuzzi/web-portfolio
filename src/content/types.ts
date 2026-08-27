@@ -245,8 +245,14 @@ export interface CoverContent {
 }
 
 export interface HeroContent {
-  eyebrow: string;
+  /**
+   * Optional. The hero leads with her name now, so a label above it would be
+   * a second voice before the first has spoken.
+   */
+  eyebrow?: string | null;
   title: string;
+  /** Sits under the name: what she does, in one line. */
+  subtitle?: string;
   description: string;
   primaryAction: NavItem;
   secondaryAction: NavItem;

@@ -18,7 +18,12 @@ import type { HomeArtistContent } from "@/content/types";
  */
 export function Artist({ content }: { content: HomeArtistContent }) {
   return (
-    <Section ground="paper" rhythm="act" aria-labelledby="artista-titulo">
+    <Section
+      id="sobre-mariela"
+      ground="paper"
+      rhythm="act"
+      aria-labelledby="artista-titulo"
+    >
       <Container width="wide">
         <div className="grid items-center gap-2xl lg:grid-cols-12 lg:gap-x-[5vw]">
           <div className="lg:col-span-5">

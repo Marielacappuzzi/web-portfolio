@@ -29,6 +29,7 @@ export function ContactCallout({
 }: ContactCalloutProps) {
   return (
     <Section
+      id="contacto"
       ground={ground}
       rhythm="act"
       aria-labelledby={headingId}

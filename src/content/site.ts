@@ -35,11 +35,18 @@ export const site: SiteContent = {
   instagramHandle: "@marielacrapuzzi_art",
   instagramUrl: "https://www.instagram.com/marielacrapuzzi_art",
 
+  /*
+   * Five anchors on one page. The site used to be five routes with a
+   * dropdown listing every work under Obras; the restructure makes it a
+   * single continuous read, so the menu points at sections rather than
+   * pages. Works with their own page are reached from the gallery.
+   */
   nav: [
-    { label: "Obras", href: "/obra" },
-    { label: "Sobre mí", href: "/sobre-mi" },
-    { label: "Encargos", href: "/encargos" },
-    { label: "Contacto", href: "/contacto" },
+    { label: "Inicio", href: "/#inicio" },
+    { label: "Obras", href: "/#obras" },
+    { label: "Sobre Mariela", href: "/#sobre-mariela" },
+    { label: "Encargos", href: "/#encargos" },
+    { label: "Contacto", href: "/#contacto" },
   ],
 
   footerNav: [

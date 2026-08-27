@@ -10,62 +10,82 @@ interface HeroProps {
 }
 
 /**
- * The opening: one cover band, with the sentence set over it on the left.
+ * The opening: one full-width band, her name set into the left of it.
  *
- * The type sits on the image rather than under it, ranged left on the same
- * axis the rest of the page uses. Centred type over a photograph has nowhere
- * to align to and drifts; a left edge gives every line the same start and
- * reads as composed. Contrast comes from the scrim inside CoverImage, so the
- * words stay legible without a panel behind them.
+ * Full width and one column — not a split screen. The photograph is of Mariela
+ * at the easel, and cutting it in half to make room for a text panel would
+ * throw away the half that shows her working.
  *
- * `data-ground="paper"` because the portada is a pale wall — measured at 0.72
- * luminance where the sentence sits. Light type would need the picture
- * darkened to work, and darkening a photograph to make room for words is
- * exactly the kind of shouting the brief rules out. Dark type on a light veil
- * leaves the work as it was photographed.
+ * The composition does the layout work: the left third of the landscape frame
+ * is bare studio wall, so the type sits there without covering anything. On a
+ * phone the portrait file carries its own dark field below the picture, and
+ * the words sit in it — over the image, as asked, rather than pushed under it.
+ *
+ * `data-ground="chamber"` so the type renders light. The photograph is warm
+ * and mid-toned, and white on it needs the scrim underneath to hold.
  */
 export function Hero({ content }: HeroProps) {
   return (
     <section
-      data-ground="paper"
+      id="inicio"
+      data-ground="chamber"
       aria-labelledby="hero-titulo"
-      className="relative isolate text-fg"
+      className="relative isolate scroll-mt-24 text-fg"
     >
       <CoverImage
         src={content.cover?.src ?? null}
         alt={content.cover?.alt ?? ""}
         mobileSrc={content.cover?.mobileSrc}
         focus={content.cover?.focus}
-        scrim="light"
+        /*
+          Tall enough on a phone to hold the picture and the words beneath it
+          without either being squeezed; the landscape file's own 1920 × 750
+          from `sm` up.
+        */
+        aspect="aspect-[2/3] sm:aspect-[16/9] lg:aspect-[1920/750]"
+        scrim="dark"
       />
 
       {/*
-        The type layer. It is absolutely placed on wide screens so the band
-        keeps its exact 1920 × 750 proportion, and returns to normal flow
-        under `sm`, where a phone-sized crop has no room to hold both.
-      */}
-      <div className="inset-0 bg-bg px-0 pb-2xl pt-xl sm:absolute sm:flex sm:items-end sm:bg-transparent sm:pb-3xl sm:pt-0">
-        <Container width="wide" className="w-full">
-          <div className="max-w-[46ch]">
-            <Reveal>
-              <Eyebrow>{content.eyebrow}</Eyebrow>
-            </Reveal>
+        The type layer.
 
-            <Reveal delay={120} className="mt-md">
-              <Display as="h1" size="cover" id="hero-titulo" measure={20}>
+        Absolutely placed from `sm` so the band keeps its exact proportion, and
+        pinned to the lower half on a phone, where the portrait file leaves a
+        dark field for it. `pt-32` clears the fixed header at every width —
+        the brief is explicit that nothing may sit under it.
+      */}
+      <div className="absolute inset-0 flex items-end pb-2xl pt-32 sm:items-center sm:pb-0">
+        <Container width="wide" className="w-full">
+          <div className="max-w-[30ch] sm:max-w-[34ch]">
+            {content.eyebrow ? (
+              <Reveal>
+                <Eyebrow>{content.eyebrow}</Eyebrow>
+              </Reveal>
+            ) : null}
+
+            <Reveal>
+              <Display as="h1" size="hero" id="hero-titulo" measure={14}>
                 {content.title}
               </Display>
             </Reveal>
 
+            {content.subtitle ? (
+              <Reveal delay={120} className="mt-sm">
+                <p className="font-sans text-base leading-snug text-fg">
+                  {content.subtitle}
+                </p>
+              </Reveal>
+            ) : null}
+
             <Reveal delay={240} className="mt-lg">
-              <p className="max-w-[52ch] font-sans text-base leading-relaxed text-pretty text-fg">
+              <p className="max-w-[46ch] font-sans text-sm leading-relaxed text-pretty text-fg">
                 {content.description}
               </p>
             </Reveal>
 
             <Reveal
               delay={360}
-              className="mt-lg-plus flex flex-wrap items-center gap-x-lg gap-y-md"
+              className="mt-xl flex flex-wrap items-center gap-x-lg gap-y-md"
             >
               <ActionButton href={content.primaryAction.href}>
                 {content.primaryAction.label}
