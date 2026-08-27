@@ -64,6 +64,25 @@ export function SiteHeader({
     return () => document.removeEventListener("site:navigate", onNavigate);
   }, []);
 
+  /*
+    Close when the reader starts scrolling the page behind the panel. An
+    anchor link inside the menu moves the page without changing the route, so
+    no navigation event fires — the panel would sit over the section it had
+    just scrolled to. Threshold rather than any movement, so a stray touch
+    while reading the menu does not dismiss it.
+  */
+  useEffect(() => {
+    if (!menuOpen) return;
+
+    const start = window.scrollY;
+    const onScroll = () => {
+      if (Math.abs(window.scrollY - start) > 40) closeMenu();
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [menuOpen]);
+
   // Escape closes; the page underneath does not scroll while it is open.
   useEffect(() => {
     if (!menuOpen) return;

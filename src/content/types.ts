@@ -282,7 +282,11 @@ export interface HomeWorkContent extends SectionHeading {
 export interface HomeContactContent extends SectionHeading {
   paragraph: string;
   primaryAction: NavItem;
-  secondaryAction: NavItem;
+  /**
+   * Optional. A closing block that already has the reader convinced needs one
+   * button; a second one beside it is usually an exit dressed as a choice.
+   */
+  secondaryAction?: NavItem;
 }
 
 /**

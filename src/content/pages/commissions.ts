@@ -156,11 +156,16 @@ export const commissions: CommissionsPage = {
     ],
   },
 
+  /*
+   * One ask, and it names the action. "Contar mi historia" described a mood;
+   * a reader at the foot of this section has already decided and wants the
+   * button that starts it. The second link went back to the gallery they just
+   * came through, which is an exit, not an offer.
+   */
   closing: {
     title: "Cuéntame la historia que te gustaría convertir en una *obra*.",
     paragraph:
       "Compárteme brevemente qué te gustaría conservar o transmitir. Ese será el primer paso para comprender si podemos transformarlo en una obra.",
-    primaryAction: { label: "Contar mi historia", href: "/contacto" },
-    secondaryAction: { label: "Ver la obra", href: "/obra" },
+    primaryAction: { label: "Solicitar un encargo", href: "/#contacto" },
   },
 };

@@ -68,9 +68,12 @@ export function ContactCallout({
             <ActionButton href={content.primaryAction.href}>
               {content.primaryAction.label}
             </ActionButton>
-            <QuietLink href={content.secondaryAction.href}>
-              {content.secondaryAction.label}
-            </QuietLink>
+
+            {content.secondaryAction ? (
+              <QuietLink href={content.secondaryAction.href}>
+                {content.secondaryAction.label}
+              </QuietLink>
+            ) : null}
           </Reveal>
         </div>
       </Container>

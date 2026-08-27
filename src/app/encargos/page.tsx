@@ -35,7 +35,10 @@ export const metadata: Metadata = {
 export default async function CommissionsPage() {
   const [page, commissioned, filmed] = await Promise.all([
     getCommissionsPage(),
-    getCommissionedWorks(4),
+    /* Three, not four. The brief asks for variety over volume here: a row
+       of examples is evidence, and past a point it becomes a catalogue that
+       competes with the actual gallery further up the page. */
+    getCommissionedWorks(3),
     getCommissionVideos(),
   ]);
 
