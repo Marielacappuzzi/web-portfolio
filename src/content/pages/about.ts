@@ -38,10 +38,17 @@ export const about: AboutPage = {
   ],
 
   /* Copy.md §2 — the reasoning the home only hints at */
+  /*
+   * Copy.md §2, rephrased. The original two lines — "No busco reproducir lo
+   * que veo / Busco encontrar lo que esa imagen puede decir" — belong to the
+   * home and are kept there. Repeating them here word for word made the two
+   * sections read as one text split in half, which is the duplication the
+   * brief asks to remove. The idea survives; the sentence does not.
+   */
   statement: {
     titleLines: [
-      "No busco reproducir lo que veo.",
-      "Busco encontrar lo que esa imagen *puede decir*.",
+      "Una imagen fiel no es la que copia.",
+      "Es la que *sostiene lo que significa*.",
     ],
     paragraphs: [
       "Detrás de cada obra existe una historia, un vínculo o una emoción que no siempre es visible a primera vista.",

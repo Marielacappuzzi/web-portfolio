@@ -41,12 +41,16 @@ export const site: SiteContent = {
    * single continuous read, so the menu points at sections rather than
    * pages. Works with their own page are reached from the gallery.
    */
+  /*
+   * Three routes, three universes. The last brief is explicit that a section
+   * must contain only what belongs to it: work, the artist, and the ask.
+   * "Quiero hacer un encargo" is phrased as the visitor would say it, not as
+   * a category name — it is the one entry that carries an intention.
+   */
   nav: [
-    { label: "Inicio", href: "/#inicio" },
-    { label: "Obras", href: "/#obras" },
-    { label: "Sobre Mariela", href: "/#sobre-mariela" },
-    { label: "Encargos", href: "/#encargos" },
-    { label: "Contacto", href: "/#contacto" },
+    { label: "Obras", href: "/obra" },
+    { label: "Sobre mí", href: "/sobre-mi" },
+    { label: "Quiero hacer un encargo", href: "/encargos" },
   ],
 
   footerNav: [

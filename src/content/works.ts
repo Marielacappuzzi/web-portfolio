@@ -101,7 +101,7 @@ export const works: Work[] = [
     hasEditorialPage: true,
     printAvailable: false,
     order: 1,
-    featuredOrder: 1,
+    featuredOrder: 2,
   },
 
   {
@@ -435,7 +435,7 @@ export const works: Work[] = [
     },
 
     order: 9,
-    featuredOrder: 2,
+    featuredOrder: 3,
   },
 
   /*
@@ -444,10 +444,15 @@ export const works: Work[] = [
    * docs/Copy.md §4. Adding `image` here replaces the placeholder everywhere.
    */
   {
+    /*
+     * Renamed from "Jesús, la oveja y el lobo" to "El Rescate". The slug and
+     * the asset paths keep the old name on purpose: the brief allows it where
+     * changing them would break links, and nothing visible reads a slug.
+     */
     slug: "jesus-la-oveja-y-el-lobo",
     /* Las fauces del lobo, que es lo que la obra pone primero. */
     coverFocus: "50% 22%",
-    title: "Jesús, la oveja y el lobo",
+    title: "El Rescate",
     kind: "personal",
     /*
      * The piece is unfinished, so this is the work in progress rather than a
@@ -467,7 +472,7 @@ export const works: Work[] = [
         src: "/video/jesus-en-proceso.mp4",
         poster: "/video/jesus-en-proceso.jpg",
         label:
-          "Jesús, la oveja y el lobo en proceso, sobre el tablero de Mariela Crapuzzi.",
+          "El Rescate en proceso, sobre el tablero de Mariela Crapuzzi.",
         portrait: true,
         caption:
           "La obra en curso. Las fotografías definitivas llegarán al terminarla.",
@@ -481,6 +486,6 @@ export const works: Work[] = [
     hasEditorialPage: true,
     printAvailable: false,
     order: 10,
-    featuredOrder: 3,
+    featuredOrder: 1,
   },
 ];
