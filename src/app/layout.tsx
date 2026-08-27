@@ -4,7 +4,7 @@ import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { SmoothScroll } from "@/components/primitives/SmoothScroll";
 import { PageTransition } from "@/components/primitives/PageTransition";
-import { getSite, getWorks } from "@/lib/content";
+import { getSite } from "@/lib/content";
 import { siteUrl } from "@/lib/site-url";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
@@ -45,29 +45,7 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({ children }: LayoutProps<"/">) {
-  const [site, works] = await Promise.all([getSite(), getWorks()]);
-
-  /*
-   * "Obra" drops the catalogue. The three pieces with an editorial page lead
-   * the list and are marked as such; the rest anchor to their card in the
-   * gallery, which is why WorkCard carries an id.
-   *
-   * Ordering by destination rather than by catalogue order puts the pages
-   * worth visiting first, and keeps the two kinds of link from interleaving —
-   * a list that alternates between "goes somewhere" and "scrolls down" is
-   * harder to read than two groups.
-   */
-  const navChildren = {
-    "/obra": [...works]
-      .sort((a, b) => Number(b.hasEditorialPage) - Number(a.hasEditorialPage))
-      .map((work) => ({
-        label: work.title,
-        href: work.hasEditorialPage
-          ? `/obra/${work.slug}`
-          : `/obra#${work.slug}`,
-        editorial: work.hasEditorialPage,
-      })),
-  };
+  const site = await getSite();
 
   return (
     <html
@@ -94,7 +72,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
           Saltar al contenido
         </a>
 
-        <SiteHeader nav={site.nav} name={site.name} navChildren={navChildren} />
+        <SiteHeader nav={site.nav} name={site.name} />
 
         <main id="contenido" className="flex-1">
           {children}

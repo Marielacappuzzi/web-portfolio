@@ -165,3 +165,34 @@ export function CheckIcon(props: IconProps) {
     </svg>
   );
 }
+
+/** Closes the lightbox. A drawn cross at the same weight as every rule. */
+export function CloseIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M6 6 18 18M18 6 6 18" />
+    </svg>
+  );
+}
+
+/** Previous plate. Mirrors ArrowRightIcon so the pair reads as one drawing. */
+export function ArrowLeftIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M20 12H4" />
+      <path d="m10 6-6 6 6 6" />
+    </svg>
+  );
+}
+
+/** Says a card opens the piece rather than a page. */
+export function ExpandIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M14 4h6v6" />
+      <path d="M10 20H4v-6" />
+      <path d="M20 4 13.5 10.5" />
+      <path d="M4 20l6.5-6.5" />
+    </svg>
+  );
+}

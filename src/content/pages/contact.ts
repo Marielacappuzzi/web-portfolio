@@ -1,75 +1,71 @@
 import type { ContactPage } from "../types";
 
 /**
- * /contacto — Copy.md §10, including the exact field labels and hints.
+ * /contacto — general enquiries.
  *
- * The form is the primary channel; email and Instagram are secondary and
- * WhatsApp is deliberately absent. PENDING: no submission endpoint has been
- * decided. See docs/CONTENT_PENDING.md #21.
+ * Four fields. It used to carry six, including phone, country and a "Retrato
+ * por encargo" option in the reason list — which made it a slightly shorter
+ * version of the commission form, under a different title. Anyone who wants a
+ * quote now has a form built for that on /encargos, with formats and a brief;
+ * this one is for the person asking about an available work, a print, an
+ * exhibition, or anything that is not a price.
+ *
+ * The heading changed for the same reason. It read "Cuéntame la historia que
+ * te gustaría convertir en una obra" — an invitation to commission something,
+ * on the page that is explicitly not for that.
  */
 export const contact: ContactPage = {
   heading: {
-    title: "Cuéntame la historia que te gustaría convertir en una *obra*.",
+    eyebrow: "Contacto",
+    title: "Consultar por una *obra*.",
   },
   paragraphs: [
-    "Puede ser un recuerdo, una persona, un animal, un vínculo o una idea que todavía no encontró su imagen.",
-    "Compárteme brevemente qué te gustaría conservar o transmitir. Ese será el primer paso para comprender si podemos transformarlo en una obra.",
+    "Escríbeme por una obra disponible, un print, una exposición o cualquier otra consulta.",
   ],
 
   fields: [
-    {
-      name: "nombre",
-      label: "Nombre",
-      hint: "¿Cómo te llamas?",
-      kind: "text",
-      required: true,
-    },
+    { name: "nombre", label: "Nombre", kind: "text", required: true },
     {
       name: "correo",
       label: "Correo electrónico",
-      hint: "¿Dónde puedo responderte?",
       kind: "email",
       required: true,
     },
     {
-      name: "telefono",
-      label: "Teléfono",
-      hint: "Opcional",
-      kind: "tel",
-      required: false,
-    },
-    {
-      name: "lugar",
-      label: "País o ciudad",
-      kind: "text",
-      required: false,
-    },
-    {
       name: "motivo",
-      label: "Motivo de la consulta",
+      label: "Motivo de consulta",
       kind: "select",
       required: true,
+      /*
+       * No "Retrato por encargo" here. It is the one reason that has a page
+       * and a form of its own, and leaving it in this list is what made the
+       * two forms compete.
+       */
       options: [
         "Obra disponible",
-        "Retrato por encargo",
         "Print",
-        "Galería o colaboración",
+        "Galería o exposición",
+        "Prensa o colaboración",
         "Otra consulta",
       ],
     },
     {
       name: "mensaje",
       label: "Mensaje",
-      hint: "Cuéntame brevemente la historia, idea o consulta que te gustaría compartir.",
       kind: "textarea",
       required: true,
     },
   ],
 
-  submitLabel: "Enviar mi consulta",
+  submitLabel: "Enviar consulta",
   confirmation:
-    "Gracias por compartir tu historia. Revisaré tu mensaje y me pondré en contacto contigo personalmente.",
-  confirmationNote:
-    "Suelo responder en el transcurso de la semana. Si tu consulta es sobre un encargo, te escribiré para conocer la historia con más calma.",
+    "Gracias por escribir. Revisaré tu mensaje y me pondré en contacto contigo.",
+  confirmationNote: "Suelo responder en el transcurso de la semana.",
   channelsLabel: "También puedes escribirme",
+
+  /* The one place the two forms are told apart, for whoever landed here first. */
+  commissionNote: {
+    text: "¿Quieres encargar una obra? La cotización tiene su propio formulario, con formatos y referencias.",
+    action: { label: "Cotizar un encargo", href: "/encargos#cotizar" },
+  },
 };

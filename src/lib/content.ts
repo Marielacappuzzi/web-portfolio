@@ -65,10 +65,6 @@ export async function getTermsPage(): Promise<LegalPage> {
 
 /* ---------------------------------------------------------------- works --- */
 
-export async function getWorks(): Promise<Work[]> {
-  return [...works].sort(byOrder);
-}
-
 export async function getWork(slug: string): Promise<Work | null> {
   return works.find((work) => work.slug === slug) ?? null;
 }
@@ -83,49 +79,17 @@ export async function getFeaturedWorks(): Promise<Work[]> {
     .sort((a, b) => (a.featuredOrder ?? a.order) - (b.featuredOrder ?? b.order));
 }
 
-/** Commissioned pieces with a photograph — the evidence on /encargos. */
-export async function getCommissionedWorks(limit = 4): Promise<Work[]> {
-  return works
-    .filter((work) => work.kind === "commission" && work.image)
-    .sort(byOrder)
-    .slice(0, limit);
-}
-
-/**
- * Commissions filmed in progress, for the process block on /encargos.
- *
- * Pieces with an editorial page are excluded: their clip already lives there,
- * and showing the same footage twice makes the site look like it is padding.
+/*
+ * getCommissionedWorks and getCommissionVideos are gone with the two blocks
+ * they fed — "Encargos realizados" and "Obras en proceso" on /encargos. Both
+ * showed pieces that were already in the gallery, each labelled as a
+ * commission, so the page was a second gallery with the same photographs in
+ * it. Restoring either is a filter over `works`, not a lost capability.
  */
-export async function getCommissionVideos(): Promise<Work[]> {
-  return works
-    .filter(
-      (work) =>
-        work.kind === "commission" &&
-        (work.processVideos?.length ?? 0) > 0 &&
-        !work.hasEditorialPage,
-    )
-    .sort(byOrder);
-}
 
-/**
- * The gallery selection shown on the home, above the featured block.
- *
- * Featured pieces are excluded: they get their own section directly below, and
- * showing the same three works twice in a row would make the home look like it
- * is repeating itself. This is where curation happens as the catalogue grows —
- * not in the component.
- */
 /** Everything that is not one of the three flagships. */
 export async function getRestOfCatalogue(): Promise<Work[]> {
   return works.filter((work) => !work.featured).sort(byOrder);
-}
-
-export async function getGallerySelection(limit = 4): Promise<Work[]> {
-  return works
-    .filter((work) => !work.featured)
-    .sort(byOrder)
-    .slice(0, limit);
 }
 
 /** Works that get their own editorial page — drives generateStaticParams. */

@@ -49,6 +49,39 @@ export function WorkIdentity({ work, className }: PartProps) {
   );
 }
 
+/**
+ * Availability alone, for the gallery card.
+ *
+ * The one piece of the technical sheet that belongs on a card. Someone
+ * scanning a wall of ten drawings is asking which of them they could have;
+ * making them open all ten to learn that eight are in private collections is
+ * the kind of small cruelty a gallery should not commit.
+ *
+ * Set at `text-sm` in the muted tone, not `2xs` in the faint one — legible is
+ * not the same as loud, and the previous scale was neither.
+ */
+export function WorkAvailability({ work, className }: PartProps) {
+  const line = [
+    work.kind ? kindLabels[work.kind] : undefined,
+    work.status ? statusLabels[work.status] : undefined,
+  ]
+    .filter(Boolean)
+    .join(" · ");
+
+  if (!line) return null;
+
+  return (
+    <p
+      className={cn(
+        "font-sans text-sm leading-normal text-fg-muted",
+        className,
+      )}
+    >
+      {line}
+    </p>
+  );
+}
+
 interface SpecsProps extends PartProps {
   /** `full` adds the support line and the closing note. */
   detail?: "card" | "full";
@@ -90,7 +123,7 @@ export function WorkSpecs({ work, detail = "card", className }: SpecsProps) {
       ) : null}
 
       {detail === "full" && work.note ? (
-        <p className="mt-md max-w-[56ch] font-sans text-sm leading-relaxed text-fg-faint">
+        <p className="mt-md max-w-[56ch] font-sans text-sm leading-relaxed text-fg-muted">
           {work.note}
         </p>
       ) : null}

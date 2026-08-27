@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
-import { ContactForm } from "@/components/contact/ContactForm";
+import Link from "next/link";
+import { EnquiryForm } from "@/components/contact/EnquiryForm";
 import { Container, Section } from "@/components/layout/Section";
 import { PageHeader } from "@/components/layout/PageHeader";
 import {
+  ArrowRightIcon,
   InstagramIcon,
   LocationIcon,
 } from "@/components/primitives/Icon";
@@ -18,15 +20,23 @@ const channelClass =
 export const metadata: Metadata = {
   title: "Contacto",
   description:
-    "Cuéntame la historia que te gustaría convertir en una obra. Puede ser un recuerdo, una persona, un animal, un vínculo o una idea.",
+    "Consultas sobre una obra disponible, un print o una exposición. Los encargos tienen su propio formulario de cotización.",
 };
 
 /**
- * /contacto
+ * /contacto — general enquiries, and nothing else.
  *
- * The form is the primary channel; email and Instagram are secondary and
- * WhatsApp is deliberately absent, as the brief asks. The page reads as the
- * beginning of a conversation rather than a request for a quote.
+ * It used to open with "Cuéntame la historia que te gustaría convertir en una
+ * obra" over six fields including phone, country and a "Retrato por encargo"
+ * option — which made it a shorter version of the commission form under a
+ * different title, competing with the page actually built for that.
+ *
+ * Four fields now, and a line pointing anyone who wants a quote at /encargos.
+ * The difference between the two pages is stated rather than implied.
+ *
+ * The form is the primary channel and Instagram is the only external one:
+ * no WhatsApp, no second network, no published address. The mailbox appears
+ * in the privacy policy and the terms, where naming it is the point.
  */
 export default async function ContactPage() {
   const [page, site] = await Promise.all([getContactPage(), getSite()]);
@@ -38,10 +48,28 @@ export default async function ContactPage() {
       <Section ground="paper" rhythm="beat">
         <Container width="wide">
           <div className="grid gap-3xl lg:grid-cols-12 lg:gap-x-[5vw]">
-            {/* The invitation and the other ways in. */}
+            {/* The invitation, the other way in, and the door to /encargos. */}
             <div className="lg:col-span-4">
               <Reveal>
                 <Prose paragraphs={page.paragraphs} />
+              </Reveal>
+
+              {/*
+                The one place the two forms are told apart. Someone who came
+                looking for a price and landed here should not have to work out
+                that they are on the wrong page.
+              */}
+              <Reveal delay={60} className="mt-xl border-t border-rule pt-lg">
+                <p className="max-w-[46ch] font-sans text-sm leading-relaxed text-pretty text-fg-muted">
+                  {page.commissionNote.text}
+                </p>
+                <Link
+                  href={page.commissionNote.action.href}
+                  className="group mt-md inline-flex items-center gap-2xs border-b border-fg-muted py-2xs font-sans text-2xs font-medium uppercase tracking-label text-fg-strong transition-colors duration-300 hover:border-fg-strong"
+                >
+                  {page.commissionNote.action.label}
+                  <ArrowRightIcon className="shrink-0 transition-transform duration-300 ease-out-quart group-hover:translate-x-1 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0" />
+                </Link>
               </Reveal>
 
               <div className="mt-3xl">
@@ -86,13 +114,14 @@ export default async function ContactPage() {
             {/* The form. */}
             <div className="lg:col-span-7 lg:col-start-6">
               <Reveal delay={120}>
-                <ContactForm page={page} />
-              </Reveal>
-
-              <Reveal delay={180} className="mt-xl">
-                <p className="max-w-[52ch] font-sans text-sm leading-relaxed text-fg-muted">
-                  {page.confirmation}
-                </p>
+                <EnquiryForm
+                  form="consulta"
+                  idPrefix="consulta"
+                  fields={page.fields}
+                  submitLabel={page.submitLabel}
+                  confirmation={page.confirmation}
+                  confirmationNote={page.confirmationNote}
+                />
               </Reveal>
             </div>
           </div>

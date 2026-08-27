@@ -4,37 +4,32 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import type { NavChild, NavItem } from "@/content/types";
+import type { NavItem } from "@/content/types";
 import { cn } from "@/lib/cn";
 import { lockScroll } from "@/lib/smooth-scroll";
-import { ArrowUpRightIcon, ChevronDownIcon } from "@/components/primitives/Icon";
-import { NavSubmenu } from "./NavSubmenu";
 import type { Ground } from "./Section";
 
 interface SiteHeaderProps {
-  /** Works listed under "Obra". Keyed by the parent href. */
-  navChildren?: Record<string, NavChild[]>;
   nav: NavItem[];
   name: string;
 }
 
 /**
- * Fixed header.
+ * Fixed header. Five labels, and nothing that unfolds.
  *
- * Always on the paper ground. The MC monogram returns home; "Inicio" is
- * deliberately not a nav item. The monogram swaps to its light version while
- * the mobile menu is open, because the panel behind it turns to chamber.
+ * "Obras" used to drop a panel listing every piece in the catalogue, half of
+ * them anchors back into the gallery it was covering. It turned the one route
+ * everybody takes into a choice between eleven links and kept a second copy of
+ * the catalogue in the chrome. The label goes to the gallery now, which is
+ * what it always said it would do.
+ *
+ * Always on the paper ground. The monogram returns home and swaps to its light
+ * version while the mobile menu is open, because the panel behind it turns to
+ * chamber.
  */
-export function SiteHeader({
-  nav,
-  name,
-  navChildren = {},
-}: SiteHeaderProps) {
+export function SiteHeader({ nav, name }: SiteHeaderProps) {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
-  const [openBranch, setOpenBranch] = useState<string | null>(null);
-  /** href of the nav item whose submenu is open, if any. */
-  const [openMenu, setOpenMenu] = useState<string | null>(null);
 
   /*
     Close on tap rather than on the route changing. The panel used to stay up
@@ -43,10 +38,7 @@ export function SiteHeader({
     cascading render React warns about, and it closes on the gesture rather
     than a beat later.
   */
-  const closeMenu = () => {
-    setMenuOpen(false);
-    setOpenBranch(null);
-  };
+  const closeMenu = () => setMenuOpen(false);
 
   /*
     PageTransition intercepts link clicks in the capture phase and stops them
@@ -55,10 +47,7 @@ export function SiteHeader({
     this instead, which carries past the stopped bubble.
   */
   useEffect(() => {
-    const onNavigate = () => {
-      setMenuOpen(false);
-      setOpenBranch(null);
-    };
+    const onNavigate = () => setMenuOpen(false);
 
     document.addEventListener("site:navigate", onNavigate);
     return () => document.removeEventListener("site:navigate", onNavigate);
@@ -155,83 +144,35 @@ export function SiteHeader({
           <nav aria-label="Principal" className="hidden md:block">
             <ul className="flex items-center gap-xl">
               {nav.map((item) => {
+                /*
+                  "/" would prefix-match every route, so the home is compared
+                  exactly and everything else also matches its subpages.
+                */
                 const active =
-                  pathname === item.href || pathname.startsWith(`${item.href}/`);
-                const children = navChildren[item.href];
-                const hasChildren = Boolean(children && children.length > 0);
-                const open = openMenu === item.href;
-                const triggerId = `nav-${item.href.replace(/W+/g, "-")}`;
+                  item.href === "/"
+                    ? pathname === "/"
+                    : pathname === item.href ||
+                      pathname.startsWith(`${item.href}/`);
 
                 return (
-                  <li
-                    key={item.href}
-                    className={cn(hasChildren && "relative")}
-                    onMouseEnter={
-                      hasChildren ? () => setOpenMenu(item.href) : undefined
-                    }
-                    onMouseLeave={hasChildren ? () => setOpenMenu(null) : undefined}
-                    /*
-                     * Keyboard opens the panel too: focus moving into the item
-                     * or any of its links keeps it open, and moving out of the
-                     * whole subtree closes it. Without this the submenu would
-                     * be reachable only with a pointer.
-                     */
-                    onFocus={hasChildren ? () => setOpenMenu(item.href) : undefined}
-                    onBlur={
-                      hasChildren
-                        ? (event) => {
-                            if (!event.currentTarget.contains(event.relatedTarget)) {
-                              setOpenMenu(null);
-                            }
-                          }
-                        : undefined
-                    }
-                  >
+                  <li key={item.href}>
                     <Link
-                      id={triggerId}
                       href={item.href}
                       aria-current={active ? "page" : undefined}
-                      aria-expanded={hasChildren ? open : undefined}
                       className={cn(
                         "group relative block py-1 font-sans text-sm transition-colors duration-300",
                         active ? "text-fg-strong" : "text-fg hover:text-fg-strong",
                       )}
                     >
-                      <span className="relative inline-flex items-center gap-1">
-                        {item.label}
-
-                        {/*
-                          The chevron says the label opens something. It sits
-                          inside the same span as the text so the hover rule
-                          below underlines the pair, not the word alone.
-                        */}
-                        {hasChildren ? (
-                          <ChevronDownIcon
-                            className={cn(
-                              "transition-transform duration-300 ease-out-quart",
-                              open ? "rotate-180" : "rotate-0",
-                            )}
-                          />
-                        ) : null}
-                      </span>
+                      {item.label}
                       <span
                         aria-hidden="true"
                         className={cn(
                           "absolute inset-x-0 bottom-0 h-px origin-left bg-current transition-transform duration-500 ease-out-quart",
-                          active || open
-                            ? "scale-x-100"
-                            : "scale-x-0 group-hover:scale-x-100",
+                          active ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100",
                         )}
                       />
                     </Link>
-
-                    {hasChildren ? (
-                      <NavSubmenu
-                        items={children!}
-                        labelledBy={triggerId}
-                        open={open}
-                      />
-                    ) : null}
                   </li>
                 );
               })}
@@ -282,86 +223,17 @@ export function SiteHeader({
           className="gutter flex min-h-full flex-col justify-center py-28"
         >
           <ul className="flex flex-col gap-lg">
-            {nav.map((item) => {
-              const children = navChildren[item.href];
-              const hasChildren = Boolean(children && children.length > 0);
-              const branchOpen = openBranch === item.href;
-
-              return (
-                <li key={item.href}>
-                  <div className="flex items-center justify-between gap-md">
-                    <Link
-                      href={item.href}
-                      onClick={closeMenu}
-                      className="font-serif text-3xl font-light tracking-display text-fg-strong"
-                    >
-                      {item.label}
-                    </Link>
-
-                    {/*
-                      A separate control, not a link. Tapping the word should
-                      go to the gallery; tapping the arrow should open the list
-                      — one target cannot do both, and merging them means every
-                      reader who wants /obra has to close a panel first.
-                    */}
-                    {hasChildren ? (
-                      <button
-                        type="button"
-                        onClick={() =>
-                          setOpenBranch(branchOpen ? null : item.href)
-                        }
-                        aria-expanded={branchOpen}
-                        aria-label={`${branchOpen ? "Ocultar" : "Mostrar"} las obras`}
-                        className="-mr-2 flex h-11 w-11 shrink-0 items-center justify-center text-fg"
-                      >
-                        <ChevronDownIcon
-                          width={18}
-                          height={18}
-                          className={cn(
-                            "transition-transform duration-400 ease-in-out-quart",
-                            branchOpen ? "rotate-180" : "rotate-0",
-                          )}
-                        />
-                      </button>
-                    ) : null}
-                  </div>
-
-                  {/*
-                    Collapsed to nothing rather than hidden: a 1fr/0fr grid row
-                    animates to the list’s own height, so it opens smoothly
-                    without anyone hard-coding a max-height that will be wrong
-                    the day a work is added.
-                  */}
-                  {hasChildren ? (
-                    <div
-                      className={cn(
-                        "grid transition-[grid-template-rows] duration-500 ease-in-out-quart",
-                        "motion-reduce:transition-none",
-                        branchOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]",
-                      )}
-                    >
-                      <ul className="overflow-hidden">
-                        <li className="h-md" aria-hidden="true" />
-                        {children!.map((child) => (
-                          <li key={child.href} className="border-l border-rule pl-md">
-                            <Link
-                              href={child.href}
-                              onClick={closeMenu}
-                              className="flex items-center gap-2xs py-2xs font-serif text-base font-light text-fg"
-                            >
-                              {child.label}
-                              {child.editorial ? (
-                                <ArrowUpRightIcon className="shrink-0 text-fg-faint" />
-                              ) : null}
-                            </Link>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  ) : null}
-                </li>
-              );
-            })}
+            {nav.map((item) => (
+              <li key={item.href}>
+                <Link
+                  href={item.href}
+                  onClick={closeMenu}
+                  className="font-serif text-3xl font-light tracking-display text-fg-strong"
+                >
+                  {item.label}
+                </Link>
+              </li>
+            ))}
           </ul>
         </nav>
       </div>

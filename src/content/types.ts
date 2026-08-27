@@ -134,21 +134,6 @@ export interface PrintEdition {
 
 /* ---------------------------------------------------------------- site --- */
 
-/**
- * A work listed under a nav item.
- *
- * Two kinds of destination sit in the same list, and they behave differently
- * once clicked: a piece with its own editorial page leads somewhere new, the
- * rest scroll to a card in the gallery. The menu marks the difference rather
- * than making the reader discover it.
- */
-export interface NavChild {
-  label: string;
-  href: string;
-  /** True when the link opens a page of its own rather than an anchor. */
-  editorial?: boolean;
-}
-
 export interface NavItem {
   label: string;
   href: string;
@@ -214,16 +199,14 @@ export interface ProseBlock extends SectionHeading {
   action?: NavItem;
 }
 
-export interface ProcessStep {
-  number: string;
-  title: string;
-  description: string;
-}
-
-export interface ProcessBlock extends SectionHeading {
-  intro: string;
-  steps: ProcessStep[];
-}
+/*
+ * ProcessStep and ProcessBlock are gone with the five stages they described —
+ * escuchar, encontrar la imagen, interpretar, crear, proteger y entregar. They
+ * were told twice, as how Mariela works on /sobre-mi and as what to expect on
+ * /encargos, and both tellings were removed in the same pass: the commissions
+ * page needed to reach its form sooner, and the artist page was explaining a
+ * workflow where it should have been describing a practice.
+ */
 
 /* ------------------------------------------------------------------ home --- */
 
@@ -246,49 +229,41 @@ export interface CoverContent {
 
 export interface HeroContent {
   /*
-    No eyebrow. It read "Mariela Crapuzzi · Artista visual" above a sentence
-    about the work; both halves are now said properly — the name as the
-    heading, the role as the line under it, both from site.ts so neither is
-    written twice.
+    No name and no specialty here: both live in site.ts, which is the one place
+    that says who she is. The hero reads them rather than repeating them.
   */
-  title: string;
+  /** What she does, in one sentence. The third line of the first screen. */
   description: string;
   primaryAction: NavItem;
   secondaryAction: NavItem;
   /**
-   * The cover band behind the opening sentence. 1920 x 750 at desktop,
-   * recropped by the browser for narrower frames — see CoverImage. Null
-   * until the portada has been produced.
+   * The cover band. Two files — a landscape frame and a portrait crop for
+   * phones — see CoverImage. Null until the portada has been produced.
    */
   cover: CoverContent | null;
 }
 
 /**
- * The home carries the shortest possible version of the statement: the
- * headline and the sentence to carry away. The reasoning behind it lives on
- * /sobre-mi. See docs/PROJECT_CONTEXT.md §8.
+ * The three flagship pieces on the home.
+ *
+ * One editorial line above them and nothing else. The section that used to
+ * precede this one — a two-line manifesto and a pull quote — said the same
+ * thing as the artist block below it and the gallery intro after that, in
+ * three different arrangements of the same six words. The work makes the
+ * argument better than another heading about looking.
  */
-export interface HomeStatementContent {
-  eyebrow?: string;
-  titleLines: string[];
-  pullQuote: string;
-}
-
-export interface HomeWorkContent extends SectionHeading {
+export interface HomeFeaturedContent {
+  eyebrow: string;
+  /** The one poetic line the home keeps, set over the work it describes. */
+  line?: string;
+  /** The way through to the full catalogue. */
   action: NavItem;
-}
-
-export interface HomeContactContent extends SectionHeading {
-  paragraph: string;
-  primaryAction: NavItem;
-  secondaryAction: NavItem;
 }
 
 /**
  * The artist, on the home.
  *
- * Sits before the work so a visitor meets the person behind the gaze before
- * exploring the pieces. Deliberately short — it introduces Mariela; /sobre-mi
+ * Deliberately short — it introduces Mariela and hands off to /sobre-mi, which
  * is where she is actually explained.
  */
 export interface HomeArtistContent extends SectionHeading {
@@ -297,17 +272,39 @@ export interface HomeArtistContent extends SectionHeading {
   image: { src: string; alt: string };
 }
 
-export interface HomeFeaturedContent {
-  eyebrow: string;
-  /** The way through to the full catalogue, now that the home shows only three. */
+/**
+ * Commissions, on the home.
+ *
+ * What can be asked for and how to ask. No process, no stages, no examples —
+ * the pieces are in the gallery and each one already says whether it was a
+ * commission.
+ */
+export interface HomeCommissionsContent extends SectionHeading {
+  paragraph: string;
+  /** What a commission can be. Four or five words each, never sentences. */
+  kinds: string[];
   action: NavItem;
 }
 
+export interface HomeContactContent extends SectionHeading {
+  paragraph: string;
+  primaryAction: NavItem;
+  secondaryAction?: NavItem;
+}
+
+/**
+ * The home, as the whole tour:
+ *
+ *   hero -> obras -> sobre Mariela -> encargos -> contacto
+ *
+ * Someone who reads only this page should be able to leave knowing who she
+ * is, what she makes, and how to ask for a piece.
+ */
 export interface HomeContent {
   hero: HeroContent;
-  statement: HomeStatementContent;
-  artist: HomeArtistContent;
   featured: HomeFeaturedContent;
+  artist: HomeArtistContent;
+  commissions: HomeCommissionsContent;
   contact: HomeContactContent;
 }
 
@@ -337,31 +334,33 @@ export interface AboutPage {
   language: ProseBlock;
   /** Shown beside the charcoal section — the material, not an illustration. */
   languageVideo?: VideoSource;
-  vision: SectionHeading & { intro: string; ideas: AboutIdea[] };
-}
-
-/**
- * How Mariela looks at a subject, told as ideas rather than steps.
- *
- * The five operational stages (escuchar, encontrar la imagen, interpretar,
- * crear, proteger y entregar) belong to /encargos and appear only there. Here
- * the same practice is described from the inside: what she looks for, what she
- * keeps, what realism is for. Repeating the numbered list on both pages made
- * the two read as the same page twice.
- */
-export interface AboutIdea {
-  title: string;
-  body: string;
 }
 
 /* ----------------------------------------------------------- /encargos --- */
 
+/**
+ * /encargos — five blocks, in the order someone actually needs them.
+ *
+ *   1. what can be commissioned      intro
+ *   2. what to send                  brief
+ *   3. the form                      quote
+ *   4. the detail, for who wants it  practical
+ *   5. what the detail leaves open   faq
+ *
+ * The five-stage process (escuchar, encontrar la imagen, interpretar, crear,
+ * proteger y entregar) and the row of finished commissions are both gone.
+ * Nobody needs to follow how Mariela reasons before asking what a piece costs,
+ * and the works were already in the gallery, each one labelled as a commission
+ * — the page was a second gallery with the same pictures in it.
+ */
 export interface CommissionsPage {
   heading: SectionHeading;
-  paragraphs: string[];
-  kinds: { label: string; items: string[] };
-  process: ProcessBlock;
-  /** Formats, timings, deposit, shipping — the practical detail. */
+  /** Two lines: what a commission can be. Not a manifesto. */
+  intro: { paragraph: string; action: NavItem };
+  /** What to prepare before writing. One paragraph, then the form. */
+  brief: { title: string; paragraph: string };
+  quote: QuoteForm;
+  /** Formats, timings, deposit, shipping. After the form, never before it. */
   practical: {
     eyebrow: string;
     title: string;
@@ -372,7 +371,24 @@ export interface CommissionsPage {
     title: string;
     items: FaqItem[];
   };
-  closing: HomeContactContent;
+}
+
+/**
+ * The quote form — the page's real content.
+ *
+ * Shares its shape with the contact form, and its endpoint. `kind` rides along
+ * in the payload so the email that lands in Mariela's inbox says which of the
+ * two she is reading, and so a quote request never looks like a general
+ * enquiry.
+ */
+export interface QuoteForm {
+  kind: string;
+  title: string;
+  paragraph: string;
+  fields: FormField[];
+  submitLabel: string;
+  confirmation: string;
+  confirmationNote: string;
 }
 
 /** A titled block of prose. Bullets only where a list is genuinely a list. */
@@ -407,6 +423,15 @@ export interface FormField {
   options?: string[];
 }
 
+/**
+ * /contacto — general enquiries only.
+ *
+ * Four fields. Anyone who wants to commission a piece has a form of their own
+ * on /encargos with formats, a brief and a type of commission; this one is for
+ * the person asking about an available work, a print, an exhibition, or
+ * anything that is not a quote. Two near-identical forms under two titles was
+ * the thing to fix.
+ */
 export interface ContactPage {
   heading: SectionHeading;
   paragraphs: string[];
@@ -416,6 +441,8 @@ export interface ContactPage {
   /** One line under the thank-you: what happens next, and when. */
   confirmationNote: string;
   channelsLabel: string;
+  /** Points anyone who actually wants a quote at the right form. */
+  commissionNote: { text: string; action: NavItem };
 }
 
 /* -------------------------------------------------------------- legal --- */

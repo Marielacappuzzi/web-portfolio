@@ -9,6 +9,8 @@ interface ContactCalloutProps {
   content: HomeContactContent;
   ground?: Ground;
   headingId?: string;
+  /** Anchor target, so the home's own nav can reach this block. */
+  id?: string;
 }
 
 /**
@@ -26,11 +28,13 @@ export function ContactCallout({
   content,
   ground = "paper",
   headingId = "contacto-titulo",
+  id,
 }: ContactCalloutProps) {
   return (
     <Section
       ground={ground}
       rhythm="act"
+      id={id}
       aria-labelledby={headingId}
       /*
        * The closing invitation reads as a coda, not as the tail of whatever
@@ -67,9 +71,16 @@ export function ContactCallout({
             <ActionButton href={content.primaryAction.href}>
               {content.primaryAction.label}
             </ActionButton>
-            <QuietLink href={content.secondaryAction.href}>
-              {content.secondaryAction.label}
-            </QuietLink>
+            {/*
+              Optional now. The home's closing block offers one action and one
+              only: two buttons under a heading that says "consulta" made the
+              reader choose before they knew what they were choosing between.
+            */}
+            {content.secondaryAction ? (
+              <QuietLink href={content.secondaryAction.href}>
+                {content.secondaryAction.label}
+              </QuietLink>
+            ) : null}
           </Reveal>
         </div>
       </Container>

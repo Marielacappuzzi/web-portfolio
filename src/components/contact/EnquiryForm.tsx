@@ -6,7 +6,7 @@ import { type FormEvent, useState } from "react";
 import { ContactSent } from "./ContactSent";
 import { Pending } from "@/components/primitives/Pending";
 import { PhoneField } from "./PhoneField";
-import type { ContactPage, FormField } from "@/content/types";
+import type { FormField } from "@/content/types";
 import { getRecaptchaToken, loadRecaptcha } from "@/lib/recaptcha-client";
 import { CheckIcon } from "@/components/primitives/Icon";
 import { cn } from "@/lib/cn";
@@ -25,6 +25,17 @@ type Status =
   | "invalid"
   | "not-configured"
   | "failed";
+
+interface EnquiryFormProps {
+  /** "consulta" or "cotizacion". Tells the server which field list applies. */
+  form: "consulta" | "cotizacion";
+  fields: FormField[];
+  submitLabel: string;
+  confirmation: string;
+  confirmationNote: string;
+  /** Distinguishes the two forms' element ids on a page that had both. */
+  idPrefix?: string;
+}
 
 /**
  * Bordered fields, not underlines.
@@ -45,12 +56,30 @@ const fieldBase = cn(
   "disabled:opacity-60",
 );
 
-export function ContactForm({ page }: { page: ContactPage }) {
+/**
+ * The one form on the site, wearing two hats.
+ *
+ * /contacto asks four questions; /encargos asks seven, including the format and
+ * the kind of commission. They used to be two components with the same body,
+ * and before that they were nearly the same form under two different titles —
+ * which is the thing this split exists to prevent. The fields come from the
+ * content layer, `form` says which list the server should validate against, and
+ * everything else is identical because it should be.
+ */
+export function EnquiryForm({
+  form,
+  fields,
+  submitLabel,
+  confirmation,
+  confirmationNote,
+  idPrefix = "campo",
+}: EnquiryFormProps) {
   const [status, setStatus] = useState<Status>("idle");
   const [consent, setConsent] = useState(false);
   const [missing, setMissing] = useState<string[]>([]);
 
   const busy = status === "sending";
+  const consentId = `${idPrefix}-privacidad`;
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -63,7 +92,7 @@ export function ContactForm({ page }: { page: ContactPage }) {
       return;
     }
 
-    const empty = page.fields
+    const empty = fields
       .filter((field) => field.required)
       .filter((field) => !String(data[field.name] ?? "").trim())
       .map((field) => field.name);
@@ -90,7 +119,7 @@ export function ContactForm({ page }: { page: ContactPage }) {
       const response = await fetch("/api/contacto", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...data, recaptchaToken }),
+        body: JSON.stringify({ ...data, formulario: form, recaptchaToken }),
       });
 
       const body = await response.json().catch(() => ({}));
@@ -115,9 +144,7 @@ export function ContactForm({ page }: { page: ContactPage }) {
   // The confirmation replaces the form. Leaving the fields filled invites a
   // second send and makes the visitor wonder whether the first one worked.
   if (status === "sent") {
-    return (
-      <ContactSent message={page.confirmation} note={page.confirmationNote} />
-    );
+    return <ContactSent message={confirmation} note={confirmationNote} />;
   }
 
   return (
@@ -134,10 +161,11 @@ export function ContactForm({ page }: { page: ContactPage }) {
       className="flex flex-col gap-xl"
     >
       <div className="grid grid-cols-1 gap-lg sm:grid-cols-2">
-        {page.fields.map((field) => (
+        {fields.map((field) => (
           <Field
             key={field.name}
             field={field}
+            idPrefix={idPrefix}
             invalid={missing.includes(field.name)}
             disabled={busy}
           />
@@ -146,8 +174,13 @@ export function ContactForm({ page }: { page: ContactPage }) {
 
       {/* Honeypot. Invisible, off the tab order, ignored by people. */}
       <div aria-hidden="true" className="absolute -left-[9999px] h-0 w-0 overflow-hidden">
-        <label htmlFor="campo-empresa">Empresa</label>
-        <input id="campo-empresa" name="empresa" tabIndex={-1} autoComplete="off" />
+        <label htmlFor={`${idPrefix}-empresa`}>Empresa</label>
+        <input
+          id={`${idPrefix}-empresa`}
+          name="empresa"
+          tabIndex={-1}
+          autoComplete="off"
+        />
       </div>
 
       {/*
@@ -164,7 +197,7 @@ export function ContactForm({ page }: { page: ContactPage }) {
         */}
         <span className="relative mt-1 block h-4 w-4 shrink-0">
           <input
-            id="campo-privacidad"
+            id={consentId}
             name="privacidad"
             type="checkbox"
             checked={consent}
@@ -194,7 +227,7 @@ export function ContactForm({ page }: { page: ContactPage }) {
           />
         </span>
         <label
-          htmlFor="campo-privacidad"
+          htmlFor={consentId}
           className="max-w-[62ch] cursor-pointer font-sans text-sm leading-relaxed text-fg"
         >
           He leído y acepto la{" "}
@@ -218,16 +251,13 @@ export function ContactForm({ page }: { page: ContactPage }) {
             "disabled:cursor-not-allowed disabled:opacity-50",
           )}
         >
-          <span className="relative z-10">
-            {busy ? "Enviando…" : page.submitLabel}
-          </span>
+          <span className="relative z-10">{busy ? "Enviando…" : submitLabel}</span>
         </button>
 
         <div aria-live="polite" className="min-h-6">
           {status === "consent" ? (
             <p className="font-sans text-sm text-fg-strong">
-              Para enviar tu consulta necesitamos que aceptes la Política de
-              Privacidad.
+              Para enviar necesitamos que aceptes la Política de Privacidad.
             </p>
           ) : null}
 
@@ -241,8 +271,7 @@ export function ContactForm({ page }: { page: ContactPage }) {
 
           {status === "failed" ? (
             <p className="max-w-[52ch] font-sans text-sm text-fg-strong">
-              No pudimos enviar tu mensaje. Vuelve a intentarlo en un momento
-              o escríbeme directamente por correo.
+              No pudimos enviar tu mensaje. Vuelve a intentarlo en un momento.
             </p>
           ) : null}
 
@@ -257,40 +286,38 @@ export function ContactForm({ page }: { page: ContactPage }) {
         </div>
       </div>
 
-      {/* Set apart under a rule: this is Google’s wording, not Mariela’s,
-          and it was sitting between the button and the confirmation as
-          though it were hers. */}
-      <div className="mt-md border-t border-rule pt-md">
-      {/*
-        Google requires this wherever the floating badge is hidden, and the
-        badge is hidden because a fixed widget in the corner is exactly the
-        kind of interface furniture this site does without. The text is the
-        alternative Google itself documents.
-      */}
+      {/* Set apart under a rule: this is Google's wording, not Mariela's. */}
       {siteKey ? (
-        <p className="font-sans text-xs leading-relaxed text-fg-faint">
-          Este sitio está protegido por reCAPTCHA y se aplican la{" "}
-          <a
-            href="https://policies.google.com/privacy"
-            target="_blank"
-            rel="noreferrer noopener"
-            className="underline decoration-rule underline-offset-4 transition-colors duration-300 hover:text-fg"
-          >
-            Política de privacidad
-          </a>{" "}
-          y los{" "}
-          <a
-            href="https://policies.google.com/terms"
-            target="_blank"
-            rel="noreferrer noopener"
-            className="underline decoration-rule underline-offset-4 transition-colors duration-300 hover:text-fg"
-          >
-            Términos del servicio
-          </a>{" "}
-          de Google.
-        </p>
+        <div className="mt-md border-t border-rule pt-md">
+          {/*
+            Google requires this wherever the floating badge is hidden, and the
+            badge is hidden because a fixed widget in the corner is exactly the
+            kind of interface furniture this site does without. The text is the
+            alternative Google itself documents.
+          */}
+          <p className="font-sans text-xs leading-relaxed text-fg-muted">
+            Este sitio está protegido por reCAPTCHA y se aplican la{" "}
+            <a
+              href="https://policies.google.com/privacy"
+              target="_blank"
+              rel="noreferrer noopener"
+              className="underline decoration-rule underline-offset-4 transition-colors duration-300 hover:text-fg"
+            >
+              Política de privacidad
+            </a>{" "}
+            y los{" "}
+            <a
+              href="https://policies.google.com/terms"
+              target="_blank"
+              rel="noreferrer noopener"
+              className="underline decoration-rule underline-offset-4 transition-colors duration-300 hover:text-fg"
+            >
+              Términos del servicio
+            </a>{" "}
+            de Google.
+          </p>
+        </div>
       ) : null}
-      </div>
     </form>
   );
 }
@@ -299,14 +326,16 @@ export function ContactForm({ page }: { page: ContactPage }) {
 
 function Field({
   field,
+  idPrefix,
   invalid,
   disabled,
 }: {
   field: FormField;
+  idPrefix: string;
   invalid: boolean;
   disabled: boolean;
 }) {
-  const id = `campo-${field.name}`;
+  const id = `${idPrefix}-${field.name}`;
   const hintId = field.hint ? `${id}-ayuda` : undefined;
   const wide = field.kind === "textarea";
 
@@ -326,14 +355,18 @@ function Field({
       >
         {field.label}
         {!field.required ? (
-          <span className="normal-case tracking-normal text-fg-faint">
+          <span className="normal-case tracking-normal text-fg-muted">
             · opcional
           </span>
         ) : null}
       </label>
 
-      {field.hint && field.hint !== "Opcional" ? (
-        <span id={hintId} className="font-sans text-sm text-fg-faint">
+      {/*
+        Muted, not faint: faint measures 3.8:1 against the paper ground and
+        this is the line that tells someone what to write.
+      */}
+      {field.hint ? (
+        <span id={hintId} className="font-sans text-sm text-fg-muted">
           {field.hint}
         </span>
       ) : null}
@@ -342,7 +375,7 @@ function Field({
         <textarea {...shared} rows={6} className={cn(fieldBase, "resize-y")} />
       ) : field.kind === "select" ? (
         <select {...shared} defaultValue="" className={cn(fieldBase, "pr-10")}>
-          {/* Tuteo, matching the register of docs/Copy.md. */}
+          {/* Tuteo, matching the register of the rest of the site. */}
           <option value="" disabled>
             Selecciona una opción
           </option>

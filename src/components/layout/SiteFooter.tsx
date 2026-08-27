@@ -114,14 +114,14 @@ export function SiteFooter({ site }: { site: SiteContent }) {
 
         {/* Copyright left, legal right, on one line where both are expected. */}
         <div className="mt-md flex flex-col gap-xs sm:flex-row sm:items-center sm:justify-between">
-          <p className="font-sans text-xs text-fg-faint">{site.copyright}</p>
+          <p className="font-sans text-xs text-fg-muted">{site.copyright}</p>
 
           <ul className="flex flex-wrap gap-x-lg gap-y-2xs">
             {site.legalNav.map((item) => (
               <li key={item.href}>
                 <Link
                   href={item.href}
-                  className="font-sans text-xs text-fg-faint transition-colors duration-300 hover:text-fg"
+                  className="font-sans text-xs text-fg-muted transition-colors duration-300 hover:text-fg-strong"
                 >
                   {item.label}
                 </Link>

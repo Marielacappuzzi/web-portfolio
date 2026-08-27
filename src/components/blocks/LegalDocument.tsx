@@ -33,7 +33,7 @@ export function LegalDocument({ page, site }: LegalDocumentProps) {
       */}
       <Container width="default">
         <Reveal>
-          <p className="font-sans text-2xs uppercase tracking-label text-fg-faint">
+          <p className="font-sans text-2xs uppercase tracking-label text-fg-muted">
             {page.updated}
           </p>
         </Reveal>

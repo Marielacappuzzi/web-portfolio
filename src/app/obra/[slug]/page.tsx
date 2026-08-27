@@ -45,9 +45,15 @@ export async function generateMetadata({
  * the work: concept → title → the piece, hung on chamber → the story → the
  * technical sheet, quietly, at the end → where to go next.
  *
- * The extended story, the detail crops and the process photographs do not
- * exist yet. Each renders a declared pending marker rather than being skipped
- * silently, so what the page still needs is visible while it is being built.
+ * Two pieces reach this route now, and only two: Sueño de Primavera and Bajo
+ * su Protección. A page is justified by what stands behind it — an extended
+ * story, real process material, a technical sheet, or something that can
+ * actually be acquired — and these are the two that have it. Everything else
+ * in the catalogue opens in the gallery's lightbox, which is the right size
+ * for a title, a year, a sheet and two sentences.
+ *
+ * Where a section's material is genuinely missing it renders a declared
+ * pending marker rather than being skipped in silence.
  */
 export default async function WorkPage({ params }: PageProps<"/obra/[slug]">) {
   const { slug } = await params;

@@ -35,27 +35,31 @@ export const site: SiteContent = {
   instagramHandle: "@marielacrapuzzi_art",
   instagramUrl: "https://www.instagram.com/marielacrapuzzi_art",
 
+  /*
+   * Five items, and nothing that unfolds.
+   *
+   * "Obras" used to drop a panel listing all ten pieces, half of them anchors
+   * into the gallery. It made the one route everybody takes — go and look at
+   * the work — into a decision between eleven links, and it duplicated the
+   * gallery in a menu. The label now does what it says.
+   *
+   * "Inicio" is a nav item again. The monogram still returns home, but a mark
+   * is a convention rather than a label, and the home is now the whole tour
+   * rather than a doorway — it is worth being able to ask for by name.
+   */
   nav: [
+    { label: "Inicio", href: "/" },
     { label: "Obras", href: "/obra" },
-    { label: "Sobre mí", href: "/sobre-mi" },
-    /*
-     * Named as the visitor's intention rather than as a category. "Encargos"
-     * describes a kind of page; this says what pressing it does, which is the
-     * one route on the site someone arrives already wanting.
-     */
-    { label: "Quiero hacer un encargo", href: "/encargos" },
+    { label: "Sobre Mariela", href: "/sobre-mi" },
+    { label: "Encargos", href: "/encargos" },
     { label: "Contacto", href: "/contacto" },
   ],
 
+  /* The same destinations, minus Inicio: the mark above it already goes there. */
   footerNav: [
     { label: "Obras", href: "/obra" },
-    { label: "Sobre mí", href: "/sobre-mi" },
-    /*
-     * Named as the visitor's intention rather than as a category. "Encargos"
-     * describes a kind of page; this says what pressing it does, which is the
-     * one route on the site someone arrives already wanting.
-     */
-    { label: "Quiero hacer un encargo", href: "/encargos" },
+    { label: "Sobre Mariela", href: "/sobre-mi" },
+    { label: "Encargos", href: "/encargos" },
     { label: "Contacto", href: "/contacto" },
   ],
 

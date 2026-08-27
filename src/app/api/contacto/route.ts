@@ -1,23 +1,42 @@
 import { NextResponse } from "next/server";
-import { getContactPage } from "@/lib/content";
+import { getCommissionsPage, getContactPage } from "@/lib/content";
 import { sendContact, validate } from "@/lib/contact";
 import { verifyRecaptcha } from "@/lib/recaptcha";
+import type { FormField } from "@/content/types";
 
 /**
- * POST /api/contacto
+ * POST /api/contacto — both forms.
  *
- * Validates on the server — the browser checks are a courtesy, not a control —
- * and hands the message to Resend.
+ * Two forms reach this route: the general enquiry on /contacto and the quote
+ * request on /encargos. `formulario` in the payload says which, and the server
+ * looks up that form's own field list from the content layer. The field list is
+ * the allow-list: validation and the email are both built from it, so a caller
+ * cannot smuggle in a field the form never had, and adding one to a form
+ * requires no change here.
  *
- * The honeypot is the whole anti-spam strategy. A field that is invisible and
- * off the tab order is never filled by a person, and bots fill everything.
- * It costs the visitor nothing, which a CAPTCHA cannot say, and this site is
- * meant to feel like the beginning of a conversation rather than a checkpoint.
- * A silent 200 is returned to bots so they learn nothing.
+ * Validates on the server — the browser checks are a courtesy, not a control.
+ *
+ * The honeypot is the first line of the anti-spam strategy. A field that is
+ * invisible and off the tab order is never filled by a person, and bots fill
+ * everything. A silent 200 is returned to them so they learn nothing.
  *
  * When the admin panel arrives, the Supabase insert goes right before the
  * send: a stored enquiry survives a mail provider having a bad day.
  */
+
+/** Which form sent this, and the fields it is allowed to carry. */
+async function formFor(
+  which: unknown,
+): Promise<{ fields: FormField[]; kind: string }> {
+  if (which === "cotizacion") {
+    const page = await getCommissionsPage();
+    return { fields: page.quote.fields, kind: page.quote.kind };
+  }
+
+  const page = await getContactPage();
+  return { fields: page.fields, kind: "Consulta general" };
+}
+
 export async function POST(request: Request) {
   let payload: Record<string, unknown>;
 
@@ -49,8 +68,8 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false, reason: "send-failed" }, { status: 429 });
   }
 
-  const page = await getContactPage();
-  const { values, missing } = validate(payload, page.fields);
+  const { fields, kind } = await formFor(payload.formulario);
+  const { values, missing } = validate(payload, fields);
 
   if (missing.length > 0) {
     return NextResponse.json(
@@ -59,7 +78,7 @@ export async function POST(request: Request) {
     );
   }
 
-  const result = await sendContact(values);
+  const result = await sendContact(values, fields, kind);
 
   if (!result.ok) {
     return NextResponse.json(result, {

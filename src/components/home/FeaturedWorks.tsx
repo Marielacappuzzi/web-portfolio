@@ -3,7 +3,8 @@ import { Container, Section } from "@/components/layout/Section";
 import { ActionButton } from "@/components/primitives/ActionLink";
 import { Reveal } from "@/components/primitives/Reveal";
 import { ArrowRightIcon } from "@/components/primitives/Icon";
-import { Display } from "@/components/primitives/Type";
+import { Display, Eyebrow } from "@/components/primitives/Type";
+import { withEmphasis } from "@/lib/emphasis";
 import { ArtworkFrame } from "@/components/work/ArtworkFrame";
 import type { HomeFeaturedContent, Work } from "@/content/types";
 import { cn } from "@/lib/cn";
@@ -37,24 +38,50 @@ export function FeaturedWorks({ content, works }: FeaturedWorksProps) {
     <Section
       ground="paper-bright"
       rhythm="act"
+      id="obras"
       aria-labelledby="destacadas-titulo"
     >
       <Container width="wide">
-        <Reveal className="flex justify-center">
-          <Display
-            as="h2"
-            id="destacadas-titulo"
-            size="section"
-            className="text-center"
-          >
-            {content.eyebrow}
-          </Display>
-        </Reveal>
+        <div className="flex flex-col items-center text-center">
+          <Reveal>
+            <Eyebrow as="h2" id="destacadas-titulo">
+              {content.eyebrow}
+            </Eyebrow>
+          </Reveal>
+
+          {/*
+            The one poetic line the home keeps, and the only place it appears.
+            It used to open the site, above a photograph of a studio wall it was
+            not describing; here it sits over three drawings whose whole subject
+            is a gaze, which is the sentence doing its job instead of setting a
+            mood.
+          */}
+          {content.line ? (
+            <Reveal delay={90} className="mt-lg">
+              <Display size="section" measure={26} className="mx-auto">
+                {withEmphasis(content.line)}
+              </Display>
+            </Reveal>
+          ) : null}
+        </div>
 
         <ul className="mt-2xl grid grid-cols-1 gap-3xl md:mt-3xl md:grid-cols-3 md:gap-x-[3vw]">
           {works.map((work, i) => (
             <li key={work.slug} className="group flex">
-              <Link href={`/obra/${work.slug}`} className="flex w-full flex-col">
+              {/*
+                Two destinations, because only two of the three still have a
+                page. A piece without one goes to its card in the gallery,
+                where it opens in the lightbox — never to a URL that 404s or,
+                worse, to a page that exists only to hold a title.
+              */}
+              <Link
+                href={
+                  work.hasEditorialPage
+                    ? `/obra/${work.slug}`
+                    : `/obra#${work.slug}`
+                }
+                className="flex w-full flex-col"
+              >
                 <Reveal variant="image" delay={i * 120}>
                   <ArtworkFrame
                     work={work}
@@ -86,7 +113,9 @@ export function FeaturedWorks({ content, works }: FeaturedWorksProps) {
                       "transition-colors duration-300 group-hover:border-fg-strong",
                     )}
                   >
-                    {work.featuredLinkLabel ?? "Descubrir la obra"}
+                    {work.hasEditorialPage
+                      ? (work.featuredLinkLabel ?? "Descubrir la obra")
+                      : "Ver la obra"}
                     <ArrowRightIcon
                       className="shrink-0 transition-transform duration-300 ease-out-quart group-hover:translate-x-1 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0"
                     />

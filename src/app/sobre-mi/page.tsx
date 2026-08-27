@@ -12,19 +12,20 @@ import { getAboutPage, getHome } from "@/lib/content";
 import { withEmphasis } from "@/lib/emphasis";
 
 export const metadata: Metadata = {
-  title: "Sobre mí",
+  title: "Sobre Mariela",
   description:
-    "El arte se convirtió en mi profesión, pero también en una manera de mirar. Formación, recorrido y por qué el carboncillo.",
+    "Artista boliviana dedicada al realismo figurativo contemporáneo. Formación, recorrido y por qué el carboncillo.",
 };
 
 /**
- * /sobre-mi
+ * /sobre-mi — three movements: who she is, how she works, why charcoal.
  *
- * Four movements: who she is, how she looks, what she works with, how she
- * works. The process section carries the `#proceso` anchor that the home and
- * the charcoal section link to — see docs/PROJECT_CONTEXT.md §7 for why it
- * lives here instead of on a page of its own.
+ * It was four. The one that went was a run of cards restating, as four
+ * headings, what the paragraphs on either side of them already said — see the
+ * note in content/pages/about.ts.
  *
+ * The charcoal section carries the `#proceso` anchor the rest of the site
+ * points at.
  */
 export default async function AboutPage() {
   const [page, home] = await Promise.all([getAboutPage(), getHome()]);
@@ -39,11 +40,19 @@ export default async function AboutPage() {
           <div className="grid gap-2xl lg:grid-cols-12 lg:items-start lg:gap-x-[5vw]">
             <div className="lg:col-span-5">
               <Reveal variant="image">
+                {/*
+                  Her real portrait, and the frame it was photographed in.
+                  It was forced into `aspect-[3/4]`, which cut 480px off a
+                  1079 x 1920 file — her hands and the certificate she is
+                  signing went with it, and the certificate is the reason the
+                  photograph is worth showing. The picture keeps its own
+                  proportion now, like every artwork on the site.
+                */}
                 <Figure
                   src="/estudio/mariela-retrato.jpg"
                   alt="Mariela Crapuzzi en su estudio, firmando el certificado de autenticidad de una obra, rodeada de estanterías con plantas y materiales de dibujo."
                   pendingLabel="Retrato de Mariela"
-                  aspect="aspect-[3/4]"
+                  aspect="aspect-[1079/1920]"
                   sizes="(min-width: 1024px) 38vw, 100vw"
                 />
               </Reveal>

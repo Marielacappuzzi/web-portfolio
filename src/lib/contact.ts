@@ -5,7 +5,14 @@ import "server-only";
 import type { FormField } from "@/content/types";
 
 /**
- * Contact submission: validation and delivery.
+ * Form submission: validation and delivery. Shared by both forms.
+ *
+ * There are two — a general enquiry on /contacto and a quote request on
+ * /encargos — and they have different fields. Rather than two endpoints and two
+ * validators, everything here is driven by the `FormField[]` the content layer
+ * already defines: validation checks what that list says is required, and the
+ * email is built from the same labels. Adding a field to a form is a content
+ * change and nothing else.
  *
  * The delivery rule that matters: the email is sent **from a domain Mariela
  * controls**, never from the visitor's address. Forging the sender fails SPF
@@ -17,14 +24,8 @@ import type { FormField } from "@/content/types";
  * the whole job, and the project stays at zero runtime dependencies.
  */
 
-export interface ContactSubmission {
-  nombre: string;
-  correo: string;
-  telefono?: string;
-  lugar?: string;
-  motivo: string;
-  mensaje: string;
-}
+/** Field name to submitted value. Shaped by the form, not by this module. */
+export type Submission = Record<string, string>;
 
 export type ContactResult =
   | { ok: true }
@@ -34,11 +35,16 @@ export type ContactResult =
 
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
-/** Runs on the server too. Client validation is convenience, not a control. */
+/**
+ * Runs on the server too. Client validation is convenience, not a control.
+ *
+ * Only declared fields are read, so nothing a caller invents in the payload
+ * reaches the email — the field list is the allow-list.
+ */
 export function validate(
   data: Record<string, unknown>,
   fields: FormField[],
-): { values: ContactSubmission; missing: string[] } {
+): { values: Submission; missing: string[] } {
   const read = (name: string) => String(data[name] ?? "").trim();
 
   const missing = fields
@@ -51,17 +57,10 @@ export function validate(
     })
     .map((field) => field.name);
 
-  return {
-    values: {
-      nombre: read("nombre"),
-      correo: read("correo"),
-      telefono: read("telefono") || undefined,
-      lugar: read("lugar") || undefined,
-      motivo: read("motivo"),
-      mensaje: read("mensaje"),
-    },
-    missing,
-  };
+  const values: Submission = {};
+  for (const field of fields) values[field.name] = read(field.name);
+
+  return { values, missing };
 }
 
 const escape = (value: string) =>
@@ -70,32 +69,46 @@ const escape = (value: string) =>
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;");
 
-function buildBody(values: ContactSubmission): string {
-  const rows: [string, string | undefined][] = [
-    ["Nombre", values.nombre],
-    ["Correo", values.correo],
-    ["Teléfono", values.telefono],
-    ["País o ciudad", values.lugar],
-    ["Motivo", values.motivo],
-  ];
-
-  const meta = rows
-    .filter(([, value]) => value)
+/**
+ * The email Mariela reads.
+ *
+ * Every field except the long one becomes a row; the long one closes the
+ * message under a rule, because that is the part she actually reads. Which
+ * field is which comes from `kind === "textarea"`, so the layout follows the
+ * form definition rather than a hard-coded list of names.
+ */
+function buildBody(
+  values: Submission,
+  fields: FormField[],
+  kind: string,
+): string {
+  const rows = fields
+    .filter((field) => field.kind !== "textarea")
+    .filter((field) => values[field.name])
     .map(
-      ([label, value]) =>
-        `<tr><td style="padding:4px 16px 4px 0;color:#7c7c78;font:13px system-ui">${label}</td><td style="padding:4px 0;color:#111110;font:13px system-ui">${escape(value as string)}</td></tr>`,
+      (field) =>
+        `<tr><td style="padding:4px 16px 4px 0;color:#7c7c78;font:13px system-ui">${escape(field.label)}</td><td style="padding:4px 0;color:#111110;font:13px system-ui">${escape(values[field.name])}</td></tr>`,
     )
     .join("");
 
+  const body = fields
+    .filter((field) => field.kind === "textarea")
+    .map((field) => values[field.name])
+    .filter(Boolean)
+    .map(escape)
+    .join("<br><br>");
+
   return `<div style="max-width:600px;font:15px/1.6 system-ui;color:#111110">
-<p style="margin:0 0 24px;color:#7c7c78;font-size:13px">Consulta desde marielacrapuzzi.com</p>
-<table style="border-collapse:collapse;margin-bottom:24px">${meta}</table>
-<div style="border-top:1px solid #ddddd8;padding-top:20px;white-space:pre-wrap">${escape(values.mensaje)}</div>
+<p style="margin:0 0 24px;color:#7c7c78;font-size:13px">${escape(kind)} — marielacrapuzzi.com</p>
+<table style="border-collapse:collapse;margin-bottom:24px">${rows}</table>
+<div style="border-top:1px solid #ddddd8;padding-top:20px;white-space:pre-wrap">${body}</div>
 </div>`;
 }
 
 export async function sendContact(
-  values: ContactSubmission,
+  values: Submission,
+  fields: FormField[],
+  kind: string,
 ): Promise<ContactResult> {
   const key = process.env.RESEND_API_KEY;
   const from = process.env.CONTACT_FROM;
@@ -104,6 +117,13 @@ export async function sendContact(
   // Nothing is configured yet. Say so rather than reporting a false success —
   // an enquiry that silently vanishes is worse than one that never sent.
   if (!key || !from || !to) return { ok: false, reason: "not-configured" };
+
+  /*
+    The subject has to be readable in a list of unread mail: what kind of
+    message it is, and who sent it. A quote request must never look like a
+    general enquiry in the inbox — they are answered differently.
+  */
+  const who = values.nombre || values.correo || "sin nombre";
 
   try {
     const response = await fetch("https://api.resend.com/emails", {
@@ -116,8 +136,8 @@ export async function sendContact(
         from,
         to: [to],
         reply_to: values.correo,
-        subject: `${values.motivo} — ${values.nombre}`,
-        html: buildBody(values),
+        subject: `${kind} — ${who}`,
+        html: buildBody(values, fields, kind),
       }),
     });
 

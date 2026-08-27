@@ -118,14 +118,14 @@ export const works: Work[] = [
       width: 1242,
       height: 1802,
     },
+    /*
+     * `mirada.jpg` is gone. It was a 1000 x 400 strip cut from the eyes and
+     * blown back up — the one plate on the site that visibly broke down when
+     * shown at any size, and the image the client flagged as cropped and
+     * pixelated. Nothing replaces it: `extra-02.jpg` below is the same face at
+     * 1439 px of real detail, which is what that strip was trying to be.
+     */
     detailImages: [
-      {
-        src: "/obra/oltre-lo-sguardo/mirada.jpg",
-        alt: "Recorte ampliado de la obra sobre los ojos de la figura, con el detalle del carboncillo en las pestañas y el iris.",
-        width: 1000,
-        height: 400,
-        caption: "La mirada, a la escala en que se dibuja.",
-      },
       {
         src: "/obra/oltre-lo-sguardo/extra-02.jpg",
         alt: "Encuadre cerrado del rostro y del encaje del cuello, donde se distingue el trazo hilo por hilo.",
@@ -476,9 +476,20 @@ export const works: Work[] = [
     concept: "UNA VOZ PROPIA",
     shortStory:
       "Mi primera obra personal y el comienzo de una etapa más autoral: una búsqueda en la que la figuración se convierte en una manera de explorar ideas, símbolos e historias humanas.",
-    featuredLinkLabel: "Conocer la obra",
+    /*
+     * No editorial page. Measured against the criteria rather than assumed:
+     * no year, no technique, no dimensions, one sentence of text and one clip.
+     * Its page was a title, a photograph of work in progress and a "Dato
+     * pendiente" where the technical sheet should be — which is a page that
+     * exists to have a page. It stays one of the three flagships, because what
+     * it marks is real, and it opens in the gallery like every other piece
+     * without enough behind it to fill a page of its own.
+     *
+     * When the piece is finished and photographed, restoring the page is one
+     * boolean.
+     */
     featured: true,
-    hasEditorialPage: true,
+    hasEditorialPage: false,
     printAvailable: false,
     order: 10,
     featuredOrder: 1,

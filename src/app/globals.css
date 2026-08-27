@@ -20,7 +20,9 @@
 
   /* --- Type scale — fluid, no typographic breakpoints ----- */
   --text-*: initial;
-  --text-2xs: clamp(0.625rem, 0.6rem + 0.12vw, 0.6875rem);
+  /* Labels, buttons and eyebrows. The floor was 10px, which is small for
+     letter-spaced capitals on a phone; 11px costs no layout anywhere. */
+  --text-2xs: clamp(0.6875rem, 0.66rem + 0.12vw, 0.75rem);
   --text-xs: clamp(0.75rem, 0.72rem + 0.15vw, 0.8125rem);
   --text-sm: clamp(0.875rem, 0.85rem + 0.15vw, 0.9375rem);
   --text-base: clamp(1rem, 0.96rem + 0.2vw, 1.0625rem);

@@ -1,3 +1,5 @@
+"use client";
+
 import { WorkCard } from "./WorkCard";
 import { ScrollReveal } from "@/components/primitives/ScrollReveal";
 import type { Work } from "@/content/types";
@@ -5,6 +7,12 @@ import { cn } from "@/lib/cn";
 
 interface WorkGridProps {
   works: Work[];
+  /**
+   * Opens a piece in the lightbox. The panel lives one level up, in
+   * WorkCatalogue, so both groups on /obra share a single run — see the note
+   * there. Omit it where nothing can be opened, as /encargos does.
+   */
+  onOpen?: (work: Work) => void;
   className?: string;
 }
 
@@ -19,7 +27,7 @@ interface WorkGridProps {
  * The right-hand column travels a little further, so the two columns never
  * rise in lockstep and the wall assembles itself as the reader descends.
  */
-export function WorkGrid({ works, className }: WorkGridProps) {
+export function WorkGrid({ works, onOpen, className }: WorkGridProps) {
   if (works.length === 0) return null;
 
   return (
@@ -38,6 +46,11 @@ export function WorkGrid({ works, className }: WorkGridProps) {
               work={work}
               plain
               sizes="(min-width: 768px) 42vw, 100vw"
+              onOpen={
+                onOpen && !work.hasEditorialPage
+                  ? () => onOpen(work)
+                  : undefined
+              }
               className={cn(isRight ? "md:mt-[8vw] md:pl-[10%]" : "md:pr-[10%]")}
             />
           </ScrollReveal>
