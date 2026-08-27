@@ -101,7 +101,7 @@ export const works: Work[] = [
     hasEditorialPage: true,
     printAvailable: false,
     order: 1,
-    featuredOrder: 2,
+    featuredOrder: 1,
   },
 
   {
@@ -435,7 +435,7 @@ export const works: Work[] = [
     },
 
     order: 9,
-    featuredOrder: 1,
+    featuredOrder: 2,
   },
 
   /*
