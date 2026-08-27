@@ -168,8 +168,16 @@ export function CoverImage({
               "bg-gradient-to-r from-paper/90 via-paper/45 via-35% to-transparent to-55%",
             scrim === "dark" &&
               "bg-gradient-to-r from-ink/85 via-ink/40 via-35% to-transparent to-55%",
+            /*
+              Four stops, and it holds further right than it did. The hero's
+              type now runs to about 44% of the width, which is past the bare
+              wall and onto the edge of the sheet — bright paper, where white
+              type at the old strength measured 2.1:1. It fades out at 72%,
+              which is short of Mariela's face, so nothing is laid over her or
+              over the part of the drawing the picture is about.
+            */
             scrim === "soft" &&
-              "bg-gradient-to-r from-ink/60 via-ink/30 via-38% to-transparent to-58%",
+              "bg-gradient-to-r from-ink/72 from-0% via-ink/45 via-48% to-transparent to-72%",
           )}
         />
       ) : null}

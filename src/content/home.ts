@@ -1,9 +1,9 @@
 import type { HomeContent } from "./types";
 
 /**
- * Home copy — the whole tour, in five blocks.
+ * Home copy — the whole tour, in four blocks.
  *
- *   hero -> obras -> sobre Mariela -> encargos -> contacto
+ *   hero -> obras -> sobre Mariela -> encargos
  *
  * Someone who reads only this page leaves knowing who she is, what she makes,
  * how to ask for a piece and where to write. The internal pages still exist
@@ -89,7 +89,14 @@ export const home: HomeContent = {
   },
 
   /*
-   * 4 — Encargos. What can be asked for, and the way to ask.
+   * 4 — Encargos. What can be asked for, the way to ask, and the last thing
+   * the home says.
+   *
+   * There was a contact block under this one, and it was the second closing
+   * invitation in a row: "solicita un encargo", then "¿tienes una consulta?".
+   * Two asks at the end make the reader choose between them instead of doing
+   * either, and only one of the two is what this site is for. Contacto keeps
+   * its page and its place in the nav and the footer.
    *
    * No stages and no examples of finished commissions: the pieces are in the
    * gallery two sections above, each labelled as a commission, and repeating
@@ -109,18 +116,4 @@ export const home: HomeContent = {
     action: { label: "Cotizar un encargo", href: "/encargos#cotizar" },
   },
 
-  /*
-   * 5 — Contacto. General enquiries, and the only external channel.
-   *
-   * Deliberately not another invitation to commission something: that was the
-   * block above, with its own form. This one is for the person asking about an
-   * available piece, a print or an exhibition.
-   */
-  contact: {
-    eyebrow: "Contacto",
-    title: "¿Tienes una consulta sobre una obra?",
-    paragraph:
-      "Escríbeme por una obra disponible, un print o cualquier otra consulta.",
-    primaryAction: { label: "Contactar", href: "/contacto" },
-  },
 };

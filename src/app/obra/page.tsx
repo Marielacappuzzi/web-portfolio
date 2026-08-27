@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { ContactCallout } from "@/components/blocks/ContactCallout";
+import { Commissions } from "@/components/blocks/Commissions";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { WorkCatalogue } from "@/components/work/WorkCatalogue";
 import {
@@ -50,7 +50,12 @@ export default async function WorkIndexPage() {
         emptyMessage={page.emptyMessage}
       />
 
-      <ContactCallout content={home.contact} />
+      {/*
+        Closes on the commission, like every other page. It used to close on a
+        contact callout, which asked a second question directly after the one
+        the page had been building towards.
+      */}
+      <Commissions content={home.commissions} />
     </>
   );
 }

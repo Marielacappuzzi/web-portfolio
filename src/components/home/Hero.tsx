@@ -82,15 +82,23 @@ export function Hero({ content, name, specialty }: HeroProps) {
       */}
       <div className="inset-0 bg-bg px-0 pb-2xl pt-xl xl:absolute xl:flex xl:items-end xl:bg-transparent xl:pb-3xl xl:pt-24">
         {/*
-          `full`, not `wide`. The sections below sit in a 90rem column centred
-          in the viewport; on a 1920 screen that starts them 304px in, while
-          the bare wall in the photograph ends at 557px. Aligning the type to
-          the page instead of to the picture would leave it 253px to live in,
-          and every wider screen makes that worse — the container stops growing
-          and the picture does not.
+          `wide`, like every section below it.
+
+          This was `full` for a while, ranged to the photograph's own left edge
+          rather than to the page — the reasoning being that the bare wall is
+          only 29% of the picture, so a centred column would push the type off
+          it. That was true, and it was the wrong trade: on a 1920 screen the
+          hero then started 240px to the left of everything under it, and a
+          first screen that does not line up with its own page reads as broken
+          before anyone works out why.
+
+          So the type aligns to the page, and the veil is what makes it
+          legible. The column runs to about 44% of the width, which puts its
+          last few words over the edge of the sheet — see the `soft` note in
+          CoverImage for why that scrim now reaches further right.
         */}
-        <Container width="full" className="w-full">
-          <div className="max-w-[46ch] xl:max-w-[min(46ch,22vw)]">
+        <Container width="wide" className="w-full">
+          <div className="max-w-[46ch] xl:max-w-[34rem]">
             <Reveal>
               {/*
                 `cover`, not `hero`. The top of the scale is 92px, and 92px in

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { ContactCallout } from "@/components/blocks/ContactCallout";
+import { Commissions } from "@/components/blocks/Commissions";
 import { ProseSection } from "@/components/blocks/ProseSection";
 import { Container, Section } from "@/components/layout/Section";
 import { PageHeader } from "@/components/layout/PageHeader";
@@ -182,7 +182,12 @@ export default async function AboutPage() {
         rest of the site was pointing at anyway.
       */}
 
-      <ContactCallout content={home.contact} />
+      {/*
+        Closes on the commission, like every other page. It used to close on a
+        contact callout, which asked a second question directly after the one
+        the page had been building towards.
+      */}
+      <Commissions content={home.commissions} ground="paper" />
     </>
   );
 }

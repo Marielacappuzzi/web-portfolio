@@ -2,10 +2,16 @@ import { Container, Section } from "@/components/layout/Section";
 import { ActionButton } from "@/components/primitives/ActionLink";
 import { Reveal } from "@/components/primitives/Reveal";
 import { Display, Eyebrow } from "@/components/primitives/Type";
+import type { Ground } from "@/components/layout/Section";
 import type { HomeCommissionsContent } from "@/content/types";
 
 /**
- * Commissions, on the home.
+ * Commissions — the block every page closes on.
+ *
+ * It began on the home and now ends /obra and /sobre-mi too, which is why it
+ * lives in blocks rather than in home. Each of those pages used to finish on a
+ * contact callout, asking a second question straight after the one the page
+ * had been building towards.
  *
  * What can be asked for, and the way to ask. No stages, no examples, no
  * finished pieces: the gallery is two sections above and every commission in
@@ -16,10 +22,20 @@ import type { HomeCommissionsContent } from "@/content/types";
  * point is that these are four distinct things a person can ask for — someone
  * scanning for "mascota" should find it in a second.
  */
-export function Commissions({ content }: { content: HomeCommissionsContent }) {
+interface CommissionsProps {
+  content: HomeCommissionsContent;
+  /**
+   * `chamber` by default. /sobre-mi passes paper, because the section above it
+   * is already chamber and two dark grounds in a row read as one long block
+   * with a heading in the middle of it.
+   */
+  ground?: Ground;
+}
+
+export function Commissions({ content, ground = "chamber" }: CommissionsProps) {
   return (
     <Section
-      ground="chamber"
+      ground={ground}
       rhythm="act"
       id="encargos"
       aria-labelledby="encargos-home-titulo"

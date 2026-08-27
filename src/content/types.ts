@@ -286,16 +286,19 @@ export interface HomeCommissionsContent extends SectionHeading {
   action: NavItem;
 }
 
-export interface HomeContactContent extends SectionHeading {
-  paragraph: string;
-  primaryAction: NavItem;
-  secondaryAction?: NavItem;
-}
+/*
+ * HomeContactContent and the ContactCallout that rendered it are gone. Three
+ * pages closed on the same centred invitation, and on the home it landed
+ * directly under the commissions block — two asks in a row, which makes a
+ * reader pick rather than act. Every page now closes on the one ask the site
+ * exists for, and /contacto is still in the navigation and the footer for
+ * everything that is not a commission.
+ */
 
 /**
  * The home, as the whole tour:
  *
- *   hero -> obras -> sobre Mariela -> encargos -> contacto
+ *   hero -> obras -> sobre Mariela -> encargos
  *
  * Someone who reads only this page should be able to leave knowing who she
  * is, what she makes, and how to ask for a piece.
@@ -305,7 +308,6 @@ export interface HomeContent {
   featured: HomeFeaturedContent;
   artist: HomeArtistContent;
   commissions: HomeCommissionsContent;
-  contact: HomeContactContent;
 }
 
 /* --------------------------------------------------------------- /obra --- */
