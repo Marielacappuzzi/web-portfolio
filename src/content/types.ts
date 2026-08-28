@@ -69,6 +69,12 @@ export type WorkBlock =
       aspect?: string;
       focus?: string;
     }
+  /**
+   * Three pictures in a row: different views of the same piece, read across
+   * rather than scrolled through. Not a carousel — nothing moves, and three
+   * things a reader can see at once should not be hidden behind a control.
+   */
+  | { kind: "trio"; images: [WorkImage, WorkImage, WorkImage] }
   /** Two pictures side by side. `left`/`right` makes one of them larger. */
   | {
       kind: "duo";

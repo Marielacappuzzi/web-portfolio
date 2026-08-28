@@ -21,6 +21,11 @@ interface WorkHeroProps {
  * is a letterbox slot with the room in it and the drawing an inch tall; the
  * 960 x 1400 file reframes the same scene for the narrow shape.
  *
+ * From `md` the band takes the full screen height rather than the file's own
+ * proportion. At 3.2:1 the name had to sit close under the work; with the
+ * height of the viewport there is room below the piece for it to have a corner
+ * of its own.
+ *
  * The wash is measured rather than assumed: the lower-left corner of the three
  * banners reads 54, 59 and 96 of 255, so white already clears 6:1 on all of
  * them. It rises from the foot, is gone by halfway, and never reaches the work.
@@ -43,7 +48,16 @@ export function WorkHero({ work }: WorkHeroProps) {
           /* The page's own LCP: never lazy, and asked for early. */
           fetchPriority="high"
           decoding="async"
-          className="aspect-[960/1400] w-full object-cover md:aspect-[1920/600]"
+          /*
+            The whole screen from `md` up, not the file's own 3.2:1 band.
+
+            At 1920 x 1080 `object-cover` scales the banner to 3456 wide and
+            shows the middle 1920 of it — original x 426 to 1493. The drawing
+            in all three banners sits between 580 and 1350, so the crop takes
+            the room and never the work, and the extra height is what leaves
+            the name a corner of its own instead of a line across the piece.
+          */
+          className="aspect-[960/1400] w-full object-cover md:aspect-auto md:h-[100svh]"
           style={{ objectPosition: banner.focus }}
         />
       </picture>
@@ -57,7 +71,7 @@ export function WorkHero({ work }: WorkHeroProps) {
         <Container width="wide" className="pb-xl md:pb-2xl">
           <h1
             id="obra-titulo"
-            className="font-serif text-3xl font-light leading-tight tracking-tight text-fg-strong [text-shadow:0_1px_18px_rgb(0_0_0/0.55)] md:text-4xl"
+            className="font-serif text-3xl font-light leading-tight tracking-tight text-fg-strong [text-shadow:0_1px_18px_rgb(0_0_0/0.55)] md:text-4xl lg:text-5xl"
           >
             {work.title}
           </h1>

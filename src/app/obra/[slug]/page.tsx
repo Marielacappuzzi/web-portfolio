@@ -4,13 +4,12 @@ import { notFound } from "next/navigation";
 import { Container, Section } from "@/components/layout/Section";
 import { ActionButton, QuietLink } from "@/components/primitives/ActionLink";
 import { ArrowRightIcon } from "@/components/primitives/Icon";
-import { Pending } from "@/components/primitives/Pending";
 import { Reveal } from "@/components/primitives/Reveal";
 import { Rule } from "@/components/primitives/Rule";
 import { Display, Eyebrow } from "@/components/primitives/Type";
 import { WorkComposition } from "@/components/work/WorkComposition";
 import { WorkHero } from "@/components/work/WorkHero";
-import { WorkSpecs } from "@/components/work/WorkMeta";
+import { WorkSheet } from "@/components/work/WorkSheet";
 import { cn } from "@/lib/cn";
 import { getEditorialWorks, getWork, getWorkNeighbours } from "@/lib/content";
 
@@ -34,7 +33,7 @@ export async function generateMetadata({
  * /obra/[slug] — one editorial page, three works, one system.
  *
  *   banner + name
- *   the sentence, and the sheet beside it
+ *   the work, with its sentence and its sheet beside it
  *   the composition          ← everything below here is data
  *   the edition, if there is one
  *   the ask
@@ -62,56 +61,26 @@ export default async function WorkPage({ params }: PageProps<"/obra/[slug]">) {
   if (!work || !work.hasEditorialPage) notFound();
 
   const { previous, next } = await getWorkNeighbours(slug);
-  const hasSheet = Boolean(work.year || work.technique || work.dimensions);
 
   return (
     <>
       <WorkHero work={work} />
 
       {/*
-        The opening: one sentence and the sheet, side by side.
+        The work and its label, side by side, directly under the banner.
 
-        Two columns rather than a block of prose over a table — the sentence is
-        what a reader wants first, and the specification is what they check
-        afterwards. On a phone they stack in that same order.
+        This replaces a sentence alone across the page, then a tall portrait
+        plate alone on its screen, then the specification a long way below —
+        three separate movements for the three things a reader wants at once.
+        See WorkSheet.
       */}
-      <Section ground="paper" rhythm="beat" aria-labelledby="intro-titulo">
+      <Section ground="paper" rhythm="beat" aria-labelledby="obra-ficha-titulo">
         <Container width="wide">
-          <h2 id="intro-titulo" className="sr-only">
-            Sobre la obra
+          <h2 id="obra-ficha-titulo" className="sr-only">
+            La obra y su ficha técnica
           </h2>
 
-          <div className="grid gap-2xl lg:grid-cols-12 lg:gap-x-[4vw]">
-            <div className="lg:col-span-6">
-              {work.shortStory ? (
-                <Reveal>
-                  <p className="max-w-[46ch] font-serif text-xl font-light leading-snug text-pretty text-fg-strong md:text-2xl">
-                    {work.shortStory}
-                  </p>
-                </Reveal>
-              ) : null}
-            </div>
-
-            {/*
-              The sheet: discreet, and only what exists. No table, no field
-              labels — it reads as a wall label, which is what it is.
-            */}
-            <div className="lg:col-span-4 lg:col-start-9">
-              <Reveal delay={120}>
-                <Eyebrow>Ficha técnica</Eyebrow>
-              </Reveal>
-
-              <Reveal delay={180} className="mt-md border-t border-rule pt-md">
-                <WorkSpecs work={work} detail="full" />
-
-                {hasSheet ? null : (
-                  <div className="mt-md">
-                    <Pending kind="data" detail="Año, técnica y medidas" />
-                  </div>
-                )}
-              </Reveal>
-            </div>
-          </div>
+          <WorkSheet work={work} />
         </Container>
       </Section>
 

@@ -145,6 +145,32 @@ function Block({ block }: { block: WorkBlock }) {
     );
   }
 
+  if (block.kind === "trio") {
+    /*
+      Three across on a wide screen, stacked on a phone. A shared 4/5 frame
+      here on purpose — this is the one block where the pictures are meant to
+      be read as a set, and native proportions would make three different
+      heights out of what is supposed to be one row.
+    */
+    return (
+      <Container width="wide">
+        <ul className="grid grid-cols-1 gap-xl sm:grid-cols-3 sm:gap-x-[2vw]">
+          {block.images.map((image, i) => (
+            <li key={image.src}>
+              <Reveal variant="image" delay={i * 100}>
+                <Plate
+                  image={image}
+                  aspect="aspect-[4/5]"
+                  sizes="(min-width: 640px) 31vw, 92vw"
+                />
+              </Reveal>
+            </li>
+          ))}
+        </ul>
+      </Container>
+    );
+  }
+
   if (block.kind === "duo") {
     /*
       Asymmetric by default is the point of this block: two pictures at the

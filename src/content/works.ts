@@ -31,27 +31,18 @@ export const works: Work[] = [
      * small, which is where it belongs.
      */
     story: [
+      /*
+        Three views across, then the reasoning, then the footage, then the
+        certificate.
+
+        The row is the piece seen three ways — being drawn, hung on a wall,
+        standing on the easel — which is what the finished sheet beside the
+        specification cannot show on its own. It is a row and not a carousel:
+        three things a reader can take in at a glance should not be put behind
+        a control.
+      */
       {
-        kind: "plate",
-        image: {
-          src: "/obra/bajo-su-proteccion/principal.jpg",
-          alt: "Carboncillo de una leona avanzando entre la hierba alta con su cría pegada al pecho, ambas mirando de frente.",
-          width: 1315,
-          height: 1920,
-        },
-        scale: "column",
-        align: "right",
-      },
-      {
-        kind: "text",
-        paragraphs: [
-          "La figura de la leona apareció como una forma de hablar de esa fuerza que convive con el cuidado: instinto, inteligencia, determinación. Una presencia que no necesita mostrarse agresiva para dejar claro que está ahí.",
-          "La composición fue construida alrededor de esa idea. La cría ocupa el frente mientras la leona emerge detrás de ella, envolviéndola con su cuerpo y sosteniendo la escena con la mirada. Los contrastes profundos del carboncillo acentúan su carácter y dan peso a una imagen en la que conviven protección y fuerza.",
-        ],
-      },
-      {
-        kind: "duo",
-        weight: "left",
+        kind: "trio",
         images: [
           {
             src: "/obra/bajo-su-proteccion/extra-05.jpg",
@@ -61,12 +52,26 @@ export const works: Work[] = [
             caption: "La leona resuelta; la cría, aún en contorno.",
           },
           {
+            src: "/obra/bajo-su-proteccion/extra-04.jpg",
+            alt: "La obra enmarcada en negro y colgada sobre una pared blanca, junto a un sillón claro y un aparador bajo con libros y un ramo de olivo.",
+            width: 1536,
+            height: 1920,
+            caption: "La obra, enmarcada.",
+          },
+          {
             src: "/obra/bajo-su-proteccion/extra-03.jpg",
             alt: "La obra terminada sobre el caballete del taller, con la mesa de trabajo y el carro de materiales al lado.",
             width: 1080,
             height: 1920,
             caption: "Terminada, en el taller.",
           },
+        ],
+      },
+      {
+        kind: "text",
+        paragraphs: [
+          "La figura de la leona apareció como una forma de hablar de esa fuerza que convive con el cuidado: instinto, inteligencia, determinación. Una presencia que no necesita mostrarse agresiva para dejar claro que está ahí.",
+          "La composición fue construida alrededor de esa idea. La cría ocupa el frente mientras la leona emerge detrás de ella, envolviéndola con su cuerpo y sosteniendo la escena con la mirada. Los contrastes profundos del carboncillo acentúan su carácter y dan peso a una imagen en la que conviven protección y fuerza.",
         ],
       },
       {
@@ -88,19 +93,6 @@ export const works: Work[] = [
             caption: "El detalle, de cerca.",
           },
         ],
-      },
-      {
-        kind: "plate",
-        image: {
-          src: "/obra/bajo-su-proteccion/extra-04.jpg",
-          alt: "La obra enmarcada en negro y colgada sobre una pared blanca, junto a un sillón claro y un aparador bajo con libros y un ramo de olivo.",
-          width: 1536,
-          height: 1920,
-          caption: "La obra, enmarcada.",
-        },
-        scale: "bleed",
-        aspect: "aspect-[4/5] md:aspect-[16/9]",
-        focus: "50% 40%",
       },
       {
         kind: "plate",
@@ -484,16 +476,40 @@ export const works: Work[] = [
      * column, and that restraint is what makes this the quiet one of the three.
      */
     story: [
+      /*
+        Three views, then the reasoning. The lightest of the three pages, and
+        the only one where nothing runs edge to edge.
+
+        `extra-01` earns its place here now. Against a full portrait plate it
+        was a near-duplicate of `principal.jpg`; beside the landscape crop that
+        opens the page it is the one image that shows the composition entire,
+        which is a different thing to show.
+      */
       {
-        kind: "plate",
-        image: {
-          src: "/obra/sueno-de-primavera/principal.jpg",
-          alt: "Carboncillo de una mujer sentada sobre un banco de piedra en un jardín, rodeada por tres querubines alados que le acercan flores.",
-          width: 1376,
-          height: 1920,
-        },
-        scale: "column",
-        align: "left",
+        kind: "trio",
+        images: [
+          {
+            src: "/obra/sueno-de-primavera/extra-01.jpg",
+            alt: "La obra completa de frente: la mujer reclinada sobre el banco de piedra y los tres querubines que la rodean, entre el follaje del jardín.",
+            width: 1376,
+            height: 1920,
+            caption: "La composición completa.",
+          },
+          {
+            src: "/obra/sueno-de-primavera/extra-02.jpg",
+            alt: "El print de Sueño de Primavera enmarcado en negro con paspartú blanco, colgado sobre una pared clara junto a un ventanal.",
+            width: 1920,
+            height: 1920,
+            caption: "La edición, enmarcada.",
+          },
+          {
+            src: "/obra/sueno-de-primavera/extra-03.jpg",
+            alt: "Dos impresiones de la obra sobre una mesa de madera, una detrás de otra, con el margen blanco del papel a la vista.",
+            width: 1080,
+            height: 1920,
+            caption: "Dos ejemplares de la edición impresa.",
+          },
+        ],
       },
       {
         kind: "text",
@@ -502,33 +518,6 @@ export const works: Work[] = [
           "La elección estuvo también ligada a mi formación en dibujo figurativo y a la tradición clásica que acompañaba ese aprendizaje. Reinterpretarla en carboncillo significó trasladar ese universo a un lenguaje diferente, despojado del color, donde la luz, los contrastes y las miradas adquirieran otro peso.",
           "Fue mi primera obra de gran formato y formó parte de mi primera exposición. Más que reproducir una imagen que admiraba, el proceso me permitió reconocer algo que continuaría apareciendo en mi trabajo años después: mi interés por aquello que una mirada puede contener sin llegar a explicarlo.",
         ],
-      },
-      {
-        kind: "plate",
-        image: {
-          src: "/obra/sueno-de-primavera/extra-02.jpg",
-          alt: "El print de Sueño de Primavera enmarcado en negro con paspartú blanco, colgado sobre una pared clara junto a un ventanal.",
-          width: 1920,
-          height: 1920,
-          caption: "La edición, enmarcada.",
-        },
-        scale: "wide",
-        aspect: "aspect-[4/5] md:aspect-[16/9]",
-        focus: "50% 45%",
-      },
-      {
-        kind: "plate",
-        image: {
-          src: "/obra/sueno-de-primavera/extra-03.jpg",
-          alt: "Dos impresiones de la obra sobre una mesa de madera, una detrás de otra, con el margen blanco del papel a la vista.",
-          width: 1080,
-          height: 1920,
-          caption: "Dos ejemplares de la edición impresa.",
-        },
-        scale: "column",
-        align: "right",
-        aspect: "aspect-[4/5] md:aspect-[3/2]",
-        focus: "50% 50%",
       },
     ],
     /*
@@ -644,22 +633,15 @@ export const works: Work[] = [
      * hard page.
      */
     story: [
-      {
-        kind: "plate",
-        image: {
-          src: "/obra/jesus-oveja-lobo/jesus-en-proceso.jpg",
-          alt: "Las fauces abiertas del lobo a carboncillo, con las manos de Mariela trabajando el detalle de los dientes.",
-          width: 900,
-          height: 1600,
-        },
-        scale: "bleed",
-        /*
-          Cropped to a band on purpose. The sheet's full height would put the
-          jaws at a distance, and proximity is the whole subject here.
-        */
-        aspect: "aspect-[4/5] md:aspect-[21/9]",
-        focus: "50% 38%",
-      },
+      /*
+        One block, because one is what exists.
+
+        The plate of the work in progress now sits beside the sheet at the top
+        of the page, so repeating it here would be the page showing the same
+        photograph twice. What is left is the clip of that session — and no
+        finished plate, no framed shot and no room, because the piece is
+        unfinished and none of them have been made.
+      */
       {
         kind: "video",
         videos: [
