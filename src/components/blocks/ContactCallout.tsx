@@ -9,6 +9,12 @@ interface ContactCalloutProps {
   content: HomeContactContent;
   ground?: Ground;
   headingId?: string;
+  /**
+   * Anchor id. Defaults to "contacto" because that is what this block is on
+   * every page but one — /sobre-mi closes on the work instead, and an anchor
+   * called "contacto" pointing at it would be a lie in the URL bar.
+   */
+  id?: string;
 }
 
 /**
@@ -26,10 +32,11 @@ export function ContactCallout({
   content,
   ground = "paper",
   headingId = "contacto-titulo",
+  id = "contacto",
 }: ContactCalloutProps) {
   return (
     <Section
-      id="contacto"
+      id={id}
       ground={ground}
       rhythm="act"
       aria-labelledby={headingId}

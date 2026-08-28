@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { AboutBanner } from "@/components/about/AboutBanner";
 import { ContactCallout } from "@/components/blocks/ContactCallout";
 import { ProseSection } from "@/components/blocks/ProseSection";
 import { Container, Section } from "@/components/layout/Section";
@@ -8,7 +9,7 @@ import { Reveal } from "@/components/primitives/Reveal";
 import { VideoPlayer } from "@/components/primitives/VideoPlayer";
 import { Rule } from "@/components/primitives/Rule";
 import { Display, Eyebrow, Prose, PullQuote } from "@/components/primitives/Type";
-import { getAboutPage, getHome } from "@/lib/content";
+import { getAboutPage } from "@/lib/content";
 import { withEmphasis } from "@/lib/emphasis";
 
 export const metadata: Metadata = {
@@ -18,58 +19,35 @@ export const metadata: Metadata = {
 };
 
 /**
- * /sobre-mi
+ * /sobre-mi — four blocks, and Mariela introduced exactly once.
  *
- * Four movements: who she is, how she looks, what she works with, how she
- * works. The process section carries the `#proceso` anchor that the home and
- * the charcoal section link to — see docs/PROJECT_CONTEXT.md §7 for why it
- * lives here instead of on a page of its own.
+ *   1. the editorial opening      LA ARTISTA + the sentence
+ *   2. the banner                 her name, her specialty, the biography
+ *   3. Mi manera de mirar         how she works
+ *   4. El lenguaje                why charcoal
+ *   5. the close                  the work, and the way to ask for one
  *
+ * What went: a portrait beside a heading carrying her name beside a paragraph
+ * of biography — a second introduction, a screen after the first, saying the
+ * same thing. The banner does all of it now and does it better, because the
+ * photograph was composed with the space for the words already in it.
+ *
+ * Also gone: every mention of a specific work. Bouguereau, the first
+ * large-format piece and the exhibition attached to it were facts about Sueño
+ * de Primavera being told on the page about Mariela.
  */
 export default async function AboutPage() {
-  const [page, home] = await Promise.all([getAboutPage(), getHome()]);
+  const page = await getAboutPage();
 
   return (
     <>
       <PageHeader heading={page.heading} />
 
-      {/* Who she is, next to the portrait. */}
-      <Section ground="paper" rhythm="tight" aria-labelledby="recorrido-titulo">
-        <Container width="wide">
-          <div className="grid gap-2xl lg:grid-cols-12 lg:items-start lg:gap-x-[5vw]">
-            <div className="lg:col-span-5">
-              <Reveal variant="image">
-                <Figure
-                  src="/estudio/mariela-retrato.jpg"
-                  alt="Mariela Crapuzzi en su estudio, firmando el certificado de autenticidad de una obra, rodeada de estanterías con plantas y materiales de dibujo."
-                  pendingLabel="Retrato de Mariela"
-                  aspect="aspect-[3/4]"
-                  sizes="(min-width: 1024px) 38vw, 100vw"
-                />
-              </Reveal>
-            </div>
-
-            <div className="lg:col-span-6 lg:col-start-7">
-              <Reveal>
-                <Display
-                  as="h2"
-                  size="section"
-                  id="recorrido-titulo"
-                  /* Light, like every other display heading. It was set at
-                     normal weight to lift it off the paragraph, but size
-                     already does that and the extra weight read as bold. */
-                >
-                  {withEmphasis("*Mariela Crapuzzi*")}
-                </Display>
-              </Reveal>
-
-              <Reveal delay={120} className="mt-lg">
-                <Prose paragraphs={page.intro} lead />
-              </Reveal>
-            </div>
-          </div>
-        </Container>
-      </Section>
+      {/*
+        The one presentation of Mariela: photograph, name, specialty and the
+        biography, in a single full-width frame. See AboutBanner.
+      */}
+      <AboutBanner banner={page.banner} />
 
       {/* How she looks — the reasoning the home only hints at. */}
       <Section
@@ -168,7 +146,20 @@ export default async function AboutPage() {
         and keeps the prose.
       */}
 
-      <ContactCallout content={home.contact} />
+      {/*
+        The close. It used to be the commissions pitch — "Cuéntame la historia
+        que te gustaría convertir en una obra", with "Contar mi historia"
+        beside it — at the foot of the page that is not about commissions.
+        Someone who has just read about the artist wants to see the work.
+
+        `id` is passed because ContactCallout defaults to "contacto", and this
+        block is not a contact section.
+      */}
+      <ContactCallout
+        content={page.closing}
+        id="conocer-la-obra"
+        headingId="cierre-sobre-mi"
+      />
     </>
   );
 }

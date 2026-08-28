@@ -1,51 +1,59 @@
 import type { AboutPage } from "../types";
 
 /**
- * /sobre-mi
+ * /sobre-mi — Mariela, and only Mariela.
  *
- * Receives three blocks of docs/Copy.md that no longer fit a four-section home:
- * §8 (who she is), §2 (the reasoning behind the statement) and §5 (why
- * charcoal), plus §6 as the process section the home links to.
+ * The page used to introduce her three times: an editorial opening, then a
+ * portrait beside a heading carrying her name, then a paragraph of biography
+ * saying what the opening had already implied. One banner does all of it now.
  *
- * The order is deliberate: the person, then how she looks, then the material,
- * then the method. It answers "cómo mira" before "cómo trabaja".
+ * Three things were removed for the same reason — they belong to a work, not
+ * to her: the Bouguereau reinterpretation, the first large-format piece, and
+ * the exhibition attached to it. Every one of those facts lives on Sueño de
+ * Primavera's own page, where a reader can see the work being described.
+ *
+ * The prose was also thinned. "Mirada", "historia", "emoción", "conservar"
+ * and "significar" appeared across all three sections in different
+ * arrangements; each idea is now said once, in the section that owns it.
  */
 export const about: AboutPage = {
-  /* Copy.md §8 */
+  /* The editorial opening. Unchanged, and deliberately still short. */
   heading: {
     eyebrow: "La artista",
     title:
       "El arte se convirtió en mi profesión, pero también en una *manera de mirar*.",
   },
-  /*
-   * From Mariela_Crapuzzi_Acerca_de_la_Artista.docx. Her text, moved from the
-   * third person to the first at the client's request: the document was
-   * written about her, and the rest of the site speaks as her. Only pronouns
-   * and verb endings change — no sentence is rewritten, cut or added.
-   *
-   * Only the opening two paragraphs live here; the rest of that document
-   * carries the ideas and is set as `vision` below, so nothing repeats.
-   *
-   * The closing line comes from the works document. It names Bouguereau but
-   * not the piece: that work has its own page, and the brief keeps every
-   * mention of it there rather than scattered across the site.
-   * It is the only record of an exhibition anywhere in the project.
-   */
-  intro: [
-    "Soy una artista boliviana dedicada al realismo figurativo contemporáneo.",
-    "Mi formación comenzó en 2022 en la Academia de Artes Figurativas de Santa Cruz de la Sierra, donde cursé estudios de dibujo y pintura, para posteriormente especializarme en carboncillo.",
-    "Mi primera obra de gran formato fue una reinterpretación de un óleo de William-Adolphe Bouguereau, y formó parte de mi primera exposición.",
-  ],
 
-  /* Copy.md §2 — the reasoning the home only hints at */
   /*
-   * Copy.md §2, rephrased. The original two lines — "No busco reproducir lo
-   * que veo / Busco encontrar lo que esa imagen puede decir" — belong to the
-   * home and are kept there. Repeating them here word for word made the two
-   * sections read as one text split in half, which is the duplication the
-   * brief asks to remove. The idea survives; the sentence does not.
+   * The banner, and the only place the page presents her.
+   *
+   * The photograph was composed for this layout: she sits in the left two
+   * thirds and the wall behind her runs clear from about 60% rightwards. That
+   * clear zone measures 114 of 255 — a mid warm grey, not the pale wall it
+   * looks like — so the type over it is light: white reaches 4.8:1 there and
+   * near-black only 3.9:1. See AboutBanner for the rest of the arithmetic.
+   */
+  banner: {
+    src: "/sobre-mi/banner.jpg",
+    mobileSrc: "/sobre-mi/banner-movil.jpg",
+    alt: "Mariela Crapuzzi sentada a su mesa de trabajo, firmando el certificado de autenticidad de una obra, con estanterías de plantas y materiales de dibujo detrás.",
+    name: "Mariela Crapuzzi",
+    role: "Artista visual especializada en carboncillo.",
+    bio: [
+      "Soy una artista boliviana dedicada al realismo figurativo contemporáneo. Mi formación comenzó en la Academia de Artes Figurativas de Santa Cruz de la Sierra, donde estudié dibujo y pintura antes de especializarme en carboncillo.",
+      "El realismo es el medio y no el fin: la técnica me sirve para trabajar la expresión, la luz y la profundidad. Con el tiempo, mi trabajo fue avanzando desde el retrato hacia una producción progresivamente más personal y autoral.",
+    ],
+  },
+
+  /*
+   * Mi manera de mirar.
+   *
+   * Three paragraphs became two. The one that went — "La mirada es siempre el
+   * punto de partida. Para mí, allí comienza la identidad emocional de la
+   * obra" — said what the pull quote under it already says, four lines apart.
    */
   statement: {
+    eyebrow: "Mi manera de mirar",
     titleLines: [
       "Una imagen fiel no es la que copia.",
       "Es la que *sostiene lo que significa*.",
@@ -53,20 +61,25 @@ export const about: AboutPage = {
     paragraphs: [
       "Detrás de cada obra existe una historia, un vínculo o una emoción que no siempre es visible a primera vista.",
       "Antes de comenzar, necesito comprender qué se quiere conservar, recordar o transmitir. A partir de ahí, cada decisión —la composición, la luz, el contraste o el detalle— se construye para ser fiel no solamente a una imagen, sino a lo que esa imagen significa.",
-      "La mirada es siempre el punto de partida. Para mí, allí comienza la identidad emocional de la obra.",
     ],
     pullQuote:
       "Todo lo demás se construye para acompañar y reforzar esa mirada.",
   },
 
-  /* Copy.md §5 */
+  /*
+   * El lenguaje. Why charcoal, and nothing else.
+   *
+   * The closing paragraph — "Al desaparecer el color, la atención se concentra.
+   * La figura, la atmósfera y la mirada adquieren otro peso" — was a third
+   * sentence about looking on a page that already had two. What it added about
+   * the absence of colour is in the pull quote's own claim.
+   */
   language: {
     eyebrow: "El lenguaje",
     title: "La profundidad no siempre necesita *color*.",
     paragraphs: [
       "Después de explorar el grafito y la pintura al óleo, regresé al carboncillo porque encontré en él una libertad diferente.",
       "Sus negros profundos, la riqueza de los grises y la posibilidad de pasar de un gesto delicado a un contraste intenso me permiten trabajar la luz, la textura y la expresión con una sensibilidad muy particular.",
-      "Al desaparecer el color, la atención se concentra. La figura, la atmósfera y la mirada adquieren otro peso.",
     ],
     pullQuote:
       "El carboncillo puede ser extremadamente delicado y, al mismo tiempo, profundamente intenso.",
@@ -82,39 +95,19 @@ export const about: AboutPage = {
   },
 
   /*
-   * The five operational stages (escuchar, encontrar la imagen, interpretar,
-   * crear, proteger y entregar) live on /encargos and only there. Repeating
-   * them here made this page read as a how-to-hire-me instead of an artist
-   * statement.
+   * The close.
    *
-   * Every sentence below comes from the closing paragraphs of
-   * Mariela_Crapuzzi_Acerca_de_la_Artista.docx, moved to the first person to
-   * match the rest of the site. Only the short labels are editorial — they
-   * name each idea so the block reads at a glance and claim nothing of their
-   * own.
+   * It used to end on "Cuéntame la historia que te gustaría convertir en una
+   * obra" with "Contar mi historia" beside it — the commissions pitch, at the
+   * foot of the page that is not about commissions. A reader who has just
+   * finished reading about the artist wants to see the work. That is the
+   * first button; the commission is the quiet second.
    */
-  vision: {
-    eyebrow: "La mirada",
-    title: "Cada obra comienza intentando reconocer qué *merece permanecer*.",
-    intro:
-      "Ya sea a partir de una historia que me es confiada o de una composición propia. Es allí, en ese encuentro entre imagen y emoción, donde comienza mi trabajo.",
-    ideas: [
-      {
-        title: "La emoción como materia",
-        body: "Me interesa reconocer aquello que sostiene una imagen —un vínculo, una experiencia, una forma de mirar— y llevarlo a un lugar donde pueda ser percibido con mayor intensidad.",
-      },
-      {
-        title: "Más allá de lo visible",
-        body: "No se trata únicamente de representar lo visible, sino de hacer sensible aquello que existe detrás.",
-      },
-      {
-        title: "Por qué el carboncillo",
-        body: "En el carboncillo encontré un lenguaje especialmente afín a esa búsqueda. La ausencia de color concentra la mirada en lo esencial: la luz, la expresión y la profundidad.",
-      },
-      {
-        title: "El realismo como medio",
-        body: "El realismo deja de ser un fin para convertirse en el medio a través del cual esa dimensión más íntima puede tomar forma.",
-      },
-    ],
+  closing: {
+    title: "Conoce mi obra.",
+    paragraph:
+      "Explora una selección de obras personales, encargos y piezas que forman parte de mi recorrido.",
+    primaryAction: { label: "Ver obras", href: "/obra" },
+    secondaryAction: { label: "Solicitar un encargo", href: "/encargos" },
   },
 };

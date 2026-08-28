@@ -350,7 +350,24 @@ export interface WorkIndexPage extends SectionHeading {
 
 export interface AboutPage {
   heading: SectionHeading;
-  intro: string[];
+  /**
+   * The one presentation of Mariela on the page.
+   *
+   * It replaces a portrait, a heading carrying her name and a paragraph of
+   * biography that sat in three separate places — the page introduced her
+   * twice before it said anything. The photograph is composed for this: she
+   * holds the left of the frame and the wall from roughly 60% rightwards is
+   * clear, which is where the text goes.
+   */
+  banner: {
+    src: string;
+    mobileSrc: string;
+    alt: string;
+    name: string;
+    role: string;
+    /** Two paragraphs. Who she is, how she trained, where the work is going. */
+    bio: string[];
+  };
   statement: {
     eyebrow?: string;
     titleLines: string[];
@@ -360,22 +377,17 @@ export interface AboutPage {
   language: ProseBlock;
   /** Shown beside the charcoal section — the material, not an illustration. */
   languageVideo?: VideoSource;
-  vision: SectionHeading & { intro: string; ideas: AboutIdea[] };
+  /** Where the page ends: the work, and the way to ask for one. */
+  closing: HomeContactContent;
 }
 
-/**
- * How Mariela looks at a subject, told as ideas rather than steps.
- *
- * The five operational stages (escuchar, encontrar la imagen, interpretar,
- * crear, proteger y entregar) belong to /encargos and appear only there. Here
- * the same practice is described from the inside: what she looks for, what she
- * keeps, what realism is for. Repeating the numbered list on both pages made
- * the two read as the same page twice.
+/*
+ * AboutIdea is gone with the four cards it described — "La emoción como
+ * materia", "Más allá de lo visible", "Por qué el carboncillo" and "El
+ * realismo como medio". Each restated, as a heading and a paragraph, what the
+ * running text on either side already said. The page stopped rendering them
+ * some time ago; the type outlived them.
  */
-export interface AboutIdea {
-  title: string;
-  body: string;
-}
 
 /* ----------------------------------------------------------- /encargos --- */
 
