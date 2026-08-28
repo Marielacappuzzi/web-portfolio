@@ -45,6 +45,41 @@ export interface VideoSource {
   caption?: string;
 }
 
+/**
+ * One movement of a work's editorial page.
+ *
+ * The three flagship pages share a component and differ only in this list:
+ * which pictures, at what scale, in what order. That is what lets El Rescate
+ * read as three violent plates and Sueño de Primavera as a quiet sequence
+ * without either page being written twice.
+ *
+ * Scale is the whole point. A page where every image is the same size is a
+ * catalogue; the rhythm comes from a bleed against a column, a pair against a
+ * single, a portrait against a band.
+ */
+export type WorkBlock =
+  /** One picture. `bleed` runs edge to edge, `wide` fills the container, `column` takes part of it. */
+  | {
+      kind: "plate";
+      image: WorkImage;
+      scale?: "bleed" | "wide" | "column";
+      /** Which side a `column` plate sits on. Ignored otherwise. */
+      align?: "left" | "right";
+      /** Force a crop. Without it the photograph keeps its own proportion. */
+      aspect?: string;
+      focus?: string;
+    }
+  /** Two pictures side by side. `left`/`right` makes one of them larger. */
+  | {
+      kind: "duo";
+      images: [WorkImage, WorkImage];
+      weight?: "even" | "left" | "right";
+    }
+  /** Mariela's own words, set as a reading column. */
+  | { kind: "text"; paragraphs: string[] }
+  /** Process footage. Two clips sit side by side; one takes the column. */
+  | { kind: "video"; videos: VideoSource[] };
+
 export interface Work {
   slug: string;
   title: string;
@@ -109,6 +144,18 @@ export interface Work {
   framedImages?: WorkImage[];
   /** Shown in "El proceso" on the editorial page. */
   processVideos?: VideoSource[];
+
+  /**
+   * The editorial page, as an ordered sequence.
+   *
+   * Only the three flagship works have one. Everything the page shows below
+   * its opening comes from here, so the composition is data rather than three
+   * hand-built layouts — see WorkBlock, and WorkComposition for what renders
+   * it. A work with no story falls back to nothing: the page shows its plate
+   * and its sheet and stops, which is the honest result for a piece with no
+   * material behind it.
+   */
+  story?: WorkBlock[];
 
   /** One or two sentences. Used in the gallery and the editorial page opening. */
   shortStory?: string;

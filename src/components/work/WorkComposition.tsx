@@ -1,0 +1,233 @@
+import Image from "next/image";
+import { Container } from "@/components/layout/Section";
+import { Reveal } from "@/components/primitives/Reveal";
+import { VideoPlayer } from "@/components/primitives/VideoPlayer";
+import type { WorkBlock, WorkImage } from "@/content/types";
+import { cn } from "@/lib/cn";
+
+interface WorkCompositionProps {
+  blocks: WorkBlock[];
+}
+
+/**
+ * The body of a flagship work's page, composed from its own sequence.
+ *
+ * The three pages used to be one fixed run of sections — story, then details,
+ * then framed, then process, then the sheet — so each arrived in the same
+ * order at the same size whatever it had to show. A piece with one photograph
+ * and a piece with seven were laid out identically, and the result read as a
+ * template rather than as three works.
+ *
+ * Here the page is a list of blocks the work declares, and scale is what
+ * carries the rhythm: a bleed against a column, a pair against a single, a
+ * portrait against a band. Nothing decides the order but the content.
+ *
+ * Two rules the composition holds to:
+ *
+ *  · No photograph is ever cropped unless a block asks for it. Every plate
+ *    takes its aspect from the file's own pixels, so a drawing Mariela framed
+ *    at 100 x 70 is never re-framed by a layout.
+ *  · Nothing above the fold is lazy and nothing below it is eager. The hero
+ *    is the page's own concern; from here down every picture waits.
+ */
+export function WorkComposition({ blocks }: WorkCompositionProps) {
+  if (blocks.length === 0) return null;
+
+  return (
+    <div className="flex flex-col gap-3xl md:gap-4xl">
+      {blocks.map((block, i) => (
+        <Block key={i} block={block} />
+      ))}
+    </div>
+  );
+}
+
+/* ---------------------------------------------------------------------- */
+
+/** A photograph at its own proportion, unless the block forces one. */
+function Plate({
+  image,
+  sizes,
+  aspect,
+  focus,
+  priority = false,
+}: {
+  image: WorkImage;
+  sizes: string;
+  aspect?: string;
+  focus?: string;
+  priority?: boolean;
+}) {
+  return (
+    <figure>
+      <div
+        className={cn("relative w-full overflow-hidden", aspect)}
+        style={
+          aspect ? undefined : { aspectRatio: `${image.width} / ${image.height}` }
+        }
+      >
+        <Image
+          src={image.src}
+          alt={image.alt}
+          fill
+          sizes={sizes}
+          quality={90}
+          loading={priority ? "eager" : "lazy"}
+          className="object-cover"
+          style={focus ? { objectPosition: focus } : undefined}
+        />
+      </div>
+
+      {image.caption ? (
+        <Container width="wide">
+          <figcaption className="mt-sm font-sans text-xs text-fg-muted">
+            {image.caption}
+          </figcaption>
+        </Container>
+      ) : null}
+    </figure>
+  );
+}
+
+function Block({ block }: { block: WorkBlock }) {
+  if (block.kind === "text") {
+    return (
+      <Container width="wide">
+        <Reveal>
+          {/*
+            Offset into the grid rather than centred. A reading column that
+            starts at the left margin reads as a caption to whatever is above
+            it; set in from the third column it reads as its own movement.
+          */}
+          <div className="lg:ml-[25%] lg:max-w-[46rem]">
+            <div className="flex flex-col gap-md">
+              {block.paragraphs.map((paragraph, i) => (
+                <p
+                  key={i}
+                  className="max-w-[62ch] font-sans text-base leading-relaxed text-pretty text-fg"
+                >
+                  {paragraph}
+                </p>
+              ))}
+            </div>
+          </div>
+        </Reveal>
+      </Container>
+    );
+  }
+
+  if (block.kind === "video") {
+    const many = block.videos.length > 1;
+
+    return (
+      <Container width="wide">
+        <ul
+          className={cn(
+            "grid gap-xl",
+            many ? "sm:grid-cols-2 sm:gap-x-[3vw]" : "max-w-[34rem]",
+          )}
+        >
+          {block.videos.map((video) => (
+            <li key={video.src}>
+              <Reveal variant="image">
+                <VideoPlayer
+                  src={video.src}
+                  poster={video.poster}
+                  label={video.label}
+                  caption={video.caption}
+                  aspect={video.portrait ? "aspect-[9/16]" : "aspect-video"}
+                />
+              </Reveal>
+            </li>
+          ))}
+        </ul>
+      </Container>
+    );
+  }
+
+  if (block.kind === "duo") {
+    /*
+      Asymmetric by default is the point of this block: two pictures at the
+      same width read as a grid, and a grid is what the brief asks the page
+      to stop being. `even` exists for the case where they genuinely pair.
+    */
+    const columns =
+      block.weight === "left"
+        ? ["md:col-span-7", "md:col-span-5 md:mt-2xl"]
+        : block.weight === "right"
+          ? ["md:col-span-5 md:mt-2xl", "md:col-span-7"]
+          : ["md:col-span-6", "md:col-span-6"];
+
+    return (
+      <Container width="wide">
+        <div className="grid gap-xl md:grid-cols-12 md:gap-x-[3vw]">
+          {block.images.map((image, i) => (
+            <Reveal
+              key={image.src}
+              variant="image"
+              delay={i * 120}
+              className={columns[i]}
+            >
+              <Plate
+                image={image}
+                sizes="(min-width: 768px) 46vw, 92vw"
+              />
+            </Reveal>
+          ))}
+        </div>
+      </Container>
+    );
+  }
+
+  /* A single plate, at one of three scales. */
+  const scale = block.scale ?? "wide";
+
+  if (scale === "bleed") {
+    return (
+      <Reveal variant="image">
+        <Plate
+          image={block.image}
+          aspect={block.aspect}
+          focus={block.focus}
+          sizes="100vw"
+        />
+      </Reveal>
+    );
+  }
+
+  if (scale === "column") {
+    return (
+      <Container width="wide">
+        <div className="grid md:grid-cols-12">
+          <Reveal
+            variant="image"
+            className={cn(
+              "md:col-span-7",
+              block.align === "right" ? "md:col-start-6" : "md:col-start-1",
+            )}
+          >
+            <Plate
+              image={block.image}
+              aspect={block.aspect}
+              focus={block.focus}
+              sizes="(min-width: 768px) 58vw, 92vw"
+            />
+          </Reveal>
+        </div>
+      </Container>
+    );
+  }
+
+  return (
+    <Container width="wide">
+      <Reveal variant="image">
+        <Plate
+          image={block.image}
+          aspect={block.aspect}
+          focus={block.focus}
+          sizes="(min-width: 1024px) 90vw, 92vw"
+        />
+      </Reveal>
+    </Container>
+  );
+}

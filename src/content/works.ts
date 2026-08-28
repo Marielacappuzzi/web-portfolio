@@ -20,6 +20,104 @@ export const works: Work[] = [
   {
     slug: "bajo-su-proteccion",
     /*
+     * The page: the work, the reasoning, the making, the room.
+     *
+     * The richest of the three, and the sequence is built to slow down rather
+     * than to show everything at once. The finished sheet takes a column and
+     * is the only thing on its screen; the reasoning follows it; the two
+     * process photographs pair unevenly so the drawing-in-progress leads; the
+     * framed shot runs edge to edge because it is the one picture that answers
+     * what a 100 x 70 charcoal looks like on a wall; the certificate closes
+     * small, which is where it belongs.
+     */
+    story: [
+      {
+        kind: "plate",
+        image: {
+          src: "/obra/bajo-su-proteccion/principal.jpg",
+          alt: "Carboncillo de una leona avanzando entre la hierba alta con su cría pegada al pecho, ambas mirando de frente.",
+          width: 1315,
+          height: 1920,
+        },
+        scale: "column",
+        align: "right",
+      },
+      {
+        kind: "text",
+        paragraphs: [
+          "La figura de la leona apareció como una forma de hablar de esa fuerza que convive con el cuidado: instinto, inteligencia, determinación. Una presencia que no necesita mostrarse agresiva para dejar claro que está ahí.",
+          "La composición fue construida alrededor de esa idea. La cría ocupa el frente mientras la leona emerge detrás de ella, envolviéndola con su cuerpo y sosteniendo la escena con la mirada. Los contrastes profundos del carboncillo acentúan su carácter y dan peso a una imagen en la que conviven protección y fuerza.",
+        ],
+      },
+      {
+        kind: "duo",
+        weight: "left",
+        images: [
+          {
+            src: "/obra/bajo-su-proteccion/extra-05.jpg",
+            alt: "Mariela dibujando con un difumino sobre el papel: la leona ya está resuelta y la cría es todavía un trazo de contorno.",
+            width: 1080,
+            height: 1920,
+            caption: "La leona resuelta; la cría, aún en contorno.",
+          },
+          {
+            src: "/obra/bajo-su-proteccion/extra-03.jpg",
+            alt: "La obra terminada sobre el caballete del taller, con la mesa de trabajo y el carro de materiales al lado.",
+            width: 1080,
+            height: 1920,
+            caption: "Terminada, en el taller.",
+          },
+        ],
+      },
+      {
+        kind: "video",
+        videos: [
+          {
+            src: "/video/bajo-su-proteccion-en-proceso.mp4",
+            poster: "/video/bajo-su-proteccion-en-proceso.jpg",
+            label: "Mariela Crapuzzi trabajando la obra Bajo su Protección.",
+            portrait: true,
+            caption: "La obra, en proceso.",
+          },
+          {
+            src: "/video/bajo-su-proteccion-obra.mp4",
+            poster: "/video/bajo-su-proteccion-obra.jpg",
+            label:
+              "Primer plano del carboncillo sobre el rostro de la cría, con la mano de Mariela trabajando el detalle.",
+            portrait: true,
+            caption: "El detalle, de cerca.",
+          },
+        ],
+      },
+      {
+        kind: "plate",
+        image: {
+          src: "/obra/bajo-su-proteccion/extra-04.jpg",
+          alt: "La obra enmarcada en negro y colgada sobre una pared blanca, junto a un sillón claro y un aparador bajo con libros y un ramo de olivo.",
+          width: 1536,
+          height: 1920,
+          caption: "La obra, enmarcada.",
+        },
+        scale: "bleed",
+        aspect: "aspect-[4/5] md:aspect-[16/9]",
+        focus: "50% 40%",
+      },
+      {
+        kind: "plate",
+        image: {
+          src: "/obra/bajo-su-proteccion/extra-06.jpg",
+          alt: "El certificado de autenticidad de la obra, firmado, junto a una reproducción impresa de la pieza.",
+          width: 1079,
+          height: 1920,
+          caption: "Certificado de autenticidad, firmado.",
+        },
+        scale: "column",
+        align: "left",
+        aspect: "aspect-[4/5] md:aspect-[3/2]",
+        focus: "50% 45%",
+      },
+    ],
+    /*
      * The work hung in a stone-walled room. The drawing sits dead centre of
      * the wide file, so the crop holds at 50% and narrowing the frame takes
      * evenly from both sides rather than sliding the piece off one edge.
@@ -373,6 +471,67 @@ export const works: Work[] = [
   {
     slug: "sueno-de-primavera",
     /*
+     * The page: the lightest of the three, and the only one with something
+     * that can actually be acquired at the end of it.
+     *
+     * `extra-01` is deliberately absent. It is the same composition as
+     * `principal.jpg` at a slightly tighter crop — near enough that showing
+     * both would be the repetition this rewrite exists to remove. One plate of
+     * the drawing, the reasoning beside it, then the edition: the framed print
+     * in a room, and the two copies on the table.
+     *
+     * Nothing here runs edge to edge. The whole sequence stays inside the
+     * column, and that restraint is what makes this the quiet one of the three.
+     */
+    story: [
+      {
+        kind: "plate",
+        image: {
+          src: "/obra/sueno-de-primavera/principal.jpg",
+          alt: "Carboncillo de una mujer sentada sobre un banco de piedra en un jardín, rodeada por tres querubines alados que le acercan flores.",
+          width: 1376,
+          height: 1920,
+        },
+        scale: "column",
+        align: "left",
+      },
+      {
+        kind: "text",
+        paragraphs: [
+          "La belleza, la feminidad y, sobre todo, la capacidad de una expresión para sugerir algo que trasciende lo visible.",
+          "La elección estuvo también ligada a mi formación en dibujo figurativo y a la tradición clásica que acompañaba ese aprendizaje. Reinterpretarla en carboncillo significó trasladar ese universo a un lenguaje diferente, despojado del color, donde la luz, los contrastes y las miradas adquirieran otro peso.",
+          "Fue mi primera obra de gran formato y formó parte de mi primera exposición. Más que reproducir una imagen que admiraba, el proceso me permitió reconocer algo que continuaría apareciendo en mi trabajo años después: mi interés por aquello que una mirada puede contener sin llegar a explicarlo.",
+        ],
+      },
+      {
+        kind: "plate",
+        image: {
+          src: "/obra/sueno-de-primavera/extra-02.jpg",
+          alt: "El print de Sueño de Primavera enmarcado en negro con paspartú blanco, colgado sobre una pared clara junto a un ventanal.",
+          width: 1920,
+          height: 1920,
+          caption: "La edición, enmarcada.",
+        },
+        scale: "wide",
+        aspect: "aspect-[4/5] md:aspect-[16/9]",
+        focus: "50% 45%",
+      },
+      {
+        kind: "plate",
+        image: {
+          src: "/obra/sueno-de-primavera/extra-03.jpg",
+          alt: "Dos impresiones de la obra sobre una mesa de madera, una detrás de otra, con el margen blanco del papel a la vista.",
+          width: 1080,
+          height: 1920,
+          caption: "Dos ejemplares de la edición impresa.",
+        },
+        scale: "column",
+        align: "right",
+        aspect: "aspect-[4/5] md:aspect-[3/2]",
+        focus: "50% 50%",
+      },
+    ],
+    /*
      * Held slightly right of centre: the piece hangs at about 58% of the wide
      * file, with a tall window on the left. Centring the crop would push the
      * frame towards that window as the screen narrows and leave the drawing
@@ -473,6 +632,48 @@ export const works: Work[] = [
      * changing them would break links, and nothing visible reads a slug.
      */
     slug: "jesus-la-oveja-y-el-lobo",
+    /*
+     * The page: two plates and nothing padding them out.
+     *
+     * This is everything that exists — one photograph of the work in progress
+     * and one clip of the same session. There is no finished plate, no framed
+     * shot and no technical sheet, because the piece is unfinished and none of
+     * that has been made yet. The answer to thin material is scale, not
+     * filler: the jaws run edge to edge at the full width of the screen, which
+     * is the most violent thing on the site, and the clip follows. A short,
+     * hard page.
+     */
+    story: [
+      {
+        kind: "plate",
+        image: {
+          src: "/obra/jesus-oveja-lobo/jesus-en-proceso.jpg",
+          alt: "Las fauces abiertas del lobo a carboncillo, con las manos de Mariela trabajando el detalle de los dientes.",
+          width: 900,
+          height: 1600,
+        },
+        scale: "bleed",
+        /*
+          Cropped to a band on purpose. The sheet's full height would put the
+          jaws at a distance, and proximity is the whole subject here.
+        */
+        aspect: "aspect-[4/5] md:aspect-[21/9]",
+        focus: "50% 38%",
+      },
+      {
+        kind: "video",
+        videos: [
+          {
+            src: "/video/jesus-en-proceso.mp4",
+            poster: "/video/jesus-en-proceso.jpg",
+            label: "El Rescate en proceso, sobre el tablero de Mariela Crapuzzi.",
+            portrait: true,
+            caption:
+              "La obra en curso. Las fotografías definitivas llegarán al terminarla.",
+          },
+        ],
+      },
+    ],
     /*
      * The wolf runs across the middle of the frame, from about 30% to 70%.
      * Centre holds it whole at every width; the dark floor and window at the

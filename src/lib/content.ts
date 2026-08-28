@@ -140,15 +140,29 @@ export async function getEditorialWorks(): Promise<Work[]> {
 }
 
 /**
- * The piece that follows this one in the narrative sequence, wrapping at the
- * end so an editorial page always offers somewhere to go next.
+ * The two pieces either side of this one, in the flagship sequence.
+ *
+ * El Rescate, then Bajo su Protección, then Sueño de Primavera — which is
+ * `featuredOrder`, not `order`. Sorting by `order` put them at 1, 9 and 10 and
+ * gave "siguiente" the catalogue's sequence instead of the narrative one.
+ *
+ * The run wraps, so the last piece leads back to the first: an editorial page
+ * with nowhere to go is a dead end, and the reader has to reach for the menu.
  */
-export async function getNextWork(slug: string): Promise<Work | null> {
-  const editorial = await getEditorialWorks();
-  if (editorial.length < 2) return null;
+export async function getWorkNeighbours(
+  slug: string,
+): Promise<{ previous: Work | null; next: Work | null }> {
+  const sequence = works
+    .filter((work) => work.hasEditorialPage)
+    .sort((a, b) => (a.featuredOrder ?? a.order) - (b.featuredOrder ?? b.order));
 
-  const index = editorial.findIndex((work) => work.slug === slug);
-  if (index === -1) return null;
+  if (sequence.length < 2) return { previous: null, next: null };
 
-  return editorial[(index + 1) % editorial.length];
+  const index = sequence.findIndex((work) => work.slug === slug);
+  if (index === -1) return { previous: null, next: null };
+
+  return {
+    previous: sequence[(index - 1 + sequence.length) % sequence.length],
+    next: sequence[(index + 1) % sequence.length],
+  };
 }

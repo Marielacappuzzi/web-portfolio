@@ -2,21 +2,17 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Container, Section } from "@/components/layout/Section";
-import { CoverImage } from "@/components/home/CoverImage";
-import { Badge } from "@/components/primitives/Badge";
-import { WorkGallery } from "@/components/work/WorkGallery";
-import { ActionButton } from "@/components/primitives/ActionLink";
-import { Figure } from "@/components/primitives/Figure";
+import { ActionButton, QuietLink } from "@/components/primitives/ActionLink";
+import { ArrowRightIcon } from "@/components/primitives/Icon";
 import { Pending } from "@/components/primitives/Pending";
 import { Reveal } from "@/components/primitives/Reveal";
-import { ScrollReveal } from "@/components/primitives/ScrollReveal";
-import { VideoPlayer } from "@/components/primitives/VideoPlayer";
 import { Rule } from "@/components/primitives/Rule";
-import { ArrowRightIcon } from "@/components/primitives/Icon";
-import { Display, Eyebrow, Prose } from "@/components/primitives/Type";
+import { Display, Eyebrow } from "@/components/primitives/Type";
+import { WorkComposition } from "@/components/work/WorkComposition";
+import { WorkHero } from "@/components/work/WorkHero";
 import { WorkSpecs } from "@/components/work/WorkMeta";
 import { cn } from "@/lib/cn";
-import { getEditorialWorks, getNextWork, getWork } from "@/lib/content";
+import { getEditorialWorks, getWork, getWorkNeighbours } from "@/lib/content";
 
 export async function generateStaticParams() {
   const works = await getEditorialWorks();
@@ -31,23 +27,33 @@ export async function generateMetadata({
 
   if (!work) return {};
 
-  return {
-    title: work.title,
-    description: work.shortStory,
-  };
+  return { title: work.title, description: work.shortStory };
 }
 
 /**
- * /obra/[slug] — an editorial piece, not a product sheet.
+ * /obra/[slug] — one editorial page, three works, one system.
  *
- * The order is deliberate and follows Yulia Bas's project pages, which open
- * with the name and a short statement and then give the rest of the page to
- * the work: concept → title → the piece, hung on chamber → the story → the
- * technical sheet, quietly, at the end → where to go next.
+ *   banner + name
+ *   the sentence, and the sheet beside it
+ *   the composition          ← everything below here is data
+ *   the edition, if there is one
+ *   the ask
+ *   the two pieces either side
  *
- * The extended story, the detail crops and the process photographs do not
- * exist yet. Each renders a declared pending marker rather than being skipped
- * silently, so what the page still needs is visible while it is being built.
+ * What changed: the body used to be a fixed run of sections — story, details,
+ * framed, process, sheet — so every work arrived in the same order at the same
+ * size whatever it had to show. A piece with one photograph and a piece with
+ * seven were laid out identically, which is why the pages read as a template.
+ *
+ * Now the body is a sequence each work declares for itself. See WorkBlock in
+ * content/types.ts for the shape and WorkComposition for what renders it. The
+ * three pages share every component and differ only in that list, which is
+ * what lets El Rescate be two violent plates and Sueño de Primavera a quiet
+ * run of four without either being written by hand.
+ *
+ * Nothing is invented to fill a gap. El Rescate has no year, technique or
+ * dimensions because the piece is unfinished, and its sheet says so with a
+ * declared marker rather than a plausible guess.
  */
 export default async function WorkPage({ params }: PageProps<"/obra/[slug]">) {
   const { slug } = await params;
@@ -55,354 +61,70 @@ export default async function WorkPage({ params }: PageProps<"/obra/[slug]">) {
 
   if (!work || !work.hasEditorialPage) notFound();
 
-  const nextWork = await getNextWork(slug);
-
-  /*
-    A crop for the story column. Prefer a detail, fall back to a framed shot;
-    the main plate is already the cover, so reusing it would only repeat.
-  */
-  const storyImage = work.detailImages?.[0] ?? work.framedImages?.[0] ?? null;
-
-  const processCount =
-    (work.processVideos?.length ?? 0) + (work.processImages?.length ?? 0);
+  const { previous, next } = await getWorkNeighbours(slug);
+  const hasSheet = Boolean(work.year || work.technique || work.dimensions);
 
   return (
     <>
+      <WorkHero work={work} />
+
       {/*
-        The piece as the cover: the photograph fills the band and the name is
-        set over it, ranged left at the foot. Every work here is portrait, so
-        the band stays taller than the home cover — a wide letterbox would cut
-        the composition Mariela resolved.
+        The opening: one sentence and the sheet, side by side.
+
+        Two columns rather than a block of prose over a table — the sentence is
+        what a reader wants first, and the specification is what they check
+        afterwards. On a phone they stack in that same order.
       */}
-      <section
-        data-ground="chamber"
-        aria-labelledby="obra-titulo"
-        className="relative isolate text-fg"
-      >
-        <CoverImage
-          src={work.image?.src ?? null}
-          alt={work.image?.alt ?? work.title}
-          focus={work.coverFocus ?? "50% 28%"}
-          /*
-            The full height of the device. `dvh` rather than `vh`: on a phone
-            the browser chrome makes 100vh taller than the screen, so the band
-            would push its own caption off the bottom.
-          */
-          aspect="h-[100dvh]"
-          /*
-            These covers are phone photographs of drawings, blown up to fill a
-            screen, and the grain shows. A darker frame hides what a bright one
-            puts on display — and the work itself is charcoal, so dark is where
-            it belongs anyway.
-          */
-          dim
-          zoomOnScroll
-          pendingLabel={work.title}
-        />
+      <Section ground="paper" rhythm="beat" aria-labelledby="intro-titulo">
+        <Container width="wide">
+          <h2 id="intro-titulo" className="sr-only">
+            Sobre la obra
+          </h2>
 
-        <div className="inset-0 bg-ink pb-2xl pt-xl sm:absolute sm:flex sm:items-end sm:bg-transparent sm:pb-3xl sm:pt-0">
-          <Container width="wide" className="w-full">
-            <div className="max-w-[46ch]">
-              {work.concept ? (
-                <Reveal>
-                  <Badge onImage>{work.concept}</Badge>
-                </Reveal>
-              ) : null}
-
-              <Reveal delay={120} className="mt-md">
-                <Display as="h1" size="cover" id="obra-titulo" measure={20}>
-                  {work.title}
-                </Display>
-
-                {/* The year sits immediately under the title, never buried in
-                    the technical sheet at the foot of the page. */}
-                {work.year || work.attribution ? (
-                  <p className="mt-md font-sans text-sm leading-normal text-fg">
-                    {[work.attribution, work.year].filter(Boolean).join(" · ")}
-                  </p>
-                ) : null}
-              </Reveal>
-
+          <div className="grid gap-2xl lg:grid-cols-12 lg:gap-x-[4vw]">
+            <div className="lg:col-span-6">
               {work.shortStory ? (
-                <Reveal delay={240} className="mt-lg">
-                  <p className="max-w-[52ch] font-serif text-lg font-light italic leading-snug text-pretty text-fg">
+                <Reveal>
+                  <p className="max-w-[46ch] font-serif text-xl font-light leading-snug text-pretty text-fg-strong md:text-2xl">
                     {work.shortStory}
                   </p>
                 </Reveal>
               ) : null}
             </div>
-          </Container>
-        </div>
-      </section>
 
-      {/* The story. */}
-      <Section ground="paper" rhythm="act" aria-labelledby="historia-titulo">
-        <Container width="wide">
-          <div className="grid gap-2xl lg:grid-cols-12 lg:gap-x-[4vw]">
-            <div className="lg:col-span-3">
-              <Reveal>
-                <Eyebrow as="h2" id="historia-titulo">
-                  La historia
-                </Eyebrow>
+            {/*
+              The sheet: discreet, and only what exists. No table, no field
+              labels — it reads as a wall label, which is what it is.
+            */}
+            <div className="lg:col-span-4 lg:col-start-9">
+              <Reveal delay={120}>
+                <Eyebrow>Ficha técnica</Eyebrow>
               </Reveal>
 
-              {/*
-                The heading column ran out after two words and left a column
-                of air beside the text. The first detail crop fills it — a
-                closer look at the piece the paragraphs are about, which is
-                what a reader glancing left actually wants.
-              */}
-              {storyImage ? (
-                <Reveal variant="image" delay={120} className="mt-xl block">
-                  <Figure
-                    src={storyImage.src}
-                    alt={storyImage.alt}
-                    pendingLabel=""
-                    aspect="aspect-[3/4]"
-                    sizes="(min-width: 1024px) 24vw, 100vw"
-                  />
-                </Reveal>
-              ) : null}
-            </div>
+              <Reveal delay={180} className="mt-md border-t border-rule pt-md">
+                <WorkSpecs work={work} detail="full" />
 
-            <div className="lg:col-span-6 lg:col-start-6">
-              {work.longStory && work.longStory.length > 0 ? (
-                <Reveal>
-                  <Prose paragraphs={work.longStory} lead />
-                </Reveal>
-              ) : (
-                <Reveal>
-                  <Pending kind="data" detail="Historia extendida de la obra" />
-                </Reveal>
-              )}
+                {hasSheet ? null : (
+                  <div className="mt-md">
+                    <Pending kind="data" detail="Año, técnica y medidas" />
+                  </div>
+                )}
+              </Reveal>
             </div>
           </div>
         </Container>
       </Section>
 
-      {/*
-        Detail crops and process photographs render only when they exist.
-        Empty plates were right while the whole catalogue was pending; now that
-        most works have photographs, a visitor should not be shown scaffolding.
-        What is still missing is tracked in docs/CONTENT_PENDING.md.
-      */}
-      {work.detailImages && work.detailImages.length > 0 ? (
-        <Section
-          ground="chamber"
-          rhythm="act"
-          aria-labelledby="detalles-titulo"
-          className="overflow-hidden"
-        >
-          <Container width="wide">
-            <Reveal>
-              <Eyebrow as="h2" id="detalles-titulo">
-                El detalle
-              </Eyebrow>
-            </Reveal>
-          </Container>
-
-          {/*
-            Three or more read sideways — see WorkGallery. Two do not: the run
-            never travels far enough to pin, so they fell into a scroller that
-            had nothing to scroll and sat at the wrong size. A grid holds them
-            instead, each keeping the proportion it was photographed at rather
-            than being cropped to a shared box.
-          */}
-          {work.detailImages.length > 2 ? (
-            <div className="mt-xl">
-              <WorkGallery
-                images={work.detailImages}
-                label={"Detalles de " + work.title}
-              />
-            </div>
-          ) : (
-            <Container width="wide">
-              <ul className="mt-xl grid grid-cols-1 gap-lg sm:grid-cols-2 sm:gap-x-[3vw]">
-                {work.detailImages.map((image, i) => (
-                  <li key={image.src}>
-                    <Reveal variant="image" delay={i * 120}>
-                      <Figure
-                        src={image.src}
-                        alt={image.alt}
-                        caption={image.caption}
-                        pendingLabel=""
-                        /* Its own proportion, not a shared box: these two
-                           were photographed at 0.72 and 0.56, and cropping
-                           both to one shape is what put them wrong. */
-                        width={image.width}
-                        height={image.height}
-                        sizes="(min-width: 640px) 45vw, 100vw"
-                      />
-                    </Reveal>
-                  </li>
-                ))}
-              </ul>
-            </Container>
-          )}
+      {/* The composition. Everything here comes from the work's own story. */}
+      {work.story && work.story.length > 0 ? (
+        <Section ground="paper" rhythm="tight">
+          <WorkComposition blocks={work.story} />
         </Section>
       ) : null}
 
       {/*
-        The piece on a wall. A photograph of the sheet answers what the work
-        looks like; this answers how large it is and how it lives in a room,
-        which is the question a visitor considering a commission actually has.
-      */}
-      {work.framedImages && work.framedImages.length > 0 ? (
-        <Section ground="paper" rhythm="act" aria-labelledby="enmarcada-titulo">
-          <Container width="wide">
-            <div className="grid gap-2xl lg:grid-cols-12 lg:gap-x-[4vw]">
-              <div className="lg:col-span-3">
-                <Reveal>
-                  <Eyebrow as="h2" id="enmarcada-titulo">
-                    En una pared
-                  </Eyebrow>
-                </Reveal>
-              </div>
+        The edition, where one exists.
 
-              <div className="grid grid-cols-1 gap-lg sm:grid-cols-2 sm:gap-x-[3vw] lg:col-span-8 lg:col-start-5">
-                {work.framedImages.map((image, i) => (
-                  <ScrollReveal key={image.src} distance={i % 2 ? 88 : 56}>
-                    <Figure
-                      src={image.src}
-                      alt={image.alt}
-                      caption={image.caption}
-                      pendingLabel=""
-                      aspect="aspect-[4/5]"
-                      sizes="(min-width: 640px) 40vw, 100vw"
-                    />
-                  </ScrollReveal>
-                ))}
-              </div>
-            </div>
-          </Container>
-        </Section>
-      ) : null}
-
-      {(work.processVideos?.length ?? 0) > 0 ||
-      (work.processImages && work.processImages.length > 0) ? (
-        <Section ground="paper" rhythm="act" aria-labelledby="proceso-obra-titulo">
-          <Container width="wide">
-            <div className="grid gap-2xl lg:grid-cols-12 lg:gap-x-[4vw]">
-              <div className="lg:col-span-3">
-                <Reveal>
-                  <Eyebrow as="h2" id="proceso-obra-titulo">
-                    El proceso
-                  </Eyebrow>
-                </Reveal>
-              </div>
-
-              <div className="lg:col-span-8 lg:col-start-5">
-                {/*
-                  One grid for both, not two. The clips sat in their own row
-                  and the photographs in another at a different proportion,
-                  which read as two unrelated blocks stacked. A single run at
-                  one shape makes it a record of the work, and it absorbs the
-                  photographs still to come without needing a new rule.
-                */}
-                {/*
-                  Columns follow the count. Three is right for a run of
-                  material and wrong for a single clip, which ended up a third
-                  of the width with two empty cells beside it — a record of
-                  one thing should not look like a gap where two others should
-                  have been.
-                */}
-                <ul
-                  className={cn(
-                    "grid grid-cols-1 gap-lg sm:gap-x-[3vw]",
-                    processCount === 1
-                      ? "max-w-[26rem]"
-                      : processCount === 2
-                        ? "sm:grid-cols-2"
-                        : "sm:grid-cols-2 lg:grid-cols-3",
-                  )}
-                >
-                  {(work.processVideos ?? []).map((clip, i) => (
-                    <li key={clip.src}>
-                      <Reveal variant="image" delay={i * 90}>
-                        <VideoPlayer
-                          src={clip.src}
-                          poster={clip.poster}
-                          label={clip.label}
-                          caption={clip.caption}
-                          aspect="aspect-[3/4]"
-                        />
-                      </Reveal>
-                    </li>
-                  ))}
-
-                  {(work.processImages ?? []).map((image, i) => (
-                    <li key={image.src}>
-                      <Reveal
-                        variant="image"
-                        delay={((work.processVideos?.length ?? 0) + i) * 90}
-                      >
-                        <Figure
-                          src={image.src}
-                          alt={image.alt}
-                          caption={image.caption}
-                          pendingLabel=""
-                          aspect="aspect-[3/4]"
-                          sizes="(min-width: 1024px) 26vw, (min-width: 640px) 42vw, 100vw"
-                        />
-                      </Reveal>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </Container>
-        </Section>
-      ) : null}
-
-      {/*
-        Technical sheet — last, and quiet, but not adrift. It used to sit on
-        the same ground as the section above with only a rule between them,
-        which read as an appendix someone forgot to place. The brighter paper
-        marks it as its own closing block without raising its voice.
-      */}
-      <Section
-        ground="paper-bright"
-        rhythm="beat"
-        aria-labelledby="ficha-titulo"
-      >
-        <Container width="wide">
-          <div className="mt-lg grid gap-lg lg:grid-cols-12 lg:gap-x-[4vw]">
-            <div className="lg:col-span-3">
-              <Reveal>
-                <Eyebrow as="h2" id="ficha-titulo">
-                  {work.printEdition ? "La obra original" : "Ficha técnica"}
-                </Eyebrow>
-              </Reveal>
-            </div>
-
-            <Reveal delay={90} className="lg:col-span-5 lg:col-start-6">
-              <WorkSpecs work={work} detail="full" />
-
-              {/*
-                Where a print exists, say what became of the original in the
-                same breath. “La obra original” as a bare heading over a
-                specification read as a stray block; naming its state is what
-                makes the edition below it mean something.
-              */}
-              {work.printEdition ? (
-                <p className="mt-lg max-w-[46ch] font-serif text-lg font-light italic leading-snug text-fg">
-                  La pieza original pertenece a una colección privada. La
-                  edición impresa, abajo, es la forma en que puede adquirirse
-                  hoy.
-                </p>
-              ) : null}
-              {!work.year && !work.technique && !work.dimensions ? (
-                <div className="mt-md">
-                  <Pending kind="data" detail="Año, técnica y medidas" />
-                </div>
-              ) : null}
-            </Reveal>
-          </div>
-        </Container>
-      </Section>
-
-      {/*
-        The available edition.
         Structurally separate from the original, per the technical sheet: the
         original is in a private collection and the edition is what can still
         be acquired. The page has to make that difference unmistakable without
@@ -418,58 +140,46 @@ export default async function WorkPage({ params }: PageProps<"/obra/[slug]">) {
                 </Reveal>
 
                 <Reveal delay={90} className="mt-lg">
-                  <Display id="edicion-titulo">
+                  <Display id="edicion-titulo" measure={18}>
                     {work.printEdition.title}
                   </Display>
                 </Reveal>
 
-                <Reveal delay={180} className="mt-xl">
-                  <p className="font-serif text-lg font-light italic leading-snug text-fg-strong">
+                <Reveal delay={180} className="mt-lg">
+                  <p className="font-sans text-sm text-fg-muted">
                     {work.printEdition.availability}
                   </p>
                 </Reveal>
-
-                <Reveal delay={270} className="mt-xl">
-                  <ActionButton href={work.printEdition.action.href}>
-                    {work.printEdition.action.label}
-                  </ActionButton>
-                </Reveal>
               </div>
 
-              <div className="lg:col-span-6 lg:col-start-7">
-                {work.printEdition.image ? (
-                  <Reveal variant="image" className="mb-2xl block">
-                    <Figure
-                      src={work.printEdition.image.src}
-                      alt={work.printEdition.image.alt}
-                      pendingLabel=""
-                      aspect="aspect-square"
-                      sizes="(min-width: 1024px) 46vw, 100vw"
-                      caption="Dentro de Santa Cruz de la Sierra, el print se entrega enmarcado."
-                    />
-                  </Reveal>
-                ) : null}
-
-                <Reveal>
-                  <ul className="flex flex-col font-sans text-sm leading-snug text-fg">
+              <div className="lg:col-span-7 lg:col-start-6">
+                <Reveal delay={120}>
+                  <ul className="flex flex-col">
                     {work.printEdition.specs.map((spec) => (
-                      <li key={spec} className="border-t border-rule py-sm last:border-b">
+                      <li
+                        key={spec}
+                        className="border-t border-rule py-md font-sans text-base leading-relaxed text-pretty text-fg last:border-b"
+                      >
                         {spec}
                       </li>
                     ))}
                   </ul>
                 </Reveal>
 
-                <Reveal delay={90} className="mt-xl">
-                  <Eyebrow as="h3">{work.printEdition.details.label}</Eyebrow>
-                  <p className="mt-md max-w-[62ch] font-sans text-sm leading-relaxed text-pretty text-fg">
+                <Reveal delay={180} className="mt-xl">
+                  <h3 className="font-sans text-2xs font-medium uppercase tracking-label text-fg-muted">
+                    {work.printEdition.details.label}
+                  </h3>
+                  <p className="mt-sm max-w-[62ch] font-sans text-sm leading-relaxed text-pretty text-fg">
                     {work.printEdition.details.body}
                   </p>
                 </Reveal>
 
-                <Reveal delay={180} className="mt-xl">
-                  <Eyebrow as="h3">{work.printEdition.delivery.label}</Eyebrow>
-                  <div className="mt-md flex flex-col gap-sm">
+                <Reveal delay={240} className="mt-lg">
+                  <h3 className="font-sans text-2xs font-medium uppercase tracking-label text-fg-muted">
+                    {work.printEdition.delivery.label}
+                  </h3>
+                  <div className="mt-sm flex flex-col gap-2xs">
                     {work.printEdition.delivery.lines.map((line) => (
                       <p
                         key={line}
@@ -486,42 +196,109 @@ export default async function WorkPage({ params }: PageProps<"/obra/[slug]">) {
         </Section>
       ) : null}
 
-      {/* Where to go next. */}
-      {nextWork ? (
-        <Section ground="paper" rhythm="act" aria-labelledby="siguiente-titulo">
-          <Container width="wide">
-            <Rule width="full" />
+      {/*
+        The ask. Two lines and two links — the page is a work, not a listing,
+        and the invitation closes it rather than running through it.
+      */}
+      <Section ground="paper" rhythm="act" aria-labelledby="consulta-titulo">
+        <Container width="wide">
+          <Rule width="full" />
 
-            <Reveal className="mt-lg">
-              <Eyebrow as="h2" id="siguiente-titulo">
-                Obra siguiente
-              </Eyebrow>
-            </Reveal>
-
-            <Reveal delay={90} className="mt-md">
-              <Link
-                href={`/obra/${nextWork.slug}`}
-                className="group inline-flex items-center gap-md"
-              >
-                <Display className="transition-opacity duration-500 group-hover:opacity-60">
-                  {nextWork.title}
+          <div className="mt-2xl grid gap-lg lg:grid-cols-12 lg:items-end lg:gap-x-[4vw]">
+            <div className="lg:col-span-6">
+              <Reveal>
+                <Display id="consulta-titulo" measure={18}>
+                  ¿Te interesa esta obra?
                 </Display>
+              </Reveal>
+            </div>
 
-                {/*
-                  The title alone gave no sign it was a link. The arrow says
-                  so, at the size of the type it belongs to rather than as a
-                  small mark tacked on beside it.
-                */}
-                <ArrowRightIcon
-                  width={28}
-                  height={28}
-                  className="shrink-0 text-fg-muted transition-transform duration-500 ease-out-quart group-hover:translate-x-2 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0"
-                />
-              </Link>
+            <Reveal
+              delay={120}
+              className="flex flex-wrap items-center gap-x-xl gap-y-md lg:col-span-5 lg:col-start-8 lg:justify-end"
+            >
+              <ActionButton href="/contacto">Consultar obra</ActionButton>
+              <QuietLink href="/encargos">Solicitar un encargo</QuietLink>
             </Reveal>
+          </div>
+        </Container>
+      </Section>
+
+      {/* The two pieces either side, in the flagship sequence. */}
+      {previous || next ? (
+        <Section
+          ground="paper-bright"
+          rhythm="beat"
+          aria-labelledby="alrededor-titulo"
+        >
+          <Container width="wide">
+            <h2 id="alrededor-titulo" className="sr-only">
+              Otras obras destacadas
+            </h2>
+
+            <div className="flex flex-col gap-lg sm:flex-row sm:items-baseline sm:justify-between">
+              {previous ? (
+                <Neighbour work={previous} direction="previous" />
+              ) : (
+                <span />
+              )}
+              {next ? <Neighbour work={next} direction="next" /> : null}
+            </div>
           </Container>
         </Section>
       ) : null}
     </>
+  );
+}
+
+/* ---------------------------------------------------------------------- */
+
+/**
+ * One step through the sequence.
+ *
+ * Minimal by instruction: a label, a title and an arrow that travels. The
+ * arrow mirrors for "anterior" rather than getting an icon of its own — one
+ * drawn mark, used twice, reads as a pair.
+ */
+function Neighbour({
+  work,
+  direction,
+}: {
+  work: { slug: string; title: string };
+  direction: "previous" | "next";
+}) {
+  const back = direction === "previous";
+
+  return (
+    <Reveal delay={back ? 0 : 90} className={back ? undefined : "sm:text-right"}>
+      <Link href={`/obra/${work.slug}`} className="group inline-flex flex-col">
+        <span
+          className={cn(
+            "flex items-center gap-2xs font-sans text-2xs font-medium uppercase tracking-label text-fg-muted",
+            !back && "sm:justify-end",
+          )}
+        >
+          {back ? (
+            <ArrowRightIcon
+              width={13}
+              height={13}
+              className="shrink-0 rotate-180 transition-transform duration-300 ease-out-quart group-hover:-translate-x-1 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0"
+            />
+          ) : null}
+          {back ? "Obra anterior" : "Obra siguiente"}
+          {back ? null : (
+            <ArrowRightIcon
+              width={13}
+              height={13}
+              className="shrink-0 transition-transform duration-300 ease-out-quart group-hover:translate-x-1 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0"
+            />
+          )}
+        </span>
+
+        <span className="mt-2xs font-serif text-xl font-light leading-tight tracking-tight text-fg-strong transition-opacity duration-500 group-hover:opacity-60 md:text-2xl">
+          {work.title}
+        </span>
+      </Link>
+    </Reveal>
   );
 }
