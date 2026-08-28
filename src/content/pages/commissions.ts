@@ -13,6 +13,25 @@ import type { CommissionsPage } from "../types";
  * See docs/CONTENT_PENDING.md #16.
  */
 export const commissions: CommissionsPage = {
+  /*
+   * The pause before the form.
+   *
+   * Toro Salvaje under the hand that is drawing it, with the charcoal sticks
+   * on the tray beside the sheet. It says what a commission actually is —
+   * someone making something by hand — which is the argument the page needs
+   * before it starts asking for a name and an email, and it says it without
+   * a word of copy.
+   *
+   * Two files. 1920 x 600 is 3.2:1 and on a phone that leaves the horse an
+   * inch tall, so the portrait file reframes the same moment: the hand, the
+   * pencil and the whole head, top to bottom.
+   */
+  banner: {
+    src: "/encargos/proceso.jpg",
+    mobileSrc: "/encargos/proceso-movil.jpg",
+    alt: "La mano de Mariela Crapuzzi trabajando con un carboncillo sobre el dibujo de un caballo al galope, con la bandeja de barras de carboncillo y los difuminos junto al papel.",
+  },
+
   heading: {
     eyebrow: "Obras por encargo",
     title: "Una historia personal, interpretada en una *obra única*.",

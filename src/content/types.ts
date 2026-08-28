@@ -393,6 +393,22 @@ export interface AboutPage {
 
 export interface CommissionsPage {
   heading: SectionHeading;
+  /**
+   * A visual pause between the introduction and the form.
+   *
+   * Support only: no title, no label, no button over it. The page is a
+   * quotation request and everything else on it is functional, so the one
+   * place it argues for the work is a photograph of the work being made.
+   *
+   * Deliberately not another portrait — the home hero and /sobre-mi already
+   * carry Mariela looking at the camera. Here it is the hand, the charcoal,
+   * the sheet and the tools, and she appears only as far as the wrist.
+   */
+  banner?: {
+    src: string;
+    mobileSrc: string;
+    alt: string;
+  };
   paragraphs: string[];
   kinds: { label: string; items: string[] };
   process: ProcessBlock;

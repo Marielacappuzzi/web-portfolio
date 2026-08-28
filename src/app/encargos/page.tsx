@@ -39,6 +39,42 @@ export default async function CommissionsPage() {
         lead="Retratos de personas, mascotas, homenajes y composiciones creadas a partir de una historia, una imagen o un vínculo."
       />
 
+      {/*
+        The pause before the functional half of the page.
+
+        Support only — no title, no label, no button over it. Everything from
+        here to the FAQ is a form or an accordion, and this is the one place
+        the page makes its case for the work rather than explaining a process.
+        Held inside the page container rather than run edge to edge: the
+        gallery's flagship banners are the full-bleed ones, and matching them
+        here would make a supporting image compete with them.
+      */}
+      {page.banner ? (
+        <Section ground="paper" rhythm="tight">
+          <Container width="wide">
+            <Reveal variant="image">
+              <picture>
+                {/*
+                  The file swaps at the same breakpoint as the proportion, so
+                  the landscape frame is never fed the portrait crop. Below
+                  `md` the tall file keeps its own ratio: at 3.2:1 on a phone
+                  the horse would be an inch high, which is the opposite of
+                  the presence this block exists for.
+                */}
+                <source media="(min-width: 768px)" srcSet={page.banner.src} />
+                <img
+                  src={page.banner.mobileSrc}
+                  alt={page.banner.alt}
+                  loading="lazy"
+                  decoding="async"
+                  className="aspect-[960/1500] w-full object-cover md:aspect-[1920/600]"
+                />
+              </picture>
+            </Reveal>
+          </Container>
+        </Section>
+      ) : null}
+
       {/* What to send, in one paragraph, and the way down to the form. */}
       <Section ground="paper" rhythm="beat">
         <Container width="wide">
