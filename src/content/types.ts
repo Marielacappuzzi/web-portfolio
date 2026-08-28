@@ -66,6 +66,26 @@ export interface Work {
   /** The small closing line: "Obra original.", "Retrato de mascota."… */
   note?: string;
 
+  /**
+   * The wide banner used by the slider that opens /obra.
+   *
+   * Only the three flagship pieces have one. It is a separate photograph, not
+   * a crop of `image`: each shows the work hung in a room at a scale a
+   * thumbnail cannot carry, and two files because 1920 x 600 on a phone is a
+   * letterbox slot. `focus` and `mobileFocus` are read per piece — the three
+   * compositions place the work differently and one shared crop would cut into
+   * whichever of them was unlucky.
+   */
+  banner?: {
+    src: string;
+    mobileSrc: string;
+    alt: string;
+    /** `object-position` on the wide file. */
+    focus?: string;
+    /** `object-position` on the portrait file. */
+    mobileFocus?: string;
+  };
+
   /** Null while the photograph does not exist. ArtworkFrame handles it. */
   image: WorkImage | null;
   /** Fallback only. When `image` exists its intrinsic ratio wins. */

@@ -4,7 +4,7 @@ import { Container, Section } from "@/components/layout/Section";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { Reveal } from "@/components/primitives/Reveal";
 import { Display } from "@/components/primitives/Type";
-import { FeaturedRow } from "@/components/work/FeaturedRow";
+import { FeaturedSlider } from "@/components/work/FeaturedSlider";
 import { WorkGrid } from "@/components/work/WorkGrid";
 import {
   getFeaturedWorks,
@@ -51,7 +51,17 @@ export default async function WorkIndexPage() {
         which.
       */}
       {featured.length > 0 ? (
-        <Section ground="chamber" rhythm="act" aria-labelledby="destacadas-titulo">
+        <Section
+          ground="chamber"
+          rhythm="act"
+          aria-labelledby="destacadas-titulo"
+        >
+          {/*
+            The heading keeps the page gutter; the slider sits outside the
+            Container so the banners run edge to edge. A full-width photograph
+            held inside a 90rem column would be a banner with margins, which
+            is the one thing a banner is not.
+          */}
           <Container width="wide">
             <Reveal>
               {/* Same emphasis as the home, so the two read as one site. */}
@@ -59,9 +69,9 @@ export default async function WorkIndexPage() {
                 Obras *destacadas*
               </Display>
             </Reveal>
-
-            <FeaturedRow works={featured} className="mt-2xl" />
           </Container>
+
+          <FeaturedSlider works={featured} className="mt-2xl" />
         </Section>
       ) : null}
 

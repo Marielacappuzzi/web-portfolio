@@ -19,6 +19,18 @@ import type { Work } from "./types";
 export const works: Work[] = [
   {
     slug: "bajo-su-proteccion",
+    /*
+     * The work hung in a stone-walled room. The drawing sits dead centre of
+     * the wide file, so the crop holds at 50% and narrowing the frame takes
+     * evenly from both sides rather than sliding the piece off one edge.
+     */
+    banner: {
+      src: "/obra/banners/bajo-su-proteccion.jpg",
+      mobileSrc: "/obra/banners/bajo-su-proteccion-movil.jpg",
+      alt: "La obra Bajo su Protección colgada en un interior de piedra y hormigón, iluminada de lado, con un banco de madera y un jarrón bajo ella.",
+      focus: "50% 50%",
+      mobileFocus: "50% 42%",
+    },
     /* Las dos miradas, alineadas una sobre otra, a un tercio de la altura. */
     coverFocus: "50% 30%",
     title: "Bajo su Protección",
@@ -360,6 +372,19 @@ export const works: Work[] = [
 
   {
     slug: "sueno-de-primavera",
+    /*
+     * Held slightly right of centre: the piece hangs at about 58% of the wide
+     * file, with a tall window on the left. Centring the crop would push the
+     * frame towards that window as the screen narrows and leave the drawing
+     * clipped on the right.
+     */
+    banner: {
+      src: "/obra/banners/sueno-de-primavera.jpg",
+      mobileSrc: "/obra/banners/sueno-de-primavera-movil.jpg",
+      alt: "El print de Sueño de Primavera enmarcado sobre una pared clara, junto a un ventanal en arco que da al jardín.",
+      focus: "58% 50%",
+      mobileFocus: "50% 40%",
+    },
     /* El rostro de la figura central y los querubines que la rodean. */
     coverFocus: "50% 26%",
     title: "Sueño de Primavera",
@@ -448,6 +473,18 @@ export const works: Work[] = [
      * changing them would break links, and nothing visible reads a slug.
      */
     slug: "jesus-la-oveja-y-el-lobo",
+    /*
+     * The wolf runs across the middle of the frame, from about 30% to 70%.
+     * Centre holds it whole at every width; the dark floor and window at the
+     * left are what the title sits on.
+     */
+    banner: {
+      src: "/obra/banners/el-rescate.jpg",
+      mobileSrc: "/obra/banners/el-rescate-movil.jpg",
+      alt: "La obra El Rescate colgada en una sala oscura de hormigón, con un ventanal a la izquierda que da a un bosque de montaña.",
+      focus: "50% 50%",
+      mobileFocus: "50% 45%",
+    },
     /* Las fauces del lobo, que es lo que la obra pone primero. */
     coverFocus: "50% 22%",
     title: "El Rescate",
