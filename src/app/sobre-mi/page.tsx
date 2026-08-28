@@ -89,13 +89,26 @@ export default async function AboutPage() {
                 picture closes the section — order swaps, markup does not.
               */}
               <Reveal variant="image" className="order-first lg:order-last lg:mt-xl">
+                {/*
+                  A different photograph. `mariela-trabajando.jpg` is the one
+                  the home already uses in its artist block, so the same frame
+                  was appearing twice in a single visit — and on this page it
+                  followed a banner of her a screen earlier, which made three
+                  pictures of the same person in a row.
+
+                  This one documents the thing the section is about: the
+                  lioness resolved, the cub still a contour, her gloved hand
+                  on the charcoal. Portrait, so it keeps a portrait frame —
+                  forced into 3/2 it lost both the drawing and the hand.
+                */}
                 <Figure
-                  src="/estudio/mariela-trabajando.jpg"
-                  alt="Mariela Crapuzzi trabajando de pie frente a un tablero, con un carboncillo en la mano enguantada, sobre el dibujo de un caballo al galope."
+                  src="/obra/bajo-su-proteccion/extra-05.jpg"
+                  alt="La mano enguantada de Mariela Crapuzzi trabajando con carboncillo sobre el dibujo de una leona ya resuelta, mientras la cría es todavía un trazo de contorno."
                   pendingLabel=""
-                  aspect="aspect-[3/2]"
+                  aspect="aspect-[4/5]"
+                  focus="50% 45%"
                   sizes="(min-width: 1024px) 48vw, 100vw"
-                  caption="En el estudio, sobre «Toro Salvaje»."
+                  caption="La leona resuelta; la cría, aún en contorno."
                 />
               </Reveal>
 

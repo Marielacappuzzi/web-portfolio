@@ -465,6 +465,19 @@ export interface FormField {
 }
 
 export interface ContactPage {
+  /**
+   * Which of the two forms this is.
+   *
+   * It rides in the submitted payload so the server can validate against the
+   * right field list. Without it the endpoint looked the fields up from
+   * /contacto whatever had been posted, so a quotation was checked against a
+   * form it does not share — and "Formato deseado", which only exists on the
+   * quote, was dropped before the email was built. It never errored; the
+   * answer simply arrived with the format missing.
+   */
+  form: "consulta" | "cotizacion";
+  /** What the subject line calls it, so an inbox can tell them apart. */
+  kindLabel: string;
   heading: SectionHeading;
   paragraphs: string[];
   fields: FormField[];

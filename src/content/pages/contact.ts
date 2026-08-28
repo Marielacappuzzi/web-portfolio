@@ -8,6 +8,8 @@ import type { ContactPage } from "../types";
  * decided. See docs/CONTENT_PENDING.md #21.
  */
 export const contact: ContactPage = {
+  form: "consulta",
+  kindLabel: "Consulta general",
   heading: {
     title: "Cuéntame la historia que te gustaría convertir en una *obra*.",
   },

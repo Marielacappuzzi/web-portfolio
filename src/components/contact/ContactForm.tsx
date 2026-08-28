@@ -90,7 +90,12 @@ export function ContactForm({ page }: { page: ContactPage }) {
       const response = await fetch("/api/contacto", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...data, recaptchaToken }),
+        /*
+          `formulario` tells the server which of the two forms this is, so it
+          validates against the right field list and names the message
+          correctly in Mariela's inbox.
+        */
+        body: JSON.stringify({ ...data, formulario: page.form, recaptchaToken }),
       });
 
       const body = await response.json().catch(() => ({}));

@@ -17,14 +17,15 @@ import type { FormField } from "@/content/types";
  * the whole job, and the project stays at zero runtime dependencies.
  */
 
-export interface ContactSubmission {
-  nombre: string;
-  correo: string;
-  telefono?: string;
-  lugar?: string;
-  motivo: string;
-  mensaje: string;
-}
+/**
+ * Field name to submitted value, shaped by whichever form sent it.
+ *
+ * It was a fixed interface — nombre, correo, telefono, lugar, motivo, mensaje
+ * — which is the contact form and only the contact form. The quotation form
+ * also carries "formato", and a fixed shape silently dropped it: Mariela
+ * received every request without the size the person had chosen.
+ */
+export type Submission = Record<string, string>;
 
 export type ContactResult =
   | { ok: true }
@@ -34,11 +35,16 @@ export type ContactResult =
 
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
-/** Runs on the server too. Client validation is convenience, not a control. */
+/**
+ * Runs on the server too. Client validation is convenience, not a control.
+ *
+ * The field list is also the allow-list: only declared fields are read, so
+ * nothing a caller invents in the payload can reach the email.
+ */
 export function validate(
   data: Record<string, unknown>,
   fields: FormField[],
-): { values: ContactSubmission; missing: string[] } {
+): { values: Submission; missing: string[] } {
   const read = (name: string) => String(data[name] ?? "").trim();
 
   const missing = fields
@@ -51,17 +57,10 @@ export function validate(
     })
     .map((field) => field.name);
 
-  return {
-    values: {
-      nombre: read("nombre"),
-      correo: read("correo"),
-      telefono: read("telefono") || undefined,
-      lugar: read("lugar") || undefined,
-      motivo: read("motivo"),
-      mensaje: read("mensaje"),
-    },
-    missing,
-  };
+  const values: Submission = {};
+  for (const field of fields) values[field.name] = read(field.name);
+
+  return { values, missing };
 }
 
 const escape = (value: string) =>
@@ -70,32 +69,46 @@ const escape = (value: string) =>
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;");
 
-function buildBody(values: ContactSubmission): string {
-  const rows: [string, string | undefined][] = [
-    ["Nombre", values.nombre],
-    ["Correo", values.correo],
-    ["Teléfono", values.telefono],
-    ["País o ciudad", values.lugar],
-    ["Motivo", values.motivo],
-  ];
-
-  const meta = rows
-    .filter(([, value]) => value)
+/**
+ * The email Mariela reads.
+ *
+ * Every short field becomes a row and the long one closes the message under a
+ * rule, because that is the part she actually reads. Which is which comes from
+ * `kind === "textarea"`, so the layout follows the form definition — adding a
+ * field to a form is a content change and nothing here has to know.
+ */
+function buildBody(
+  values: Submission,
+  fields: FormField[],
+  kindLabel: string,
+): string {
+  const rows = fields
+    .filter((field) => field.kind !== "textarea")
+    .filter((field) => values[field.name])
     .map(
-      ([label, value]) =>
-        `<tr><td style="padding:4px 16px 4px 0;color:#7c7c78;font:13px system-ui">${label}</td><td style="padding:4px 0;color:#111110;font:13px system-ui">${escape(value as string)}</td></tr>`,
+      (field) =>
+        `<tr><td style="padding:4px 16px 4px 0;color:#7c7c78;font:13px system-ui">${escape(field.label)}</td><td style="padding:4px 0;color:#111110;font:13px system-ui">${escape(values[field.name])}</td></tr>`,
     )
     .join("");
 
+  const body = fields
+    .filter((field) => field.kind === "textarea")
+    .map((field) => values[field.name])
+    .filter(Boolean)
+    .map(escape)
+    .join("<br><br>");
+
   return `<div style="max-width:600px;font:15px/1.6 system-ui;color:#111110">
-<p style="margin:0 0 24px;color:#7c7c78;font-size:13px">Consulta desde marielacrapuzzi.com</p>
-<table style="border-collapse:collapse;margin-bottom:24px">${meta}</table>
-<div style="border-top:1px solid #ddddd8;padding-top:20px;white-space:pre-wrap">${escape(values.mensaje)}</div>
+<p style="margin:0 0 24px;color:#7c7c78;font-size:13px">${escape(kindLabel)} — marielacrapuzzi.com</p>
+<table style="border-collapse:collapse;margin-bottom:24px">${rows}</table>
+<div style="border-top:1px solid #ddddd8;padding-top:20px;white-space:pre-wrap">${body}</div>
 </div>`;
 }
 
 export async function sendContact(
-  values: ContactSubmission,
+  values: Submission,
+  fields: FormField[],
+  kindLabel: string,
 ): Promise<ContactResult> {
   const key = process.env.RESEND_API_KEY;
   const from = process.env.CONTACT_FROM;
@@ -116,8 +129,13 @@ export async function sendContact(
         from,
         to: [to],
         reply_to: values.correo,
-        subject: `${values.motivo} — ${values.nombre}`,
-        html: buildBody(values),
+        /*
+          Readable in a list of unread mail: what kind of message it is, and
+          who sent it. A quotation must never look like a general enquiry in
+          the inbox — the two are answered differently.
+        */
+        subject: `${kindLabel} — ${values.nombre || values.correo || "sin nombre"}`,
+        html: buildBody(values, fields, kindLabel),
       }),
     });
 

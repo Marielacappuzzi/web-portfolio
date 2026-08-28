@@ -23,43 +23,63 @@ interface AboutBannerProps {
  * The type is light because the wall was measured, not guessed: that clear
  * zone reads R129 G112 B95, a relative luminance of 0.17. White lands at
  * 4.8:1 on it and near-black at 3.9:1, so the intuition — pale wall, dark
- * type — is the wrong way round. The wash is a single soft gradient from the
- * right edge, and it stops short of her: at 45% it is already transparent, so
- * nothing is laid over her face, her hands or the sheet she is signing.
+ * type — is the wrong way round.
  *
- * Below `lg` the picture and the text separate. A phone is 0.64:1 with the
- * portrait file, which has no clear wall left in it once she fills the frame,
- * and holding a name, a role and two paragraphs over that would be exactly
- * the "caja blanca pesada" the brief rules out. The photograph runs full
- * width, the text sits under it on the page's own ground.
+ * ON A PHONE the text sits **on** the photograph, not after it.
+ *
+ * It used to run underneath: the picture ended, then the name started, and the
+ * two read as unrelated blocks stacked by accident. Now the photograph is the
+ * background of the whole block, the text begins over its lower half, and
+ * where the biography runs past the bottom of the image the section's own
+ * ground carries it to the end. A gradient does the handover, so there is no
+ * visible line where the picture stops — which is what keeps it reading as one
+ * composition rather than as an image with a box under it.
  */
 export function AboutBanner({ banner }: AboutBannerProps) {
   return (
     <section
       aria-labelledby="mariela-titulo"
       data-ground="chamber"
-      className="relative isolate bg-bg text-fg"
+      /*
+        `bg-bg` is the ground the text lands on once the photograph runs out.
+        On a wide screen it is never seen: the image covers the whole section.
+      */
+      className="relative isolate overflow-hidden bg-bg text-fg"
     >
       {/*
-        Two files. 1920 x 750 is 2.56:1 and on a phone that is a letterbox
-        slot; the 960 x 1500 file is composed for the narrow shape instead of
-        cut down to it. `<picture>` fetches only the one it uses.
+        The photograph.
+
+        Absolute on a phone so the type can sit on top of it and then continue
+        past it; in normal flow from `lg`, where it sets the height of the
+        block and the text is what floats.
       */}
-      <picture>
-        <source media="(min-width: 1024px)" srcSet={banner.src} />
-        <img
-          src={banner.mobileSrc}
-          alt={banner.alt}
-          /* The first thing under the opening, so it is worth fetching early. */
-          fetchPriority="high"
-          decoding="async"
-          className="aspect-[960/1500] w-full object-cover object-[50%_30%] sm:aspect-[16/9] lg:aspect-[1920/750] lg:object-center"
+      <div className="absolute inset-x-0 top-0 h-[62svh] lg:static lg:h-auto">
+        <picture>
+          <source media="(min-width: 1024px)" srcSet={banner.src} />
+          <img
+            src={banner.mobileSrc}
+            alt={banner.alt}
+            /* The first thing under the opening, so it is worth fetching early. */
+            fetchPriority="high"
+            decoding="async"
+            className="h-full w-full object-cover object-[52%_28%] lg:aspect-[1920/750] lg:h-auto lg:object-center"
+          />
+        </picture>
+
+        {/*
+          The handover. On a phone the picture fades into the section's ground
+          over its bottom third, so the text crosses from one to the other
+          without a seam. Off from `lg`, where the wash below does that job.
+        */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-ink via-ink/70 via-40% to-transparent lg:hidden"
         />
-      </picture>
+      </div>
 
       {/*
-        The wash. Right to left, and gone by 45% — the type needs it, the
-        photograph does not, and she is at 20-55% of the frame.
+        The wash for the wide layout: right to left, gone by 45%. The type
+        needs it; the photograph does not, and she is at 20-55% of the frame.
       */}
       <div
         aria-hidden="true"
@@ -67,12 +87,15 @@ export function AboutBanner({ banner }: AboutBannerProps) {
       />
 
       {/*
-        Absolute from `lg` up, in normal flow below it. The text column sits in
-        columns 9-12 of the page's own grid, which on a 1920 screen starts it
-        at 61% of the viewport — inside the clear zone, and on the same axis as
-        every other section of the site rather than floating free of the page.
+        The type.
+
+        On a phone it begins 34svh down — a third of the way into the picture,
+        clear of her face — and runs on into the ground below it. From `lg` it
+        is centred in the band, in columns 9-12 of the page's own grid, which
+        on a 1920 screen starts it at 61% of the viewport: inside the clear
+        zone, and on the same axis as every other section of the site.
       */}
-      <div className="bg-bg pb-2xl pt-xl lg:absolute lg:inset-0 lg:flex lg:items-center lg:bg-transparent lg:py-0">
+      <div className="relative pb-2xl pt-[34svh] lg:absolute lg:inset-0 lg:flex lg:items-center lg:py-0 lg:pt-0">
         <Container width="wide" className="w-full">
           <div className="lg:grid lg:grid-cols-12">
             <div className="lg:col-span-4 lg:col-start-9">

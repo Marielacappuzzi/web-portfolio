@@ -40,63 +40,91 @@ export default async function CommissionsPage() {
       />
 
       {/*
-        The pause before the functional half of the page.
+        The banner and the instruction, as one block.
 
-        Support only — no title, no label, no button over it. Everything from
-        here to the FAQ is a form or an accordion, and this is the one place
-        the page makes its case for the work rather than explaining a process.
-        Held inside the page container rather than run edge to edge: the
-        gallery's flagship banners are the full-bleed ones, and matching them
-        here would make a supporting image compete with them.
+        They were two stacked sections: a photograph, then a paragraph on
+        paper underneath it. The picture was doing nothing for the text and
+        the text was doing nothing for the picture. Now the photograph is the
+        ground the instruction is written on — a hand, a charcoal and the
+        drawing being made, behind the sentence that explains how to ask for
+        one. It is the argument and the instruction in the same frame.
+
+        The type sits left, which is where the photograph is darkest: that
+        third measures R63 G52 B43, a relative luminance of 0.04, so white
+        reaches about 12:1 on it before any veil at all. The wash is
+        insurance for the crops, not a rescue, and it is gone by 60% — well
+        clear of the hand and the tools on the right.
+
+        On a phone the picture becomes the background of the whole block and
+        the text starts over its lower half, carrying on into the section's
+        own ground where it runs past the bottom edge. A gradient does the
+        handover so there is no seam.
       */}
       {page.banner ? (
-        <Section ground="paper" rhythm="tight">
-          <Container width="wide">
-            <Reveal variant="image">
-              <picture>
-                {/*
-                  The file swaps at the same breakpoint as the proportion, so
-                  the landscape frame is never fed the portrait crop. Below
-                  `md` the tall file keeps its own ratio: at 3.2:1 on a phone
-                  the horse would be an inch high, which is the opposite of
-                  the presence this block exists for.
-                */}
-                <source media="(min-width: 768px)" srcSet={page.banner.src} />
-                <img
-                  src={page.banner.mobileSrc}
-                  alt={page.banner.alt}
-                  loading="lazy"
-                  decoding="async"
-                  className="aspect-[960/1500] w-full object-cover md:aspect-[1920/600]"
-                />
-              </picture>
-            </Reveal>
-          </Container>
-        </Section>
-      ) : null}
+        <section
+          aria-labelledby="cotizar-intro"
+          data-ground="chamber"
+          className="relative isolate overflow-hidden bg-bg text-fg"
+        >
+          <div className="absolute inset-x-0 top-0 h-[62svh] md:static md:h-auto">
+            <picture>
+              {/*
+                The file swaps at the same breakpoint as the proportion, so the
+                landscape frame is never fed the portrait crop. At 3.2:1 on a
+                phone the horse would be an inch high, which is the opposite of
+                the presence this block exists for.
+              */}
+              <source media="(min-width: 768px)" srcSet={page.banner.src} />
+              <img
+                src={page.banner.mobileSrc}
+                alt={page.banner.alt}
+                loading="lazy"
+                decoding="async"
+                className="h-full w-full object-cover object-[45%_35%] md:aspect-[1920/600] md:h-auto md:object-center"
+              />
+            </picture>
 
-      {/* What to send, in one paragraph, and the way down to the form. */}
-      <Section ground="paper" rhythm="beat">
-        <Container width="wide">
-          <div className="grid gap-2xl lg:grid-cols-12 lg:gap-x-[4vw]">
-            <div className="lg:col-span-7 lg:col-start-6">
-              <Reveal>
-                <p className="max-w-[62ch] font-sans text-lg leading-relaxed text-pretty text-fg">
-                  Elige el formato que tienes en mente, comparte brevemente la
-                  idea detrás de la obra y envía las fotografías de referencia
-                  disponibles. Con esa información, Mariela podrá evaluar el
-                  proyecto y enviarte una cotización personalizada.
-                </p>
-              </Reveal>
-
-              <Reveal delay={120} className="mt-xl">
-                <ActionButton href="#cotizar">Cotizar un encargo</ActionButton>
-              </Reveal>
-            </div>
+            {/* Picture into ground, so the text crosses without a line. */}
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-ink via-ink/70 via-40% to-transparent md:hidden"
+            />
           </div>
-        </Container>
-      </Section>
 
+          {/* The wash for the wide layout: left to right, gone by 60%. */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 hidden bg-gradient-to-r from-ink/70 via-ink/35 via-32% to-transparent to-60% md:block"
+          />
+
+          <div className="relative pb-2xl pt-[38svh] md:absolute md:inset-0 md:flex md:items-center md:py-0 md:pt-0">
+            <Container width="wide" className="w-full">
+              <div className="md:grid md:grid-cols-12">
+                <div className="md:col-span-6 lg:col-span-5">
+                  <Reveal>
+                    <h2 id="cotizar-intro" className="sr-only">
+                      Cómo solicitar una cotización
+                    </h2>
+                    <p className="max-w-[46ch] font-sans text-base leading-relaxed text-pretty text-fg md:text-lg">
+                      Elige el formato que tienes en mente, comparte brevemente
+                      la idea detrás de la obra y envía las fotografías de
+                      referencia disponibles. Con esa información, Mariela podrá
+                      evaluar el proyecto y enviarte una cotización
+                      personalizada.
+                    </p>
+                  </Reveal>
+
+                  <Reveal delay={120} className="mt-xl">
+                    <ActionButton href="#cotizar">
+                      Cotizar un encargo
+                    </ActionButton>
+                  </Reveal>
+                </div>
+              </div>
+            </Container>
+          </div>
+        </section>
+      ) : null}
 
       {/*
         The detail, before the form.

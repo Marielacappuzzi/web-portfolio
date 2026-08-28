@@ -53,7 +53,13 @@ export default async function WorkIndexPage() {
       {featured.length > 0 ? (
         <Section
           ground="chamber"
-          rhythm="act"
+          /*
+            `tight`, not `act`. At py-4xl the heading sat a long way under the
+            page header and the banners a long way under the heading — three
+            large gaps stacked before the reader reached a photograph, on the
+            page they came to look at.
+          */
+          rhythm="tight"
           aria-labelledby="destacadas-titulo"
         >
           {/*
@@ -71,7 +77,7 @@ export default async function WorkIndexPage() {
             </Reveal>
           </Container>
 
-          <FeaturedSlider works={featured} className="mt-2xl" />
+          <FeaturedSlider works={featured} className="mt-lg" />
         </Section>
       ) : null}
 

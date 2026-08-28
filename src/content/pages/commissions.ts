@@ -195,6 +195,8 @@ export const commissions: CommissionsPage = {
    * confirmation says so plainly instead.
    */
   quote: {
+    form: "cotizacion",
+    kindLabel: "Cotización de encargo",
     heading: { title: "Cotiza tu obra por *encargo*." },
     paragraphs: [
       "Cuéntame brevemente qué te gustaría convertir en una obra, selecciona el formato que tienes en mente y comparte las referencias disponibles. Con esa información podré evaluar el proyecto y enviarte una cotización.",

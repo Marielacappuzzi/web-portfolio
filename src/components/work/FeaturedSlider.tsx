@@ -8,6 +8,12 @@ import { cn } from "@/lib/cn";
 
 interface FeaturedSliderProps {
   works: Work[];
+  /**
+   * Whether the first banner is what opens the page. True on /obra, where it
+   * is; false on the home, where the hero already holds that slot and this
+   * run is hidden on every screen wider than a phone.
+   */
+  priority?: boolean;
   className?: string;
 }
 
@@ -37,7 +43,11 @@ interface FeaturedSliderProps {
  * not tabs, and announcing them as tabs makes a screen reader promise
  * navigation that does not exist.
  */
-export function FeaturedSlider({ works, className }: FeaturedSliderProps) {
+export function FeaturedSlider({
+  works,
+  priority = true,
+  className,
+}: FeaturedSliderProps) {
   const track = useRef<HTMLUListElement>(null);
   const [index, setIndex] = useState(0);
 
@@ -128,8 +138,8 @@ export function FeaturedSlider({ works, className }: FeaturedSliderProps) {
                     src={work.banner.mobileSrc}
                     alt={work.banner.alt}
                     /* The first banner is what opens the page; the rest wait. */
-                    loading={i === 0 ? "eager" : "lazy"}
-                    fetchPriority={i === 0 ? "high" : "auto"}
+                    loading={priority && i === 0 ? "eager" : "lazy"}
+                    fetchPriority={priority && i === 0 ? "high" : "auto"}
                     decoding="async"
                     /*
                       The crop has to switch with the file. `<picture>` swaps
@@ -156,21 +166,30 @@ export function FeaturedSlider({ works, className }: FeaturedSliderProps) {
               ) : null}
 
               {/*
-                A wash rising from the foot of the frame, so the title holds
-                whatever the photograph does underneath it. Measured: the
-                lower-left corner of the three banners reads 54, 59 and 96 out
-                of 255, so white already clears 6:1 on all of them — this is
-                insurance for the crops, not a rescue.
+                A wash rising from the foot of the frame.
+
+                Deepened: it was ink/75 fading out over the bottom two fifths,
+                which held the name but let it sit flat against a photograph
+                of a lit room. Now ink/90 at the foot through ink/55 at 35%,
+                over half the height — the caption reads as set into a shadow
+                rather than laid on the picture, and the drawing above it is
+                untouched because the gradient is gone well before it.
               */}
               <div
                 aria-hidden="true"
-                className="pointer-events-none absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-ink/75 to-transparent"
+                className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-ink/90 via-ink/55 via-35% to-transparent"
               />
 
               {/* Name and one action, low and left, inside the picture. */}
               <div className="absolute inset-x-0 bottom-0">
                 <div className="gutter mx-auto w-full max-w-wide pb-lg md:pb-xl">
-                  <p className="font-serif text-2xl font-light leading-tight tracking-tight text-fg-strong md:text-3xl">
+                  {/*
+                    A soft drop shadow under the type as well as the wash
+                    behind it. The gradient handles the average; the shadow
+                    handles the local case — a pale patch of wall or floor
+                    passing directly under a letter.
+                  */}
+                  <p className="font-serif text-2xl font-light leading-tight tracking-tight text-fg-strong [text-shadow:0_1px_18px_rgb(0_0_0/0.55)] md:text-3xl">
                     {work.title}
                   </p>
 
@@ -186,6 +205,7 @@ export function FeaturedSlider({ works, className }: FeaturedSliderProps) {
                       "group mt-sm inline-flex items-center gap-2xs py-2xs",
                       "font-sans text-2xs font-medium uppercase tracking-label",
                       "border-b border-fg-muted text-fg-strong",
+                      "[text-shadow:0_1px_14px_rgb(0_0_0/0.55)]",
                       "transition-colors duration-300 hover:border-fg-strong",
                       "focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-current",
                     )}

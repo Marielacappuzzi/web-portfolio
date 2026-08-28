@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
-import { getContactPage } from "@/lib/content";
+import { getCommissionsPage, getContactPage } from "@/lib/content";
+import type { FormField } from "@/content/types";
 import { sendContact, validate } from "@/lib/contact";
 import { verifyRecaptcha } from "@/lib/recaptcha";
 
@@ -49,8 +50,19 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false, reason: "send-failed" }, { status: 429 });
   }
 
-  const page = await getContactPage();
-  const { values, missing } = validate(payload, page.fields);
+  /*
+    Which form posted, and therefore which fields are legal. The endpoint used
+    to look this up from /contacto whatever had arrived, so a quotation was
+    validated against a form it does not share and "Formato deseado" — which
+    exists only on the quote — never reached the email. It never failed; the
+    request simply arrived without the size the person had chosen.
+  */
+  const form: { fields: FormField[]; kindLabel: string } =
+    payload.formulario === "cotizacion"
+      ? await getCommissionsPage().then((commissions) => commissions.quote)
+      : await getContactPage();
+
+  const { values, missing } = validate(payload, form.fields);
 
   if (missing.length > 0) {
     return NextResponse.json(
@@ -59,7 +71,7 @@ export async function POST(request: Request) {
     );
   }
 
-  const result = await sendContact(values);
+  const result = await sendContact(values, form.fields, form.kindLabel);
 
   if (!result.ok) {
     return NextResponse.json(result, {

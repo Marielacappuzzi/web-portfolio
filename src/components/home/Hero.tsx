@@ -42,7 +42,15 @@ export function Hero({ content }: HeroProps) {
           without either being squeezed; the landscape file's own 1920 × 750
           from `sm` up.
         */
-        aspect="aspect-[2/3] sm:aspect-[16/9] lg:aspect-[1920/750]"
+        /*
+          A real height on a phone, not a proportion. `aspect-[2/3]` gave 585px
+          on a 390px screen, and the picture, the name, the role, a paragraph
+          and two buttons were all being squeezed into it — the image cropped
+          to nothing and the type packed against it. 90svh is the screen minus
+          the browser chrome, which is what `svh` measures and `vh` does not.
+          From `sm` the height is released and the proportions take over again.
+        */
+        aspect="h-[90svh] sm:h-auto sm:aspect-[16/9] lg:aspect-[1920/750]"
         scrim="dark"
       />
 
@@ -56,7 +64,16 @@ export function Hero({ content }: HeroProps) {
       */}
       <div className="absolute inset-0 flex items-end pb-2xl pt-32 sm:items-center sm:pb-0">
         <Container width="wide" className="w-full">
-          <div className="max-w-[30ch] sm:max-w-[34ch]">
+          {/*
+            Measured in rem, not in `ch`.
+
+            `ch` resolves against the element's own font — this wrapper is
+            Instrument Sans at 17px, so `34ch` came out at roughly 290px. The
+            name was then set at up to 92px inside a 290px column: it broke
+            across two lines, overflowed the column, and pushed the buttons
+            past the foot of the band, which is why they were being cut off.
+          */}
+          <div className="max-w-[26rem] sm:max-w-[32rem] lg:max-w-[38rem]">
             {content.eyebrow ? (
               <Reveal>
                 <Eyebrow>{content.eyebrow}</Eyebrow>
@@ -65,19 +82,18 @@ export function Hero({ content }: HeroProps) {
 
             <Reveal>
               {/*
-                `text-name` ran to 7rem, above the whole display scale. At that
-                size the name stopped reading as a name and started reading as
-                a banner — and it left the three lines under it looking like a
-                caption. The display scale's own top step is enough: it is
-                still the largest type on the site.
+                Down a second step, to `section` — 4rem at its widest. It went
+                7rem, then 5.75rem, and at both it was still tall enough to
+                push the rest of the block past the bottom edge of the band.
+                It remains the largest type on the site.
 
-                One line, always. A measure of 14ch broke "Mariela Crapuzzi"
-                across two, which is what made it read small however large it
-                was set.
+                One line, always: "Mariela Crapuzzi" is sixteen characters and
+                fits the 38rem column at this size, which is what makes it read
+                as a name rather than as two stacked words.
               */}
               <Display
                 as="h1"
-                size="hero"
+                size="section"
                 id="hero-titulo"
                 measure={20}
                 className="leading-none"
@@ -115,12 +131,16 @@ export function Hero({ content }: HeroProps) {
             <Reveal
               delay={360}
               /*
-                One row, never two. `flex-wrap` let "Solicitar un encargo" drop
-                under "Ver obras" at the narrow widths the type column takes on
-                a laptop, which read as one primary action and one afterthought
-                rather than two ways in.
+                One row, never two, at any width.
+
+                `flex-nowrap` alone was not enough on a phone: the two labels
+                were free to shrink, so each wrapped inside itself and the pair
+                read as one stacked block. `shrink-0` and `whitespace-nowrap`
+                hold them on a single line, and the gap tightens below `sm` so
+                they clear a 390px screen — measured at roughly 328px for the
+                pair, against 350px of column.
               */
-              className="mt-lg flex flex-nowrap items-center gap-x-lg"
+              className="mt-lg flex flex-nowrap items-center gap-x-md sm:gap-x-lg [&>*]:shrink-0 [&>*]:whitespace-nowrap"
             >
               <ActionButton href={content.primaryAction.href}>
                 {content.primaryAction.label}
