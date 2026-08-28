@@ -94,20 +94,11 @@ export const works: Work[] = [
           },
         ],
       },
-      {
-        kind: "plate",
-        image: {
-          src: "/obra/bajo-su-proteccion/extra-06.jpg",
-          alt: "El certificado de autenticidad de la obra, firmado, junto a una reproducción impresa de la pieza.",
-          width: 1079,
-          height: 1920,
-          caption: "Certificado de autenticidad, firmado.",
-        },
-        scale: "column",
-        align: "left",
-        aspect: "aspect-[4/5] md:aspect-[3/2]",
-        focus: "50% 45%",
-      },
+      /*
+        The signed certificate is no longer here, at the client's request. It
+        was closing the page on a document rather than on the work, and the
+        page now ends on the footage. The file stays in the folder.
+      */
     ],
     /*
      * The work hung in a stone-walled room. The drawing sits dead centre of
@@ -123,6 +114,8 @@ export const works: Work[] = [
     },
     /* Las dos miradas, alineadas una sobre otra, a un tercio de la altura. */
     coverFocus: "50% 30%",
+    /* 5/4 landscape: 12% keeps the lioness's face and the cub's head whole. */
+    sheetFocus: "50% 12%",
     title: "Bajo su Protección",
     year: 2026,
     technique: "Carboncillo sobre papel 100% algodón, 270 g/m²",
@@ -535,6 +528,8 @@ export const works: Work[] = [
     },
     /* El rostro de la figura central y los querubines que la rodean. */
     coverFocus: "50% 26%",
+    /* The seated figure and all three cherubs inside the band. */
+    sheetFocus: "50% 20%",
     title: "Sueño de Primavera",
     attribution: "after William-Adolphe Bouguereau, Rêve de printemps (1901)",
     year: 2022,
@@ -670,6 +665,8 @@ export const works: Work[] = [
     },
     /* Las fauces del lobo, que es lo que la obra pone primero. */
     coverFocus: "50% 22%",
+    /* The jaws centred, with both hands still in frame. */
+    sheetFocus: "50% 35%",
     title: "El Rescate",
     kind: "personal",
     /*

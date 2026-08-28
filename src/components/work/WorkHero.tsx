@@ -13,9 +13,10 @@ interface WorkHeroProps {
  * with its top and bottom cut off. The banners are photographs of each piece
  * hung in a room, shot for this proportion, so nothing is being re-framed.
  *
- * The name and nothing else. No sheet, no year, no badge, no button: those all
- * belong to the block underneath, and a cover carrying five things is a
- * header, not a cover.
+ * The name, and — where an edition exists — one line saying so. Nothing else:
+ * no sheet, no year, no button. Those belong to the block underneath, and a
+ * cover carrying five things is a header rather than a cover. The edition line
+ * earns its exception by being the one thing a reader can act on.
  *
  * Two files per work, swapped at `md`. 1920 x 600 is 3.2:1, which on a phone
  * is a letterbox slot with the room in it and the drawing an inch tall; the
@@ -75,6 +76,20 @@ export function WorkHero({ work }: WorkHeroProps) {
           >
             {work.title}
           </h1>
+
+          {/*
+            One line under the name, and only where an edition exists.
+
+            It is the single commercial fact on a page that is otherwise a
+            work — that this piece can still be had, and in what quantity. The
+            wording is Mariela's own from the edition's data rather than a
+            label invented here, so it stays true if the last copy sells.
+          */}
+          {work.printEdition ? (
+            <p className="mt-sm font-sans text-2xs font-medium uppercase tracking-label text-fg-strong [text-shadow:0_1px_14px_rgb(0_0_0/0.55)]">
+              Print · {work.printEdition.availability}
+            </p>
+          ) : null}
         </Container>
       </div>
     </section>

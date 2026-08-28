@@ -39,7 +39,7 @@ interface WorkSheetProps {
  * technique or dimensions, so its sheet shows what it has and then says the
  * rest is pending rather than filling the rows with something plausible.
  */
-export function WorkSheet({ work, aspect = "aspect-[3/2]" }: WorkSheetProps) {
+export function WorkSheet({ work, aspect = "aspect-[5/4]" }: WorkSheetProps) {
   const rows: [string, string][] = [];
 
   if (work.technique) rows.push(["Técnica", work.technique]);
@@ -55,14 +55,27 @@ export function WorkSheet({ work, aspect = "aspect-[3/2]" }: WorkSheetProps) {
   if (category) rows.push(["Categoría", category]);
 
   return (
-    <div className="grid gap-2xl lg:grid-cols-12 lg:items-start lg:gap-x-[4vw]">
+    /*
+      The section's own grid, with no page container around it.
+
+      Held inside the 90rem column the plate came out at 43% of a 1920 screen,
+      which is what made the drawing read small. Escaping the container puts it
+      at 58% of the viewport and the label at the remaining 42%, which is the
+      proportion the work needs and the label can live with. The label carries
+      its own gutter so it keeps the page's right-hand axis.
+    */
+    <div className="grid gap-2xl lg:grid-cols-12 lg:items-center lg:gap-x-[4vw]">
       {work.image ? (
         <Reveal variant="image" className="lg:col-span-7">
           {/*
             A landscape frame over a portrait drawing, which is a crop and a
             deliberate one: this plate is the piece seen across the page, and
-            the composition entire is in the row below. `coverFocus` is what
-            each work already declares to keep its gaze inside a band.
+            the composition entire is in the row below.
+
+            5/4 rather than 3/2. At 3/2 the band was narrow enough that Bajo su
+            Protección lost the cub's head off the bottom — the drawing's whole
+            subject is two faces stacked, and a wide crop cannot hold them.
+            `sheetFocus` is tuned per work against this frame specifically.
           */}
           <div className={`relative w-full overflow-hidden ${aspect}`}>
             <Image
@@ -72,13 +85,13 @@ export function WorkSheet({ work, aspect = "aspect-[3/2]" }: WorkSheetProps) {
               sizes="(min-width: 1024px) 58vw, 92vw"
               quality={90}
               className="object-cover"
-              style={{ objectPosition: work.coverFocus ?? "50% 30%" }}
+              style={{ objectPosition: work.sheetFocus ?? work.coverFocus ?? "50% 30%" }}
             />
           </div>
         </Reveal>
       ) : null}
 
-      <div className="lg:col-span-4 lg:col-start-9">
+      <div className="gutter lg:col-span-4 lg:col-start-9 lg:pl-0">
         {work.shortStory ? (
           <Reveal>
             <p className="max-w-[42ch] font-serif text-lg font-light leading-snug text-pretty text-fg-strong">

@@ -75,13 +75,16 @@ export default async function WorkPage({ params }: PageProps<"/obra/[slug]">) {
         See WorkSheet.
       */}
       <Section ground="paper" rhythm="beat" aria-labelledby="obra-ficha-titulo">
-        <Container width="wide">
-          <h2 id="obra-ficha-titulo" className="sr-only">
-            La obra y su ficha técnica
-          </h2>
+        {/*
+          No Container: the plate runs to the left edge of the screen. See
+          WorkSheet — inside the 90rem column it came out at 43% of a 1920
+          screen, which is what made the drawing read small.
+        */}
+        <h2 id="obra-ficha-titulo" className="sr-only">
+          La obra y su ficha técnica
+        </h2>
 
-          <WorkSheet work={work} />
-        </Container>
+        <WorkSheet work={work} />
       </Section>
 
       {/* The composition. Everything here comes from the work's own story. */}

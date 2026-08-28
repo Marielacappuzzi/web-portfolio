@@ -138,6 +138,15 @@ export interface Work {
    * the gaze sits in most of them — and the gaze is the point.
    */
   coverFocus?: string;
+  /**
+   * Where the crop holds on the plate beside the technical sheet.
+   *
+   * Separate from `coverFocus` because the two frames are different shapes:
+   * that one is a 4/5 portrait on the home, this one a 5/4 landscape. Sharing
+   * a value meant tuning one and breaking the other — at Bajo su Protección's
+   * 30% the cub's head was cut off the bottom of this frame.
+   */
+  sheetFocus?: string;
   detailImages?: WorkImage[];
   processImages?: WorkImage[];
   /**
