@@ -38,3 +38,20 @@ export function scrollToTop(): void {
 
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
+
+/**
+ * Jumps to the top with no easing, for a route change.
+ *
+ * Distinct from `scrollToTop`, which eases and is what the back-to-top control
+ * uses: a new page should already be at its start when it appears, not travel
+ * there while the reader watches.
+ *
+ * Both the native position and Lenis's own have to be reset. Lenis moves the
+ * page on its own clock and keeps its offset independently, so setting one and
+ * not the other leaves the two disagreeing — the page looks like it is at the
+ * top until the first wheel event snaps it back down.
+ */
+export function jumpToTop(): void {
+  window.scrollTo(0, 0);
+  instance?.scrollTo(0, { immediate: true, force: true });
+}

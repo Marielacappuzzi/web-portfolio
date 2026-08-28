@@ -43,14 +43,17 @@ export function Hero({ content }: HeroProps) {
           from `sm` up.
         */
         /*
-          A real height on a phone, not a proportion. `aspect-[2/3]` gave 585px
-          on a 390px screen, and the picture, the name, the role, a paragraph
-          and two buttons were all being squeezed into it — the image cropped
-          to nothing and the type packed against it. 90svh is the screen minus
-          the browser chrome, which is what `svh` measures and `vh` does not.
-          From `sm` the height is released and the proportions take over again.
+          A real height at both ends, a proportion only in the middle.
+
+          On a phone `aspect-[2/3]` gave 585px on a 390px screen, and the
+          picture, the name, the role, a paragraph and two buttons were all
+          squeezed into it. On a wide screen `1920/750` is 2.56:1, which on a
+          tall monitor is a band with the page already showing beneath it.
+          Both ends now take the screen: `svh` rather than `vh`, because on a
+          phone `vh` measures past the browser chrome and cuts the foot off.
+          Between them the file keeps its own 16/9.
         */
-        aspect="h-[90svh] sm:h-auto sm:aspect-[16/9] lg:aspect-[1920/750]"
+        aspect="h-[90svh] sm:h-auto sm:aspect-[16/9] lg:h-[100svh] lg:aspect-auto"
         scrim="dark"
       />
 
@@ -62,7 +65,14 @@ export function Hero({ content }: HeroProps) {
         dark field for it. `pt-32` clears the fixed header at every width —
         the brief is explicit that nothing may sit under it.
       */}
-      <div className="absolute inset-0 flex items-end pb-2xl pt-32 sm:items-center sm:pb-0">
+      {/*
+        `items-end` on a phone, so the block sits at the foot of the frame and
+        her face and the drawing stay clear above it. It used to be centred,
+        which put the name across the middle of the picture — over her hand and
+        the lioness. Centred again from `sm`, where the band is wide and the
+        type has a column of its own.
+      */}
+      <div className="absolute inset-0 flex items-end pb-3xl pt-32 sm:items-center sm:pb-0">
         <Container width="wide" className="w-full">
           {/*
             Measured in rem, not in `ch`.
@@ -131,16 +141,16 @@ export function Hero({ content }: HeroProps) {
             <Reveal
               delay={360}
               /*
-                One row, never two, at any width.
+                Stacked on a phone, side by side from `sm`.
 
-                `flex-nowrap` alone was not enough on a phone: the two labels
-                were free to shrink, so each wrapped inside itself and the pair
-                read as one stacked block. `shrink-0` and `whitespace-nowrap`
-                hold them on a single line, and the gap tightens below `sm` so
-                they clear a 390px screen — measured at roughly 328px for the
-                pair, against 350px of column.
+                Holding them on one row below `sm` did not work: the pair needs
+                about 328px and a 390px screen leaves 350px of column, so
+                "Solicitar un encargo" ran off the right edge with its
+                underline trailing past the screen. Two full-width rows is the
+                honest answer at that width — both actions readable, neither
+                clipped.
               */
-              className="mt-lg flex flex-nowrap items-center gap-x-md sm:gap-x-lg [&>*]:shrink-0 [&>*]:whitespace-nowrap"
+              className="mt-lg flex flex-col items-start gap-y-md sm:flex-row sm:flex-nowrap sm:items-center sm:gap-x-lg sm:gap-y-0 sm:[&>*]:shrink-0 sm:[&>*]:whitespace-nowrap"
             >
               <ActionButton href={content.primaryAction.href}>
                 {content.primaryAction.label}

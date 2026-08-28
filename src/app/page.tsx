@@ -39,39 +39,49 @@ export default async function HomePage() {
         one click away.
       */}
       <Section id="obras" ground="paper" rhythm="act" aria-labelledby="obras-titulo">
+        {/*
+          The heading and the closing button keep the page gutter; the slider
+          does not. On a phone the three flagship pieces are shown exactly as
+          the gallery shows them — full-bleed banners, one at a time, arrows
+          underneath — and a banner held inside a 90rem column with 20px of
+          gutter either side is not a banner, it is a picture in a box.
+        */}
         <Container width="wide">
           <Reveal>
             <Display as="h2" id="obras-titulo" measure={20}>
               Obras *destacadas*
             </Display>
           </Reveal>
+        </Container>
 
+        {/*
+          Two presentations of the same three pieces, one per breakpoint.
+
+          The row of cards works on a wide screen, where three drawings sit
+          side by side and read as a set. On a phone it becomes three portraits
+          stacked in a single column, each one small, and the banners do the
+          job far better — one at a time, edge to edge, swipeable.
+
+          `md:hidden` / `hidden md:block` rather than a conditional, because
+          this is a Server Component: it renders once, with no idea what it is
+          rendering onto. CSS is what knows the width.
+        */}
+        <div className="mt-2xl md:hidden">
           {/*
-            Two presentations of the same three pieces, one per breakpoint.
-
-            The row of cards works on a wide screen, where three drawings sit
-            side by side and read as a set. On a phone it becomes three
-            portraits stacked in a single column, each one small, and the
-            banners the gallery already uses do the job far better — one at a
-            time, edge to edge, swipeable.
-
-            `md:hidden` / `hidden md:block` rather than a conditional, because
-            this is a Server Component: it renders once, with no idea what it
-            is rendering onto. CSS is what knows the width.
+            `priority={false}`: on /obra the first banner is what opens the
+            page, but here the home's own hero already holds that slot and this
+            run is hidden on the screens most visitors arrive on.
           */}
-          <div className="mt-2xl md:hidden">
-            {/*
-              `priority={false}`: on /obra the first banner is what opens the
-              page, but here the home's own hero already holds that slot and
-              this run is hidden on the screens most visitors arrive on.
-            */}
-            <FeaturedSlider works={featured} priority={false} />
-          </div>
+          <FeaturedSlider works={featured} priority={false} />
+        </div>
 
-          <div className="hidden md:block">
+        <div className="hidden md:block">
+          <Container width="wide">
             <FeaturedRow works={featured} className="mt-2xl" />
-          </div>
+          </Container>
+        </div>
 
+        <Container width="wide">
           <Reveal className="mt-3xl flex justify-center">
             <ActionButton href="/obra">Ver todas las obras</ActionButton>
           </Reveal>

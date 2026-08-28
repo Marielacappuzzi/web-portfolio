@@ -56,9 +56,10 @@ export default async function CommissionsPage() {
         clear of the hand and the tools on the right.
 
         On a phone the picture becomes the background of the whole block and
-        the text starts over its lower half, carrying on into the section's
-        own ground where it runs past the bottom edge. A gradient does the
-        handover so there is no seam.
+        the text starts 50svh down — below the horse's head and the hand, which
+        are the whole point of the frame — carrying on into the section's own
+        ground where it runs past the bottom edge. A gradient does the handover
+        so there is no seam.
       */}
       {page.banner ? (
         <section
@@ -66,7 +67,7 @@ export default async function CommissionsPage() {
           data-ground="chamber"
           className="relative isolate overflow-hidden bg-bg text-fg"
         >
-          <div className="absolute inset-x-0 top-0 h-[62svh] md:static md:h-auto">
+          <div className="absolute inset-x-0 top-0 h-[70svh] md:static md:h-auto">
             <picture>
               {/*
                 The file swaps at the same breakpoint as the proportion, so the
@@ -97,7 +98,7 @@ export default async function CommissionsPage() {
             className="pointer-events-none absolute inset-0 hidden bg-gradient-to-r from-ink/70 via-ink/35 via-32% to-transparent to-60% md:block"
           />
 
-          <div className="relative pb-2xl pt-[38svh] md:absolute md:inset-0 md:flex md:items-center md:py-0 md:pt-0">
+          <div className="relative pb-2xl pt-[50svh] md:absolute md:inset-0 md:flex md:items-center md:py-0 md:pt-0">
             <Container width="wide" className="w-full">
               <div className="md:grid md:grid-cols-12">
                 <div className="md:col-span-6 lg:col-span-5">

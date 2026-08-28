@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { AboutBanner } from "@/components/about/AboutBanner";
 import { ContactCallout } from "@/components/blocks/ContactCallout";
 import { ProseSection } from "@/components/blocks/ProseSection";
-import { Container, Section } from "@/components/layout/Section";
+import { Section } from "@/components/layout/Section";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { Figure } from "@/components/primitives/Figure";
 import { Reveal } from "@/components/primitives/Reveal";
@@ -49,75 +49,70 @@ export default async function AboutPage() {
       */}
       <AboutBanner banner={page.banner} />
 
-      {/* How she looks — the reasoning the home only hints at. */}
+      {/*
+        How she looks — the reasoning the home only hints at.
+
+        Text left, photograph right, and the photograph takes the whole right
+        side rather than a column inside the grid: five of twelve for the
+        words, seven for the picture, running out to the edge of the screen.
+        It was a 5/6 split with the image matted inside its own column, which
+        made the one document of her working the smallest thing in the block.
+
+        The section drops its gutter and the text column carries its own, so
+        the picture can reach the right edge without the words losing the
+        page's axis.
+      */}
       <Section
         ground="paper-bright"
         rhythm="act"
         aria-labelledby="mirada-titulo"
       >
-        <Container width="wide">
-          <div className="grid gap-2xl lg:grid-cols-12 lg:gap-x-[4vw]">
-            <div className="lg:col-span-5">
-              {page.statement.eyebrow ? (
-                <Reveal>
-                  <Eyebrow>{page.statement.eyebrow}</Eyebrow>
-                </Reveal>
-              ) : null}
-
-              <Reveal delay={90} className="mt-lg">
-                <Display id="mirada-titulo">
-                  {page.statement.titleLines.map((line, i) => (
-                    <span key={i} className="block">
-                      {withEmphasis(line)}
-                    </span>
-                  ))}
-                </Display>
+        <div className="grid gap-2xl lg:grid-cols-12 lg:items-center lg:gap-x-[3vw]">
+          <div className="gutter lg:col-span-5 lg:ml-auto lg:w-full lg:max-w-[38rem] lg:pr-0">
+            {page.statement.eyebrow ? (
+              <Reveal>
+                <Eyebrow>{page.statement.eyebrow}</Eyebrow>
               </Reveal>
+            ) : null}
 
-              <Rule width="short" className="mt-lg-plus" />
+            <Reveal delay={90} className="mt-lg">
+              <Display id="mirada-titulo">
+                {page.statement.titleLines.map((line, i) => (
+                  <span key={i} className="block">
+                    {withEmphasis(line)}
+                  </span>
+                ))}
+              </Display>
+            </Reveal>
 
-              <Reveal delay={180} className="mt-lg">
-                <PullQuote>{page.statement.pullQuote}</PullQuote>
-              </Reveal>
-            </div>
+            <Rule width="short" className="mt-lg-plus" />
 
-            <div className="flex flex-col lg:col-span-6 lg:col-start-7">
-              {/*
-                On a phone the picture comes first, right under the sentence
-                that ends the left column, and the reasoning follows it. On a
-                wide screen the reasoning sits beside the heading and the
-                picture closes the section — order swaps, markup does not.
-              */}
-              <Reveal variant="image" className="order-first lg:order-last lg:mt-xl">
-                {/*
-                  A different photograph. `mariela-trabajando.jpg` is the one
-                  the home already uses in its artist block, so the same frame
-                  was appearing twice in a single visit — and on this page it
-                  followed a banner of her a screen earlier, which made three
-                  pictures of the same person in a row.
+            <Reveal delay={180} className="mt-lg">
+              <PullQuote>{page.statement.pullQuote}</PullQuote>
+            </Reveal>
 
-                  This one documents the thing the section is about: the
-                  lioness resolved, the cub still a contour, her gloved hand
-                  on the charcoal. Portrait, so it keeps a portrait frame —
-                  forced into 3/2 it lost both the drawing and the hand.
-                */}
-                <Figure
-                  src="/obra/bajo-su-proteccion/extra-05.jpg"
-                  alt="La mano enguantada de Mariela Crapuzzi trabajando con carboncillo sobre el dibujo de una leona ya resuelta, mientras la cría es todavía un trazo de contorno."
-                  pendingLabel=""
-                  aspect="aspect-[4/5]"
-                  focus="50% 45%"
-                  sizes="(min-width: 1024px) 48vw, 100vw"
-                  caption="La leona resuelta; la cría, aún en contorno."
-                />
-              </Reveal>
-
-              <Reveal delay={90} className="mt-xl lg:mt-0">
-                <Prose paragraphs={page.statement.paragraphs} />
-              </Reveal>
-            </div>
+            <Reveal delay={240} className="mt-xl">
+              <Prose paragraphs={page.statement.paragraphs} />
+            </Reveal>
           </div>
-        </Container>
+
+          {/*
+            Full width on a phone, and no passepartout: `bare` drops the mat,
+            which was holding a document of her hand at work inside a framed
+            box with margins on both sides. Here the photograph is the block.
+          */}
+          <Reveal variant="image" className="lg:col-span-7">
+            <Figure
+              src="/obra/bajo-su-proteccion/extra-05.jpg"
+              alt="La mano enguantada de Mariela Crapuzzi trabajando con carboncillo sobre el dibujo de una leona ya resuelta, mientras la cría es todavía un trazo de contorno."
+              pendingLabel=""
+              aspect="aspect-[4/5] sm:aspect-[3/2] lg:aspect-[4/5]"
+              focus="50% 42%"
+              sizes="(min-width: 1024px) 58vw, 100vw"
+              bare
+            />
+          </Reveal>
+        </div>
       </Section>
 
       {/* What she works with. */}

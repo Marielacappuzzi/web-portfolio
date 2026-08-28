@@ -4,6 +4,7 @@ import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { SmoothScroll } from "@/components/primitives/SmoothScroll";
 import { PageTransition } from "@/components/primitives/PageTransition";
+import { ScrollToTop } from "@/components/primitives/ScrollToTop";
 import { getSite } from "@/lib/content";
 import { siteUrl } from "@/lib/site-url";
 import { Analytics } from "@vercel/analytics/next";
@@ -71,6 +72,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
       <body data-ground="paper" className="flex min-h-dvh flex-col">
         <SmoothScroll />
         <PageTransition />
+        <ScrollToTop />
 
         <a
           href="#contenido"
