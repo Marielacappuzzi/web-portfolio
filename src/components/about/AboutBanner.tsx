@@ -53,7 +53,7 @@ export function AboutBanner({ banner }: AboutBannerProps) {
         past it; in normal flow from `lg`, where it sets the height of the
         block and the text is what floats.
       */}
-      <div className="absolute inset-x-0 top-0 h-[68svh] lg:static lg:h-auto">
+      <div className="absolute inset-x-0 top-0 h-[80svh] lg:static lg:h-auto">
         <picture>
           <source media="(min-width: 1024px)" srcSet={banner.src} />
           <img
@@ -89,15 +89,16 @@ export function AboutBanner({ banner }: AboutBannerProps) {
       {/*
         The type.
 
-        On a phone it begins 46svh down — past her face and her hands, which
-        at 34svh it was sitting across — and runs on into the ground below it.
-        The picture grows to 68svh so there is still photograph under the
+        On a phone it begins 58svh down — past her face and her hands, which
+        at 34svh and again at 46svh it was sitting across — and runs on into
+        the ground below it. The picture grows to 80svh so there is still
+        photograph under the
         opening lines rather than the name landing on the seam. From `lg` it
         is centred in the band, in columns 9-12 of the page's own grid, which
         on a 1920 screen starts it at 61% of the viewport: inside the clear
         zone, and on the same axis as every other section of the site.
       */}
-      <div className="relative pb-2xl pt-[46svh] lg:absolute lg:inset-0 lg:flex lg:items-center lg:py-0 lg:pt-0">
+      <div className="relative pb-2xl pt-[58svh] lg:absolute lg:inset-0 lg:flex lg:items-center lg:py-0 lg:pt-0">
         <Container width="wide" className="w-full">
           <div className="lg:grid lg:grid-cols-12">
             <div className="lg:col-span-4 lg:col-start-9">

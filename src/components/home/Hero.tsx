@@ -47,13 +47,16 @@ export function Hero({ content }: HeroProps) {
 
           On a phone `aspect-[2/3]` gave 585px on a 390px screen, and the
           picture, the name, the role, a paragraph and two buttons were all
-          squeezed into it. On a wide screen `1920/750` is 2.56:1, which on a
-          tall monitor is a band with the page already showing beneath it.
+          squeezed into it. 90svh was better and still not enough — the block
+          of type is about 400px tall, so it needs the whole screen if the
+          photograph is to keep any of it. On a wide screen `1920/750` is
+          2.56:1, which on a tall monitor is a band with the page already
+          showing beneath it.
           Both ends now take the screen: `svh` rather than `vh`, because on a
           phone `vh` measures past the browser chrome and cuts the foot off.
           Between them the file keeps its own 16/9.
         */
-        aspect="h-[90svh] sm:h-auto sm:aspect-[16/9] lg:h-[100svh] lg:aspect-auto"
+        aspect="h-[100svh] sm:h-auto sm:aspect-[16/9] lg:h-[100svh] lg:aspect-auto"
         scrim="dark"
       />
 
@@ -72,7 +75,7 @@ export function Hero({ content }: HeroProps) {
         the lioness. Centred again from `sm`, where the band is wide and the
         type has a column of its own.
       */}
-      <div className="absolute inset-0 flex items-end pb-3xl pt-32 sm:items-center sm:pb-0">
+      <div className="absolute inset-0 flex items-end pb-2xl pt-32 sm:items-center sm:pb-0">
         <Container width="wide" className="w-full">
           {/*
             Measured in rem, not in `ch`.

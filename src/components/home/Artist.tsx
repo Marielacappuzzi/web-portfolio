@@ -1,4 +1,4 @@
-import { Container, Section } from "@/components/layout/Section";
+import { Section } from "@/components/layout/Section";
 import { ActionButton } from "@/components/primitives/ActionLink";
 import { Figure } from "@/components/primitives/Figure";
 import { Reveal } from "@/components/primitives/Reveal";
@@ -24,9 +24,18 @@ export function Artist({ content }: { content: HomeArtistContent }) {
       rhythm="act"
       aria-labelledby="artista-titulo"
     >
-      <Container width="wide">
-        <div className="grid items-center gap-2xl lg:grid-cols-12 lg:gap-x-[5vw]">
-          <div className="lg:col-span-5">
+      {/*
+        Text left, photograph right, and the photograph takes the whole right
+        side rather than a column inside the grid: five of twelve for the
+        words, seven for the picture, running out to the edge of the screen.
+
+        The section drops its gutter and the text column carries its own, so
+        the picture can reach the edge without the words losing the page's
+        axis. The same arrangement as "Mi manera de mirar" on /sobre-mi — the
+        two blocks are the same kind of thing and were being set two ways.
+      */}
+      <div className="grid items-center gap-2xl lg:grid-cols-12 lg:gap-x-[3vw]">
+          <div className="gutter lg:col-span-5 lg:ml-auto lg:w-full lg:max-w-[38rem] lg:pr-0">
             {content.eyebrow ? (
               <Reveal>
                 <Eyebrow>{content.eyebrow}</Eyebrow>
@@ -50,20 +59,24 @@ export function Artist({ content }: { content: HomeArtistContent }) {
             </Reveal>
           </div>
 
-          <div className="lg:col-span-6 lg:col-start-7">
-            <Reveal variant="image" delay={120}>
-              <Figure
-                src={content.image.src}
-                alt={content.image.alt}
-                pendingLabel="Mariela trabajando"
-                aspect="aspect-[4/5]"
-                sizes="(min-width: 1024px) 46vw, 100vw"
-                zoomOnHover
-              />
-            </Reveal>
-          </div>
+          {/*
+            Full width on a phone, and no passepartout: `bare` drops the mat,
+            which was holding a photograph of her at the board inside a framed
+            box with margins on both sides. Here the picture is the block.
+          */}
+          <Reveal variant="image" delay={120} className="lg:col-span-7">
+            <Figure
+              src={content.image.src}
+              alt={content.image.alt}
+              pendingLabel="Mariela trabajando"
+              aspect="aspect-[4/5] sm:aspect-[3/2] lg:aspect-[4/5]"
+              focus="50% 40%"
+              sizes="(min-width: 1024px) 58vw, 100vw"
+              bare
+              zoomOnHover
+            />
+          </Reveal>
         </div>
-      </Container>
     </Section>
   );
 }

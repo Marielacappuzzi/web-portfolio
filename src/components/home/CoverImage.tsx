@@ -129,19 +129,35 @@ export function CoverImage({
         vertical wash across the full width as well; it dulled the picture to
         light words that were already legible.
 
-        Below `sm` the type sits under the image rather than on it, so no veil
-        is needed at all.
+        Below `sm` it runs bottom to top instead. The note here used to say the
+        type sat under the image on a phone and needed no veil — that stopped
+        being true when the hero moved its words onto the band at every width,
+        and the comment outlived the layout. White type was landing on the bare
+        photograph, which is what made the name read as covering the picture
+        rather than sitting on it.
       */}
       {src ? (
-        <div
-          aria-hidden="true"
-          className={cn(
-            "absolute inset-0 hidden sm:block",
-            scrim === "light"
-              ? "bg-gradient-to-r from-paper/90 via-paper/45 via-35% to-transparent to-55%"
-              : "bg-gradient-to-r from-ink/85 via-ink/40 via-35% to-transparent to-55%",
-          )}
-        />
+        <>
+          <div
+            aria-hidden="true"
+            className={cn(
+              "absolute inset-x-0 bottom-0 h-3/5 sm:hidden",
+              scrim === "light"
+                ? "bg-gradient-to-t from-paper via-paper/70 via-35% to-transparent"
+                : "bg-gradient-to-t from-ink via-ink/70 via-35% to-transparent",
+            )}
+          />
+
+          <div
+            aria-hidden="true"
+            className={cn(
+              "absolute inset-0 hidden sm:block",
+              scrim === "light"
+                ? "bg-gradient-to-r from-paper/90 via-paper/45 via-35% to-transparent to-55%"
+                : "bg-gradient-to-r from-ink/85 via-ink/40 via-35% to-transparent to-55%",
+            )}
+          />
+        </>
       ) : null}
     </div>
   );
