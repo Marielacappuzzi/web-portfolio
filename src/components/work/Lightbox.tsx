@@ -143,30 +143,33 @@ export function Lightbox({ works, index, onClose, onNavigate }: LightboxProps) {
         onClick={(event) => event.stopPropagation()}
       >
         <div className="grid gap-2xl lg:grid-cols-12 lg:items-center lg:gap-x-[4vw]">
-          <div className="lg:col-span-8">
+          <div className="flex justify-center lg:col-span-8">
             {/*
-              Matted, like every other image on the site. `object-contain`
-              inside the sheet's own ratio, so the drawing is never cropped
-              and never stretched — the mat takes whatever shape it has.
+              The mat hugs the drawing, and the drawing sizes itself.
+
+              It used to be a `w-full` box carrying the file's aspect ratio
+              with `max-height: 70vh` on top. Those two fight: the box took the
+              whole column and the ratio asked for a very tall one, so the cap
+              flattened it into a wide, short rectangle — and a portrait
+              drawing inside it, `object-contain`, shrank to the height and
+              left a broad empty frame either side. A vertical work in a
+              horizontal box, which is the opposite of a passepartout.
+
+              With intrinsic width and height on the image and `w-fit` on the
+              mat, the picture takes its own proportion, the height cap is the
+              only limit, and the border lands on the paper's edge.
             */}
-            <Mat>
-              <div
-                className="relative w-full"
-                style={{
-                  aspectRatio: `${work.image.width} / ${work.image.height}`,
-                  maxHeight: "70vh",
-                }}
-              >
-                <Image
-                  src={work.image.src}
-                  alt={work.image.alt}
-                  fill
-                  quality={92}
-                  sizes="(min-width: 1024px) 66vw, 92vw"
-                  className="object-contain"
-                  priority
-                />
-              </div>
+            <Mat className="w-fit">
+              <Image
+                src={work.image.src}
+                alt={work.image.alt}
+                width={work.image.width}
+                height={work.image.height}
+                quality={92}
+                sizes="(min-width: 1024px) 60vw, 92vw"
+                className="h-auto max-h-[68vh] w-auto max-w-full object-contain"
+                priority
+              />
             </Mat>
           </div>
 

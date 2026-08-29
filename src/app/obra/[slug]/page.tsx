@@ -205,7 +205,14 @@ export default async function WorkPage({ params }: PageProps<"/obra/[slug]">) {
       {/* The two pieces either side, in the flagship sequence. */}
       {previous || next ? (
         <Section
-          ground="paper-bright"
+          /*
+            Chamber, not paper-bright. Against the paper of the section above
+            it, `paper-bright` is a two-per-cent difference — the two blocks
+            read as one long block with two headings in it, and the step from
+            the closing question to the next work was invisible. The dark
+            ground makes the page's last movement its own.
+          */
+          ground="chamber"
           rhythm="beat"
           aria-labelledby="alrededor-titulo"
         >
