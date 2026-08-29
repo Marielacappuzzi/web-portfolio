@@ -52,12 +52,13 @@ export default async function WorkIndexPage() {
         <Section
           ground="chamber"
           /*
-            `tight`, not `act`. At py-4xl the heading sat a long way under the
-            page header and the banners a long way under the heading — three
-            large gaps stacked before the reader reached a photograph, on the
-            page they came to look at.
+            `beat`, between the two. `act` stacked three large gaps before the
+            reader reached a photograph; `tight` then pulled the heading so
+            close to the banner that the two read as one object and the title
+            looked like a caption sitting on the picture. This gives the
+            heading room on both sides without the section going hollow.
           */
-          rhythm="tight"
+          rhythm="beat"
           aria-labelledby="destacadas-titulo"
         >
           {/*
@@ -65,11 +66,21 @@ export default async function WorkIndexPage() {
             Container so the banners run edge to edge. A full-width photograph
             held inside a 90rem column would be a banner with margins, which
             is the one thing a banner is not.
+
+            Centred, and given air. Ranged left directly above a full-bleed
+            photograph it read as that photograph's caption rather than as the
+            section's title. In the middle of its own space it is unmistakably
+            a heading, and the banner starts on its own.
           */}
           <Container width="wide">
-            <Reveal>
+            <Reveal className="flex justify-center">
               {/* Same emphasis as the home, so the two read as one site. */}
-              <Display as="h2" id="destacadas-titulo" measure={20}>
+              <Display
+                as="h2"
+                id="destacadas-titulo"
+                measure={20}
+                className="text-center"
+              >
                 Obras *destacadas*
               </Display>
             </Reveal>
@@ -82,7 +93,7 @@ export default async function WorkIndexPage() {
             other. `mt-md` rather than `mt-lg`: with the seam softened the
             heading can sit closer to what it names.
           */}
-          <FeaturedSlider works={featured} fadeTop className="mt-md" />
+          <FeaturedSlider works={featured} fadeTop className="mt-xl sm:mt-2xl" />
         </Section>
       ) : null}
 

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import type React from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ArrowRightIcon } from "@/components/primitives/Icon";
 import type { Work } from "@/content/types";
@@ -106,6 +107,54 @@ export function FeaturedSlider({
     };
   }, []);
 
+  /*
+    Drag the rail with a pointer.
+
+    Touch already had this — the track is a real scroller and a swipe is the
+    browser's own gesture. A mouse had nothing: the banners looked draggable
+    and were not, which is its own small broken promise. Pointer events cover
+    mouse, pen and touch with one path, and touch is left to the browser
+    because its native scrolling is better than anything reimplemented here.
+
+    The `dragged` ref is what keeps a drag from also firing the link under the
+    cursor: a press that travelled more than a few pixels swallows the click.
+  */
+  const drag = useRef<{ x: number; left: number } | null>(null);
+  const dragged = useRef(false);
+
+  const onPointerDown = (event: React.PointerEvent<HTMLUListElement>) => {
+    if (event.pointerType === "touch") return;
+    const rail = track.current;
+    if (!rail) return;
+
+    drag.current = { x: event.clientX, left: rail.scrollLeft };
+    dragged.current = false;
+  };
+
+  const onPointerMove = (event: React.PointerEvent<HTMLUListElement>) => {
+    const rail = track.current;
+    if (!rail || !drag.current) return;
+
+    const travelled = event.clientX - drag.current.x;
+    if (Math.abs(travelled) > 4) {
+      dragged.current = true;
+      // Only capture once it is a drag, so a plain click still reaches the link.
+      rail.setPointerCapture?.(event.pointerId);
+    }
+    rail.scrollLeft = drag.current.left - travelled;
+  };
+
+  const endDrag = (event: React.PointerEvent<HTMLUListElement>) => {
+    const rail = track.current;
+    if (drag.current && rail) {
+      rail.releasePointerCapture?.(event.pointerId);
+      // Settle on the nearest slide rather than wherever the hand stopped.
+      const width = rail.clientWidth || 1;
+      go(Math.round(rail.scrollLeft / width));
+    }
+    drag.current = null;
+  };
+
   if (works.length === 0) return null;
 
   return (
@@ -117,8 +166,22 @@ export function FeaturedSlider({
     >
       <ul
         ref={track}
+        onPointerDown={onPointerDown}
+        onPointerMove={onPointerMove}
+        onPointerUp={endDrag}
+        onPointerCancel={endDrag}
+        onPointerLeave={endDrag}
+        onClickCapture={(event) => {
+          if (dragged.current) {
+            event.preventDefault();
+            event.stopPropagation();
+            dragged.current = false;
+          }
+        }}
         className={cn(
           "flex snap-x snap-mandatory overflow-x-auto overscroll-x-contain",
+          // Mouse only: the cursor says the rail can be pulled.
+          "cursor-grab active:cursor-grabbing",
           // The scrollbar is the one piece of chrome this cannot style.
           "[scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
         )}
@@ -281,14 +344,20 @@ export function FeaturedSlider({
 }
 
 /**
- * A drawn arrow and nothing around it.
+ * An arrow inside a drawn square.
  *
- * No circle, no fill, no border: the hit area is 44px so a thumb can find it,
- * but only the mark itself is visible, which is what keeps two controls from
- * competing with a full-width photograph directly above them.
+ * It was the mark alone, on the reasoning that two controls under a full-width
+ * photograph should not compete with it. They did not compete — they
+ * disappeared: a 16px hairline glyph on a wide page is easy to miss entirely,
+ * and a control nobody sees is worse than one that is slightly present.
+ *
+ * A square rather than a filled circle. The site is made of hairline frames —
+ * the passepartout, the framed button — so this is the same 1px edge those
+ * already use, and it firms up on hover rather than lighting up.
  */
 const arrowClass = cn(
   "group flex h-11 w-11 cursor-pointer items-center justify-center",
-  "text-fg-muted transition-colors duration-300 hover:text-fg-strong",
+  "border border-rule text-fg-muted",
+  "transition-colors duration-300 hover:border-fg-strong hover:text-fg-strong",
   "focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-current",
 );

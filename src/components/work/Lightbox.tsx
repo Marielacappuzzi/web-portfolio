@@ -132,17 +132,27 @@ export function Lightbox({ works, index, onClose, onNavigate }: LightboxProps) {
         type="button"
         onClick={onClose}
         aria-label="Cerrar"
-        className="fixed right-6 top-6 z-10 flex h-11 w-11 cursor-pointer items-center justify-center text-fg-strong transition-opacity duration-300 hover:opacity-60 focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-current"
+        className="fixed right-4 top-4 z-10 flex h-11 w-11 cursor-pointer items-center justify-center rounded-full bg-ink/70 text-fg-strong transition-opacity duration-300 hover:opacity-60 focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-current sm:right-6 sm:top-6 sm:bg-transparent"
       >
         <CloseIcon width={18} height={18} />
       </button>
 
+      {/*
+        `my-auto` on a block, not `justify-center` on a flex parent.
+
+        Those look equivalent and are not: when the content is taller than the
+        viewport — which on a phone it always is, a drawing plus its label —
+        `justify-content: center` pushes the overflow past *both* ends of the
+        scroll container and the top becomes unreachable. That is why the title
+        and the technical sheet were being cut off. Auto margins centre the
+        same way and stay scrollable.
+      */}
       <div
-        className="gutter mx-auto flex w-full max-w-wide flex-1 flex-col justify-center py-24"
+        className="gutter mx-auto my-auto w-full max-w-wide py-16 sm:py-24"
         /* Clicks inside the plate must not fall through to the backdrop. */
         onClick={(event) => event.stopPropagation()}
       >
-        <div className="grid gap-2xl lg:grid-cols-12 lg:items-center lg:gap-x-[4vw]">
+        <div className="grid gap-lg lg:grid-cols-12 lg:items-center lg:gap-x-[4vw] lg:gap-y-2xl">
           <div className="flex justify-center lg:col-span-8">
             {/*
               The mat hugs the drawing, and the drawing sizes itself.
@@ -167,7 +177,13 @@ export function Lightbox({ works, index, onClose, onNavigate }: LightboxProps) {
                 height={work.image.height}
                 quality={92}
                 sizes="(min-width: 1024px) 60vw, 92vw"
-                className="h-auto max-h-[68vh] w-auto max-w-full object-contain"
+                /*
+                  Shorter on a phone. At 68vh the drawing took most of the
+                  screen and the label underneath it started below the fold,
+                  which is what made the information feel missing rather than
+                  merely further down.
+                */
+                className="h-auto max-h-[48vh] w-auto max-w-full object-contain sm:max-h-[60vh] lg:max-h-[68vh]"
                 priority
               />
             </Mat>
