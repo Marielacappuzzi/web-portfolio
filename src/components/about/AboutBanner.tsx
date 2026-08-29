@@ -48,18 +48,15 @@ export function AboutBanner({ banner }: AboutBannerProps) {
       className="relative isolate overflow-hidden bg-bg text-fg"
     >
       {/*
-        The photograph.
+        The photograph, in normal flow at every width.
 
-        Absolute on a phone so the type can sit on top of it and then continue
-        past it; in normal flow from `lg`, where it sets the height of the
-        block and the text is what floats.
+        It is what gives the section its height, so it must never be taken out
+        of the flow. Making it `lg:absolute` in the mobile pass collapsed the
+        whole banner on a wide screen: with nothing left in flow the section
+        had no height, and the layout that had been approved disappeared. On a
+        phone the words follow it; from `lg` they float over its right side.
       */}
-      {/*
-        In normal flow on a phone, so the words follow the picture instead of
-        sitting on it; absolute from `lg`, where the bare wall on the right of
-        the frame is wide enough to hold them.
-      */}
-      <div className="relative lg:absolute lg:inset-x-0 lg:top-0 lg:h-auto">
+      <div className="relative">
         <picture>
           <source media="(min-width: 1024px)" srcSet={banner.src} />
           <img
@@ -97,10 +94,11 @@ export function AboutBanner({ banner }: AboutBannerProps) {
         The type.
 
         On a phone it follows the picture on the section's own ground, at the
-        size the biography deserves. From `lg` it
-        is centred in the band, in columns 9-12 of the page's own grid, which
-        on a 1920 screen starts it at 61% of the viewport: inside the clear
-        zone, and on the same axis as every other section of the site.
+        size the biography deserves. From `lg` it is absolutely placed and
+        centred in the band, in columns 9-12 of the page's own grid — on a 1920
+        screen that starts it at 61% of the viewport, inside the clear wall and
+        on the same axis as every other section of the site. That half is
+        exactly as it was approved.
       */}
       <div className="relative -mt-lg pb-2xl lg:absolute lg:inset-0 lg:mt-0 lg:flex lg:items-center lg:py-0">
         <Container width="wide" className="w-full">
