@@ -1,4 +1,4 @@
-import { Section } from "@/components/layout/Section";
+import { Container, Section } from "@/components/layout/Section";
 import { ActionButton } from "@/components/primitives/ActionLink";
 import { Figure } from "@/components/primitives/Figure";
 import { Reveal } from "@/components/primitives/Reveal";
@@ -25,17 +25,17 @@ export function Artist({ content }: { content: HomeArtistContent }) {
       aria-labelledby="artista-titulo"
     >
       {/*
-        Text left, photograph right, and the photograph takes the right side
-        rather than a column inside the grid: five of twelve for the words, six
-        for the picture, running out to the edge of the screen.
+        Back inside the page container.
 
-        The section drops its gutter and the text column carries its own, so
-        the picture can reach the edge without the words losing the page's
-        axis. The same arrangement as "Mi manera de mirar" on /sobre-mi — the
-        two blocks are the same kind of thing and were being set two ways.
+        Bleeding to the edge is what made this photograph enormous: six columns
+        of a full-width grid is 960px on a 1920 screen, and at the file's own
+        2/3 that is 1440px tall — taller than the viewport. Inside the 90rem
+        column the same five columns come out at 600 x 900, which is a portrait
+        photograph shown whole rather than a picture the page is built around.
       */}
-      <div className="grid items-center gap-2xl lg:grid-cols-12 lg:gap-x-[3vw]">
-          <div className="gutter lg:col-span-5 lg:ml-auto lg:w-full lg:max-w-[38rem] lg:pr-0">
+      <Container width="wide">
+        <div className="grid items-center gap-2xl lg:grid-cols-12 lg:gap-x-[4vw]">
+          <div className="lg:col-span-6">
             {content.eyebrow ? (
               <Reveal>
                 <Eyebrow>{content.eyebrow}</Eyebrow>
@@ -60,30 +60,25 @@ export function Artist({ content }: { content: HomeArtistContent }) {
           </div>
 
           {/*
-            Full width on a phone, and no passepartout: `bare` drops the mat,
-            which was holding a photograph of her at the board inside a framed
-            box with margins on both sides. Here the picture is the block.
+            The photograph whole, in its own proportion. `width`/`height` on
+            Figure make the frame take the file's ratio, so nothing is cropped
+            — which is the point: it is a vertical picture and it is shown
+            vertical, top to bottom.
           */}
-          <Reveal variant="image" delay={120} className="lg:col-span-6">
+          <Reveal variant="image" delay={120} className="lg:col-span-5 lg:col-start-8">
             <Figure
               src={content.image.src}
               alt={content.image.alt}
               pendingLabel="Mariela trabajando"
-              /*
-                4/5 on a phone, where a column that narrow needs the height;
-                3/2 from `sm` up. It was 4/5 at every width, so on a 1920
-                screen the photograph came out 1120 wide and 1400 tall — taller
-                than the viewport, and the block read as a picture the page had
-                been built around rather than one beside the text.
-              */
-              aspect="aspect-[4/5] sm:aspect-[3/2]"
-              focus="50% 40%"
-              sizes="(min-width: 1024px) 50vw, 100vw"
+              width={1280}
+              height={1920}
+              sizes="(min-width: 1024px) 40vw, 100vw"
               bare
               zoomOnHover
             />
           </Reveal>
-        </div>
+          </div>
+        </Container>
     </Section>
   );
 }

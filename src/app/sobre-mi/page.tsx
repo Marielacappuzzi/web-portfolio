@@ -66,6 +66,14 @@ export default async function AboutPage() {
         ground="paper-bright"
         rhythm="act"
         aria-labelledby="mirada-titulo"
+        /*
+          `overflow-hidden` because the photograph bleeds to the edge of the
+          screen and `Reveal variant="image"` opens from `scale: 1.03`. Three
+          per cent of a full-width picture is wider than the viewport, and the
+          page picked up a horizontal scrollbar. Nothing inside is meant to
+          leave the section.
+        */
+        className="overflow-hidden"
       >
         <div className="grid gap-2xl lg:grid-cols-12 lg:items-center lg:gap-x-[3vw]">
           <div className="gutter lg:col-span-5 lg:ml-auto lg:w-full lg:max-w-[38rem] lg:pr-0">

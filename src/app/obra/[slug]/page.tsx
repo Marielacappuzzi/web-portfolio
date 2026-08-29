@@ -74,7 +74,13 @@ export default async function WorkPage({ params }: PageProps<"/obra/[slug]">) {
         three separate movements for the three things a reader wants at once.
         See WorkSheet.
       */}
-      <Section ground="paper" rhythm="beat" aria-labelledby="obra-ficha-titulo">
+      <Section
+        ground="paper"
+        rhythm="beat"
+        aria-labelledby="obra-ficha-titulo"
+        /* The plate bleeds and its reveal opens from scale 1.03 — see below. */
+        className="overflow-hidden"
+      >
         {/*
           No Container: the plate runs to the left edge of the screen. See
           WorkSheet — inside the 90rem column it came out at 43% of a 1920
@@ -89,7 +95,7 @@ export default async function WorkPage({ params }: PageProps<"/obra/[slug]">) {
 
       {/* The composition. Everything here comes from the work's own story. */}
       {work.story && work.story.length > 0 ? (
-        <Section ground="paper" rhythm="tight">
+        <Section ground="paper" rhythm="tight" className="overflow-hidden">
           <WorkComposition blocks={work.story} />
         </Section>
       ) : null}
