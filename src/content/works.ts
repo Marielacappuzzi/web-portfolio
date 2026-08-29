@@ -602,7 +602,7 @@ export const works: Work[] = [
           "Envíos fuera de Santa Cruz de la Sierra e internacionales: la impresión se envía cuidadosamente protegida en un tubo rígido para Fine Art.",
         ],
       },
-      action: { label: "Consultar por la edición", href: "/contacto" },
+      action: { label: "Consultar por la edición", href: "/encargos#cotizar" },
     },
 
     order: 9,

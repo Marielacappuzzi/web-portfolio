@@ -9,7 +9,6 @@ import { WorkGrid } from "@/components/work/WorkGrid";
 import {
   getFeaturedWorks,
   getGalleryWorks,
-  getHome,
   getWorkIndexPage,
 } from "@/lib/content";
 
@@ -27,11 +26,10 @@ export const metadata: Metadata = {
  * adding them later is a query change rather than a rebuild.
  */
 export default async function WorkIndexPage() {
-  const [page, featured, gallery, home] = await Promise.all([
+  const [page, featured, gallery] = await Promise.all([
     getWorkIndexPage(),
     getFeaturedWorks(),
     getGalleryWorks(),
-    getHome(),
   ]);
 
   return (
@@ -108,7 +106,7 @@ export default async function WorkIndexPage() {
         </Container>
       </Section>
 
-      <ContactCallout content={home.contact} />
+      <ContactCallout content={page.closing} />
     </>
   );
 }

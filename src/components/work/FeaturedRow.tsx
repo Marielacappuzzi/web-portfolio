@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { ArrowRightIcon } from "@/components/primitives/Icon";
-import { Badge } from "@/components/primitives/Badge";
 import { Reveal } from "@/components/primitives/Reveal";
 import { ArtworkFrame } from "./ArtworkFrame";
 import type { Work } from "@/content/types";
@@ -20,10 +19,9 @@ interface FeaturedRowProps {
  * card was clickable but silent about it, so a piece with a page of its own
  * looked no different from one without.
  *
- * The availability badge is a signal, not an offer. Sueño de Primavera is the
- * only work with an edition for sale, and the brief keeps every commercial
- * detail — price, stock, the ask — on that work's own page. Here it says one
- * word and links there.
+ * Nothing commercial here at all. Sueño de Primavera is the only work with an
+ * edition for sale, and every detail of it — availability included — belongs
+ * on that work's own page rather than as a badge in a row of three.
  */
 export function FeaturedRow({ works, className }: FeaturedRowProps) {
   if (works.length === 0) return null;
@@ -49,19 +47,14 @@ export function FeaturedRow({ works, className }: FeaturedRowProps) {
             </Reveal>
 
             <Reveal delay={i * 120 + 120} className="mt-md">
-              <div className="flex flex-wrap items-center gap-2xs">
-                {/*
-                  No concept label. It was a phrase lifted from the text of
-                  the work itself, which is what the client asked to remove
-                  from the previews. The availability badge stays: that is a
-                  fact about the piece, not a description of it.
-                */}
-                {work.printAvailable ? (
-                  <Badge>Edición disponible</Badge>
-                ) : null}
-              </div>
-
-              <p className="mt-xs font-serif text-xl font-light leading-tight tracking-tight text-fg-strong">
+              {/*
+                Name and one link. The "Edición disponible" badge is gone with
+                the concept label before it: availability is a commercial fact,
+                and every commercial fact about the edition now lives on Sueño
+                de Primavera's own page. A row of three works where one carries
+                a badge also reads as one of them being on offer.
+              */}
+              <p className="font-serif text-xl font-light leading-tight tracking-tight text-fg-strong">
                 {work.title}
               </p>
 

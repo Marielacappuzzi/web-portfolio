@@ -104,11 +104,19 @@ export const home: HomeContent = {
     eyebrow: "Obras destacadas",
   },
 
+  /*
+   * The close, pointing at the one thing the site asks for.
+   *
+   * It was "Cuéntame la historia que te gustaría convertir en una obra" with
+   * "Contar mi historia" and "Cómo funciona un encargo" beside it — copy from
+   * a version of the project that still had a separate contact page, and two
+   * buttons where the reader only needs one.
+   */
   contact: {
-    title: "Cuéntame la historia que te gustaría convertir en una *obra*.",
+    title: "¿Quieres crear una obra por *encargo*?",
     paragraph:
-      "Puede ser un recuerdo, una persona, un animal, un vínculo o una idea que todavía no encontró su imagen.",
-    primaryAction: { label: "Contar mi historia", href: "/contacto" },
-    secondaryAction: { label: "Cómo funciona un encargo", href: "/encargos" },
+      "Retratos de personas, mascotas, homenajes y composiciones creadas a partir de una historia, una imagen o un vínculo.",
+    primaryAction: { label: "Solicitar un encargo", href: "/encargos" },
   },
+
 };

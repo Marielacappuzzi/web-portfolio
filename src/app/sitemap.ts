@@ -6,7 +6,7 @@ import { siteUrl } from "@/lib/site-url";
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const works = await getEditorialWorks();
 
-  const pages = ["", "/obra", "/sobre-mi", "/encargos", "/contacto"];
+  const pages = ["", "/obra", "/sobre-mi", "/encargos"];
 
   return [
     ...pages.map((path) => ({

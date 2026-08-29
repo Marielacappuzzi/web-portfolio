@@ -128,6 +128,21 @@ export default async function WorkPage({ params }: PageProps<"/obra/[slug]">) {
                     {work.printEdition.availability}
                   </p>
                 </Reveal>
+
+                {/*
+                  The ask for the edition, inside the edition's own block and
+                  directly under what is left of it. The page closes on
+                  "Consultar obra" further down, which is about the original —
+                  and the original is in a private collection. Without this,
+                  the one thing on the page that can actually be acquired had
+                  no way to be asked for. It was already in the data and simply
+                  was not being rendered.
+                */}
+                <Reveal delay={240} className="mt-xl">
+                  <ActionButton href={work.printEdition.action.href}>
+                    {work.printEdition.action.label}
+                  </ActionButton>
+                </Reveal>
               </div>
 
               <div className="lg:col-span-7 lg:col-start-6">
@@ -195,7 +210,7 @@ export default async function WorkPage({ params }: PageProps<"/obra/[slug]">) {
               delay={120}
               className="flex flex-wrap items-center gap-x-xl gap-y-md lg:col-span-5 lg:col-start-8 lg:justify-end"
             >
-              <ActionButton href="/contacto">Consultar obra</ActionButton>
+              <ActionButton href="/encargos#cotizar">Consultar obra</ActionButton>
               <QuietLink href="/encargos">Solicitar un encargo</QuietLink>
             </Reveal>
           </div>

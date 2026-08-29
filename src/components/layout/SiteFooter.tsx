@@ -18,7 +18,7 @@ import type { SiteContent } from "@/content/types";
  *
  * No email address here, confirmed by the client: publishing one hands it to
  * scrapers, and the form already delivers to Mariela's inbox. Instagram is the
- * only direct channel; everything else goes through /contacto.
+ * only direct channel; everything else goes through the form on /encargos.
  */
 
 /** Column heading. Quieter than an Eyebrow — this is furniture, not voice. */
@@ -98,7 +98,12 @@ export function SiteFooter({ site }: { site: SiteContent }) {
               ) : null}
 
               <li>
-                <Link href="/contacto" className={linkClass}>
+                {/*
+                  The enquiry form lives on /encargos now — /contacto is gone
+                  as a page, and this link is the one place in the footer that
+                  used to reach it.
+                */}
+                <Link href="/encargos#cotizar" className={linkClass}>
                   Escribirme
                 </Link>
               </li>

@@ -1,6 +1,5 @@
 import Image from "next/image";
 import { ActionButton } from "@/components/primitives/ActionLink";
-import { Pending } from "@/components/primitives/Pending";
 import { Reveal } from "@/components/primitives/Reveal";
 import type { Work, WorkKind, WorkStatus } from "@/content/types";
 
@@ -33,9 +32,12 @@ interface WorkSheetProps {
  * page they are what the reader came to check, and a row of "Técnica" against
  * its value is faster to read than four unlabelled lines.
  *
- * Only what exists is rendered. El Rescate is unfinished and has no year,
- * technique or dimensions, so its sheet shows what it has and then says the
- * rest is pending rather than filling the rows with something plausible.
+ * Only what exists is rendered, and nothing marks what does not. El Rescate is
+ * unfinished and has no year, technique or dimensions, so its sheet is one row
+ * — Original, Obra personal — and stops. It used to close on a "Dato pendiente"
+ * marker, which is a note from the build to itself: useful while the catalogue
+ * was being filled, and to a visitor just an announcement that something is
+ * missing. An absent row says the same thing by saying nothing.
  */
 export function WorkSheet({ work }: WorkSheetProps) {
   const rows: [string, string][] = [];
@@ -44,13 +46,21 @@ export function WorkSheet({ work }: WorkSheetProps) {
   if (work.year) rows.push(["Año", String(work.year)]);
   if (work.dimensions) rows.push(["Dimensiones", work.dimensions]);
 
+  /*
+    "Original", not "Categoría".
+    On Sueño de Primavera the sheet says "Colección privada" and the block
+    below it offers a print — read as a category, that line looks like it
+    describes whatever is for sale. Naming the row for the piece it describes
+    makes the two unmistakable: the original is in a collection, the edition
+    is what is available.
+  */
   const category = [
     work.kind ? kindLabels[work.kind] : undefined,
     work.status ? statusLabels[work.status] : undefined,
   ]
     .filter(Boolean)
     .join(" · ");
-  if (category) rows.push(["Categoría", category]);
+  if (category) rows.push(["Original", category]);
 
   return (
     /*
@@ -140,12 +150,6 @@ export function WorkSheet({ work }: WorkSheetProps) {
           </Reveal>
         ) : null}
 
-        {rows.length < 3 ? (
-          <Reveal delay={150} className="mt-md">
-            <Pending kind="data" detail="Año, técnica y medidas" />
-          </Reveal>
-        ) : null}
-
         {work.note ? (
           <Reveal delay={180} className="mt-md">
             <p className="max-w-[48ch] font-sans text-xs leading-relaxed text-fg-muted">
@@ -155,7 +159,7 @@ export function WorkSheet({ work }: WorkSheetProps) {
         ) : null}
 
         <Reveal delay={210} className="mt-xl">
-          <ActionButton href="/contacto">Consultar obra</ActionButton>
+          <ActionButton href="/encargos#cotizar">Consultar obra</ActionButton>
         </Reveal>
       </div>
     </div>

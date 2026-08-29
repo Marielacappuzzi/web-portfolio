@@ -403,6 +403,14 @@ export interface HomeContent {
 /* --------------------------------------------------------------- /obra --- */
 
 export interface WorkIndexPage extends SectionHeading {
+  /**
+   * The page's own closing block.
+   *
+   * It borrowed the home's, which meant one piece of copy had to work both
+   * after an introduction to Mariela and after a full catalogue. They are
+   * different moments and they ask for different words.
+   */
+  closing: HomeContactContent;
   description: string;
   /** Shown when the catalogue is still empty. */
   emptyMessage: string;

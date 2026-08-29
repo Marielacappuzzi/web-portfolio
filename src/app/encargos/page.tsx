@@ -127,24 +127,6 @@ export default async function CommissionsPage() {
         </section>
       ) : null}
 
-      {/*
-        The detail, before the form.
-
-        It used to sit after it, on the reasoning that nobody should have to
-        read eight headings to ask a price. But they are disclosures — all
-        closed, seven lines of type — and the questions they answer are the
-        ones somebody needs settled *before* they fill anything in: what
-        formats exist, how long it takes, what the deposit is. Putting them
-        after meant the form asked for a format above an accordion that
-        explained what the formats were.
-      */}
-      <DetailSections
-        eyebrow={page.practical.eyebrow}
-        title={page.practical.title}
-        sections={page.practical.sections}
-        headingId="practico-titulo"
-      />
-
       {/* The form. The point of the page. */}
       <Section
         id="cotizar"
@@ -174,6 +156,24 @@ export default async function CommissionsPage() {
           </div>
         </Container>
       </Section>
+
+      {/*
+        The practical detail, after the form.
+
+        It sat before it for a while, on the reasoning that the questions it
+        answers — what formats exist, how long it takes, what the deposit is —
+        are the ones somebody needs settled before filling anything in. The
+        client's call is the other way and it is the right one: a person who
+        has already decided should not have to scroll past eight headings to
+        reach the one thing they came to do. They are closed disclosures, so
+        anyone who does want them can open them on the way past.
+      */}
+      <DetailSections
+        eyebrow={page.practical.eyebrow}
+        title={page.practical.title}
+        sections={page.practical.sections}
+        headingId="practico-titulo"
+      />
 
       <Faq
         eyebrow={page.faq.eyebrow}
