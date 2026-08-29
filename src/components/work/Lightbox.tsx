@@ -1,9 +1,9 @@
 "use client";
 
-import Image from "next/image";
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ArrowRightIcon, CloseIcon } from "@/components/primitives/Icon";
-import { Mat } from "@/components/primitives/Mat";
+import { LoupePlate } from "./LoupePlate";
+import { PlateStrip } from "./PlateStrip";
 import { WorkIdentity, WorkSpecs } from "./WorkMeta";
 import { lockScroll } from "@/lib/smooth-scroll";
 import type { Work } from "@/content/types";
@@ -38,6 +38,12 @@ const stepButton = cn(
  * framed: the picture floated on the dark ground with nothing holding it, and
  * a charcoal on cream paper needs an edge or it bleeds into the field.
  *
+ * A work is not one photograph, so the plate has a strip of its other views
+ * beside it and a glass over it. Choosing a view swaps the large image in
+ * place; nothing opens on top of a panel that is already the place where the
+ * piece is seen. The alternates are only the drawing itself — the room and the
+ * worktable are shown on the editorial page, on purpose.
+ *
  * The controls are matched to the cards that opened them — the same hairline
  * under small caps, the same arrow that travels on hover — so moving from the
  * gallery into the panel does not feel like arriving in a different interface.
@@ -54,6 +60,38 @@ const stepButton = cn(
 export function Lightbox({ works, index, onClose, onNavigate }: LightboxProps) {
   const open = index !== null;
   const work = open ? works[index] : null;
+
+  /**
+   * The plate and its alternates.
+   *
+   * The main photograph leads, then up to two detail views. Three is the whole
+   * strip: past that a visitor is choosing between pictures instead of looking
+   * at one, and the panel stops being the place where the work is seen.
+   *
+   * Only `detailImages` is drawn on. `framedImages` and `processImages` show a
+   * wall and a worktable — real material, shown deliberately elsewhere — and
+   * putting either into this strip would swap the drawing for a room.
+   */
+  const plates = useMemo(() => {
+    if (!work?.image) return [];
+    return [work.image, ...(work.detailImages ?? []).slice(0, 2)];
+  }, [work]);
+
+  /**
+   * Which of them is on the plate.
+   *
+   * Stored with the work it belongs to, and reset during the render that
+   * changes work rather than in an effect afterwards. View 2 of the last piece
+   * means nothing here, and an effect would paint the stale plate first — one
+   * frame of the wrong drawing every time the arrows are used.
+   */
+  const [plate, setPlate] = useState(0);
+  const [platesOf, setPlatesOf] = useState(index);
+
+  if (platesOf !== index) {
+    setPlatesOf(index);
+    setPlate(0);
+  }
 
   const panel = useRef<HTMLDivElement>(null);
   const closeButton = useRef<HTMLButtonElement>(null);
@@ -153,40 +191,28 @@ export function Lightbox({ works, index, onClose, onNavigate }: LightboxProps) {
         onClick={(event) => event.stopPropagation()}
       >
         <div className="grid gap-lg lg:grid-cols-12 lg:items-center lg:gap-x-[4vw] lg:gap-y-2xl">
-          <div className="flex justify-center lg:col-span-8">
-            {/*
-              The mat hugs the drawing, and the drawing sizes itself.
+          {/*
+            The strip comes first in the source, so a keyboard reaches the other
+            views on the way to the plate rather than after the technical sheet.
+            On a phone it renders below — where a thumb is — which `order`
+            handles without moving it in the tree.
 
-              It used to be a `w-full` box carrying the file's aspect ratio
-              with `max-height: 70vh` on top. Those two fight: the box took the
-              whole column and the ratio asked for a very tall one, so the cap
-              flattened it into a wide, short rectangle — and a portrait
-              drawing inside it, `object-contain`, shrank to the height and
-              left a broad empty frame either side. A vertical work in a
-              horizontal box, which is the opposite of a passepartout.
-
-              With intrinsic width and height on the image and `w-fit` on the
-              mat, the picture takes its own proportion, the height cap is the
-              only limit, and the border lands on the paper's edge.
-            */}
-            <Mat className="w-fit">
-              <Image
-                src={work.image.src}
-                alt={work.image.alt}
-                width={work.image.width}
-                height={work.image.height}
-                quality={92}
-                sizes="(min-width: 1024px) 60vw, 92vw"
-                /*
-                  Shorter on a phone. At 68vh the drawing took most of the
-                  screen and the label underneath it started below the fold,
-                  which is what made the information feel missing rather than
-                  merely further down.
-                */
-                className="h-auto max-h-[48vh] w-auto max-w-full object-contain sm:max-h-[60vh] lg:max-h-[68vh]"
-                priority
+            The mat itself hugs the drawing and the drawing sizes itself; see
+            LoupePlate, which owns that and the glass over it.
+          */}
+          <div className="flex flex-col items-center gap-sm lg:col-span-8 lg:flex-row lg:justify-center lg:gap-md">
+            <div className="order-2 lg:order-1">
+              <PlateStrip
+                plates={plates}
+                active={plate}
+                onSelect={setPlate}
+                label={`Vistas de ${work.title}`}
               />
-            </Mat>
+            </div>
+
+            <div className="order-1 lg:order-2">
+              <LoupePlate image={plates[plate] ?? work.image} priority />
+            </div>
           </div>
 
           {/* The label: title, year, then the sheet — Mariela's order. */}

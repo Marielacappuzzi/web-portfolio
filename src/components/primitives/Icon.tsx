@@ -191,3 +191,20 @@ export function CloseIcon(props: IconProps) {
     </svg>
   );
 }
+
+/**
+ * Says the plate can be looked into.
+ *
+ * A glass and its handle, at the same hairline weight as every other mark. It
+ * sits over the image as an invitation rather than a control, so it is drawn
+ * open — no plus sign inside, which would promise a zoom step rather than the
+ * continuous look the pointer actually gives.
+ */
+export function LoupeIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <circle cx="11" cy="11" r="6.5" />
+      <path d="m16 16 4.5 4.5" />
+    </svg>
+  );
+}
