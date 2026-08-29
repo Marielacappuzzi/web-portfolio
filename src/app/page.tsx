@@ -82,7 +82,14 @@ export default async function HomePage() {
         </div>
 
         <Container width="wide">
-          <Reveal className="mt-3xl flex justify-center">
+          {/*
+            `mt-xl` on a phone, `mt-3xl` from `sm`. The slider's own arrows sit
+            directly above this button, so on a narrow screen the gap read as a
+            missing section rather than as breathing room — about a third less,
+            which is what the correction asked for, and the wide layout keeps
+            the space it was designed with.
+          */}
+          <Reveal className="mt-xl flex justify-center sm:mt-3xl">
             <ActionButton href="/obra">Ver todas las obras</ActionButton>
           </Reveal>
         </Container>

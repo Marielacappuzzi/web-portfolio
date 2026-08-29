@@ -262,7 +262,7 @@ export function SiteHeader({
             onClick={() => setMenuOpen((open) => !open)}
             aria-expanded={menuOpen}
             aria-controls="menu-movil"
-            className="-mr-2 flex h-10 w-10 items-center justify-center md:hidden"
+            className="-mr-2 flex h-11 w-11 items-center justify-center md:hidden"
           >
             <span className="sr-only">
               {menuOpen ? "Cerrar el menú" : "Abrir el menú"}

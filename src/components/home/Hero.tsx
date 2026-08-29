@@ -75,7 +75,19 @@ export function Hero({ content }: HeroProps) {
         the lioness. Centred again from `sm`, where the band is wide and the
         type has a column of its own.
       */}
-      <div className="absolute inset-0 flex items-end pb-2xl pt-32 sm:items-center sm:pb-0">
+      {/*
+        On a phone the block sits low in the frame, over the dark field the
+        photograph carries at its foot, and the top of the picture is left to
+        Mariela and the drawing.
+
+        `pb` rather than a fixed offset, so it moves with the screen instead of
+        being tuned for one handset: `pb-lg` at 320px where every pixel of
+        height is contested, `pb-md` from `xs` up where there is room to let it
+        sit lower still. Between them the block lands roughly 50-70px further
+        down than it did at `pb-2xl`, which is what the correction asked for,
+        and it keeps clear of the bottom edge at both ends of the range.
+      */}
+      <div className="absolute inset-0 flex items-end pb-lg pt-32 min-[380px]:pb-md sm:items-center sm:pb-0">
         <Container width="wide" className="w-full">
           {/*
             Measured in rem, not in `ch`.

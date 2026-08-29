@@ -325,6 +325,9 @@
 @utility action-frame {
   position: relative;
   isolation: isolate;
+  /* A comfortable target under a thumb. The frame already measured about
+     43px; this guarantees 44 without changing how it looks. */
+  min-height: 2.75rem;
   /* A control should say so under the pointer. `<button>` does not do this on
      its own, and neither does an anchor styled as one. */
   cursor: pointer;
@@ -366,6 +369,9 @@
 
 @utility action-line {
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
   position: relative;
   display: inline-block;
   padding-bottom: 0.5rem;
@@ -436,5 +442,28 @@
 
   button:disabled {
     cursor: not-allowed;
+  }
+}
+
+/*
+ * Mobile type floors.
+ *
+ * The fluid scale is tuned for a wide screen and bottoms out small: labels at
+ * 10px, captions at 12, secondary text at 14. On a phone those are the sizes
+ * the reader spends most of their time in, and they were being asked to work
+ * harder than the design intends.
+ *
+ * Raised here rather than in the scale itself so a wide screen is untouched —
+ * the caps are where they were, and this only lifts the bottom of the range on
+ * the widths that were actually hitting it.
+ */
+@media (max-width: 767px) {
+  :root {
+    /* Labels, eyebrows, buttons: 10px -> 12px. */
+    --text-2xs: 0.75rem;
+    /* Captions and legal text: 12px -> 13px. */
+    --text-xs: 0.8125rem;
+    /* Secondary body, specifications, form help: 14px -> 15px. */
+    --text-sm: 0.9375rem;
   }
 }

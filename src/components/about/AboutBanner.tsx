@@ -25,15 +25,16 @@ interface AboutBannerProps {
  * 4.8:1 on it and near-black at 3.9:1, so the intuition — pale wall, dark
  * type — is the wrong way round.
  *
- * ON A PHONE the text sits **on** the photograph, not after it.
+ * ON A PHONE the photograph keeps the top of the block and the words go under
+ * it, on the section's own ground.
  *
- * It used to run underneath: the picture ended, then the name started, and the
- * two read as unrelated blocks stacked by accident. Now the photograph is the
- * background of the whole block, the text begins over its lower half, and
- * where the biography runs past the bottom of the image the section's own
- * ground carries it to the end. A gradient does the handover, so there is no
- * visible line where the picture stops — which is what keeps it reading as one
- * composition rather than as an image with a box under it.
+ * Overlaying them was tried twice and does not work at this width. The text
+ * had to start past her face and hands, which left it in the last third of the
+ * frame, compressed, and small enough to be uncomfortable — a name, a role and
+ * two paragraphs of biography do not fit in a strip. Reading beats atmosphere
+ * here: the picture is clean, the biography is at its real size, and a
+ * gradient carries the photograph into the ground beneath it so the two still
+ * read as one piece rather than as an image with a card under it.
  */
 export function AboutBanner({ banner }: AboutBannerProps) {
   return (
@@ -53,7 +54,12 @@ export function AboutBanner({ banner }: AboutBannerProps) {
         past it; in normal flow from `lg`, where it sets the height of the
         block and the text is what floats.
       */}
-      <div className="absolute inset-x-0 top-0 h-[80svh] lg:static lg:h-auto">
+      {/*
+        In normal flow on a phone, so the words follow the picture instead of
+        sitting on it; absolute from `lg`, where the bare wall on the right of
+        the frame is wide enough to hold them.
+      */}
+      <div className="relative lg:absolute lg:inset-x-0 lg:top-0 lg:h-auto">
         <picture>
           <source media="(min-width: 1024px)" srcSet={banner.src} />
           <img
@@ -62,18 +68,19 @@ export function AboutBanner({ banner }: AboutBannerProps) {
             /* The first thing under the opening, so it is worth fetching early. */
             fetchPriority="high"
             decoding="async"
-            className="h-full w-full object-cover object-[52%_28%] lg:aspect-[1920/750] lg:h-auto lg:object-center"
+            className="aspect-[4/5] w-full object-cover object-[52%_22%] lg:aspect-[1920/750] lg:object-center"
           />
         </picture>
 
         {/*
-          The handover. On a phone the picture fades into the section's ground
-          over its bottom third, so the text crosses from one to the other
-          without a seam. Off from `lg`, where the wash below does that job.
+          The handover. The picture fades into the section's ground over its
+          bottom quarter, so there is no line where it stops and the text below
+          reads as the same piece. Off from `lg`, where the wash to the right
+          does that job instead.
         */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-ink via-ink/70 via-40% to-transparent lg:hidden"
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-ink via-ink/60 via-45% to-transparent lg:hidden"
         />
       </div>
 
@@ -89,16 +96,13 @@ export function AboutBanner({ banner }: AboutBannerProps) {
       {/*
         The type.
 
-        On a phone it begins 58svh down — past her face and her hands, which
-        at 34svh and again at 46svh it was sitting across — and runs on into
-        the ground below it. The picture grows to 80svh so there is still
-        photograph under the
-        opening lines rather than the name landing on the seam. From `lg` it
+        On a phone it follows the picture on the section's own ground, at the
+        size the biography deserves. From `lg` it
         is centred in the band, in columns 9-12 of the page's own grid, which
         on a 1920 screen starts it at 61% of the viewport: inside the clear
         zone, and on the same axis as every other section of the site.
       */}
-      <div className="relative pb-2xl pt-[58svh] lg:absolute lg:inset-0 lg:flex lg:items-center lg:py-0 lg:pt-0">
+      <div className="relative -mt-lg pb-2xl lg:absolute lg:inset-0 lg:mt-0 lg:flex lg:items-center lg:py-0">
         <Container width="wide" className="w-full">
           <div className="lg:grid lg:grid-cols-12">
             <div className="lg:col-span-4 lg:col-start-9">
@@ -117,7 +121,7 @@ export function AboutBanner({ banner }: AboutBannerProps) {
               <div className="mt-lg flex flex-col gap-md">
                 {banner.bio.map((paragraph, i) => (
                   <Reveal key={i} delay={200 + i * 100}>
-                    <p className="max-w-[46ch] font-sans text-sm leading-relaxed text-pretty text-fg">
+                    <p className="max-w-[46ch] font-sans text-base leading-relaxed text-pretty text-fg lg:text-sm">
                       {paragraph}
                     </p>
                   </Reveal>

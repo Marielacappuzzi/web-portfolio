@@ -93,9 +93,20 @@ export default async function WorkPage({ params }: PageProps<"/obra/[slug]">) {
         <WorkSheet work={work} />
       </Section>
 
-      {/* The composition. Everything here comes from the work's own story. */}
+      {/*
+        The composition. Everything here comes from the work's own story.
+
+        `pb-lg` on a phone: at py-2xl the last block — a video, on El Rescate —
+        was followed by nearly two hundred pixels of nothing before the closing
+        question, which reads as a section that failed to load rather than as
+        breathing room. The wide layout keeps its own rhythm.
+      */}
       {work.story && work.story.length > 0 ? (
-        <Section ground="paper" rhythm="tight" className="overflow-hidden">
+        <Section
+          ground="paper"
+          rhythm="tight"
+          className="overflow-hidden pb-lg sm:pb-2xl"
+        >
           <WorkComposition blocks={work.story} />
         </Section>
       ) : null}
@@ -193,7 +204,13 @@ export default async function WorkPage({ params }: PageProps<"/obra/[slug]">) {
         The ask. Two lines and two links — the page is a work, not a listing,
         and the invitation closes it rather than running through it.
       */}
-      <Section ground="paper" rhythm="act" aria-labelledby="consulta-titulo">
+      <Section
+        ground="paper"
+        rhythm="act"
+        aria-labelledby="consulta-titulo"
+        /* The other half of the same gap — see the note above. */
+        className="pt-lg sm:pt-4xl"
+      >
         <Container width="wide">
           <Rule width="full" />
 

@@ -133,6 +133,14 @@ export default async function CommissionsPage() {
         ground="paper-bright"
         rhythm="act"
         aria-labelledby="cotizar-titulo"
+        /*
+          There is only one "Cotizar un encargo" on this page — the reading of
+          two consecutive calls to action came from the gap, not from the
+          markup. The banner closes with the button and this section opened
+          112px below it, so the button looked stranded and the form looked
+          like a second ask. Tightened on a phone only.
+        */
+        className="pt-xl sm:pt-4xl"
       >
         <Container width="wide">
           <div className="grid gap-2xl lg:grid-cols-12 lg:gap-x-[4vw]">

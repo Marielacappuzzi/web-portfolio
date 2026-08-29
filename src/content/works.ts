@@ -214,8 +214,8 @@ export const works: Work[] = [
     image: {
       src: "/obra/oltre-lo-sguardo/principal.jpg",
       alt: "Carboncillo de una mujer joven de cabello ondulado y blusa de encaje de cuello alto, sosteniendo la mirada hacia quien observa.",
-      width: 1242,
-      height: 1802,
+      width: 1439,
+      height: 1920,
     },
     detailImages: [
       {
@@ -288,8 +288,8 @@ export const works: Work[] = [
     image: {
       src: "/obra/materia/principal.jpg",
       alt: "Carboncillo de un hombre de perfil con rastas largas y chaqueta de jean, la mirada dirigida fuera del encuadre.",
-      width: 1267,
-      height: 1751,
+      width: 1411,
+      height: 1920,
     },
     shortStory: "Algunas imágenes se sienten antes de comprenderse.",
     longStory: [
