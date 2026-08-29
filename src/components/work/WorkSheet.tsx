@@ -18,8 +18,6 @@ const statusLabels: Record<WorkStatus, string> = {
 
 interface WorkSheetProps {
   work: Work;
-  /** Crop for the plate. The drawings are portrait; this frame is not. */
-  aspect?: string;
 }
 
 /**
@@ -39,7 +37,7 @@ interface WorkSheetProps {
  * technique or dimensions, so its sheet shows what it has and then says the
  * rest is pending rather than filling the rows with something plausible.
  */
-export function WorkSheet({ work, aspect = "aspect-[5/4]" }: WorkSheetProps) {
+export function WorkSheet({ work }: WorkSheetProps) {
   const rows: [string, string][] = [];
 
   if (work.technique) rows.push(["Técnica", work.technique]);
@@ -68,16 +66,23 @@ export function WorkSheet({ work, aspect = "aspect-[5/4]" }: WorkSheetProps) {
       {work.image ? (
         <Reveal variant="image" className="lg:col-span-7">
           {/*
-            A landscape frame over a portrait drawing, which is a crop and a
-            deliberate one: this plate is the piece seen across the page, and
-            the composition entire is in the row below.
+            A wide rectangle, capped at the height of the label beside it.
 
-            5/4 rather than 3/2. At 3/2 the band was narrow enough that Bajo su
-            Protección lost the cub's head off the bottom — the drawing's whole
-            subject is two faces stacked, and a wide crop cannot hold them.
+            4/3 on a phone, where the column is narrow and a band would leave
+            the drawing a strip; from `lg` the height is fixed at 30rem and the
+            width takes what the column gives it, which is how the plate ends
+            up level with the sheet rather than towering over it.
+
+            The cost is real and worth recording: at this height Bajo su
+            Protección shows the lioness and not the cub. Its two faces are
+            stacked over about 1050px of a 1920px drawing, and a band level
+            with a four-row sheet is roughly 570px — the whole subject does not
+            fit at this proportion at any focus. The composition entire is in
+            the row of three below, which is where it now lives.
+
             `sheetFocus` is tuned per work against this frame specifically.
           */}
-          <div className={`relative w-full overflow-hidden ${aspect}`}>
+          <div className="relative aspect-[4/3] w-full overflow-hidden lg:aspect-auto lg:h-[30rem]">
             <Image
               src={work.image.src}
               alt={work.image.alt}

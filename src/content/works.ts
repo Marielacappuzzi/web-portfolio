@@ -114,8 +114,13 @@ export const works: Work[] = [
     },
     /* Las dos miradas, alineadas una sobre otra, a un tercio de la altura. */
     coverFocus: "50% 30%",
-    /* 5/4 landscape: 12% keeps the lioness's face and the cub's head whole. */
-    sheetFocus: "50% 12%",
+    /*
+      The band level with the sheet is about 570px of a 1920px drawing, and
+      the two faces span nearly twice that — the cub cannot fit here at any
+      value. Rendered at 16, 24, 30 and 36 and looked: 30 centres her face
+      whole, and the top of the cub's head just reaches the bottom edge.
+    */
+    sheetFocus: "50% 30%",
     title: "Bajo su Protección",
     year: 2026,
     technique: "Carboncillo sobre papel 100% algodón, 270 g/m²",

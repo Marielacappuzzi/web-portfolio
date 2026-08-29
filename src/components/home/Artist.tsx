@@ -25,9 +25,9 @@ export function Artist({ content }: { content: HomeArtistContent }) {
       aria-labelledby="artista-titulo"
     >
       {/*
-        Text left, photograph right, and the photograph takes the whole right
-        side rather than a column inside the grid: five of twelve for the
-        words, seven for the picture, running out to the edge of the screen.
+        Text left, photograph right, and the photograph takes the right side
+        rather than a column inside the grid: five of twelve for the words, six
+        for the picture, running out to the edge of the screen.
 
         The section drops its gutter and the text column carries its own, so
         the picture can reach the edge without the words losing the page's
@@ -64,14 +64,21 @@ export function Artist({ content }: { content: HomeArtistContent }) {
             which was holding a photograph of her at the board inside a framed
             box with margins on both sides. Here the picture is the block.
           */}
-          <Reveal variant="image" delay={120} className="lg:col-span-7">
+          <Reveal variant="image" delay={120} className="lg:col-span-6">
             <Figure
               src={content.image.src}
               alt={content.image.alt}
               pendingLabel="Mariela trabajando"
-              aspect="aspect-[4/5] sm:aspect-[3/2] lg:aspect-[4/5]"
+              /*
+                4/5 on a phone, where a column that narrow needs the height;
+                3/2 from `sm` up. It was 4/5 at every width, so on a 1920
+                screen the photograph came out 1120 wide and 1400 tall — taller
+                than the viewport, and the block read as a picture the page had
+                been built around rather than one beside the text.
+              */
+              aspect="aspect-[4/5] sm:aspect-[3/2]"
               focus="50% 40%"
-              sizes="(min-width: 1024px) 58vw, 100vw"
+              sizes="(min-width: 1024px) 50vw, 100vw"
               bare
               zoomOnHover
             />
