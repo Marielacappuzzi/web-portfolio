@@ -58,9 +58,9 @@ export function WorkSheet({ work }: WorkSheetProps) {
 
       Held inside the 90rem column the plate came out at 43% of a 1920 screen,
       which is what made the drawing read small. Escaping the container puts it
-      at 58% of the viewport and the label at the remaining 42%, which is the
-      proportion the work needs and the label can live with. The label carries
-      its own gutter so it keeps the page's right-hand axis.
+      at 58% of the viewport and the label at the remaining 42% — seven columns
+      against five, with nothing dead between them. The label carries its own
+      gutter so it keeps the page's right-hand axis.
     */
     <div className="grid gap-2xl lg:grid-cols-12 lg:items-center lg:gap-x-[4vw]">
       {work.image ? (
@@ -96,10 +96,20 @@ export function WorkSheet({ work }: WorkSheetProps) {
         </Reveal>
       ) : null}
 
-      <div className="gutter lg:col-span-4 lg:col-start-9 lg:pl-0">
+      {/*
+        Columns 8 to 12, not 9 to 12.
+
+        It started at 9 and spanned 4, which left column 8 empty between the
+        plate and the label — a dead column the layout was paying for twice.
+        The label was 33% of the screen and everything in it broke short: the
+        technique ran to three lines, the sentence above it to five. At 42% the
+        sentence sets in three and the technique in two, and the column reaches
+        the height of the plate beside it instead of running past its foot.
+      */}
+      <div className="gutter lg:col-span-5 lg:col-start-8 lg:pl-0">
         {work.shortStory ? (
           <Reveal>
-            <p className="max-w-[42ch] font-serif text-lg font-light leading-snug text-pretty text-fg-strong">
+            <p className="max-w-[48ch] font-serif text-lg font-light leading-snug text-pretty text-fg-strong">
               {work.shortStory}
             </p>
           </Reveal>
@@ -113,7 +123,12 @@ export function WorkSheet({ work }: WorkSheetProps) {
                   key={label}
                   className="flex flex-col gap-3xs border-t border-rule py-md last:border-b sm:flex-row sm:items-baseline sm:gap-md"
                 >
-                  <dt className="font-sans text-2xs uppercase tracking-label text-fg-muted sm:w-[9rem] sm:shrink-0">
+                  {/*
+                    8rem, down from 9. The field names are short — the longest
+                    is "Dimensiones" — and every millimetre the label keeps is
+                    one the value has to wrap around.
+                  */}
+                  <dt className="font-sans text-2xs uppercase tracking-label text-fg-muted sm:w-[8rem] sm:shrink-0">
                     {label}
                   </dt>
                   <dd className="font-sans text-sm leading-relaxed text-pretty text-fg">
@@ -133,7 +148,7 @@ export function WorkSheet({ work }: WorkSheetProps) {
 
         {work.note ? (
           <Reveal delay={180} className="mt-md">
-            <p className="max-w-[42ch] font-sans text-xs leading-relaxed text-fg-muted">
+            <p className="max-w-[48ch] font-sans text-xs leading-relaxed text-fg-muted">
               {work.note}
             </p>
           </Reveal>
