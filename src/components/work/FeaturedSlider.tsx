@@ -14,6 +14,15 @@ interface FeaturedSliderProps {
    * run is hidden on every screen wider than a phone.
    */
   priority?: boolean;
+  /**
+   * Fade the top edge of each banner into the section's ground.
+   *
+   * On /obra the heading sits on the chamber ground and the photograph starts
+   * immediately under it, so a flat #303030 met the top of a picture in a hard
+   * line. This softens that seam. Only for a section whose ground is chamber —
+   * on the home the run sits on paper and an ink fade would be a smudge.
+   */
+  fadeTop?: boolean;
   className?: string;
 }
 
@@ -46,6 +55,7 @@ interface FeaturedSliderProps {
 export function FeaturedSlider({
   works,
   priority = true,
+  fadeTop = false,
   className,
 }: FeaturedSliderProps) {
   const track = useRef<HTMLUListElement>(null);
@@ -175,6 +185,13 @@ export function FeaturedSlider({
                 rather than laid on the picture, and the drawing above it is
                 untouched because the gradient is gone well before it.
               */}
+              {fadeTop ? (
+                <div
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-ink to-transparent md:h-32"
+                />
+              ) : null}
+
               <div
                 aria-hidden="true"
                 className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-ink/90 via-ink/55 via-35% to-transparent"

@@ -64,6 +64,10 @@ export function Artist({ content }: { content: HomeArtistContent }) {
             Figure make the frame take the file's ratio, so nothing is cropped
             — which is the point: it is a vertical picture and it is shown
             vertical, top to bottom.
+
+            Matted, like the flagship row above it. `bare` was dropping the
+            passepartout, so this was the one photograph on the home standing
+            on the page with no edge while the three works beside it had one.
           */}
           <Reveal variant="image" delay={120} className="lg:col-span-5 lg:col-start-8">
             <Figure
@@ -73,7 +77,6 @@ export function Artist({ content }: { content: HomeArtistContent }) {
               width={1280}
               height={1920}
               sizes="(min-width: 1024px) 40vw, 100vw"
-              bare
               zoomOnHover
             />
           </Reveal>

@@ -77,7 +77,14 @@ export default async function WorkIndexPage() {
             </Reveal>
           </Container>
 
-          <FeaturedSlider works={featured} className="mt-lg" />
+          {/*
+            `fadeTop` because the heading sits on the chamber ground and the
+            photograph begins directly under it — a flat #303030 meeting the
+            top of a picture in a hard line. The gradient carries one into the
+            other. `mt-md` rather than `mt-lg`: with the seam softened the
+            heading can sit closer to what it names.
+          */}
+          <FeaturedSlider works={featured} fadeTop className="mt-md" />
         </Section>
       ) : null}
 

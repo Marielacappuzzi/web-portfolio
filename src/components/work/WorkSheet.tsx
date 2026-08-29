@@ -82,14 +82,14 @@ export function WorkSheet({ work }: WorkSheetProps) {
 
             `sheetFocus` is tuned per work against this frame specifically.
           */}
-          <div className="relative aspect-[4/3] w-full overflow-hidden lg:aspect-auto lg:h-[30rem]">
+          <div className="group relative aspect-[4/3] w-full overflow-hidden lg:aspect-auto lg:h-[30rem]">
             <Image
               src={work.image.src}
               alt={work.image.alt}
               fill
               sizes="(min-width: 1024px) 58vw, 92vw"
               quality={90}
-              className="object-cover"
+              className="object-cover transition-transform duration-[900ms] ease-out-quart group-hover:scale-[1.04] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
               style={{ objectPosition: work.sheetFocus ?? work.coverFocus ?? "50% 30%" }}
             />
           </div>

@@ -50,16 +50,25 @@ function Plate({
   sizes,
   aspect,
   focus,
+  bleed = false,
   priority = false,
 }: {
   image: WorkImage;
   sizes: string;
   aspect?: string;
   focus?: string;
+  /** True only for a plate that runs edge to edge — see the caption note. */
+  bleed?: boolean;
   priority?: boolean;
 }) {
+  const caption = image.caption ? (
+    <figcaption className="mt-sm font-sans text-xs text-fg-muted">
+      {image.caption}
+    </figcaption>
+  ) : null;
+
   return (
-    <figure>
+    <figure className="group">
       <div
         className={cn("relative w-full overflow-hidden", aspect)}
         style={
@@ -73,18 +82,27 @@ function Plate({
           sizes={sizes}
           quality={90}
           loading={priority ? "eager" : "lazy"}
-          className="object-cover"
+          /*
+            The picture comes closer inside a frame that does not move. The
+            wrapper owns `overflow-hidden`, so nothing leaves its opening and
+            the layout never shifts under the pointer.
+          */
+          className="object-cover transition-transform duration-[900ms] ease-out-quart group-hover:scale-[1.04] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
           style={focus ? { objectPosition: focus } : undefined}
         />
       </div>
 
-      {image.caption ? (
-        <Container width="wide">
-          <figcaption className="mt-sm font-sans text-xs text-fg-muted">
-            {image.caption}
-          </figcaption>
-        </Container>
-      ) : null}
+      {/*
+        The caption sits where its picture starts.
+
+        Only a bleeding plate needs the page gutter under it — it has no
+        margin of its own, so its caption would otherwise begin at the very
+        edge of the screen. Every other plate is already inside a container,
+        and wrapping the caption in a second one pushed it to the page's left
+        margin instead of the image's: in a row of three, all three captions
+        lined up under the first picture.
+      */}
+      {caption && bleed ? <Container width="wide">{caption}</Container> : caption}
     </figure>
   );
 }
@@ -216,6 +234,7 @@ function Block({ block }: { block: WorkBlock }) {
           aspect={block.aspect}
           focus={block.focus}
           sizes="100vw"
+          bleed
         />
       </Reveal>
     );
