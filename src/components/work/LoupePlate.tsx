@@ -8,9 +8,21 @@ import type { WorkImage } from "@/content/types";
 
 interface LoupePlateProps {
   image: WorkImage;
+  /** The views not currently on the plate, warmed at the size they will need. */
+  alternates?: WorkImage[];
   /** Loads eagerly: this is the first thing the panel shows. */
   priority?: boolean;
 }
+
+/**
+ * Must be one of `images.qualities` in next.config.ts.
+ *
+ * A value outside that list is not an error and not a warning — the optimiser
+ * simply declines the request and the browser is handed the original file, so
+ * the one image the panel exists to show becomes the slowest thing on the
+ * page. It was 92 here against a config that allows 75 and 90.
+ */
+const QUALITY = 90;
 
 /** How far in the glass goes. Enough to read a stroke, short of pixelation. */
 const ZOOM = 2.2;
@@ -34,7 +46,7 @@ const ZOOM = 2.2;
  * fights the scroll or hijacks the tap that closes the panel — on a phone the
  * plate stays a plate, and the thumbnails do the work of showing more.
  */
-export function LoupePlate({ image, priority }: LoupePlateProps) {
+export function LoupePlate({ image, alternates = [], priority }: LoupePlateProps) {
   const frame = useRef<HTMLDivElement>(null);
   const [origin, setOrigin] = useState<string | null>(null);
 
@@ -65,7 +77,7 @@ export function LoupePlate({ image, priority }: LoupePlateProps) {
           alt={image.alt}
           width={image.width}
           height={image.height}
-          quality={92}
+          quality={QUALITY}
           sizes="(min-width: 1024px) 60vw, 92vw"
           className="h-auto max-h-[48vh] w-auto max-w-full object-contain sm:max-h-[60vh] lg:max-h-[68vh]"
           priority={priority}
@@ -100,6 +112,38 @@ export function LoupePlate({ image, priority }: LoupePlateProps) {
           }`}
         >
           <LoupeIcon width={15} height={15} />
+        </div>
+
+        {/*
+          The other views, warmed.
+
+          Next optimises on demand, so the first request for a file at a given
+          width is a read, a decode, a resize and an encode on the server —
+          which at click time is the second of nothing that made choosing a
+          view feel broken. Mounting them here, with the same `sizes` and
+          `quality` the plate uses, makes the browser fetch the exact URLs the
+          swap will ask for while the visitor is still looking at the first
+          one, so selecting a thumbnail hits cache.
+
+          A 1px clipped box rather than `display: none` or zero size: a hidden
+          image is not fetched at all, and a zero-width one resolves the srcset
+          to the smallest candidate, which warms the wrong file.
+        */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute h-px w-px overflow-hidden opacity-0"
+        >
+          {alternates.map((view) => (
+            <Image
+              key={view.src}
+              src={view.src}
+              alt=""
+              width={view.width}
+              height={view.height}
+              quality={QUALITY}
+              sizes="(min-width: 1024px) 60vw, 92vw"
+            />
+          ))}
         </div>
       </div>
     </Mat>

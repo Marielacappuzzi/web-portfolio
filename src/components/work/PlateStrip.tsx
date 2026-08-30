@@ -47,7 +47,7 @@ export function PlateStrip({ plates, active, onSelect, label }: PlateStripProps)
       className={cn(
         "flex shrink-0 gap-2xs overflow-x-auto pb-2 lg:h-[68vh] lg:flex-col",
         "lg:gap-xs lg:overflow-x-visible lg:overflow-y-auto lg:pb-0",
-        "[scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
+        "scrollbar-none [&::-webkit-scrollbar]:hidden",
       )}
     >
       {plates.map((plate, i) => {
@@ -76,7 +76,12 @@ export function PlateStrip({ plates, active, onSelect, label }: PlateStripProps)
               alt={plate.caption ?? plate.alt}
               width={plate.width}
               height={plate.height}
-              quality={70}
+              /*
+                75, not 70: `images.qualities` allows 75 and 90, and a value
+                outside that list is quietly declined — the strip would have
+                pulled ten full-size originals to draw ten 80px boxes.
+              */
+              quality={75}
               sizes="120px"
               /*
                 A fixed box with the image cropped to fill it. The views are a
@@ -84,7 +89,7 @@ export function PlateStrip({ plates, active, onSelect, label }: PlateStripProps)
                 portrait sheet — and left to their own ratios the column turned
                 into a ragged stack. One shape each keeps it a strip.
               */
-              className="h-16 w-14 object-cover sm:h-20 sm:w-16 lg:h-auto lg:w-20 lg:aspect-[3/4]"
+              className="h-16 w-14 object-cover sm:h-20 sm:w-16 lg:h-auto lg:w-20 lg:aspect-3/4"
             />
           </button>
         );

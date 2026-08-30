@@ -71,9 +71,16 @@ export function Lightbox({ works, index, onClose, onNavigate }: LightboxProps) {
    * Only `detailImages` is drawn on. `framedImages` and `processImages` show a
    * wall and a worktable — real material, shown deliberately elsewhere — and
    * putting either into this strip would swap the drawing for a room.
+   *
+   * The three flagship pieces get no strip at all. They have a page of their
+   * own, and that page is where their other views are composed and captioned;
+   * offering an abbreviated version of it inside a panel would answer the
+   * question the editorial page exists to answer, and the visitor would have
+   * no reason left to open it.
    */
   const plates = useMemo(() => {
     if (!work?.image) return [];
+    if (work.hasEditorialPage) return [work.image];
     return [work.image, ...(work.detailImages ?? []).slice(0, 2)];
   }, [work]);
 
@@ -211,7 +218,11 @@ export function Lightbox({ works, index, onClose, onNavigate }: LightboxProps) {
             </div>
 
             <div className="order-1 lg:order-2">
-              <LoupePlate image={plates[plate] ?? work.image} priority />
+              <LoupePlate
+                image={plates[plate] ?? work.image}
+                alternates={plates.filter((_, i) => i !== plate)}
+                priority
+              />
             </div>
           </div>
 
