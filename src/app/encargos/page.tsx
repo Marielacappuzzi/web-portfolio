@@ -98,7 +98,19 @@ export default async function CommissionsPage() {
             className="pointer-events-none absolute inset-0 hidden bg-gradient-to-r from-ink/70 via-ink/35 via-32% to-transparent to-60% md:block"
           />
 
-          <div className="relative pb-2xl pt-[60svh] md:absolute md:inset-0 md:flex md:items-center md:py-0 md:pt-0">
+          {/*
+            Further down the frame on a phone, and the pair held closer.
+
+            At 60svh the sentence started just under the horse's head with a
+            long run of picture still above it and the button a full `xl` below
+            the text, so the two read as separate things with the photograph
+            drifting between them. 72svh puts the block low over the dark foot
+            of the banner — more of the horse before the words — and the button
+            follows the sentence at `md` instead, close enough to read as its
+            conclusion. The wide layout is centred by its own rule and is not
+            affected by either.
+          */}
+          <div className="relative pb-2xl pt-[72svh] md:absolute md:inset-0 md:flex md:items-center md:py-0 md:pt-0">
             <Container width="wide" className="w-full">
               <div className="md:grid md:grid-cols-12">
                 <div className="md:col-span-6 lg:col-span-5">
@@ -115,7 +127,11 @@ export default async function CommissionsPage() {
                     </p>
                   </Reveal>
 
-                  <Reveal delay={120} className="mt-xl">
+                  {/* `mt-md` on a phone: the button concludes the sentence
+                      rather than standing apart from it. `mt-xl` from `md`,
+                      where the block is centred in a wide frame and has the
+                      room for the longer breath. */}
+                  <Reveal delay={120} className="mt-md md:mt-xl">
                     <ActionButton href="#cotizar">
                       Cotizar un encargo
                     </ActionButton>

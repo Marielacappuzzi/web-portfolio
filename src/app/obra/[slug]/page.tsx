@@ -253,11 +253,26 @@ export default async function WorkPage({ params }: PageProps<"/obra/[slug]">) {
               Otras obras destacadas
             </h2>
 
-            <div className="flex flex-col gap-lg sm:flex-row sm:items-baseline sm:justify-between">
+            {/*
+              A rule above the pair, and the pair on one row at every width.
+
+              The footer is chamber too, so this block ran straight into it —
+              two dark bands with no seam, and the last movement of the page
+              read as the first line of the footer. The hairline is the same
+              mark used everywhere else and it is all that is needed to say
+              where the page ends.
+
+              One row on a phone as well: stacked, the two titles sat directly
+              above the footer's own links in a single column and the whole
+              foot became one list. `gap-md` and a `basis-0` split give each
+              side half the width minus the gap; the titles wrap inside their
+              own half rather than pushing the other one off the screen.
+            */}
+            <div className="flex flex-row items-baseline justify-between gap-md border-t border-rule pt-xl sm:gap-lg">
               {previous ? (
                 <Neighbour work={previous} direction="previous" />
               ) : (
-                <span />
+                <span className="min-w-0 flex-1" />
               )}
               {next ? <Neighbour work={next} direction="next" /> : null}
             </div>
@@ -287,12 +302,20 @@ function Neighbour({
   const back = direction === "previous";
 
   return (
-    <Reveal delay={back ? 0 : 90} className={back ? undefined : "sm:text-right"}>
+    <Reveal
+      delay={back ? 0 : 90}
+      /* Half the row each, so a long title wraps inside its own side
+         instead of crowding the other one off a narrow screen. */
+      className={cn("min-w-0 flex-1", !back && "text-right")}
+    >
       <Link href={`/obra/${work.slug}`} className="group inline-flex flex-col">
         <span
           className={cn(
-            "flex items-center gap-2xs font-sans text-2xs font-medium uppercase tracking-label text-fg-muted",
-            !back && "sm:justify-end",
+            /* `fg-strong`, not `fg-muted`: white at 95% against 55%. At 2xs,
+               uppercase and tracked out, the muted tone was the faintest mark
+               on the page and the label read as disabled rather than quiet. */
+            "flex items-center gap-2xs font-sans text-2xs font-medium uppercase tracking-label text-fg-strong",
+            !back && "justify-end",
           )}
         >
           {back ? (
