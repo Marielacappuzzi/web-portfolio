@@ -50,24 +50,44 @@ export function SiteFooter({ site }: { site: SiteContent }) {
         <div className="grid grid-cols-1 gap-2xl sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr] lg:gap-xl">
           <div className="max-w-narrow">
             {/*
-              `lockup-claro`, not `logo-footer`: the same mark at 500 x 315
-              rather than 169 x 104.
+              One mark, two files, chosen by width.
 
-              The small file was drawn at 144 CSS pixels, which a phone at
-              DPR 3 renders across 432 real ones — it had 169 and was being
-              stretched two and a half times, which is the softness that was
-              visible on a handset and not on a laptop. The larger file has the
-              detail the same box needs at any density. Both carry the same
-              #303030 field as the chamber ground, so it still sits flush with
-              no edge.
+              They are the same lockup cropped differently. `logo-footer` is
+              trimmed close — 160 x 92 of a 169 x 104 canvas — so at a 144px
+              box the drawing itself measures 136 across. `lockup-claro` holds
+              295 x 167 inside 500 x 315, barely half its height, and the same
+              box draws it at 85: visibly smaller, which is what the correction
+              was about.
+
+              On a wide screen the small file has the detail it needs — 144 CSS
+              pixels against 169 real ones at DPR 1 — and it keeps the mark at
+              the size the footer was designed around. On a phone at DPR 3 that
+              same box wants 432 real pixels and the small file was being
+              stretched two and a half times, which is the softness that showed
+              on a handset and not on a laptop; there the larger file wins.
+              Its box is 230px rather than 144 to cancel the margin baked into
+              it: the drawing then measures 135.7 against the small file's
+              136.3, so the mark is the same size on both, and 230 CSS pixels
+              of a 500px file is still sharp at DPR 3.
+
+              Both carry the same #303030 field as the chamber ground, so
+              either sits flush with no edge.
             */}
             <Image
               src="/marca/lockup-claro.png"
               alt={site.name}
               width={500}
               height={315}
+              sizes="230px"
+              className="h-auto w-57.5 md:hidden"
+            />
+            <Image
+              src="/marca/logo-footer.png"
+              alt={site.name}
+              width={169}
+              height={104}
               sizes="144px"
-              className="h-auto w-[9rem]"
+              className="hidden h-auto w-36 md:block"
             />
             <p className="mt-sm max-w-[34ch] font-sans text-sm leading-relaxed text-fg-muted">
               {site.role}
