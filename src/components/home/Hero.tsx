@@ -30,7 +30,16 @@ export function Hero({ content }: HeroProps) {
       id="inicio"
       data-ground="chamber"
       aria-labelledby="hero-titulo"
-      className="relative isolate scroll-mt-24 text-fg"
+      /*
+        The header is fixed, so the band has to begin where the header ends.
+
+        It used to start at the top of the document and the picture ran up
+        behind the bar — the monogram and the links sat on the photograph, and
+        the top of the frame was cut by chrome rather than composed. The
+        offset matches the header's own height exactly, 4rem on a phone and
+        5rem from `md`, so the two meet on a line instead of overlapping.
+      */
+      className="relative isolate mt-16 scroll-mt-24 text-fg md:mt-20"
     >
       <CoverImage
         src={content.cover?.src ?? null}
@@ -56,7 +65,15 @@ export function Hero({ content }: HeroProps) {
           phone `vh` measures past the browser chrome and cuts the foot off.
           Between them the file keeps its own 16/9.
         */
-        aspect="h-[100svh] sm:h-auto sm:aspect-[16/9] lg:h-[100svh] lg:aspect-auto"
+        /*
+          The screen less the header, not the whole screen.
+
+          The band now starts below the fixed bar, so asking for `100svh` on
+          top of that offset makes the page taller than the viewport and pushes
+          the foot of the composition — the buttons — out of sight. Subtracting
+          the header's own height keeps the opening exactly one screen.
+        */
+        aspect="h-[calc(100svh-4rem)] sm:h-auto sm:aspect-[16/9] lg:h-[calc(100svh-5rem)] lg:aspect-auto"
         scrim="dark"
       />
 
@@ -87,7 +104,12 @@ export function Hero({ content }: HeroProps) {
         down than it did at `pb-2xl`, which is what the correction asked for,
         and it keeps clear of the bottom edge at both ends of the range.
       */}
-      <div className="absolute inset-0 flex items-end pb-lg pt-32 min-[380px]:pb-md sm:items-center sm:pb-0">
+      {/*
+        `pt-lg`, not `pt-32`. The tall padding was clearing the fixed header
+        from the inside; the band now starts below it, so the same allowance
+        applied twice was pushing the block down the frame for no reason.
+      */}
+      <div className="absolute inset-0 flex items-end pb-lg pt-lg min-[380px]:pb-md sm:items-center sm:pb-0">
         <Container width="wide" className="w-full">
           {/*
             Measured in rem, not in `ch`.

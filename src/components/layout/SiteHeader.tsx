@@ -156,6 +156,15 @@ export function SiteHeader({
                   menuOpen ? "opacity-0" : "opacity-100",
                 )}
               />
+              {/*
+                Scaled up to match the dark mark, because the two files are not
+                the same crop: 500x218 against 500x185, so 2.29 against 2.70.
+                `object-contain` fits whichever dimension runs out first — for
+                the wider light file that is the width, and it then lands about
+                8% shorter inside the identical box. That is why the monogram
+                looked smaller with the menu open. The transform makes up the
+                difference so the mark holds its size through the swap.
+              */}
               <Image
                 src="/marca/mc-monograma-claro.png"
                 alt=""
@@ -164,7 +173,7 @@ export function SiteHeader({
                 priority
                 sizes="144px"
                 className={cn(
-                  "object-contain object-left transition-opacity duration-300",
+                  "origin-left scale-[1.178] object-contain object-left transition-opacity duration-300",
                   menuOpen ? "opacity-100" : "opacity-0",
                 )}
               />
