@@ -157,13 +157,34 @@ export function SiteHeader({
                 )}
               />
               {/*
-                Scaled up to match the dark mark, because the two files are not
-                the same crop: 500x218 against 500x185, so 2.29 against 2.70.
-                `object-contain` fits whichever dimension runs out first — for
-                the wider light file that is the width, and it then lands about
-                8% shorter inside the identical box. That is why the monogram
-                looked smaller with the menu open. The transform makes up the
-                difference so the mark holds its size through the swap.
+                Scaled to match the dark mark, measured from the ink rather
+                than from the canvas.
+
+                The two files are cropped differently. In the dark one the
+                drawing fills the frame — 491 x 216 of a 500 x 218 canvas, 99%
+                of the height. The light one is 294 x 133 inside 500 x 185:
+                72% of the height and 59% of the width, the rest field. Both
+                are fitted to the same box, so the light mark was drawn at 24.5
+                real pixels against the dark one's 39.6 — a third smaller, and
+                a canvas-ratio correction only recovered a fraction of it.
+
+                1.62 is the ratio of those two drawn heights. At that size the
+                light mark measures 87.6px across a 92px box, so it grows into
+                the space without touching the edge.
+
+                The offset goes with it. Scaling from the left edge scales the
+                file's empty margin too, which put the light drawing 31 screen
+                pixels further right than the dark one — a jump of a third of
+                its own width every time the menu opened.
+
+                19px, not 31: Tailwind v4 emits `translate` and `scale` as
+                separate CSS properties rather than one `transform` list, and
+                the browser applies translate first, so what is asked for here
+                is multiplied by the 1.62 that follows it. 19 x 1.62 is the 31
+                the correction actually needs.
+
+                Still a patch: the fix is re-exporting the light PNG trimmed to
+                its ink like the dark one, and this can go when that happens.
               */}
               <Image
                 src="/marca/mc-monograma-claro.png"
@@ -173,7 +194,7 @@ export function SiteHeader({
                 priority
                 sizes="144px"
                 className={cn(
-                  "origin-left scale-[1.178] object-contain object-left transition-opacity duration-300",
+                  "origin-left -translate-x-[19px] scale-[1.62] object-contain object-left transition-opacity duration-300",
                   menuOpen ? "opacity-100" : "opacity-0",
                 )}
               />

@@ -50,15 +50,23 @@ export function SiteFooter({ site }: { site: SiteContent }) {
         <div className="grid grid-cols-1 gap-2xl sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr] lg:gap-xl">
           <div className="max-w-narrow">
             {/*
-              The lockup at its native 169px. Rendered any larger it softens —
-              the file has no more detail to give. Its background is the same
-              #303030 as the chamber ground, so it sits flush with no edge.
+              `lockup-claro`, not `logo-footer`: the same mark at 500 x 315
+              rather than 169 x 104.
+
+              The small file was drawn at 144 CSS pixels, which a phone at
+              DPR 3 renders across 432 real ones — it had 169 and was being
+              stretched two and a half times, which is the softness that was
+              visible on a handset and not on a laptop. The larger file has the
+              detail the same box needs at any density. Both carry the same
+              #303030 field as the chamber ground, so it still sits flush with
+              no edge.
             */}
             <Image
-              src="/marca/logo-footer.png"
+              src="/marca/lockup-claro.png"
               alt={site.name}
-              width={169}
-              height={104}
+              width={500}
+              height={315}
+              sizes="144px"
               className="h-auto w-[9rem]"
             />
             <p className="mt-sm max-w-[34ch] font-sans text-sm leading-relaxed text-fg-muted">
