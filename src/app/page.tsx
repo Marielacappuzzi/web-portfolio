@@ -38,58 +38,80 @@ export default async function HomePage() {
         asks for large images and fewer explanations here, and the catalogue is
         one click away.
       */}
-      <Section id="obras" ground="paper" rhythm="act" aria-labelledby="obras-titulo">
-        {/*
-          The heading and the closing button keep the page gutter; the slider
-          does not. On a phone the three flagship pieces are shown exactly as
-          the gallery shows them — full-bleed banners, one at a time, arrows
-          underneath — and a banner held inside a 90rem column with 20px of
-          gutter either side is not a banner, it is a picture in a box.
-        */}
+      {/*
+        Two sections, one per breakpoint, rather than one section with two
+        children.
+
+        On a phone this borrows the gallery's own treatment wholesale: the dark
+        ground, the heading centred on it, and the banner beginning directly
+        under the words with `fadeTop` carrying one into the other. On paper the
+        heading sat on a bright page above a dark full-bleed photograph and the
+        two read as unrelated things stacked; on chamber the title belongs to
+        the picture it names. The wide layout is untouched — three cards on
+        paper, exactly as before.
+
+        The ground has to change on the section itself, which is what carries
+        `data-ground`, so a single section cannot do both. `md:hidden` /
+        `hidden md:block` rather than a conditional: this is a Server
+        Component, rendered once with no idea of the viewport. CSS is what
+        knows the width.
+      */}
+      {/*
+        The anchor lives outside both sections, because only one of them exists
+        at any width and an id on a `display: none` element is not a scroll
+        target — the hero's "Ver obras" would have died on every wide screen.
+        An empty span always in the tree is the one thing both layouts share.
+      */}
+      <span id="obras" aria-hidden="true" className="block scroll-mt-24" />
+
+      <Section
+        ground="chamber"
+        rhythm="act"
+        aria-labelledby="obras-titulo"
+        className="md:hidden"
+      >
         <Container width="wide">
           <Reveal>
-            <Display as="h2" id="obras-titulo" measure={20}>
+            <Display
+              as="h2"
+              id="obras-titulo"
+              measure={20}
+              className="text-center"
+            >
               Obras *destacadas*
             </Display>
           </Reveal>
         </Container>
 
         {/*
-          Two presentations of the same three pieces, one per breakpoint.
-
-          The row of cards works on a wide screen, where three drawings sit
-          side by side and read as a set. On a phone it becomes three portraits
-          stacked in a single column, each one small, and the banners do the
-          job far better — one at a time, edge to edge, swipeable.
-
-          `md:hidden` / `hidden md:block` rather than a conditional, because
-          this is a Server Component: it renders once, with no idea what it is
-          rendering onto. CSS is what knows the width.
+          `priority={false}`: on /obra the first banner opens the page, but
+          here the home's own hero already holds that slot.
         */}
-        <div className="mt-2xl md:hidden">
-          {/*
-            `priority={false}`: on /obra the first banner is what opens the
-            page, but here the home's own hero already holds that slot and this
-            run is hidden on the screens most visitors arrive on.
-          */}
-          <FeaturedSlider works={featured} priority={false} />
-        </div>
-
-        <div className="hidden md:block">
-          <Container width="wide">
-            <FeaturedRow works={featured} className="mt-2xl" />
-          </Container>
-        </div>
+        <FeaturedSlider works={featured} fadeTop priority={false} className="mt-xl" />
 
         <Container width="wide">
-          {/*
-            `mt-xl` on a phone, `mt-3xl` from `sm`. The slider's own arrows sit
-            directly above this button, so on a narrow screen the gap read as a
-            missing section rather than as breathing room — about a third less,
-            which is what the correction asked for, and the wide layout keeps
-            the space it was designed with.
-          */}
-          <Reveal className="mt-xl flex justify-center sm:mt-3xl">
+          <Reveal className="mt-xl flex justify-center">
+            <ActionButton href="/obra">Ver todas las obras</ActionButton>
+          </Reveal>
+        </Container>
+      </Section>
+
+      <Section
+        ground="paper"
+        rhythm="act"
+        aria-labelledby="obras-titulo-md"
+        className="hidden md:block"
+      >
+        <Container width="wide">
+          <Reveal>
+            <Display as="h2" id="obras-titulo-md" measure={20}>
+              Obras *destacadas*
+            </Display>
+          </Reveal>
+
+          <FeaturedRow works={featured} className="mt-2xl" />
+
+          <Reveal className="mt-3xl flex justify-center">
             <ActionButton href="/obra">Ver todas las obras</ActionButton>
           </Reveal>
         </Container>

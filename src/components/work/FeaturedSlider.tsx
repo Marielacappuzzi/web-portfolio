@@ -18,10 +18,12 @@ interface FeaturedSliderProps {
   /**
    * Fade the top edge of each banner into the section's ground.
    *
-   * On /obra the heading sits on the chamber ground and the photograph starts
-   * immediately under it, so a flat #303030 met the top of a picture in a hard
+   * Where the heading sits on the chamber ground and the photograph starts
+   * immediately under it, a flat #303030 meets the top of a picture in a hard
    * line. This softens that seam. Only for a section whose ground is chamber —
-   * on the home the run sits on paper and an ink fade would be a smudge.
+   * on paper an ink fade would be a smudge. Both /obra and the home's phone
+   * layout are chamber and pass it; the home's wide layout shows cards on
+   * paper instead and never reaches here.
    */
   fadeTop?: boolean;
   className?: string;
