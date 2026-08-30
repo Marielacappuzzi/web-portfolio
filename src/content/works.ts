@@ -219,35 +219,12 @@ export const works: Work[] = [
     },
     detailImages: [
       {
-        src: "/obra/oltre-lo-sguardo/extra-01.jpg",
-        alt: "La obra completa fotografiada de frente, con el tono cálido del papel y la firma de la artista junto al hombro izquierdo.",
-        width: 1439,
-        height: 1920,
-        caption: "La hoja completa, con su tono cálido.",
-      },
-      {
-        src: "/obra/oltre-lo-sguardo/extra-02.jpg",
-        alt: "Encuadre cerrado del rostro y del encaje del cuello, donde se distingue el trazo hilo por hilo.",
-        width: 1439,
-        height: 1920,
-        caption: "El encaje, hilo por hilo.",
-      },
-      {
         src: "/obra/oltre-lo-sguardo/extra-07.jpg",
-        alt: "La obra vista en diagonal sobre la mesa, con la hoja de papel entrando en el encuadre por la izquierda.",
+        alt: "La obra vista en diagonal, con el borde de la hoja entrando por la izquierda y la firma de la artista junto al hombro.",
         width: 1440,
         height: 1920,
-        caption: "La hoja, sobre la mesa de trabajo.",
+        caption: "La hoja, en diagonal.",
       },
-      {
-        src: "/obra/oltre-lo-sguardo/extra-03.jpg",
-        alt: "La obra completa todavía pegada a la pared del taller con cinta de papel en el borde superior.",
-        width: 1439,
-        height: 1920,
-        caption: "Recién terminada, aún en la pared.",
-      },
-    ],
-    framedImages: [
       {
         src: "/obra/oltre-lo-sguardo/extra-04.jpg",
         alt: "La obra enmarcada en negro con paspartú blanco, apoyada sobre un caballete de mesa entre plantas colgantes.",
@@ -293,20 +270,18 @@ export const works: Work[] = [
     },
     detailImages: [
       {
-        src: "/obra/materia/extra-02.jpg",
-        alt: "La obra completa sujeta a la pared del taller con cinta de papel, con el trazo de las rastas y el vaquero a la vista.",
-        width: 1440,
-        height: 1920,
-        caption: "La hoja completa, en la pared.",
-      },
-    ],
-    framedImages: [
-      {
         src: "/obra/materia/extra-01.jpg",
         alt: "La obra enmarcada en negro con paspartú blanco, sobre un caballete de mesa entre plantas y otros retratos del taller.",
         width: 1080,
         height: 1920,
         caption: "Enmarcada, en el taller.",
+      },
+      {
+        src: "/obra/materia/extra-02.jpg",
+        alt: "La obra completa sujeta a la pared del taller con cinta de papel, con el trazo de las rastas y el vaquero a la vista.",
+        width: 1440,
+        height: 1920,
+        caption: "La hoja completa, en la pared.",
       },
     ],
     shortStory: "Algunas imágenes se sienten antes de comprenderse.",
@@ -336,6 +311,28 @@ export const works: Work[] = [
       width: 1080,
       height: 1880,
     },
+    /*
+     * The only piece whose other views live outside its own folder: these were
+     * shot for the studio and the commissions page and show this work being
+     * made. Referenced where they sit rather than copied, so there is one file
+     * per photograph and no pair to keep in step.
+     */
+    detailImages: [
+      {
+        src: "/encargos/proceso-movil.jpg",
+        alt: "La mano de la artista con un carboncillo sobre la obra, trabajando la crin del caballo, con los lápices en la mesa.",
+        width: 960,
+        height: 1500,
+        caption: "La crin, en proceso.",
+      },
+      {
+        src: "/estudio/extra-06.jpg",
+        alt: "La obra ya firmada sobre el tablero del taller, con la artista de espaldas trabajando el fondo de polvo con la mano enguantada.",
+        width: 1280,
+        height: 1920,
+        caption: "El fondo, hacia el final.",
+      },
+    ],
     shortStory: "Hay una fuerza que no necesita imponerse para hacerse visible.",
     longStory: [
       "En el caballo conviven potencia y elegancia, impulso y dominio. Toro Salvaje nació como un encargo y, durante el proceso, se convirtió también en una reflexión sobre la libertad: esa capacidad de reconocer la propia fuerza y elegir qué hacer con ella.",
@@ -361,13 +358,7 @@ export const works: Work[] = [
       width: 953,
       height: 1178,
     },
-    /*
-     * No detail views: the only other photograph of this piece shows it framed
-     * on an easel, which belongs below rather than in the plate strip. The
-     * panel shows one image, honestly, until a second view of the drawing
-     * itself exists.
-     */
-    framedImages: [
+    detailImages: [
       {
         src: "/obra/gracia/extra-01.jpg",
         alt: "La obra enmarcada en blanco con paspartú, sobre un caballete de pie delante de una pared cubierta de cuadros.",
@@ -403,18 +394,18 @@ export const works: Work[] = [
     },
     detailImages: [
       {
-        src: "/obra/nina/extra-03.jpg",
-        alt: "Encuadre cerrado sobre la cara de la perra, donde el pelo se distingue pelo por pelo y la luz queda prendida en los ojos.",
-        width: 1440,
-        height: 1920,
-        caption: "El pelo, a la escala en que se dibuja.",
-      },
-      {
         src: "/obra/nina/extra-01.jpg",
         alt: "La hoja apoyada en la mesa de trabajo, con los difuminos, el lápiz de carbón y el polvo del material junto al borde del papel.",
         width: 1439,
         height: 1920,
         caption: "La hoja, sobre la mesa de trabajo.",
+      },
+      {
+        src: "/obra/nina/extra-04.jpg",
+        alt: "La obra enmarcada en negro con paspartú blanco, sobre un caballete de mesa delante de los estantes del taller.",
+        width: 1080,
+        height: 1920,
+        caption: "Enmarcada, sobre el caballete.",
       },
     ],
     shortStory:
@@ -443,6 +434,11 @@ export const works: Work[] = [
       width: 847,
       height: 1232,
     },
+    /*
+     * `extra-01` and `extra-02` are the same wall shot a few centimetres
+     * apart; only one is declared, because a second thumbnail of the same
+     * photograph is not another view.
+     */
     detailImages: [
       {
         src: "/obra/huella/extra-01.jpg",
@@ -451,8 +447,6 @@ export const works: Work[] = [
         height: 1920,
         caption: "La hoja completa, en la pared.",
       },
-    ],
-    framedImages: [
       {
         src: "/obra/huella/extra-03.jpg",
         alt: "La obra enmarcada en negro con paspartú blanco, apoyada en un caballete de mesa junto a los carboncillos y difuminos.",
@@ -499,20 +493,18 @@ export const works: Work[] = [
     },
     detailImages: [
       {
-        src: "/obra/molly/extra-02.jpg",
-        alt: "Encuadre cerrado sobre la gata, donde se distingue el pelaje mechón por mechón y el nombre grabado en la chapa del collar.",
-        width: 1438,
-        height: 1920,
-        caption: "El pelaje, mechón por mechón.",
-      },
-    ],
-    framedImages: [
-      {
         src: "/obra/molly/extra-01.jpg",
         alt: "La obra enmarcada en negro con paspartú blanco, sobre un caballete de pie delante de una pared con otros cuadros.",
         width: 1079,
         height: 1920,
         caption: "Enmarcada, sobre el caballete.",
+      },
+      {
+        src: "/obra/molly/extra-02.jpg",
+        alt: "Encuadre cerrado sobre la gata, donde se distingue el pelaje mechón por mechón y el nombre grabado en la chapa del collar.",
+        width: 1438,
+        height: 1920,
+        caption: "El pelaje, mechón por mechón.",
       },
     ],
     processVideos: [
