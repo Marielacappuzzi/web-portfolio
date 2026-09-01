@@ -117,9 +117,16 @@ export const commissions: CommissionsPage = {
       },
       {
         title: "Envíos",
+        /*
+          Rewritten by the client. The previous copy said deliveries were made
+          within Bolivia and that international ones "could be evaluated" —
+          written when there was no international logistics yet. Mariela now
+          ships worldwide, so the hedge is gone and only the part that is still
+          true remains: the cost depends on where it goes and on the piece.
+        */
         body: [
-          "Actualmente se realizan entregas dentro de Bolivia. Los envíos internacionales pueden evaluarse según el país y el destino.",
-          "Hasta contar con una logística internacional completamente estandarizada, los costos, tiempos y condiciones de cada envío se coordinan de forma individual.",
+          "Se realizan envíos a Bolivia y al resto del mundo.",
+          "Los costos y tiempos de entrega se cotizan según el destino y las características de cada obra.",
         ],
       },
     ],

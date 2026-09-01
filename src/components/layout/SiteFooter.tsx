@@ -125,16 +125,13 @@ export function SiteFooter({ site }: { site: SiteContent }) {
                 </li>
               ) : null}
 
-              <li>
-                {/*
-                  The enquiry form lives on /encargos now — /contacto is gone
-                  as a page, and this link is the one place in the footer that
-                  used to reach it.
-                */}
-                <Link href="/encargos#cotizar" className={linkClass}>
-                  Escribirme
-                </Link>
-              </li>
+              {/*
+                No "Escribirme" here. It pointed at the quotation form on
+                /encargos, which the navigation column two places away already
+                reaches by name — so the footer offered the same destination
+                twice under two different words. Instagram is the one channel
+                this column is for.
+              */}
             </ul>
 
             <p className="mt-md font-sans text-sm text-fg-muted">
