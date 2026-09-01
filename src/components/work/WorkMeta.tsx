@@ -9,8 +9,9 @@ const kindLabels: Record<WorkKind, string> = {
 
 const statusLabels: Record<WorkStatus, string> = {
   available: "Disponible",
+  sold: "Vendida",
   "private-collection": "Colección privada",
-  "sold-out": "Agotado",
+  "sold-out": "Agotada",
 };
 
 /**

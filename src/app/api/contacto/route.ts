@@ -1,5 +1,9 @@
 import { NextResponse } from "next/server";
-import { getCommissionsPage, getContactPage } from "@/lib/content";
+import {
+  getAvailabilityForm,
+  getCommissionsPage,
+  getContactPage,
+} from "@/lib/content";
 import type { FormField } from "@/content/types";
 import { sendContact, validate } from "@/lib/contact";
 import { verifyRecaptcha } from "@/lib/recaptcha";
@@ -60,7 +64,9 @@ export async function POST(request: Request) {
   const form: { fields: FormField[]; kindLabel: string } =
     payload.formulario === "cotizacion"
       ? await getCommissionsPage().then((commissions) => commissions.quote)
-      : await getContactPage();
+      : payload.formulario === "disponibilidad"
+        ? await getAvailabilityForm()
+        : await getContactPage();
 
   const { values, missing } = validate(payload, form.fields);
 

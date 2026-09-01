@@ -13,7 +13,22 @@
 export type WorkKind = "personal" | "commission" | "print";
 
 /** Availability. Shown only when set. */
-export type WorkStatus = "available" | "private-collection" | "sold-out";
+/**
+ * What has become of the unique piece.
+ *
+ * Only ever about the original. A work can have an edition of prints as well,
+ * and the two sell separately — the original of Sueño de Primavera is in a
+ * collection while its edition is still available, which one field could not
+ * say. See `prints`.
+ */
+export type WorkStatus =
+  | "available"
+  | "sold"
+  | "private-collection"
+  | "sold-out";
+
+/** What has become of the edition, where a work has one. */
+export type PrintStatus = "available" | "sold-out";
 
 /** Aspect ratio of the photographed piece, so no crop decides for Mariela. */
 export type Ratio = "portrait" | "landscape" | "square";
@@ -103,7 +118,17 @@ export interface Work {
   dimensions?: string;
 
   kind?: WorkKind;
+  /** The original. Absent where nothing is known about its availability. */
   status?: WorkStatus;
+  /**
+   * The edition. Present only where prints exist at all.
+   *
+   * Separate from `status` because the two are separate things to buy, and a
+   * reader has to be able to see both at once: "obra original vendida ·
+   * prints disponibles" is a real and common state, and the site could not
+   * express it while one field had to stand for both.
+   */
+  prints?: PrintStatus;
   /** The small closing line: "Obra original.", "Retrato de mascota."… */
   note?: string;
 
@@ -545,7 +570,7 @@ export interface ContactPage {
    * quote, was dropped before the email was built. It never errored; the
    * answer simply arrived with the format missing.
    */
-  form: "consulta" | "cotizacion";
+  form: "consulta" | "cotizacion" | "disponibilidad";
   /** What the subject line calls it, so an inbox can tell them apart. */
   kindLabel: string;
   heading: SectionHeading;

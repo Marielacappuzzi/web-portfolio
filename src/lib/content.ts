@@ -1,5 +1,6 @@
 import { home } from "@/content/home";
 import { about } from "@/content/pages/about";
+import { availability } from "@/content/pages/availability";
 import { commissions } from "@/content/pages/commissions";
 import { contact } from "@/content/pages/contact";
 import { privacy, terms } from "@/content/pages/legal";
@@ -53,6 +54,11 @@ export async function getCommissionsPage(): Promise<CommissionsPage> {
 
 export async function getContactPage(): Promise<ContactPage> {
   return contact;
+}
+
+/** The enquiry sent from a work's own page. See content/pages/availability. */
+export async function getAvailabilityForm(): Promise<ContactPage> {
+  return availability;
 }
 
 export async function getPrivacyPage(): Promise<LegalPage> {

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { ActionButton } from "@/components/primitives/ActionLink";
 import { Reveal } from "@/components/primitives/Reveal";
-import type { Work, WorkKind, WorkStatus } from "@/content/types";
+import type { PrintStatus, Work, WorkKind, WorkStatus } from "@/content/types";
 
 const kindLabels: Record<WorkKind, string> = {
   personal: "Obra personal",
@@ -9,10 +9,16 @@ const kindLabels: Record<WorkKind, string> = {
   print: "Print",
 };
 
+const printLabels: Record<PrintStatus, string> = {
+  available: "Disponibles",
+  "sold-out": "Agotados",
+};
+
 const statusLabels: Record<WorkStatus, string> = {
   available: "Disponible",
+  sold: "Vendida",
   "private-collection": "Colección privada",
-  "sold-out": "Agotado",
+  "sold-out": "Agotada",
 };
 
 interface WorkSheetProps {
@@ -47,20 +53,33 @@ export function WorkSheet({ work }: WorkSheetProps) {
   if (work.dimensions) rows.push(["Dimensiones", work.dimensions]);
 
   /*
-    "Original", not "Categoría".
-    On Sueño de Primavera the sheet says "Colección privada" and the block
-    below it offers a print — read as a category, that line looks like it
-    describes whatever is for sale. Naming the row for the piece it describes
-    makes the two unmistakable: the original is in a collection, the edition
-    is what is available.
+    Two rows, because there are two things and they sell separately.
+
+    A work is a unique piece, and it may also have an edition of prints. The
+    original of Sueño de Primavera is in a private collection while its
+    edition still has a copy left — one line could not say that, and read as a
+    category it made "Colección privada" look like it described whatever was
+    for sale. Naming each row for the thing it describes settles it, and
+    "vendida · disponibles" becomes expressible.
+
+    Either row is omitted when its state is not known. Nothing is guessed.
   */
-  const category = [
+  const original = [
     work.kind ? kindLabels[work.kind] : undefined,
     work.status ? statusLabels[work.status] : undefined,
   ]
     .filter(Boolean)
     .join(" · ");
-  if (category) rows.push(["Original", category]);
+  if (original) rows.push(["Original", original]);
+
+  if (work.prints) {
+    rows.push([
+      "Prints",
+      work.printEdition
+        ? `Edición limitada · ${printLabels[work.prints]}`
+        : printLabels[work.prints],
+    ]);
+  }
 
   return (
     /*

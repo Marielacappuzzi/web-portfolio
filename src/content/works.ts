@@ -618,6 +618,12 @@ export const works: Work[] = [
     technique: "Grafito y carboncillo sobre papel 100% algodón, 220 g/m²",
     dimensions: "100 × 70 cm",
     status: "private-collection",
+    /*
+      The original went to a collection; the edition has one copy left. Two
+      states, and both true at the same time — which is exactly the case the
+      single `status` field could not describe.
+    */
+    prints: "available",
     image: {
       src: "/obra/sueno-de-primavera/principal.jpg",
       alt: "Carboncillo de una mujer sentada sobre un banco de piedra en un jardín, rodeada por tres querubines alados que le acercan flores.",

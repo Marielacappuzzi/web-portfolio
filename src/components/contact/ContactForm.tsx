@@ -45,7 +45,20 @@ const fieldBase = cn(
   "disabled:opacity-60",
 );
 
-export function ContactForm({ page }: { page: ContactPage }) {
+interface ContactFormProps {
+  page: ContactPage;
+  /**
+   * Values the page knows and the reader should not have to type — the title
+   * of the work being asked about, on a work's own page.
+   *
+   * They travel in the payload and are validated against the form's own field
+   * list like anything else, but they are never drawn: a field whose answer is
+   * already on screen is a question nobody should be asked.
+   */
+  supplied?: Record<string, string>;
+}
+
+export function ContactForm({ page, supplied }: ContactFormProps) {
   const [status, setStatus] = useState<Status>("idle");
   const [consent, setConsent] = useState(false);
   const [missing, setMissing] = useState<string[]>([]);
@@ -64,6 +77,7 @@ export function ContactForm({ page }: { page: ContactPage }) {
     }
 
     const empty = page.fields
+      .filter((field) => !supplied?.[field.name])
       .filter((field) => field.required)
       .filter((field) => !String(data[field.name] ?? "").trim())
       .map((field) => field.name);
@@ -95,7 +109,12 @@ export function ContactForm({ page }: { page: ContactPage }) {
           validates against the right field list and names the message
           correctly in Mariela's inbox.
         */
-        body: JSON.stringify({ ...data, formulario: page.form, recaptchaToken }),
+        body: JSON.stringify({
+          ...supplied,
+          ...data,
+          formulario: page.form,
+          recaptchaToken,
+        }),
       });
 
       const body = await response.json().catch(() => ({}));
@@ -139,7 +158,9 @@ export function ContactForm({ page }: { page: ContactPage }) {
       className="flex flex-col gap-xl"
     >
       <div className="grid grid-cols-1 gap-lg sm:grid-cols-2">
-        {page.fields.map((field) => (
+        {page.fields
+          .filter((field) => !supplied?.[field.name])
+          .map((field) => (
           <Field
             key={field.name}
             field={field}

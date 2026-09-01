@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Container, Section } from "@/components/layout/Section";
 import { ActionButton, QuietLink } from "@/components/primitives/ActionLink";
+import { ContactForm } from "@/components/contact/ContactForm";
 import { ArrowRightIcon } from "@/components/primitives/Icon";
 import { Reveal } from "@/components/primitives/Reveal";
 import { Rule } from "@/components/primitives/Rule";
@@ -11,7 +12,13 @@ import { WorkComposition } from "@/components/work/WorkComposition";
 import { WorkHero } from "@/components/work/WorkHero";
 import { WorkSheet } from "@/components/work/WorkSheet";
 import { cn } from "@/lib/cn";
-import { getEditorialWorks, getWork, getWorkNeighbours } from "@/lib/content";
+import {
+  getAvailabilityForm,
+  getEditorialWorks,
+  getWork,
+  getWorkNeighbours,
+} from "@/lib/content";
+import { withEmphasis } from "@/lib/emphasis";
 
 export async function generateStaticParams() {
   const works = await getEditorialWorks();
@@ -61,6 +68,7 @@ export default async function WorkPage({ params }: PageProps<"/obra/[slug]">) {
   if (!work || !work.hasEditorialPage) notFound();
 
   const { previous, next } = await getWorkNeighbours(slug);
+  const enquiry = await getAvailabilityForm();
 
   return (
     <>
@@ -201,8 +209,19 @@ export default async function WorkPage({ params }: PageProps<"/obra/[slug]">) {
       ) : null}
 
       {/*
-        The ask. Two lines and two links — the page is a work, not a listing,
-        and the invitation closes it rather than running through it.
+        The ask, and it is a form rather than a link out.
+
+        It used to be "Consultar obra" pointing at /encargos — which asks what
+        you want *made*: a format, references, a description of a piece that
+        does not exist. Someone looking at a finished drawing is asking the
+        opposite question, whether this one or a print of it can still be had,
+        and was being made to fill in "Formato deseado" for a work whose
+        dimensions were printed on the same screen.
+
+        Four fields, on the piece's own page, with the title travelling in the
+        payload so nobody has to type it and Mariela never has to guess which
+        work an enquiry is about. The commission keeps its own form and sits
+        underneath as the quieter second route.
       */}
       <Section
         ground="paper"
@@ -214,22 +233,41 @@ export default async function WorkPage({ params }: PageProps<"/obra/[slug]">) {
         <Container width="wide">
           <Rule width="full" />
 
-          <div className="mt-2xl grid gap-lg lg:grid-cols-12 lg:items-end lg:gap-x-[4vw]">
-            <div className="lg:col-span-6">
+          <div className="mt-2xl grid gap-2xl lg:grid-cols-12 lg:gap-x-[4vw]">
+            <div className="lg:col-span-4">
               <Reveal>
                 <Display id="consulta-titulo" measure={18}>
-                  ¿Te interesa esta obra?
+                  {withEmphasis(enquiry.heading.title)}
                 </Display>
+              </Reveal>
+
+              <Reveal delay={90} className="mt-lg">
+                <p className="max-w-[42ch] font-sans text-base leading-relaxed text-pretty text-fg">
+                  {enquiry.paragraphs[0]}
+                </p>
+              </Reveal>
+
+              {/*
+                The other route, kept quiet and kept separate. A reader who
+                wants a piece made is not the reader this form is for, and the
+                two asks should not compete at the same weight.
+              */}
+              <Reveal delay={150} className="mt-2xl border-t border-rule pt-lg">
+                <p className="max-w-[42ch] font-sans text-sm leading-relaxed text-pretty text-fg-muted">
+                  ¿Prefieres una obra creada para ti? Los encargos tienen su
+                  propio formulario.
+                </p>
+                <QuietLink href="/encargos#cotizar" className="mt-md">
+                  Quiero un encargo
+                </QuietLink>
               </Reveal>
             </div>
 
-            <Reveal
-              delay={120}
-              className="flex flex-wrap items-center gap-x-xl gap-y-md lg:col-span-5 lg:col-start-8 lg:justify-end"
-            >
-              <ActionButton href="/encargos#cotizar">Consultar obra</ActionButton>
-              <QuietLink href="/encargos">Solicitar un encargo</QuietLink>
-            </Reveal>
+            <div className="lg:col-span-7 lg:col-start-6">
+              <Reveal delay={120}>
+                <ContactForm page={enquiry} supplied={{ obra: work.title }} />
+              </Reveal>
+            </div>
           </div>
         </Container>
       </Section>
