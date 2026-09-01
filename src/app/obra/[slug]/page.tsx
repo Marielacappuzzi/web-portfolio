@@ -57,9 +57,9 @@ export async function generateMetadata({
  * what lets El Rescate be two violent plates and Sueño de Primavera a quiet
  * run of four without either being written by hand.
  *
- * Nothing is invented to fill a gap. El Rescate has no year, technique or
- * dimensions because the piece is unfinished, and its sheet says so with a
- * declared marker rather than a plausible guess.
+ * Nothing is invented to fill a gap, and nothing announces the gap either. El
+ * Rescate has no year, technique or dimensions because the piece is
+ * unfinished, so those rows simply do not appear.
  */
 export default async function WorkPage({ params }: PageProps<"/obra/[slug]">) {
   const { slug } = await params;

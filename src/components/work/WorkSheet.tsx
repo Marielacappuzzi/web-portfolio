@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { ActionButton } from "@/components/primitives/ActionLink";
 import { Reveal } from "@/components/primitives/Reveal";
 import type { PrintStatus, Work, WorkKind, WorkStatus } from "@/content/types";
 
@@ -29,9 +28,13 @@ interface WorkSheetProps {
  * The work and its label, side by side.
  *
  * Left, the piece at the width of two thirds of the page; right, the sentence
- * Mariela wrote about it, the specification, and the one action. It replaces a
- * tall portrait plate alone on its screen with the sheet a long way below it —
- * the two things a reader wants together were a scroll apart.
+ * Mariela wrote about it and the specification. It replaces a tall portrait
+ * plate alone on its screen with the sheet a long way below it — the two things
+ * a reader wants together were a scroll apart.
+ *
+ * No action. What a reader can do about a work depends on whether anything
+ * about it is for sale, which is the page's decision and is made once, at the
+ * close. See `forSale` in obra/[slug].
  *
  * The specification carries field names here, which the gallery deliberately
  * does not. In a grid, labels beside ten works are noise; on the piece's own
@@ -177,9 +180,17 @@ export function WorkSheet({ work }: WorkSheetProps) {
           </Reveal>
         ) : null}
 
-        <Reveal delay={210} className="mt-xl">
-          <ActionButton href="/encargos#cotizar">Consultar obra</ActionButton>
-        </Reveal>
+        {/*
+          No button here.
+
+          "Consultar obra" sat directly under the sheet on every work and
+          pointed at the commission form — on eight pieces in private
+          collections and on one that is unfinished, which is an invitation to
+          ask after something that cannot be had. The page decides the ask now,
+          once, at the close: an enquiry form where something is genuinely
+          available and the commission everywhere else. Leaving a second button
+          here would also have duplicated that on the one page it was right for.
+        */}
       </div>
     </div>
   );
