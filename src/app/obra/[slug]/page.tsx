@@ -165,6 +165,29 @@ export default async function WorkPage({ params }: PageProps<"/obra/[slug]">) {
                   </Display>
                 </Reveal>
 
+                {/*
+                  The price, where there is one, above what is left of the
+                  edition — the two facts a reader is looking for, in the order
+                  they ask them. Serif and at display weight because it is the
+                  one number on the page, and the caveats sit under it in the
+                  quiet register so the figure is not read as the total.
+                */}
+                {work.printEdition.price ? (
+                  <Reveal delay={150} className="mt-lg">
+                    <p className="font-serif text-2xl font-light leading-none text-fg-strong">
+                      {work.printEdition.price.amount}
+                    </p>
+                    {work.printEdition.price.notes.map((note) => (
+                      <p
+                        key={note}
+                        className="mt-2xs max-w-[36ch] font-sans text-xs leading-relaxed text-pretty text-fg-muted"
+                      >
+                        {note}
+                      </p>
+                    ))}
+                  </Reveal>
+                ) : null}
+
                 <Reveal delay={180} className="mt-lg">
                   <p className="font-sans text-sm text-fg-muted">
                     {work.printEdition.availability}

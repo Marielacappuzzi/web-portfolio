@@ -144,57 +144,46 @@ export function SiteHeader({
               browser to fetch the other file — the gap before it arrived is
               the flicker where the logo appeared alone, ahead of the panel.
             */}
-            <span className="relative block h-10 w-[5.75rem] md:h-12 md:w-[6.9rem]">
+            {/*
+              The box is the marks' own proportion, 2.12:1.
+
+              Both PNGs were re-cut from their lockups in `scripts/marca-monogramas.mjs`:
+              trimmed to the ink and padded by 4% of its height on every side,
+              so they now describe the same drawing at the same scale inside
+              their canvas. Two things followed from that.
+
+              The cut is gone. The old mc-monograma.png had been cropped six
+              rows above where the drawing ends — the bottoms of the m sat flat
+              on the file's edge, which is the sliced logo the client saw. The
+              lockup has the whole stroke; the new crop keeps it.
+
+              And the light mark no longer needs correcting. It used to be
+              294x133 of ink adrift in a 500x185 canvas, so fitted to this box
+              it drew a third smaller than the dark one and 31px further right;
+              a `scale-[1.62]` and a translate compensated. Matched files make
+              both of those the identity, so they are gone.
+            */}
+            <span className="relative block h-10 w-[5.3rem] md:h-12 md:w-[6.36rem]">
               <Image
                 src="/marca/mc-monograma.png"
                 alt={name}
                 fill
                 priority
-                sizes="144px"
+                sizes="102px"
                 className={cn(
                   "object-contain object-left transition-opacity duration-300",
                   menuOpen ? "opacity-0" : "opacity-100",
                 )}
               />
-              {/*
-                Scaled to match the dark mark, measured from the ink rather
-                than from the canvas.
-
-                The two files are cropped differently. In the dark one the
-                drawing fills the frame — 491 x 216 of a 500 x 218 canvas, 99%
-                of the height. The light one is 294 x 133 inside 500 x 185:
-                72% of the height and 59% of the width, the rest field. Both
-                are fitted to the same box, so the light mark was drawn at 24.5
-                real pixels against the dark one's 39.6 — a third smaller, and
-                a canvas-ratio correction only recovered a fraction of it.
-
-                1.62 is the ratio of those two drawn heights. At that size the
-                light mark measures 87.6px across a 92px box, so it grows into
-                the space without touching the edge.
-
-                The offset goes with it. Scaling from the left edge scales the
-                file's empty margin too, which put the light drawing 31 screen
-                pixels further right than the dark one — a jump of a third of
-                its own width every time the menu opened.
-
-                19px, not 31: Tailwind v4 emits `translate` and `scale` as
-                separate CSS properties rather than one `transform` list, and
-                the browser applies translate first, so what is asked for here
-                is multiplied by the 1.62 that follows it. 19 x 1.62 is the 31
-                the correction actually needs.
-
-                Still a patch: the fix is re-exporting the light PNG trimmed to
-                its ink like the dark one, and this can go when that happens.
-              */}
               <Image
                 src="/marca/mc-monograma-claro.png"
                 alt=""
                 aria-hidden="true"
                 fill
                 priority
-                sizes="144px"
+                sizes="102px"
                 className={cn(
-                  "origin-left -translate-x-[19px] scale-[1.62] object-contain object-left transition-opacity duration-300",
+                  "object-contain object-left transition-opacity duration-300",
                   menuOpen ? "opacity-100" : "opacity-0",
                 )}
               />

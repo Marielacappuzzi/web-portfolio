@@ -239,6 +239,12 @@ export interface PrintEdition {
   /** Kind, paper, dimensions, edition size, signature — one line each. */
   specs: string[];
   availability: string;
+  /**
+   * What a copy costs, and what that figure leaves out. Optional because most
+   * editions on this site have none — it is stated only where Mariela has
+   * given one.
+   */
+  price?: { amount: string; notes: string[] };
   details: { label: string; body: string };
   delivery: { label: string; lines: string[] };
   action: NavItem;

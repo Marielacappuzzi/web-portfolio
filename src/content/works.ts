@@ -680,6 +680,16 @@ export const works: Work[] = [
         "Cada ejemplar se entrega firmado, numerado y acompañado de su certificado de autenticidad",
       ],
       availability: "Último ejemplar disponible",
+      /*
+        Given by Mariela. The figure is the print alone: shipping is quoted
+        against the destination, and the frame is a Santa Cruz option rather
+        than part of the piece — so both are named here instead of being
+        folded into a number that would then be wrong for most buyers.
+      */
+      price: {
+        amount: "350 USD",
+        notes: ["El costo de envío se cotiza aparte, según el destino."],
+      },
       details: {
         label: "Sobre el papel",
         body: "Canson Infinity Edition Etching Rag es un papel Fine Art 100% algodón de 310 g/m², libre de ácido y sin blanqueadores ópticos. Su superficie mate y de grano fino está concebida para reproducción artística de alta calidad y conservación a largo plazo.",
@@ -687,7 +697,7 @@ export const works: Work[] = [
       delivery: {
         label: "Entrega y envío",
         lines: [
-          "En Santa Cruz de la Sierra: se entrega enmarcado.",
+          "En Santa Cruz de la Sierra: se entrega enmarcado. El enmarcado se cotiza aparte.",
           "Envíos fuera de Santa Cruz de la Sierra e internacionales: la impresión se envía cuidadosamente protegida en un tubo rígido para Fine Art.",
         ],
       },

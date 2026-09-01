@@ -38,6 +38,14 @@ export const availability: ContactPage = {
       kind: "email",
       required: true,
     },
+    /*
+      Where it would go. The edition is priced without shipping — the cost
+      depends on the destination, and framing only exists as an option in
+      Santa Cruz — so an enquiry that does not say where the person is costs
+      a round trip before Mariela can answer the one question they asked.
+      The commission form asks the same thing under the same label.
+    */
+    { name: "lugar", label: "País o ciudad", kind: "text", required: true },
     {
       name: "interes",
       label: "¿Qué te interesa?",
