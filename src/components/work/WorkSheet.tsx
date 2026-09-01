@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { ActionButton, QuietLink } from "@/components/primitives/ActionLink";
 import { Reveal } from "@/components/primitives/Reveal";
 import type { PrintStatus, Work, WorkKind, WorkStatus } from "@/content/types";
 
@@ -14,6 +15,7 @@ const printLabels: Record<PrintStatus, string> = {
 };
 
 const statusLabels: Record<WorkStatus, string> = {
+  "in-progress": "En proceso",
   available: "Disponible",
   sold: "Vendida",
   "private-collection": "Colección privada",
@@ -32,9 +34,12 @@ interface WorkSheetProps {
  * plate alone on its screen with the sheet a long way below it — the two things
  * a reader wants together were a scroll apart.
  *
- * No action. What a reader can do about a work depends on whether anything
- * about it is for sale, which is the page's decision and is made once, at the
- * close. See `forSale` in obra/[slug].
+ * The asks are state-driven, and there are up to three: the original, the
+ * edition, and a commission. Each of the first two appears only when that
+ * thing can actually be had — a piece in a private collection offers neither,
+ * and the page closes on the commission instead. This is the whole of what a
+ * reader can do about a work, and it sits with the sheet that told them what
+ * the work is.
  *
  * The specification carries field names here, which the gallery deliberately
  * does not. In a grid, labels beside ten works are noise; on the piece's own
@@ -49,6 +54,9 @@ interface WorkSheetProps {
  * missing. An absent row says the same thing by saying nothing.
  */
 export function WorkSheet({ work }: WorkSheetProps) {
+  const originalForSale = work.status === "available";
+  const printsForSale = work.prints === "available";
+
   const rows: [string, string][] = [];
 
   if (work.technique) rows.push(["Técnica", work.technique]);
@@ -181,16 +189,35 @@ export function WorkSheet({ work }: WorkSheetProps) {
         ) : null}
 
         {/*
-          No button here.
+          Up to three asks, and each one only if it is true.
 
-          "Consultar obra" sat directly under the sheet on every work and
-          pointed at the commission form — on eight pieces in private
-          collections and on one that is unfinished, which is an invitation to
-          ask after something that cannot be had. The page decides the ask now,
-          once, at the close: an enquiry form where something is genuinely
-          available and the commission everywhere else. Leaving a second button
-          here would also have duplicated that on the one page it was right for.
+          "Consultar obra" used to sit here on every work and point at the
+          commission form — on eight pieces in private collections and on one
+          being drawn, which invites an enquiry after something that cannot be
+          had. Now the original and the edition each get their own button when
+          they are available, and both go to the enquiry form at the foot of
+          this page with the right question already selected. The commission
+          keeps its own route and its own form.
         */}
+        {originalForSale || printsForSale ? (
+          <Reveal delay={210} className="mt-xl flex flex-col items-start gap-md">
+            {originalForSale ? (
+              <ActionButton href="#consultar-original">
+                Consultar por la obra original
+              </ActionButton>
+            ) : null}
+
+            {printsForSale ? (
+              <ActionButton href="#consultar-print">
+                Consultar por la edición
+              </ActionButton>
+            ) : null}
+
+            <QuietLink href="/encargos#cotizar" className="mt-2xs">
+              Quiero un encargo
+            </QuietLink>
+          </Reveal>
+        ) : null}
       </div>
     </div>
   );

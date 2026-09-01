@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 
-import { type FormEvent, useState } from "react";
+import { type FormEvent, useEffect, useState } from "react";
 import { ContactSent } from "./ContactSent";
 import { Pending } from "@/components/primitives/Pending";
 import { PhoneField } from "./PhoneField";
@@ -56,14 +56,45 @@ interface ContactFormProps {
    * already on screen is a question nobody should be asked.
    */
   supplied?: Record<string, string>;
+  /**
+   * Preselect one option of one field from the URL hash.
+   *
+   * A work's page carries two asks — the original and the edition — and both
+   * lead here. Sending someone to a form and making them restate the question
+   * they just pressed a button to ask is the kind of small friction that loses
+   * an enquiry, so the hash answers it for them.
+   */
+  hashDefaults?: { field: string; map: Record<string, string> };
 }
 
-export function ContactForm({ page, supplied }: ContactFormProps) {
+export function ContactForm({ page, supplied, hashDefaults }: ContactFormProps) {
   const [status, setStatus] = useState<Status>("idle");
   const [consent, setConsent] = useState(false);
   const [missing, setMissing] = useState<string[]>([]);
 
   const busy = status === "sending";
+
+  /*
+    Which option the hash asks for, kept in state so it survives a second
+    press: arriving at #consultar-print and then pressing "la obra original"
+    changes the hash without remounting, so a value read once at mount would
+    be stale. `hashchange` covers the second press; the initial read covers
+    someone arriving with the link already in the address bar.
+  */
+  const [preset, setPreset] = useState<string | undefined>(undefined);
+
+  useEffect(() => {
+    if (!hashDefaults) return;
+
+    const read = () => {
+      const key = window.location.hash.replace("#", "");
+      setPreset(hashDefaults.map[key]);
+    };
+
+    read();
+    window.addEventListener("hashchange", read);
+    return () => window.removeEventListener("hashchange", read);
+  }, [hashDefaults]);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -166,6 +197,11 @@ export function ContactForm({ page, supplied }: ContactFormProps) {
             field={field}
             invalid={missing.includes(field.name)}
             disabled={busy}
+            preset={
+              hashDefaults && field.name === hashDefaults.field
+                ? preset
+                : undefined
+            }
           />
         ))}
       </div>
@@ -327,10 +363,13 @@ function Field({
   field,
   invalid,
   disabled,
+  preset,
 }: {
   field: FormField;
   invalid: boolean;
   disabled: boolean;
+  /** Chosen for the reader by the link that brought them here. */
+  preset?: string;
 }) {
   const id = `campo-${field.name}`;
   const hintId = field.hint ? `${id}-ayuda` : undefined;
@@ -367,7 +406,18 @@ function Field({
       {field.kind === "textarea" ? (
         <textarea {...shared} rows={6} className={cn(fieldBase, "resize-y")} />
       ) : field.kind === "select" ? (
-        <select {...shared} defaultValue="" className={cn(fieldBase, "pr-10")}>
+        <select
+          {...shared}
+          /*
+            `key` on the preset rather than a controlled value. The select
+            stays uncontrolled so the reader can change it freely; remounting
+            when the preset changes is what lets a second button press update
+            it without taking the choice away from them afterwards.
+          */
+          key={preset ?? "none"}
+          defaultValue={preset ?? ""}
+          className={cn(fieldBase, "pr-10")}
+        >
           {/* Tuteo, matching the register of docs/Copy.md. */}
           <option value="" disabled>
             Selecciona una opción

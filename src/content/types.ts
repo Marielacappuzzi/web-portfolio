@@ -22,6 +22,8 @@ export type WorkKind = "personal" | "commission" | "print";
  * say. See `prints`.
  */
 export type WorkStatus =
+  /** Being drawn. Not for sale because it does not exist yet. */
+  | "in-progress"
   | "available"
   | "sold"
   | "private-collection"

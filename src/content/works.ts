@@ -691,7 +691,16 @@ export const works: Work[] = [
           "Envíos fuera de Santa Cruz de la Sierra e internacionales: la impresión se envía cuidadosamente protegida en un tubo rígido para Fine Art.",
         ],
       },
-      action: { label: "Consultar por la edición", href: "/encargos#cotizar" },
+      /*
+        The enquiry form on this same page, not the commission form.
+
+        It pointed at /encargos, which asks what you want *made*: a format, a
+        type of commission, reference photographs. Someone asking after the
+        last copy of an existing edition was being handed a questionnaire
+        about a piece that does not exist. The hash preselects "un print" so
+        they arrive with the right question already answered.
+      */
+      action: { label: "Consultar por la edición", href: "#consultar-print" },
     },
 
     order: 9,
@@ -763,6 +772,13 @@ export const works: Work[] = [
     sheetFocus: "50% 35%",
     title: "El Rescate",
     kind: "personal",
+    /*
+      Being drawn. Not "available" and not "sold" — it does not exist yet, and
+      the page has to be able to say that without either offering it or
+      implying it has gone. When it is finished this becomes "available", and
+      `prints` joins it if an edition is made.
+    */
+    status: "in-progress",
     /*
      * The piece is unfinished, so this is the work in progress rather than a
      * finished plate: the wolf resolved, the sheet still on the board, her

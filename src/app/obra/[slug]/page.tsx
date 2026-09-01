@@ -82,14 +82,16 @@ export default async function WorkPage({ params }: PageProps<"/obra/[slug]">) {
   const forSale = work.status === "available" || work.prints === "available";
 
   /*
-    Two ways of not being for sale, and they are not the same sentence.
+    Three ways of not being for sale, and they do not read the same.
 
     A delivered commission is gone — "ya no está disponible" is true and
-    useful. El Rescate has no status at all because it is unfinished: it was
-    never available, so saying it no longer is would be a small lie about a
-    piece that has not been made yet. That one closes on the invitation alone.
+    useful. A piece still being drawn was never available, so saying it no
+    longer is would be a small lie about something that does not exist yet.
+    And a work with no status at all says nothing about itself either way.
+    The last two close on the invitation alone.
   */
-  const gone = !forSale && Boolean(work.status);
+  const gone =
+    !forSale && Boolean(work.status) && work.status !== "in-progress";
 
   return (
     <>
@@ -251,10 +253,19 @@ export default async function WorkPage({ params }: PageProps<"/obra/[slug]">) {
       <Section
         ground="paper"
         rhythm="act"
+        id="consultar"
         aria-labelledby="consulta-titulo"
         /* The other half of the same gap — see the note above. */
         className="pt-lg sm:pt-4xl"
       >
+        {/*
+          The two hash targets. Empty spans rather than ids on the section
+          itself, because one element cannot answer to two anchors — and both
+          have to land in the same place, since there is one form.
+        */}
+        <span id="consultar-original" className="sr-only" />
+        <span id="consultar-print" className="sr-only" />
+
         <Container width="wide">
           <Rule width="full" />
 
@@ -291,7 +302,23 @@ export default async function WorkPage({ params }: PageProps<"/obra/[slug]">) {
 
               <div className="lg:col-span-7 lg:col-start-6">
                 <Reveal delay={120}>
-                  <ContactForm page={enquiry} supplied={{ obra: work.title }} />
+                  {/*
+                    Two buttons above lead here, and the hash says which. The
+                    ids sit on empty targets beside the section so both scroll
+                    to the same form; the reader arrives with the question
+                    they pressed already selected.
+                  */}
+                  <ContactForm
+                    page={enquiry}
+                    supplied={{ obra: work.title }}
+                    hashDefaults={{
+                      field: "interes",
+                      map: {
+                        "consultar-original": "La obra original",
+                        "consultar-print": "Un print de la obra",
+                      },
+                    }}
+                  />
                 </Reveal>
               </div>
             </div>
@@ -323,11 +350,17 @@ export default async function WorkPage({ params }: PageProps<"/obra/[slug]">) {
 
               <Reveal
                 delay={150}
-                className="lg:col-span-5 lg:col-start-8 lg:flex lg:justify-end"
+                className="flex flex-wrap items-center gap-x-xl gap-y-md lg:col-span-5 lg:col-start-8 lg:justify-end"
               >
                 <ActionButton href="/encargos#cotizar">
                   Quiero un encargo
                 </ActionButton>
+                {/*
+                  A way onwards as well as a way to ask. Someone who reached a
+                  piece that is gone should be able to keep looking rather than
+                  choose between a commission and the back button.
+                */}
+                <QuietLink href="/obra">Ver otras obras</QuietLink>
               </Reveal>
             </div>
           )}

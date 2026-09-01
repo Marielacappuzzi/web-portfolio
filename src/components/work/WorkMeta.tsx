@@ -8,6 +8,7 @@ const kindLabels: Record<WorkKind, string> = {
 };
 
 const statusLabels: Record<WorkStatus, string> = {
+  "in-progress": "En proceso",
   available: "Disponible",
   sold: "Vendida",
   "private-collection": "Colección privada",
