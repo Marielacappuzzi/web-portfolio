@@ -74,6 +74,20 @@ export const works: Work[] = [
           "La composición fue construida alrededor de esa idea. La cría ocupa el frente mientras la leona emerge detrás de ella, envolviéndola con su cuerpo y sosteniendo la escena con la mirada. Los contrastes profundos del carboncillo acentúan su carácter y dan peso a una imagen en la que conviven protección y fuerza.",
         ],
       },
+      /*
+        One clip, not two.
+
+        Both were here and side by side they read as the same video twice: they
+        open on different framings — one wide at the easel, one close on the
+        cub — but both end on the cub's face, so once played the two players
+        sat next to each other showing the same drawing at the same scale.
+
+        The wide one stays. It is the only moving image on the page that shows
+        Mariela, the easel and the whole sheet at once, which is exactly what
+        the photographs around it do not; the close-up duplicated the plate at
+        the top of the page and the first picture in the row of three.
+        `bajo-su-proteccion-obra.mp4` is still in /public if it is wanted back.
+      */
       {
         kind: "video",
         videos: [
@@ -83,14 +97,6 @@ export const works: Work[] = [
             label: "Mariela Crapuzzi trabajando la obra Bajo su Protección.",
             portrait: true,
             caption: "La obra, en proceso.",
-          },
-          {
-            src: "/video/bajo-su-proteccion-obra.mp4",
-            poster: "/video/bajo-su-proteccion-obra.jpg",
-            label:
-              "Primer plano del carboncillo sobre el rostro de la cría, con la mano de Mariela trabajando el detalle.",
-            portrait: true,
-            caption: "El detalle, de cerca.",
           },
         ],
       },
