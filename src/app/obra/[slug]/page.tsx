@@ -70,6 +70,27 @@ export default async function WorkPage({ params }: PageProps<"/obra/[slug]">) {
   const { previous, next } = await getWorkNeighbours(slug);
   const enquiry = await getAvailabilityForm();
 
+  /*
+    Whether anything on this page can actually be had.
+
+    Today that is one thing on one work: the last copy of Sueño de Primavera's
+    edition. Every other piece is a delivered commission in a private
+    collection, and El Rescate is unfinished. Offering "Consultar obra" on all
+    of them invited an enquiry that could only be answered with no — worse than
+    silence, because the button implied otherwise.
+  */
+  const forSale = work.status === "available" || work.prints === "available";
+
+  /*
+    Two ways of not being for sale, and they are not the same sentence.
+
+    A delivered commission is gone — "ya no está disponible" is true and
+    useful. El Rescate has no status at all because it is unfinished: it was
+    never available, so saying it no longer is would be a small lie about a
+    piece that has not been made yet. That one closes on the invitation alone.
+  */
+  const gone = !forSale && Boolean(work.status);
+
   return (
     <>
       <WorkHero work={work} />
@@ -209,7 +230,11 @@ export default async function WorkPage({ params }: PageProps<"/obra/[slug]">) {
       ) : null}
 
       {/*
-        The ask, and it is a form rather than a link out.
+        The ask.
+
+        A form where something can be bought, and a single quiet route to the
+        commission where nothing can. See `forSale` above: the work decides
+        which of the two it gets, so this never has to be maintained by hand.
 
         It used to be "Consultar obra" pointing at /encargos — which asks what
         you want *made*: a format, references, a description of a piece that
@@ -233,42 +258,79 @@ export default async function WorkPage({ params }: PageProps<"/obra/[slug]">) {
         <Container width="wide">
           <Rule width="full" />
 
-          <div className="mt-2xl grid gap-2xl lg:grid-cols-12 lg:gap-x-[4vw]">
-            <div className="lg:col-span-4">
-              <Reveal>
-                <Display id="consulta-titulo" measure={18}>
-                  {withEmphasis(enquiry.heading.title)}
-                </Display>
-              </Reveal>
+          {forSale ? (
+            <div className="mt-2xl grid gap-2xl lg:grid-cols-12 lg:gap-x-[4vw]">
+              <div className="lg:col-span-4">
+                <Reveal>
+                  <Display id="consulta-titulo" measure={18}>
+                    {withEmphasis(enquiry.heading.title)}
+                  </Display>
+                </Reveal>
 
-              <Reveal delay={90} className="mt-lg">
-                <p className="max-w-[42ch] font-sans text-base leading-relaxed text-pretty text-fg">
-                  {enquiry.paragraphs[0]}
-                </p>
-              </Reveal>
+                <Reveal delay={90} className="mt-lg">
+                  <p className="max-w-[42ch] font-sans text-base leading-relaxed text-pretty text-fg">
+                    {enquiry.paragraphs[0]}
+                  </p>
+                </Reveal>
 
-              {/*
-                The other route, kept quiet and kept separate. A reader who
-                wants a piece made is not the reader this form is for, and the
-                two asks should not compete at the same weight.
-              */}
-              <Reveal delay={150} className="mt-2xl border-t border-rule pt-lg">
-                <p className="max-w-[42ch] font-sans text-sm leading-relaxed text-pretty text-fg-muted">
-                  ¿Prefieres una obra creada para ti? Los encargos tienen su
-                  propio formulario.
-                </p>
-                <QuietLink href="/encargos#cotizar" className="mt-md">
+                {/*
+                  The other route, kept quiet and kept separate. A reader who
+                  wants a piece made is not the reader this form is for, and
+                  the two asks should not compete at the same weight.
+                */}
+                <Reveal delay={150} className="mt-2xl border-t border-rule pt-lg">
+                  <p className="max-w-[42ch] font-sans text-sm leading-relaxed text-pretty text-fg-muted">
+                    ¿Prefieres una obra creada para ti? Los encargos tienen su
+                    propio formulario.
+                  </p>
+                  <QuietLink href="/encargos#cotizar" className="mt-md">
+                    Quiero un encargo
+                  </QuietLink>
+                </Reveal>
+              </div>
+
+              <div className="lg:col-span-7 lg:col-start-6">
+                <Reveal delay={120}>
+                  <ContactForm page={enquiry} supplied={{ obra: work.title }} />
+                </Reveal>
+              </div>
+            </div>
+          ) : (
+            /*
+              Nothing to sell here, so nothing is offered. The page closes on
+              the one thing that is genuinely available — a piece made to
+              order — rather than leaving a reader to work out from a technical
+              sheet that the button leads nowhere. What it says depends on
+              which kind of unavailable this is; see `gone` above.
+            */
+            <div className="mt-2xl grid gap-lg lg:grid-cols-12 lg:items-end lg:gap-x-[4vw]">
+              <div className="lg:col-span-6">
+                <Reveal>
+                  <Display id="consulta-titulo" measure={20}>
+                    {gone
+                      ? withEmphasis("Esta obra ya no está *disponible*.")
+                      : withEmphasis("¿Quieres una obra por *encargo*?")}
+                  </Display>
+                </Reveal>
+
+                <Reveal delay={90} className="mt-lg">
+                  <p className="max-w-[46ch] font-sans text-base leading-relaxed text-pretty text-fg">
+                    Puedo crear una pieza a partir de tu propia historia, una
+                    imagen o un vínculo.
+                  </p>
+                </Reveal>
+              </div>
+
+              <Reveal
+                delay={150}
+                className="lg:col-span-5 lg:col-start-8 lg:flex lg:justify-end"
+              >
+                <ActionButton href="/encargos#cotizar">
                   Quiero un encargo
-                </QuietLink>
+                </ActionButton>
               </Reveal>
             </div>
-
-            <div className="lg:col-span-7 lg:col-start-6">
-              <Reveal delay={120}>
-                <ContactForm page={enquiry} supplied={{ obra: work.title }} />
-              </Reveal>
-            </div>
-          </div>
+          )}
         </Container>
       </Section>
 
