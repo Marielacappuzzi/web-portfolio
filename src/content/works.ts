@@ -280,26 +280,40 @@ export const works: Work[] = [
     dimensions: "42 × 29,7 cm",
     kind: "commission",
     status: "private-collection",
+    /*
+      The same two replacements as Oltre, and the same sequence: the work
+      entire, then the detail, then the piece framed in the studio.
+
+      The plate that was here had been corrected to R-B -0.3 while the two
+      photographs beside it sat at 27.0 and 27.7; these arrive at 20.1 and
+      23.4, which is the session rather than a cast, and they go in as shot.
+      About 1% of each frame is pure black — the hair is the deepest passage
+      in the drawing, and lifting it would leave these paler than the studio
+      shots they sit with.
+
+      extra-02, the sheet taped to the wall, drops out of the sequence: the
+      new plate shows the same thing and shows it better. The file stays.
+    */
     image: {
       src: "/obra/materia/principal.jpg",
       alt: "Carboncillo de un hombre de perfil con rastas largas y chaqueta de jean, la mirada dirigida fuera del encuadre.",
-      width: 1411,
+      width: 1385,
       height: 1920,
     },
     detailImages: [
+      {
+        src: "/obra/materia/extra-03.jpg",
+        alt: "Detalle de la obra: la oreja con su expansor, el nacimiento de las rastas y el cuello de la chaqueta de jean, con la textura del carboncillo a la vista.",
+        width: 1385,
+        height: 1920,
+        caption: "El detalle de las rastas.",
+      },
       {
         src: "/obra/materia/extra-01.jpg",
         alt: "La obra enmarcada en negro con paspartú blanco, sobre un caballete de mesa entre plantas y otros retratos del taller.",
         width: 1080,
         height: 1920,
         caption: "Enmarcada, en el taller.",
-      },
-      {
-        src: "/obra/materia/extra-02.jpg",
-        alt: "La obra completa sujeta a la pared del taller con cinta de papel, con el trazo de las rastas y el vaquero a la vista.",
-        width: 1440,
-        height: 1920,
-        caption: "La hoja completa, en la pared.",
       },
     ],
     shortStory: "Algunas imágenes se sienten antes de comprenderse.",
