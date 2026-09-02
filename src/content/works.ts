@@ -472,12 +472,20 @@ export const works: Work[] = [
      * photograph is not another view.
      */
     detailImages: [
+      /*
+        The close view Mariela sent, in the second slot of the lightbox.
+
+        It replaces the sheet photographed on the studio wall, which the plate
+        above it already shows. R-B 6.9 against this work's 1.3 and 1.0 — the
+        drawing is on white paper against a white wall, so its siblings are
+        close to neutral and this one is only slightly warmer. In as shot.
+      */
       {
-        src: "/obra/huella/extra-01.jpg",
-        alt: "La hoja completa sobre la pared clara del taller, con el pelaje del perro trabajado hasta el borde del papel.",
-        width: 1080,
+        src: "/obra/huella/extra-04.jpg",
+        alt: "La obra de cerca: el rostro del bulldog francés a página completa, con las orejas, los pliegues del hocico y el pelaje atigrado trabajados pelo a pelo.",
+        width: 1506,
         height: 1920,
-        caption: "La hoja completa, en la pared.",
+        caption: "El pelaje, de cerca.",
       },
       {
         src: "/obra/huella/extra-03.jpg",
