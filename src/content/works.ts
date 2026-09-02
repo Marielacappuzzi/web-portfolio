@@ -531,20 +531,33 @@ export const works: Work[] = [
       width: 1452,
       height: 1920,
     },
+    /*
+      The close view Mariela sent goes second, and the framed shot moves down
+      to third — the sequence every other work now follows: the drawing, the
+      detail, the piece in a room.
+
+      What leaves is extra-02. It was not another view: measured against the
+      plate it scores 20.2 where the framed photograph scores 79.5, which is
+      the same shot at a slightly different crop. The new detail is the close
+      look it was standing in for, and an actual one.
+
+      R-B 7.7 against this work's 14.6 and 11.3 — a little cooler than its
+      siblings, well inside the session. In as shot.
+    */
     detailImages: [
+      {
+        src: "/obra/molly/extra-03.jpg",
+        alt: "Detalle de la obra: la chapa del collar con el nombre Molly grabado, colgando sobre el pelaje largo, y el ojo de la gata arriba a la derecha.",
+        width: 1506,
+        height: 1920,
+        caption: "La chapa, entre el pelaje.",
+      },
       {
         src: "/obra/molly/extra-01.jpg",
         alt: "La obra enmarcada en negro con paspartú blanco, sobre un caballete de pie delante de una pared con otros cuadros.",
         width: 1079,
         height: 1920,
         caption: "Enmarcada, sobre el caballete.",
-      },
-      {
-        src: "/obra/molly/extra-02.jpg",
-        alt: "Encuadre cerrado sobre la gata, donde se distingue el pelaje mechón por mechón y el nombre grabado en la chapa del collar.",
-        width: 1438,
-        height: 1920,
-        caption: "El pelaje, mechón por mechón.",
       },
     ],
     processVideos: [
