@@ -217,19 +217,31 @@ export const works: Work[] = [
     dimensions: "42 × 29,7 cm",
     kind: "commission",
     status: "private-collection",
+    /*
+      Both photographs replaced with the ones Mariela sent, and the lightbox
+      order is hers: the work entire, then closer.
+
+      The plate that was here had been colour-corrected to R-B 6.4 while its
+      own siblings sat at 20.5 and 40.3 — the correction had made it the odd
+      one in its trio. These arrive at 22.6 and 21.2, which is the paper and
+      the light rather than a cast, and they go in as shot.
+
+      extra-07, the sheet seen in diagonal, is left on disk. It is out of the
+      sequence, not deleted.
+    */
     image: {
       src: "/obra/oltre-lo-sguardo/principal.jpg",
       alt: "Carboncillo de una mujer joven de cabello ondulado y blusa de encaje de cuello alto, sosteniendo la mirada hacia quien observa.",
-      width: 1439,
+      width: 1370,
       height: 1920,
     },
     detailImages: [
       {
-        src: "/obra/oltre-lo-sguardo/extra-07.jpg",
-        alt: "La obra vista en diagonal, con el borde de la hoja entrando por la izquierda y la firma de la artista junto al hombro.",
-        width: 1440,
+        src: "/obra/oltre-lo-sguardo/extra-08.jpg",
+        alt: "La obra de cerca: el rostro y la mirada, el cabello suelto y el arranque del cuello de encaje, con la firma de la artista al margen.",
+        width: 1506,
         height: 1920,
-        caption: "La hoja, en diagonal.",
+        caption: "El rostro, de cerca.",
       },
       {
         src: "/obra/oltre-lo-sguardo/extra-04.jpg",
