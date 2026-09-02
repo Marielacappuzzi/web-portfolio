@@ -34,17 +34,31 @@ interface PartProps {
 
 /** Title, then the year immediately under it. Nothing else. */
 export function WorkIdentity({ work, className }: PartProps) {
-  const yearLine = [work.attribution, work.year].filter(Boolean).join(" · ");
-
   return (
     <div className={cn("flex flex-col", className)}>
       <p className="font-serif text-xl font-light leading-tight tracking-tight text-fg-strong">
         {work.title}
       </p>
 
-      {yearLine ? (
+      {/*
+        Its own line, directly under the name, before the year.
+
+        It used to be joined to the year with a middot — "after Bouguereau,
+        Rêve de printemps (1901) · 2022" — which files the source under
+        metadata alongside a date. Mariela's instruction is that the
+        attribution is indivisible from the title, and a line of its own under
+        it is what says so. Serif and italic to match how the name is set,
+        rather than the sans the specification uses.
+      */}
+      {work.attribution ? (
+        <p className="mt-3xs font-serif text-base font-light italic leading-snug text-pretty text-fg">
+          {work.attribution}
+        </p>
+      ) : null}
+
+      {work.year ? (
         <p className="mt-2xs font-sans text-sm leading-normal text-fg-muted">
-          {yearLine}
+          {work.year}
         </p>
       ) : null}
     </div>

@@ -78,6 +78,24 @@ export function WorkHero({ work }: WorkHeroProps) {
           </h1>
 
           {/*
+            The attribution, immediately under the name and part of it.
+
+            Sueño de Primavera is a reproduction of Bouguereau's Rêve de
+            printemps, and Mariela's instruction is that "after Bouguereau" is
+            indivisible from the title — a reader who meets the drawing without
+            it is being allowed to take the composition for her invention.
+            Smaller and italic, the way a gallery label sets it, so the
+            hierarchy still reads name-then-source; full brightness rather than
+            `fg`, because at 0.72 over this banner it measures 4.18:1 and a
+            line that belongs to the title should not be the faint one.
+          */}
+          {work.attribution ? (
+            <p className="mt-2xs font-serif text-sm font-light italic leading-snug text-fg-strong [text-shadow:0_1px_18px_rgb(0_0_0/0.55)] md:text-base">
+              {work.attribution}
+            </p>
+          ) : null}
+
+          {/*
             One line under the name, and only where an edition exists.
 
             It is the single commercial fact on a page that is otherwise a

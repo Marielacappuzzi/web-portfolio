@@ -595,7 +595,7 @@ export const works: Work[] = [
       {
         kind: "text",
         paragraphs: [
-          "La belleza, la feminidad y, sobre todo, la capacidad de una expresión para sugerir algo que trasciende lo visible.",
+          "En ella encontré una sensibilidad profundamente cercana a aquello que comenzaba a buscar en mi propio trabajo: la belleza, la feminidad y, sobre todo, la capacidad de una expresión para sugerir algo que trasciende lo visible.",
           "La elección estuvo también ligada a mi formación en dibujo figurativo y a la tradición clásica que acompañaba ese aprendizaje. Reinterpretarla en carboncillo significó trasladar ese universo a un lenguaje diferente, despojado del color, donde la luz, los contrastes y las miradas adquirieran otro peso.",
           "Fue mi primera obra de gran formato y formó parte de mi primera exposición. Más que reproducir una imagen que admiraba, el proceso me permitió reconocer algo que continuaría apareciendo en mi trabajo años después: mi interés por aquello que una mirada puede contener sin llegar a explicarlo.",
         ],
@@ -653,10 +653,21 @@ export const works: Work[] = [
       },
     ],
     concept: "EL ORIGEN",
+    /*
+      What the piece is, first. Mariela sent this so a reader understands from
+      the outset that the drawing is a reproduction of a neoclassical painting
+      rather than her own composition — which the page had never actually said.
+
+      Her paragraph is split at her own full stop: the naming sentence stands
+      beside the plate, the rest opens the writing below. It also repairs a
+      real break. The text block underneath began "La belleza, la feminidad
+      y..." — the tail of a sentence whose head had been cut when the two
+      halves were separated, so the writing opened on a fragment with no verb.
+    */
     shortStory:
-      "En Rêve de printemps de William-Adolphe Bouguereau encontré una sensibilidad profundamente cercana a aquello que comenzaba a buscar en mi propio trabajo.",
+      "Una reproducción en grafito y carboncillo de la obra neoclásica Rêve de printemps de William-Adolphe Bouguereau.",
     longStory: [
-      "La belleza, la feminidad y, sobre todo, la capacidad de una expresión para sugerir algo que trasciende lo visible.",
+      "En ella encontré una sensibilidad profundamente cercana a aquello que comenzaba a buscar en mi propio trabajo: la belleza, la feminidad y, sobre todo, la capacidad de una expresión para sugerir algo que trasciende lo visible.",
       "La elección estuvo también ligada a mi formación en dibujo figurativo y a la tradición clásica que acompañaba ese aprendizaje. Reinterpretarla en carboncillo significó trasladar ese universo a un lenguaje diferente, despojado del color, donde la luz, los contrastes y las miradas adquirieran otro peso.",
       "Fue mi primera obra de gran formato y formó parte de mi primera exposición. Más que reproducir una imagen que admiraba, el proceso me permitió reconocer algo que continuaría apareciendo en mi trabajo años después: mi interés por aquello que una mirada puede contener sin llegar a explicarlo.",
     ],
