@@ -188,7 +188,12 @@ export const commissions: CommissionsPage = {
     title: "Cuéntame la historia que te gustaría convertir en una *obra*.",
     paragraph:
       "Compárteme brevemente qué te gustaría conservar o transmitir. Ese será el primer paso para comprender si podemos transformarlo en una obra.",
-    primaryAction: { label: "Solicitar un encargo", href: "/#contacto" },
+    /*
+      To the form on this page. It used to be "/#contacto": a reader at the
+      foot of the commissions page, having decided, was sent back to the home
+      page — to a block whose only offer is to come here again.
+    */
+    primaryAction: { label: "Solicitar un encargo", href: "#cotizar" },
   },
 
   /*

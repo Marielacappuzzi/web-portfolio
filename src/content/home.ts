@@ -27,7 +27,15 @@ export const home: HomeContent = {
     description:
       "Creo obras de realismo figurativo que combinan precisión, sensibilidad y expresión para representar aquello que hace única a cada historia.",
     primaryAction: { label: "Ver obras", href: "#obras" },
-    secondaryAction: { label: "Solicitar un encargo", href: "#encargos" },
+    /*
+      "#encargos" pointed at nothing. There is no element with that id on this
+      page — the closing block was still called "contacto", a leftover from
+      when it was one — so the button wrote a hash into the URL and left the
+      reader exactly where they were. It now goes to the quotation form, which
+      is where "Solicitar un encargo" was always meant to end, and matches the
+      route every other commission CTA on the site takes.
+    */
+    secondaryAction: { label: "Solicitar un encargo", href: "/encargos#cotizar" },
     cover: {
       src: "/portada/banner-home.jpg",
       mobileSrc: "/portada/banner-home-mobile.jpg",

@@ -7,7 +7,8 @@ const kindLabels: Record<WorkKind, string> = {
   print: "Print",
 };
 
-const statusLabels: Record<WorkStatus, string> = {
+/** The one place a status is put into words. Imported by the hero and sheet. */
+export const statusLabels: Record<WorkStatus, string> = {
   "in-progress": "En proceso",
   available: "Disponible",
   sold: "Vendida",
@@ -32,12 +33,34 @@ interface PartProps {
   className?: string;
 }
 
+interface IdentityProps extends PartProps {
+  /**
+   * Put the status in brackets after the name. On for the lightbox, off for
+   * the grid: in a run of ten thumbnails "(Colección privada)" nine times is
+   * noise, and the same words are already in each card's sheet.
+   */
+  showStatus?: boolean;
+}
+
 /** Title, then the year immediately under it. Nothing else. */
-export function WorkIdentity({ work, className }: PartProps) {
+export function WorkIdentity({ work, className, showStatus = false }: IdentityProps) {
   return (
     <div className={cn("flex flex-col", className)}>
       <p className="font-serif text-xl font-light leading-tight tracking-tight text-fg-strong">
         {work.title}
+        {/*
+          Whether the piece can be had, next to its name, where someone who
+          has just opened it is looking. It was only in the sheet lower down,
+          filed between the technique and the dimensions, so a reader could
+          take in the whole label and still not register that the work is
+          gone. The words are the same ones the sheet uses — nothing new is
+          being asserted here, it is only being said sooner.
+        */}
+        {showStatus && work.status ? (
+          <span className="font-sans text-sm font-normal text-fg-muted">
+            {" "}({statusLabels[work.status]})
+          </span>
+        ) : null}
       </p>
 
       {/*

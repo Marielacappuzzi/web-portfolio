@@ -1,4 +1,5 @@
 import { Container } from "@/components/layout/Section";
+import { statusLabels } from "./WorkMeta";
 import type { Work } from "@/content/types";
 
 interface WorkHeroProps {
@@ -101,6 +102,19 @@ export function WorkHero({ work }: WorkHeroProps) {
             className="font-serif text-3xl font-light leading-tight tracking-tight text-fg-strong [text-shadow:0_1px_18px_rgb(0_0_0/0.55)] md:text-4xl lg:text-5xl"
           >
             {work.title}
+            {/*
+              The status in brackets after the name, at a size that does not
+              try to be part of it. Eight of these ten works are in private
+              collections and one is being drawn — that is the first thing a
+              reader needs to know about the piece they just opened, and until
+              now it waited in the sheet a screen further down. The wording is
+              WorkMeta's, so the cover and the sheet cannot drift apart.
+            */}
+            {work.status ? (
+              <span className="ml-xs align-middle font-sans text-base font-normal tracking-normal text-fg [text-shadow:0_1px_14px_rgb(0_0_0/0.55)] md:text-lg">
+                ({statusLabels[work.status]})
+              </span>
+            ) : null}
           </h1>
 
           {/*

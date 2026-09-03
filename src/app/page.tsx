@@ -120,8 +120,8 @@ export default async function HomePage() {
       {/* Sobre Mariela — the artist, in short. */}
       <Artist content={content.artist} />
 
-      {/* Contacto — one ask, at the end. */}
-      <ContactCallout content={content.contact} />
+      {/* Encargos — one ask, at the end. */}
+      <ContactCallout content={content.contact} id="encargos" />
     </>
   );
 }

@@ -1,7 +1,8 @@
 import Image from "next/image";
 import { ActionButton, QuietLink } from "@/components/primitives/ActionLink";
 import { Reveal } from "@/components/primitives/Reveal";
-import type { PrintStatus, Work, WorkKind, WorkStatus } from "@/content/types";
+import { statusLabels } from "./WorkMeta";
+import type { PrintStatus, Work, WorkKind } from "@/content/types";
 
 const kindLabels: Record<WorkKind, string> = {
   personal: "Obra personal",
@@ -12,14 +13,6 @@ const kindLabels: Record<WorkKind, string> = {
 const printLabels: Record<PrintStatus, string> = {
   available: "Disponibles",
   "sold-out": "Agotados",
-};
-
-const statusLabels: Record<WorkStatus, string> = {
-  "in-progress": "En proceso",
-  available: "Disponible",
-  sold: "Vendida",
-  "private-collection": "Colección privada",
-  "sold-out": "Agotada",
 };
 
 interface WorkSheetProps {

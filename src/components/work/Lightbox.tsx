@@ -228,7 +228,7 @@ export function Lightbox({ works, index, onClose, onNavigate }: LightboxProps) {
 
           {/* The label: title, year, then the sheet — Mariela's order. */}
           <div className="lg:col-span-4">
-            <WorkIdentity work={work} />
+            <WorkIdentity work={work} showStatus />
             <WorkSpecs work={work} className="mt-md border-t border-rule pt-md" />
 
             {works.length > 1 ? (
