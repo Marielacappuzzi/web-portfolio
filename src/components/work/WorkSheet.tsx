@@ -106,31 +106,39 @@ export function WorkSheet({ work }: WorkSheetProps) {
       {work.image ? (
         <Reveal variant="image" className="lg:col-span-7">
           {/*
-            A wide rectangle, capped at the height of the label beside it.
+            The drawing whole, in its own proportion.
 
-            4/3 on a phone, where the column is narrow and a band would leave
-            the drawing a strip; from `lg` the height is fixed at 30rem and the
-            width takes what the column gives it, which is how the plate ends
-            up level with the sheet rather than towering over it.
+            This was a wide rectangle — 4/3 on a phone, a fixed 30rem band from
+            `lg` — cropped to sit level with the sheet beside it. All three of
+            these works are portrait, between 0.56 and 0.72, so a landscape
+            frame cut every one of them: Bajo su Protección showed the lioness
+            and not the cub, because two faces stacked over 1050px of a 1920px
+            drawing do not fit a 570px band at any focus. The client asked for
+            the original vertical, uncropped, and it is the right call — this
+            plate is the work, and the work was being cut to fit its label.
 
-            The cost is real and worth recording: at this height Bajo su
-            Protección shows the lioness and not the cub. Its two faces are
-            stacked over about 1050px of a 1920px drawing, and a band level
-            with a four-row sheet is roughly 570px — the whole subject does not
-            fit at this proportion at any focus. The composition entire is in
-            the row of three below, which is where it now lives.
+            Intrinsic width and height with `max-h`/`w-auto`, so the browser
+            scales the whole thing down instead of filling a box with part of
+            it. The cap is what keeps a 0.56 portrait from running past the
+            screen; on a phone the column binds first and the cap never
+            applies. Centred in its seven columns, since a portrait no longer
+            fills them.
 
-            `sheetFocus` is tuned per work against this frame specifically.
+            No hover zoom here any more. It was a crop effect, and the point of
+            this frame is that nothing is cropped.
+
+            `sheetFocus` is now unused by this component. It stays in the data
+            for the gallery, which still crops.
           */}
-          <div className="group relative aspect-[4/3] w-full overflow-hidden lg:aspect-auto lg:h-[30rem]">
+          <div className="flex justify-center">
             <Image
               src={work.image.src}
               alt={work.image.alt}
-              fill
-              sizes="(min-width: 1024px) 58vw, 92vw"
+              width={work.image.width}
+              height={work.image.height}
+              sizes="(min-width: 1024px) 42vw, 92vw"
               quality={90}
-              className="object-cover transition-transform duration-[900ms] ease-out-quart group-hover:scale-[1.04] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
-              style={{ objectPosition: work.sheetFocus ?? work.coverFocus ?? "50% 30%" }}
+              className="h-auto max-h-[78svh] w-auto max-w-full"
             />
           </div>
         </Reveal>

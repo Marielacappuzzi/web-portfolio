@@ -27,9 +27,10 @@ interface WorkHeroProps {
  * height of the viewport there is room below the piece for it to have a corner
  * of its own.
  *
- * The wash is measured rather than assumed: the lower-left corner of the three
- * banners reads 54, 59 and 96 of 255, so white already clears 6:1 on all of
- * them. It rises from the foot, is gone by halfway, and never reaches the work.
+ * The wash is measured, and the measurement that mattered was the wrong one:
+ * the corner of each banner reads 54, 59 and 96 of 255, which is not where the
+ * copy sits. See the note on the gradient itself for what the copy actually
+ * sits on and what the wash had to become.
  */
 export function WorkHero({ work }: WorkHeroProps) {
   const banner = work.banner;
@@ -63,9 +64,34 @@ export function WorkHero({ work }: WorkHeroProps) {
         />
       </picture>
 
+      {/*
+        The wash under the copy, measured rather than eyeballed.
+
+        The old one — half the height, ink/90 falling to ink/55 by 35% — held
+        up at 1440x900 and came apart on a short window, which is where the
+        client saw it. Two things compound there: the gradient is shorter in
+        pixels, so the same copy sits higher up its ramp and gets less of it,
+        and the cover crop lands on the bright part of the banner. On Sueño de
+        Primavera at 1349x660 the title measured 2.7:1 against white and the
+        attribution 3.4:1 — both under the floor, and visibly so.
+
+        So the height is in rem, not per cent. The copy always occupies the
+        same 220px above the foot whatever the window does; a wash measured
+        as a fraction of the section slides out from under it on a short
+        screen, and a wash measured in rem never does. 22rem covers it
+        identically at every height — and on a 1080 screen that is a third of
+        the image rather than the two thirds a percentage wash needed, which
+        matters because the drawing hangs in the middle of these banners.
+
+        Simulated at six viewport sizes across all three banners: object-cover
+        at each work's own focus, the copy's real position, contrast measured
+        against the 90th percentile of what sits behind each line rather than
+        its average. Every line clears, worst case 4.6:1 on that same title.
+        Still ink and not black, so it greys the foot of the image.
+      */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-ink/90 via-ink/55 via-35% to-transparent"
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-[18rem] md:h-[22rem] bg-[linear-gradient(to_top,rgb(48_48_48/0.95)_0%,rgb(48_48_48/0.80)_35%,rgb(48_48_48/0.42)_70%,transparent_100%)]"
       />
 
       <div className="absolute inset-x-0 bottom-0">

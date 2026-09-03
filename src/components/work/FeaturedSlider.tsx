@@ -259,7 +259,7 @@ export function FeaturedSlider({
 
               <div
                 aria-hidden="true"
-                className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-ink/90 via-ink/55 via-35% to-transparent"
+                className="pointer-events-none absolute inset-x-0 bottom-0 h-[18rem] md:h-[22rem] bg-[linear-gradient(to_top,rgb(48_48_48/0.95)_0%,rgb(48_48_48/0.80)_35%,rgb(48_48_48/0.42)_70%,transparent_100%)]"
               />
 
               {/* Name and one action, low and left, inside the picture. */}
