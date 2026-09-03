@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { ActionButton, QuietLink } from "@/components/primitives/ActionLink";
+import { VideoPlayer } from "@/components/primitives/VideoPlayer";
 import { Reveal } from "@/components/primitives/Reveal";
 import { statusLabels } from "./WorkMeta";
 import type { PrintStatus, Work, WorkKind } from "@/content/types";
@@ -96,7 +97,34 @@ export function WorkSheet({ work }: WorkSheetProps) {
       gutter so it keeps the page's right-hand axis.
     */
     <div className="grid gap-2xl lg:grid-cols-12 lg:items-center lg:gap-x-[4vw]">
-      {work.image ? (
+      {/*
+        The clip, where a work has one instead of a plate.
+
+        El Rescate is being drawn: there is no finished photograph, and the
+        slot was holding a shot of the board mid-session — which is the still
+        of this very clip, one screen above the clip itself. So the video sits
+        here and the composition below it is empty until Mariela sends the
+        photographs of the finished piece, at which point this goes back to
+        being a plate and the clip returns to the sequence.
+
+        Capped at 24rem wide rather than given the column. At 9:16 the seven
+        columns would make it 1385px tall — the whole screen and then some for
+        a phone clip. 24rem puts it at roughly the height of the sheet beside
+        it, which is what was asked for.
+      */}
+      {work.sheetVideo ? (
+        <Reveal variant="image" className="lg:col-span-7">
+          <div className="mx-auto w-full max-w-[24rem]">
+            <VideoPlayer
+              src={work.sheetVideo.src}
+              poster={work.sheetVideo.poster}
+              label={work.sheetVideo.label}
+              caption={work.sheetVideo.caption}
+              aspect={work.sheetVideo.portrait ? "aspect-[9/16]" : "aspect-video"}
+            />
+          </div>
+        </Reveal>
+      ) : work.image ? (
         <Reveal variant="image" className="lg:col-span-7">
           {/*
             The drawing whole, in its own proportion.
@@ -131,7 +159,15 @@ export function WorkSheet({ work }: WorkSheetProps) {
               height={work.image.height}
               sizes="(min-width: 1024px) 42vw, 92vw"
               quality={90}
-              className="h-auto max-h-[78svh] w-auto max-w-full"
+              /*
+                88svh, up from 78. The height cap is what binds here — a
+                portrait never reaches the width of its seven columns — so the
+                drawing was sitting at about 65% of the space it had and read
+                small. At 88 it is 76% of the column and about a third larger
+                in area, while still fitting a screen at once, which is the
+                whole reason there is a cap.
+              */
+              className="h-auto max-h-[88svh] w-auto max-w-full"
             />
           </div>
         </Reveal>

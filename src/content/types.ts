@@ -174,6 +174,16 @@ export interface Work {
    * 30% the cub's head was cut off the bottom of this frame.
    */
   sheetFocus?: string;
+
+  /**
+   * Shown beside the technical sheet in place of the plate.
+   *
+   * For a work that is still being drawn there is no finished photograph to
+   * put there, and the plate slot was holding a shot of the board mid-session
+   * — the same clip's still, one screen above the clip itself. Where this is
+   * set the sheet block plays the video instead, and nothing is repeated.
+   */
+  sheetVideo?: VideoSource;
   detailImages?: WorkImage[];
   processImages?: WorkImage[];
   /**

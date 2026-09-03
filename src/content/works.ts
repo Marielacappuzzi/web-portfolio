@@ -810,30 +810,17 @@ export const works: Work[] = [
      * is the most violent thing on the site, and the clip follows. A short,
      * hard page.
      */
-    story: [
-      /*
-        One block, because one is what exists.
+    /*
+      No composition, and no `story`.
 
-        The plate of the work in progress now sits beside the sheet at the top
-        of the page, so repeating it here would be the page showing the same
-        photograph twice. What is left is the clip of that session — and no
-        finished plate, no framed shot and no room, because the piece is
-        unfinished and none of them have been made.
-      */
-      {
-        kind: "video",
-        videos: [
-          {
-            src: "/video/jesus-en-proceso.mp4",
-            poster: "/video/jesus-en-proceso.jpg",
-            label: "El Rescate en proceso, sobre el tablero de Mariela Crapuzzi.",
-            portrait: true,
-            caption:
-              "La obra en curso. Las fotografías definitivas llegarán al terminarla.",
-          },
-        ],
-      },
-    ],
+      The one block this page had was the clip of the session, and the clip
+      now sits beside the sheet at the top — see `sheetVideo` below. Leaving
+      it here too would be the page playing the same video twice, a screen
+      apart. There is nothing else to put in its place: the piece is
+      unfinished, so there is no finished plate, no framed shot and no room it
+      hangs in. When Mariela sends the photographs, this is where they go and
+      the clip comes back down with them.
+    */
     /*
      * The wolf runs across the middle of the frame, from about 30% to 70%.
      * Centre holds it whole at every width; the dark floor and window at the
@@ -865,6 +852,20 @@ export const works: Work[] = [
      * hand in the frame. Better than a declared placeholder, and honest about
      * what it is — the caption says so wherever it appears.
      */
+    /*
+      The clip in the plate's place, at the client's request: while the work
+      is being drawn, the honest thing to show beside its sheet is the work
+      being drawn. The still that was here is this clip's own poster frame.
+    */
+    sheetVideo: {
+      src: "/video/jesus-en-proceso.mp4",
+      poster: "/video/jesus-en-proceso.jpg",
+      label: "El Rescate en proceso, sobre el tablero de Mariela Crapuzzi.",
+      portrait: true,
+      caption:
+        "La obra en curso. Las fotografías definitivas llegarán al terminarla.",
+    },
+
     image: {
       src: "/obra/jesus-oveja-lobo/jesus-en-proceso.jpg",
       alt: "La obra en proceso: el lobo a carboncillo con las fauces abiertas, y la mano de Mariela trabajando sobre él con un difumino.",
