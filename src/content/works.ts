@@ -350,12 +350,24 @@ export const works: Work[] = [
      * per photograph and no pair to keep in step.
      */
     detailImages: [
+      /*
+        The close view Mariela sent, second, in place of the hand working the
+        mane. The sequence lands where the other four did: the drawing, the
+        detail, then the piece being made.
+
+        The closest match of the batch — R-B 10.0 against the plate's 10.3,
+        black 4 against 2, white 189 against 191. The same photograph of the
+        same sheet under the same light, closer in. Nothing to correct.
+
+        It also brings this work its own file. The image it replaces lived in
+        /encargos, borrowed by a second page that had no copy of its own.
+      */
       {
-        src: "/encargos/proceso-movil.jpg",
-        alt: "La mano de la artista con un carboncillo sobre la obra, trabajando la crin del caballo, con los lápices en la mesa.",
-        width: 960,
-        height: 1500,
-        caption: "La crin, en proceso.",
+        src: "/obra/toro-salvaje/extra-01.jpg",
+        alt: "La obra de cerca: la cabeza del caballo de frente, la crin abierta por el movimiento y la luz sobre el hueso de la cara, contra el fondo oscuro.",
+        width: 1506,
+        height: 1920,
+        caption: "La cabeza, de cerca.",
       },
       {
         src: "/estudio/extra-06.jpg",
