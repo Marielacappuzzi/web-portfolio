@@ -3,6 +3,7 @@ import { ActionButton, QuietLink } from "@/components/primitives/ActionLink";
 import { VideoPlayer } from "@/components/primitives/VideoPlayer";
 import { Reveal } from "@/components/primitives/Reveal";
 import { printLabels, statusLabels } from "./WorkMeta";
+import { cn } from "@/lib/cn";
 import { hasAvailabilityBlock } from "@/lib/work-availability";
 import type { Work, WorkKind } from "@/content/types";
 
@@ -117,8 +118,18 @@ export function WorkSheet({ work }: WorkSheetProps) {
         it, which is what was asked for.
       */}
       {work.sheetVideo ? (
-        <Reveal variant="image" className="lg:col-span-7">
-          <div className="mx-auto w-full max-w-[24rem]">
+        /*
+          Four columns, not seven.
+
+          A 24rem clip centred in a seven-column slot left about 200px of empty
+          column on each side of it, and the reader saw that plus the 4vw
+          gutter as one wide emptiness between the video and the sentence about
+          the work. Four columns is roughly the clip's own width, so the two
+          things that belong together sit next to each other. A plate still
+          takes seven; it fills them.
+        */
+        <Reveal variant="image" className="lg:col-span-4">
+          <div className="mx-auto w-full max-w-[24rem] lg:mx-0">
             <VideoPlayer
               src={work.sheetVideo.src}
               poster={work.sheetVideo.poster}
@@ -187,7 +198,15 @@ export function WorkSheet({ work }: WorkSheetProps) {
         sentence sets in three and the technique in two, and the column reaches
         the height of the plate beside it instead of running past its foot.
       */}
-      <div className="gutter lg:col-span-5 lg:col-start-8 lg:pl-0">
+      <div
+        className={cn(
+          "gutter lg:pl-0",
+          /* Follows the plate: beside a four-column clip it starts at 6. */
+          work.sheetVideo
+            ? "lg:col-span-6 lg:col-start-6"
+            : "lg:col-span-5 lg:col-start-8",
+        )}
+      >
         {work.shortStory ? (
           <Reveal>
             <p className="max-w-[48ch] font-serif text-lg font-light leading-snug text-pretty text-fg-strong">

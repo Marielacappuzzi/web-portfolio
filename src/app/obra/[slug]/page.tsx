@@ -8,8 +8,8 @@ import { Reveal } from "@/components/primitives/Reveal";
 import { Rule } from "@/components/primitives/Rule";
 import { Display, Eyebrow } from "@/components/primitives/Type";
 import { WorkComposition } from "@/components/work/WorkComposition";
+import { ContactForm } from "@/components/contact/ContactForm";
 import { WorkAvailability } from "@/components/work/WorkAvailability";
-import { WorkEnquiry } from "@/components/work/WorkEnquiry";
 import { WorkHero } from "@/components/work/WorkHero";
 import { WorkSheet } from "@/components/work/WorkSheet";
 import { hasAvailabilityBlock } from "@/lib/work-availability";
@@ -20,7 +20,6 @@ import {
   getWork,
   getWorkNeighbours,
 } from "@/lib/content";
-import { availabilityModes } from "@/content/pages/availability";
 import { withEmphasis } from "@/lib/emphasis";
 
 /**
@@ -377,29 +376,62 @@ export default async function WorkPage({ params }: PageProps<"/obra/[slug]">) {
           The two hash targets. Empty spans rather than ids on the section
           itself, because one element cannot answer to two anchors — and both
           have to land in the same place, since there is one form.
+
+          In flow, and not `sr-only`. That utility positions absolutely and
+          clips to a pixel, which takes the target out of the document flow —
+          so the browser had no reliable offset to scroll to and the buttons
+          set the hash without moving the page. A zero-height block is
+          invisible in exactly the same way and stays where it is.
+
+          `scroll-mt-28` clears the fixed header, which is 4rem on a phone and
+          5rem from `md`; without it the form's heading lands underneath it.
         */}
-        <span id="consultar-original" className="sr-only" />
-        <span id="consultar-print" className="sr-only" />
+        <span id="consultar-original" aria-hidden="true" className="block h-0 scroll-mt-28" />
+        <span id="consultar-print" aria-hidden="true" className="block h-0 scroll-mt-28" />
 
         <Container width="wide">
           <Rule width="full" />
 
           {forSale ? (
-            /*
-              The form, in the shape of the question that was asked. The two
-              buttons in the availability block land on the anchors beside
-              this section and WorkEnquiry reads which — so someone who
-              pressed "Consultar por prints" gets a form headed for prints,
-              rather than one that opens by asking them which of the two they
-              meant.
-            */
-            <div className="mt-2xl">
-              <WorkEnquiry
-                page={enquiry}
-                workTitle={work.title}
-                modes={availabilityModes}
-                headingId="consulta-titulo"
-              />
+            <div className="mt-2xl grid gap-2xl lg:grid-cols-12 lg:gap-x-[4vw]">
+              <div className="lg:col-span-4">
+                <Reveal>
+                  <Display id="consulta-titulo" measure={18}>
+                    {withEmphasis(enquiry.heading.title)}
+                  </Display>
+                </Reveal>
+
+                <Reveal delay={90} className="mt-lg">
+                  <p className="max-w-[42ch] font-sans text-base leading-relaxed text-pretty text-fg">
+                    {enquiry.paragraphs[0]}
+                  </p>
+                </Reveal>
+              </div>
+
+              <div className="lg:col-span-7 lg:col-start-6">
+                <Reveal delay={120}>
+                  {/*
+                    One form, and the hash answers its first question.
+
+                    Both asks land here — the anchors above sit at the head of
+                    this section — and the option the reader pressed arrives
+                    already chosen. The select stays on screen rather than
+                    disappearing: it shows what the page understood, and it can
+                    be changed by someone who pressed the wrong one.
+                  */}
+                  <ContactForm
+                    page={enquiry}
+                    supplied={{ obra: work.title }}
+                    hashDefaults={{
+                      field: "interes",
+                      map: {
+                        "consultar-original": "La obra original",
+                        "consultar-print": "Un print de la obra",
+                      },
+                    }}
+                  />
+                </Reveal>
+              </div>
             </div>
           ) : (
             /*

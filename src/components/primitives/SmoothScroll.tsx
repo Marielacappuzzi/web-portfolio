@@ -99,7 +99,28 @@ export function SmoothScroll() {
       lenis.scrollTo(target, { offset: -96 });
 
       // Keep the address bar honest without letting it jump the page.
+      const oldURL = window.location.href;
       window.history.pushState(null, "", url.hash);
+
+      /*
+        And say so. `pushState` changes the URL silently — it fires no
+        `hashchange` — so anything on the page listening for one never heard
+        it. That is why the enquiry form's select did not preselect when the
+        availability buttons were pressed: the hash was right, the scroll was
+        right, and the only component that cared was never told. Arriving with
+        the hash already in the URL worked, because that path reads it on
+        mount, which is what made it look intermittent rather than broken.
+
+        Dispatching the real event rather than a private one keeps this
+        honest: a listener written against the platform behaves the same here
+        as it would anywhere else.
+      */
+      window.dispatchEvent(
+        new HashChangeEvent("hashchange", {
+          oldURL,
+          newURL: window.location.href,
+        }),
+      );
     };
 
     // Capture phase, ahead of React and of Link.

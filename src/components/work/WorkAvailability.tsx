@@ -65,7 +65,21 @@ export function WorkAvailability({ work }: WorkAvailabilityProps) {
   if (columns.length === 0) return null;
 
   return (
-    <div className="grid gap-xl sm:grid-cols-2 sm:gap-x-[4vw]">
+    /*
+      Capped, so the two sit near each other.
+
+      Across the full wide container each column was some 660px holding one
+      word and a link, and the pair read as two things at opposite ends of the
+      screen rather than as a choice between them. 44rem puts them at about
+      320px apart with the page's own gutter between; the design does not
+      change, only the distance.
+
+      Stacked on a phone the same applies vertically: gap-lg rather than
+      gap-xl, so the two options read as a pair rather than as two sections
+      that happen to follow each other. Each keeps its rule, which is what
+      separates them.
+    */
+    <div className="grid max-w-[44rem] gap-lg sm:grid-cols-2 sm:gap-x-2xl">
       {columns.map((column, index) => (
         <Reveal key={column.key} delay={index * 90}>
           <div className="flex h-full flex-col border-t border-rule pt-lg">
