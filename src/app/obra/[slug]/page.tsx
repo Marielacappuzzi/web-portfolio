@@ -221,7 +221,12 @@ export default async function WorkPage({ params }: PageProps<"/obra/[slug]">) {
         >
           <Container width="wide">
             <Reveal>
-              <Display id="disponibilidad-titulo" measure={18}>
+              {/* Centred, because the two columns under it are. */}
+              <Display
+                id="disponibilidad-titulo"
+                measure={18}
+                className="mx-auto text-center"
+              >
                 {withEmphasis("*Disponibilidad*")}
               </Display>
             </Reveal>

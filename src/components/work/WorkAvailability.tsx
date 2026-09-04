@@ -70,19 +70,26 @@ export function WorkAvailability({ work }: WorkAvailabilityProps) {
 
       Across the full wide container each column was some 660px holding one
       word and a link, and the pair read as two things at opposite ends of the
-      screen rather than as a choice between them. 44rem puts them at about
-      320px apart with the page's own gutter between; the design does not
-      change, only the distance.
+      screen rather than as a choice between them. 58rem centres the pair
+      under its heading instead of leaving it hanging off the left margin, and
+      is the width the longer of the two asks needs to stay on one line:
+      "Consultar por la obra original" is 30 uppercase characters at 0.24em of
+      tracking inside a framed button, about 360px, so each column has to
+      clear that with room to spare or the label breaks in two — which is what
+      it was doing. At 58rem each is roughly 416px.
+
+      Each column centres its own contents, so the eyebrow, the state and the
+      ask sit on one axis and the two columns mirror each other.
 
       Stacked on a phone the same applies vertically: gap-lg rather than
       gap-xl, so the two options read as a pair rather than as two sections
       that happen to follow each other. Each keeps its rule, which is what
       separates them.
     */
-    <div className="grid max-w-[44rem] gap-lg sm:grid-cols-2 sm:gap-x-2xl">
+    <div className="mx-auto grid max-w-[58rem] gap-lg md:grid-cols-2 md:gap-x-2xl">
       {columns.map((column, index) => (
         <Reveal key={column.key} delay={index * 90}>
-          <div className="flex h-full flex-col border-t border-rule pt-lg">
+          <div className="flex h-full flex-col items-center border-t border-rule pt-lg text-center">
             <Eyebrow>{column.eyebrow}</Eyebrow>
 
             <p className="mt-md font-serif text-xl font-light leading-tight text-fg-strong">
@@ -92,8 +99,25 @@ export function WorkAvailability({ work }: WorkAvailabilityProps) {
             {column.action ? (
               /* mt-auto so both buttons sit on one line when the states wrap
                  to different heights. */
-              <div className="mt-lg pt-2xs sm:mt-auto">
-                <ActionButton href={column.action.href}>
+              <div className="mt-lg pt-2xs md:mt-auto">
+                {/*
+                  One line. "Consultar por la obra original" was breaking over
+                  two inside the frame, which turns a quiet button into a
+                  paragraph with a border around it. The columns split at `md`
+                  rather than `sm` for the same reason: at 640px each half is
+                  narrower than the label, so `sm` only moved the wrap.
+                */}
+                <ActionButton
+                  href={column.action.href}
+                  /*
+                    From `md` only. Stacked on a phone the column is whatever
+                    the screen gives it, and on a narrow one that is less than
+                    the button needs — `nowrap` there would push the page
+                    sideways rather than break a line, which is the worse of
+                    the two.
+                  */
+                  className="md:whitespace-nowrap"
+                >
                   {column.action.label}
                 </ActionButton>
               </div>

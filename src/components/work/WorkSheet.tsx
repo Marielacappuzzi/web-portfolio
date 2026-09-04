@@ -1,9 +1,9 @@
 import Image from "next/image";
 import { ActionButton, QuietLink } from "@/components/primitives/ActionLink";
 import { VideoPlayer } from "@/components/primitives/VideoPlayer";
+import { Container } from "@/components/layout/Section";
 import { Reveal } from "@/components/primitives/Reveal";
 import { printLabels, statusLabels } from "./WorkMeta";
-import { cn } from "@/lib/cn";
 import { hasAvailabilityBlock } from "@/lib/work-availability";
 import type { Work, WorkKind } from "@/content/types";
 
@@ -91,6 +91,114 @@ export function WorkSheet({ work }: WorkSheetProps) {
     ]);
   }
 
+  const label = (
+    <>
+      {work.shortStory ? (
+        <Reveal>
+          <p className="max-w-[48ch] font-serif text-lg font-light leading-snug text-pretty text-fg-strong">
+            {work.shortStory}
+          </p>
+        </Reveal>
+      ) : null}
+
+      {rows.length > 0 ? (
+        <Reveal delay={120} className="mt-xl">
+          <dl className="flex flex-col">
+            {rows.map(([label, value]) => (
+              <div
+                key={label}
+                className="flex flex-col gap-3xs border-t border-rule py-md last:border-b sm:flex-row sm:items-baseline sm:gap-md"
+              >
+                {/*
+                  8rem, down from 9. The field names are short — the longest
+                  is "Dimensiones" — and every millimetre the label keeps is
+                  one the value has to wrap around.
+                */}
+                <dt className="font-sans text-2xs uppercase tracking-label text-fg-muted sm:w-[8rem] sm:shrink-0">
+                  {label}
+                </dt>
+                <dd className="font-sans text-sm leading-relaxed text-pretty text-fg">
+                  {value}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </Reveal>
+      ) : null}
+
+      {work.note ? (
+        <Reveal delay={180} className="mt-md">
+          <p className="max-w-[48ch] font-sans text-xs leading-relaxed text-fg-muted">
+            {work.note}
+          </p>
+        </Reveal>
+      ) : null}
+
+      {/*
+        Up to three asks, and each one only if it is true.
+
+        "Consultar obra" used to sit here on every work and point at the
+        commission form — on eight pieces in private collections and on one
+        being drawn, which invites an enquiry after something that cannot be
+        had. Now the original and the edition each get their own button when
+        they are available, and both go to the enquiry form at the foot of
+        this page with the right question already selected. The commission
+        keeps its own route and its own form.
+      */}
+      {originalForSale || printsForSale ? (
+        <Reveal delay={210} className="mt-xl flex flex-col items-start gap-md">
+          {originalForSale ? (
+            <ActionButton href="#consultar-original">
+              Consultar por la obra original
+            </ActionButton>
+          ) : null}
+
+          {printsForSale ? (
+            <ActionButton href="#consultar-print">
+              Consultar por la edición
+            </ActionButton>
+          ) : null}
+
+          <QuietLink href="/encargos#cotizar" className="mt-2xs">
+            Quiero un encargo
+          </QuietLink>
+        </Reveal>
+      ) : null}    </>
+  );
+
+  /*
+    A clip and a sentence, centred as one pair.
+
+    The plate layout below escapes the page container on purpose, so the
+    drawing can run to the edge of the screen. A 24rem phone clip cannot do
+    that: pinned to the left edge it read as something that had come loose,
+    with the sentence stranded away to its right. So this returns to the
+    container and centres the two together — equal margin on both sides, one
+    gap between them, both aligned on their middle.
+
+    62rem is the pair plus its gap, so `mx-auto` has something to centre.
+    Stacked below `lg`, the clip above the sentence.
+  */
+  if (work.sheetVideo) {
+    return (
+      <Container width="wide">
+        <div className="mx-auto flex max-w-[62rem] flex-col items-center gap-2xl lg:flex-row lg:items-center lg:gap-[5vw]">
+          <Reveal variant="image" className="w-full max-w-[24rem] shrink-0">
+            <VideoPlayer
+              src={work.sheetVideo.src}
+              poster={work.sheetVideo.poster}
+              label={work.sheetVideo.label}
+              caption={work.sheetVideo.caption}
+              aspect={work.sheetVideo.portrait ? "aspect-[9/16]" : "aspect-video"}
+            />
+          </Reveal>
+
+          <div className="w-full lg:max-w-[32rem]">{label}</div>
+        </div>
+      </Container>
+    );
+  }
+
   return (
     /*
       The section's own grid, with no page container around it.
@@ -102,44 +210,7 @@ export function WorkSheet({ work }: WorkSheetProps) {
       gutter so it keeps the page's right-hand axis.
     */
     <div className="grid gap-2xl lg:grid-cols-12 lg:items-center lg:gap-x-[4vw]">
-      {/*
-        The clip, where a work has one instead of a plate.
-
-        El Rescate is being drawn: there is no finished photograph, and the
-        slot was holding a shot of the board mid-session — which is the still
-        of this very clip, one screen above the clip itself. So the video sits
-        here and the composition below it is empty until Mariela sends the
-        photographs of the finished piece, at which point this goes back to
-        being a plate and the clip returns to the sequence.
-
-        Capped at 24rem wide rather than given the column. At 9:16 the seven
-        columns would make it 1385px tall — the whole screen and then some for
-        a phone clip. 24rem puts it at roughly the height of the sheet beside
-        it, which is what was asked for.
-      */}
-      {work.sheetVideo ? (
-        /*
-          Four columns, not seven.
-
-          A 24rem clip centred in a seven-column slot left about 200px of empty
-          column on each side of it, and the reader saw that plus the 4vw
-          gutter as one wide emptiness between the video and the sentence about
-          the work. Four columns is roughly the clip's own width, so the two
-          things that belong together sit next to each other. A plate still
-          takes seven; it fills them.
-        */
-        <Reveal variant="image" className="lg:col-span-4">
-          <div className="mx-auto w-full max-w-[24rem] lg:mx-0">
-            <VideoPlayer
-              src={work.sheetVideo.src}
-              poster={work.sheetVideo.poster}
-              label={work.sheetVideo.label}
-              caption={work.sheetVideo.caption}
-              aspect={work.sheetVideo.portrait ? "aspect-[9/16]" : "aspect-video"}
-            />
-          </div>
-        </Reveal>
-      ) : work.image ? (
+      {work.image ? (
         <Reveal variant="image" className="lg:col-span-7">
           {/*
             The drawing whole, in its own proportion.
@@ -198,86 +269,8 @@ export function WorkSheet({ work }: WorkSheetProps) {
         sentence sets in three and the technique in two, and the column reaches
         the height of the plate beside it instead of running past its foot.
       */}
-      <div
-        className={cn(
-          "gutter lg:pl-0",
-          /* Follows the plate: beside a four-column clip it starts at 6. */
-          work.sheetVideo
-            ? "lg:col-span-6 lg:col-start-6"
-            : "lg:col-span-5 lg:col-start-8",
-        )}
-      >
-        {work.shortStory ? (
-          <Reveal>
-            <p className="max-w-[48ch] font-serif text-lg font-light leading-snug text-pretty text-fg-strong">
-              {work.shortStory}
-            </p>
-          </Reveal>
-        ) : null}
-
-        {rows.length > 0 ? (
-          <Reveal delay={120} className="mt-xl">
-            <dl className="flex flex-col">
-              {rows.map(([label, value]) => (
-                <div
-                  key={label}
-                  className="flex flex-col gap-3xs border-t border-rule py-md last:border-b sm:flex-row sm:items-baseline sm:gap-md"
-                >
-                  {/*
-                    8rem, down from 9. The field names are short — the longest
-                    is "Dimensiones" — and every millimetre the label keeps is
-                    one the value has to wrap around.
-                  */}
-                  <dt className="font-sans text-2xs uppercase tracking-label text-fg-muted sm:w-[8rem] sm:shrink-0">
-                    {label}
-                  </dt>
-                  <dd className="font-sans text-sm leading-relaxed text-pretty text-fg">
-                    {value}
-                  </dd>
-                </div>
-              ))}
-            </dl>
-          </Reveal>
-        ) : null}
-
-        {work.note ? (
-          <Reveal delay={180} className="mt-md">
-            <p className="max-w-[48ch] font-sans text-xs leading-relaxed text-fg-muted">
-              {work.note}
-            </p>
-          </Reveal>
-        ) : null}
-
-        {/*
-          Up to three asks, and each one only if it is true.
-
-          "Consultar obra" used to sit here on every work and point at the
-          commission form — on eight pieces in private collections and on one
-          being drawn, which invites an enquiry after something that cannot be
-          had. Now the original and the edition each get their own button when
-          they are available, and both go to the enquiry form at the foot of
-          this page with the right question already selected. The commission
-          keeps its own route and its own form.
-        */}
-        {originalForSale || printsForSale ? (
-          <Reveal delay={210} className="mt-xl flex flex-col items-start gap-md">
-            {originalForSale ? (
-              <ActionButton href="#consultar-original">
-                Consultar por la obra original
-              </ActionButton>
-            ) : null}
-
-            {printsForSale ? (
-              <ActionButton href="#consultar-print">
-                Consultar por la edición
-              </ActionButton>
-            ) : null}
-
-            <QuietLink href="/encargos#cotizar" className="mt-2xs">
-              Quiero un encargo
-            </QuietLink>
-          </Reveal>
-        ) : null}
+      <div className="gutter lg:col-span-5 lg:col-start-8 lg:pl-0">
+        {label}
       </div>
     </div>
   );
