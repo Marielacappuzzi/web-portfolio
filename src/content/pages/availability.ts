@@ -1,6 +1,34 @@
 import type { ContactPage } from "../types";
 
 /**
+ * The four answers to "¿Qué te interesa?", named so nothing depends on a
+ * string being retyped identically in three files: the form's options, the
+ * hash that preselects one of them, and the rule that decides which a given
+ * work may offer.
+ */
+export const enquiryOptions = {
+  original: "La obra original",
+  print: "Un print de la obra",
+  both: "Ambas opciones",
+  other: "Otra consulta",
+} as const;
+
+/**
+ * The line under the heading, in three versions, because it has to be true.
+ *
+ * "Consultar por la obra original o por uno de sus prints" is right on El
+ * Rescate, where both can be had. On Sueño de Primavera the original is in a
+ * private collection and only the edition is left, so the same sentence
+ * invites an enquiry the page cannot answer.
+ */
+export const enquiryIntros = {
+  both: "Escríbeme para consultar por la obra original o por uno de sus prints.",
+  printOnly:
+    "Escríbeme para consultar por uno de los prints disponibles de esta obra.",
+  originalOnly: "Escríbeme para consultar por la obra original.",
+} as const;
+
+/**
  * The enquiry a reader sends from a work's own page.
  *
  * A third form, and it exists because the other two do not fit. /encargos asks
@@ -58,16 +86,16 @@ export const availability: ContactPage = {
       kind: "select",
       required: true,
       /*
-        Both are offered on every work, whatever its current state. A piece
-        with the original sold still takes enquiries about its edition, and a
-        reader who asks about something unavailable gets a real answer rather
-        than a form that would not let them ask.
+        The full set. Each work's page narrows it to what that work actually
+        has — see `shapeEnquiry` — so nobody is offered the original of a
+        drawing that hangs in someone's house. This list is the vocabulary,
+        not the menu.
       */
       options: [
-        "La obra original",
-        "Un print de la obra",
-        "Ambas opciones",
-        "Otra consulta",
+        enquiryOptions.original,
+        enquiryOptions.print,
+        enquiryOptions.both,
+        enquiryOptions.other,
       ],
     },
     {

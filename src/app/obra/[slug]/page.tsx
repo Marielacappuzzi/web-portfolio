@@ -12,7 +12,7 @@ import { ContactForm } from "@/components/contact/ContactForm";
 import { WorkAvailability } from "@/components/work/WorkAvailability";
 import { WorkHero } from "@/components/work/WorkHero";
 import { WorkSheet } from "@/components/work/WorkSheet";
-import { hasAvailabilityBlock } from "@/lib/work-availability";
+import { hasAvailabilityBlock, shapeEnquiry } from "@/lib/work-availability";
 import { cn } from "@/lib/cn";
 import {
   getAvailabilityForm,
@@ -123,7 +123,12 @@ export default async function WorkPage({ params }: PageProps<"/obra/[slug]">) {
   if (!work || !work.hasEditorialPage) notFound();
 
   const { previous, next } = await getWorkNeighbours(slug);
-  const enquiry = await getAvailabilityForm();
+  /*
+    The enquiry form, cut down to what this work has. See `shapeEnquiry`:
+    Sueño de Primavera's original is in a private collection, so its dropdown
+    offers the print and nothing else it cannot honour.
+  */
+  const enquiry = shapeEnquiry(await getAvailabilityForm(), work);
 
   /*
     Whether anything on this page can actually be had.
