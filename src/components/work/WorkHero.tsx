@@ -1,6 +1,4 @@
 import { Container } from "@/components/layout/Section";
-import { statusLabels } from "./WorkMeta";
-import { hasAvailabilityBlock } from "@/lib/work-availability";
 import type { Work } from "@/content/types";
 
 interface WorkHeroProps {
@@ -104,23 +102,15 @@ export function WorkHero({ work }: WorkHeroProps) {
           >
             {work.title}
             {/*
-              The status in brackets after the name, at a size that does not
-              try to be part of it. Eight of these ten works are in private
-              collections — that is the first thing a reader needs to know
-              about the piece they just opened, and until now it waited in the
-              sheet a screen further down. The wording is WorkMeta's, so the
-              cover and the sheet cannot drift apart.
+              No status here.
 
-              Not where the page carries an availability block. There the
-              state is stated properly, in two columns with the asks beside
-              them, and repeating it against the title only gives the page two
-              chances to say different things.
+              It was in brackets after the name for a while, and the client is
+              right that it does not belong: every work states its own state
+              already — in the sheet's Original row, or in the availability
+              block on the one piece that has one — and the cover was a third
+              place for the same words to be kept in step. A name is enough to
+              open on.
             */}
-            {work.status && !hasAvailabilityBlock(work) ? (
-              <span className="ml-xs align-middle font-sans text-base font-normal tracking-normal text-fg [text-shadow:0_1px_14px_rgb(0_0_0/0.55)] md:text-lg">
-                ({statusLabels[work.status]})
-              </span>
-            ) : null}
           </h1>
 
           {/*

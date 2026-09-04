@@ -91,12 +91,30 @@ export const works: Work[] = [
       {
         kind: "video",
         videos: [
+          /*
+            Both clips, side by side. They were cut to one when they read as
+            duplicates, which was the layout's doing rather than the footage's:
+            stacked at nearly full height, one under the other, two views of
+            the same drawing look like the same view twice. Their posters were
+            never the same — one is the whole sheet on the easel with Mariela
+            working it, the other a close hand on the cub's face, and they
+            measure 83 apart on a 0-255 scale. Beside each other and small
+            enough to take in at once, they read as what they are.
+          */
           {
             src: "/video/bajo-su-proteccion-en-proceso.mp4",
             poster: "/video/bajo-su-proteccion-en-proceso.jpg",
             label: "Mariela Crapuzzi trabajando la obra Bajo su Protección.",
             portrait: true,
             caption: "La obra, en proceso.",
+          },
+          {
+            src: "/video/bajo-su-proteccion-obra.mp4",
+            poster: "/video/bajo-su-proteccion-obra.jpg",
+            label:
+              "Primer plano del carboncillo sobre el rostro de la cría, con la mano de Mariela trabajando el detalle.",
+            portrait: true,
+            caption: "El detalle, de cerca.",
           },
         ],
       },

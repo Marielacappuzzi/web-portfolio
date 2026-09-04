@@ -142,7 +142,20 @@ function Block({ block }: { block: WorkBlock }) {
         <ul
           className={cn(
             "grid gap-xl",
-            many ? "sm:grid-cols-2 sm:gap-x-[3vw]" : "max-w-[34rem]",
+            /*
+              A pair is capped, not given the page.
+
+              Across the wide container each of two columns came out about
+              660px, and a 9:16 clip that wide is 1170px tall — one video
+              taller than the screen, so a pair could only ever be read one at
+              a time by scrolling. At 42rem each is roughly 314px and 558px
+              tall, which puts both of them, and their captions, inside a
+              laptop screen at once with the page's own air around them.
+
+              On a phone the column is the screen and the natural size is the
+              right one, so the cap only binds from `sm`.
+            */
+            many ? "sm:mx-auto sm:max-w-[42rem] sm:grid-cols-2 sm:gap-x-[3vw]" : "max-w-[34rem]",
           )}
         >
           {block.videos.map((video) => (

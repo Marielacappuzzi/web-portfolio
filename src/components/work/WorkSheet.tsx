@@ -211,7 +211,7 @@ export function WorkSheet({ work }: WorkSheetProps) {
     */
     <div className="grid gap-2xl lg:grid-cols-12 lg:items-center lg:gap-x-[4vw]">
       {work.image ? (
-        <Reveal variant="image" className="lg:col-span-7">
+        <Reveal variant="image" className="lg:col-span-5">
           {/*
             The drawing whole, in its own proportion.
 
@@ -269,7 +269,18 @@ export function WorkSheet({ work }: WorkSheetProps) {
         sentence sets in three and the technique in two, and the column reaches
         the height of the plate beside it instead of running past its foot.
       */}
-      <div className="gutter lg:col-span-5 lg:col-start-8 lg:pl-0">
+      {/*
+        Column 7, not 8, beside a five-column plate.
+
+        The plate had seven columns and a drawing that never filled them: at
+        88svh a 0.685 portrait is about 543px inside a 779px slot, centred, so
+        118px of empty column sat on each side of it and the reader saw that
+        plus the gutter as one long emptiness between the work and its label.
+        Five columns is roughly the drawing's own width at the sizes this is
+        read at, so the two read as one composition. Nothing is centred to
+        fake it, and the plate still runs to the left edge of the screen.
+      */}
+      <div className="gutter lg:col-span-6 lg:col-start-7 lg:pl-0">
         {label}
       </div>
     </div>
