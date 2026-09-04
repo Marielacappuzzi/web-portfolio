@@ -18,6 +18,18 @@ const nextConfig: NextConfig = {
        * revisited, and a 308 cached in every browser would be hard to undo.
        */
       { source: "/contacto", destination: "/encargos#cotizar", permanent: false },
+      /*
+       * El Rescate was published under an older working title, and the site
+       * is live — the address has been shared and may be indexed. Permanent,
+       * because a renamed work is not a decision that gets revisited, and a
+       * 308 is what tells a search engine to carry the old URL's standing
+       * over to the new one rather than treating it as a page that vanished.
+       */
+      {
+        source: "/obra/jesus-la-oveja-y-el-lobo",
+        destination: "/obra/el-rescate",
+        permanent: true,
+      },
     ];
   },
 

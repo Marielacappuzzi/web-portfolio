@@ -816,7 +816,16 @@ export const works: Work[] = [
      * the asset paths keep the old name on purpose: the brief allows it where
      * changing them would break links, and nothing visible reads a slug.
      */
-    slug: "jesus-la-oveja-y-el-lobo",
+    /*
+      The URL is the work's name. It was "jesus-la-oveja-y-el-lobo", a working
+      title from before the piece was called El Rescate, and it had survived
+      into the address bar — the one place a visitor reads the slug.
+
+      The old path redirects; see next.config.ts. The image folder and the
+      video keep their own names: those are file paths, not addresses, and
+      renaming them buys nothing a reader can see.
+    */
+    slug: "el-rescate",
     /*
      * The page: two plates and nothing padding them out.
      *

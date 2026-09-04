@@ -143,7 +143,7 @@ Las diez rutas están construidas y el build las prerenderiza estáticamente.
 | --- | --- |
 | `/` | Inicio — 4 secciones |
 | `/obra` | Galería única |
-| `/obra/jesus-la-oveja-y-el-lobo` | Editorial de obra |
+| `/obra/el-rescate` | Editorial de obra |
 | `/obra/la-leona-con-su-instinto` | Editorial de obra |
 | `/obra/sueno-de-primavera` | Editorial de obra + edición en print |
 | `/sobre-mi` | Sobre Mariela, con la sección `#proceso` |

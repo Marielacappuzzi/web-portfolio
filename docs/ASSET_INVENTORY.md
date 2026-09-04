@@ -37,7 +37,7 @@ justa · **PR** pendiente de recibir
 | Nina | `nina` | `principal.jpg` + 4 extras | 1385 × 1920 | **EDI** · márgenes de papel visibles |
 | Huella | `huella` | `principal.jpg` + 3 extras | 1079 × 1920 | **EDI** · fondo y márgenes visibles |
 | Molly | `molly` | `principal.jpg` + 2 extras | 1452 × 1920 | **EDI** · márgenes de papel visibles |
-| Jesús, la oveja y el lobo | `jesus-la-oveja-y-el-lobo` | — | — | **PR** · obra sin terminar |
+| Jesús, la oveja y el lobo | `el-rescate` | — | — | **PR** · obra sin terminar |
 
 ### Dos problemas transversales
 
