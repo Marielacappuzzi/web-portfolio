@@ -513,19 +513,30 @@ export default async function WorkPage({ params }: PageProps<"/obra/[slug]">) {
               mark used everywhere else and it is all that is needed to say
               where the page ends.
 
-              One row on a phone as well: stacked, the two titles sat directly
-              above the footer's own links in a single column and the whole
-              foot became one list. `gap-md` and a `basis-0` split give each
-              side half the width minus the gap; the titles wrap inside their
-              own half rather than pushing the other one off the screen.
+              Two halves of a row from `sm`, one under the other below it.
+
+              Side by side on a phone each title had about 165px — "Sueño de
+              Primavera" needs nearer 180 — so both broke mid-name and the two
+              blocks read as one pushed into each corner. Stacked, each gets
+              the full width and sets on one line, with the second carrying its
+              own hairline so the pair still reads as two steps rather than a
+              list. The desktop row is unchanged.
             */}
-            <div className="flex flex-row items-baseline justify-between gap-md border-t border-rule pt-xl sm:gap-lg">
+            <div className="flex flex-col gap-lg border-t border-rule pt-xl sm:flex-row sm:items-baseline sm:justify-between sm:gap-lg">
               {previous ? (
                 <Neighbour work={previous} direction="previous" />
               ) : (
-                <span className="min-w-0 flex-1" />
+                /* Holds the left half so a lone "next" keeps the right edge. */
+                <span className="hidden min-w-0 sm:block sm:flex-1" />
               )}
-              {next ? <Neighbour work={next} direction="next" /> : null}
+              {next ? (
+                <Neighbour
+                  work={next}
+                  direction="next"
+                  /* The seam between them, on a phone only. */
+                  className={previous ? "border-t border-rule pt-lg sm:border-t-0 sm:pt-0" : undefined}
+                />
+              ) : null}
             </div>
           </Container>
         </Section>
@@ -546,18 +557,20 @@ export default async function WorkPage({ params }: PageProps<"/obra/[slug]">) {
 function Neighbour({
   work,
   direction,
+  className,
 }: {
   work: { slug: string; title: string };
   direction: "previous" | "next";
+  className?: string;
 }) {
   const back = direction === "previous";
 
   return (
     <Reveal
       delay={back ? 0 : 90}
-      /* Half the row each, so a long title wraps inside its own side
-         instead of crowding the other one off a narrow screen. */
-      className={cn("min-w-0 flex-1", !back && "text-right")}
+      /* Full width stacked on a phone; half the row each from `sm`, so a long
+         title wraps inside its own side instead of crowding the other one. */
+      className={cn("min-w-0 sm:flex-1", !back && "sm:text-right", className)}
     >
       <Link href={`/obra/${work.slug}`} className="group inline-flex flex-col">
         <span
@@ -566,7 +579,9 @@ function Neighbour({
                uppercase and tracked out, the muted tone was the faintest mark
                on the page and the label read as disabled rather than quiet. */
             "flex items-center gap-2xs font-sans text-2xs font-medium uppercase tracking-label text-fg-strong",
-            !back && "justify-end",
+            /* Both read from the left while stacked; the arrow only swaps
+               sides once the two share a row. */
+            !back && "sm:justify-end",
           )}
         >
           {back ? (

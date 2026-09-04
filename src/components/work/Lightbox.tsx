@@ -168,6 +168,25 @@ export function Lightbox({ works, index, onClose, onNavigate }: LightboxProps) {
       aria-modal="true"
       aria-label={work.title}
       data-ground="chamber"
+      /*
+        Lenis has to be told this panel scrolls itself.
+
+        It is stopped while the lightbox is open, and a stopped Lenis does not
+        merely ignore wheel and touch — it calls preventDefault on them
+        (lenis.mjs: `if (this.isStopped || this.isLocked) { event.preventDefault() }`).
+        So the dialog had `overflow-y-auto` and no way to use it: everything
+        below the plate — the sheet, the position in the run, the buttons to
+        the next work — was on the page and unreachable with a finger.
+
+        Desktop never showed it because the grid puts the label beside the
+        plate and nothing overflows there. On a phone it stacks, and the whole
+        lower half was out of reach.
+
+        `data-lenis-prevent` is checked before that branch, so the gesture
+        passes through to the browser and the panel scrolls natively. One
+        attribute, and nothing about the page's own scrolling changes.
+      */
+      data-lenis-prevent
       className="fixed inset-0 z-50 flex flex-col overflow-y-auto overscroll-contain bg-ink/97 transition-opacity duration-400"
       onClick={onClose}
     >

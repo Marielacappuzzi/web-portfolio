@@ -48,7 +48,16 @@ export function SiteFooter({ site }: { site: SiteContent }) {
           copyright, which is where a reader looks for them.
         */}
         <div className="grid grid-cols-1 gap-2xl sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr] lg:gap-xl">
-          <div className="max-w-narrow">
+          {/*
+            Centred while the footer is one column, left-aligned the moment it
+            becomes two. Below `sm` the mark sat against the left edge with the
+            line under it starting at the same edge but running short, which
+            reads as misalignment rather than as a column. The images and the
+            paragraph each need their own centring — a `text-center` does not
+            move a block with a width cap — which is what `mx-auto` is doing on
+            all three.
+          */}
+          <div className="mx-auto max-w-narrow text-center sm:mx-0 sm:text-left">
             {/*
               One mark, two files, chosen by width.
 
@@ -79,7 +88,7 @@ export function SiteFooter({ site }: { site: SiteContent }) {
               width={500}
               height={315}
               sizes="230px"
-              className="h-auto w-57.5 md:hidden"
+              className="mx-auto h-auto w-57.5 sm:mx-0 md:hidden"
             />
             <Image
               src="/marca/logo-footer.png"
@@ -87,9 +96,9 @@ export function SiteFooter({ site }: { site: SiteContent }) {
               width={169}
               height={104}
               sizes="144px"
-              className="hidden h-auto w-36 md:block"
+              className="mx-auto hidden h-auto w-36 sm:mx-0 md:block"
             />
-            <p className="mt-sm max-w-[34ch] font-sans text-sm leading-relaxed text-fg-muted">
+            <p className="mx-auto mt-sm max-w-[34ch] font-sans text-sm leading-relaxed text-fg-muted sm:mx-0">
               {site.role}
             </p>
           </div>
