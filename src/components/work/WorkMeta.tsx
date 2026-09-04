@@ -34,6 +34,34 @@ export const statusLabels: Record<WorkStatus, string> = {
  * is what lets the curatorial line sit between them.
  */
 
+/**
+ * The word beside a general work's name.
+ *
+ * Mariela's own sheets say "Colección privada" — where a delivered commission
+ * ends up — and that stays in the specification underneath, unchanged. Beside
+ * the title the client asked for the plainer fact, because it answers the
+ * question someone opening a work is actually asking: not where the drawing
+ * lives now, but whether they can have it.
+ *
+ * Only on the general works. The three with pages of their own state their
+ * position differently and in more detail — an edition still for sale, an
+ * original that is available — and flattening any of that to "Vendida" would
+ * be wrong on all three.
+ *
+ * Guarded on the status rather than assumed: a general work that were ever
+ * marked available would keep its own word instead of being declared sold.
+ */
+function titleStatus(work: Work): string | undefined {
+  if (!work.status) return undefined;
+
+  const unavailable =
+    work.status === "private-collection" || work.status === "sold";
+
+  return !work.hasEditorialPage && unavailable
+    ? statusLabels.sold
+    : statusLabels[work.status];
+}
+
 interface PartProps {
   work: Work;
   className?: string;
@@ -42,8 +70,8 @@ interface PartProps {
 interface IdentityProps extends PartProps {
   /**
    * Put the status in brackets after the name. On for the lightbox, off for
-   * the grid: in a run of ten thumbnails "(Colección privada)" nine times is
-   * noise, and the same words are already in each card's sheet.
+   * the grid: in a run of ten thumbnails the same word nine times is noise,
+   * and it is already in each card's sheet. See `titleStatus` for which word.
    */
   showStatus?: boolean;
 }
@@ -59,12 +87,11 @@ export function WorkIdentity({ work, className, showStatus = false }: IdentityPr
           has just opened it is looking. It was only in the sheet lower down,
           filed between the technique and the dimensions, so a reader could
           take in the whole label and still not register that the work is
-          gone. The words are the same ones the sheet uses — nothing new is
-          being asserted here, it is only being said sooner.
+          gone.
         */}
-        {showStatus && work.status ? (
+        {showStatus && titleStatus(work) ? (
           <span className="font-sans text-sm font-normal text-fg-muted">
-            {" "}({statusLabels[work.status]})
+            {" "}({titleStatus(work)})
           </span>
         ) : null}
       </p>
