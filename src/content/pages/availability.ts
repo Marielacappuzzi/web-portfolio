@@ -83,3 +83,42 @@ export const availability: ContactPage = {
     `commissionNote` when /contacto went away — so the work page renders it.
   */
 };
+
+/**
+ * The same four fields under two different questions.
+ *
+ * A work with an edition carries two asks, and they are not the same
+ * enquiry: one is about a unique drawing, the other about a copy that can be
+ * printed again. Sending both to a form headed "¿Te interesa esta obra?" with
+ * a dropdown asking which, right after the reader pressed a button that said
+ * which, is a question answered twice.
+ *
+ * So the button decides the form. Each mode sets the heading, the line under
+ * it, and the value of `interes` — which stops being a field the reader fills
+ * and becomes one the page already knows, travelling in the payload so the
+ * enquiry still arrives naming what it is about.
+ *
+ * `default` is what a reader sees arriving with no hash at all — from a
+ * bookmark, or scrolling past. There the dropdown is the right question,
+ * because nothing has been asked yet.
+ */
+export const availabilityModes = {
+  original: {
+    title: "Consultar por la *obra original*",
+    paragraph:
+      "Escríbeme y te comparto la disponibilidad, las medidas y los detalles de la pieza.",
+    interes: "La obra original",
+  },
+  print: {
+    title: "Consultar por los *prints*",
+    paragraph:
+      "Escríbeme y te comparto los formatos disponibles, el papel y los detalles de la edición.",
+    interes: "Un print de la obra",
+  },
+  default: {
+    title: "¿Te interesa esta *obra*?",
+    paragraph:
+      "Escríbeme para consultar por la obra original o por la edición impresa.",
+    interes: null,
+  },
+} as const;

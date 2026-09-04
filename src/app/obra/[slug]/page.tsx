@@ -3,14 +3,16 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Container, Section } from "@/components/layout/Section";
 import { ActionButton, QuietLink } from "@/components/primitives/ActionLink";
-import { ContactForm } from "@/components/contact/ContactForm";
 import { ArrowRightIcon } from "@/components/primitives/Icon";
 import { Reveal } from "@/components/primitives/Reveal";
 import { Rule } from "@/components/primitives/Rule";
 import { Display, Eyebrow } from "@/components/primitives/Type";
 import { WorkComposition } from "@/components/work/WorkComposition";
+import { WorkAvailability } from "@/components/work/WorkAvailability";
+import { WorkEnquiry } from "@/components/work/WorkEnquiry";
 import { WorkHero } from "@/components/work/WorkHero";
 import { WorkSheet } from "@/components/work/WorkSheet";
+import { hasAvailabilityBlock } from "@/lib/work-availability";
 import { cn } from "@/lib/cn";
 import {
   getAvailabilityForm,
@@ -18,7 +20,61 @@ import {
   getWork,
   getWorkNeighbours,
 } from "@/lib/content";
+import { availabilityModes } from "@/content/pages/availability";
 import { withEmphasis } from "@/lib/emphasis";
+
+/**
+ * The commission, offered as itself.
+ *
+ * It closes a page where nothing can be bought, and follows the enquiry form
+ * on a page where something can — the same two links either way, so a reader
+ * who wants a piece made never has to work out that the route exists.
+ *
+ * "Ver otras obras" is not decoration. Someone who reached a work that is gone
+ * should be able to keep looking rather than choose between commissioning
+ * something and the back button.
+ */
+function CommissionClose({
+  headingId,
+  title,
+  className,
+}: {
+  headingId: string;
+  title: string;
+  className?: string;
+}) {
+  return (
+    <div
+      className={cn(
+        "grid gap-lg lg:grid-cols-12 lg:items-end lg:gap-x-[4vw]",
+        className,
+      )}
+    >
+      <div className="lg:col-span-6">
+        <Reveal>
+          <Display id={headingId} measure={20}>
+            {withEmphasis(title)}
+          </Display>
+        </Reveal>
+
+        <Reveal delay={90} className="mt-lg">
+          <p className="max-w-[46ch] font-sans text-base leading-relaxed text-pretty text-fg">
+            Puedo crear una pieza a partir de tu propia historia, una imagen o
+            un vínculo.
+          </p>
+        </Reveal>
+      </div>
+
+      <Reveal
+        delay={150}
+        className="flex flex-wrap items-center gap-x-xl gap-y-md lg:col-span-5 lg:col-start-8 lg:justify-end"
+      >
+        <ActionButton href="/encargos#cotizar">Quiero un encargo</ActionButton>
+        <QuietLink href="/obra">Ver otras obras</QuietLink>
+      </Reveal>
+    </div>
+  );
+}
 
 export async function generateStaticParams() {
   const works = await getEditorialWorks();
@@ -73,13 +129,20 @@ export default async function WorkPage({ params }: PageProps<"/obra/[slug]">) {
   /*
     Whether anything on this page can actually be had.
 
-    Today that is one thing on one work: the last copy of Sueño de Primavera's
-    edition. Every other piece is a delivered commission in a private
-    collection, and El Rescate is unfinished. Offering "Consultar obra" on all
-    of them invited an enquiry that could only be answered with no — worse than
-    silence, because the button implied otherwise.
+    El Rescate — the original and its edition — and the last copy of Sueño de
+    Primavera's. Every other piece is a delivered commission in a private
+    collection. Offering "Consultar obra" on all of them invited an enquiry
+    that could only be answered with no — worse than silence, because the
+    button implied otherwise.
   */
   const forSale = work.status === "available" || work.prints === "available";
+
+  /*
+    Where the two states are set out in their own block, that block owns the
+    asks: the cover drops the status from beside the title, the sheet drops
+    its rows and buttons, and the closing carries the commission on its own.
+  */
+  const availability = hasAvailabilityBlock(work);
 
   /*
     Three ways of not being for sale, and they do not read the same.
@@ -139,6 +202,35 @@ export default async function WorkPage({ params }: PageProps<"/obra/[slug]">) {
           className="overflow-hidden pb-lg sm:pb-2xl"
         >
           <WorkComposition blocks={work.story} />
+        </Section>
+      ) : null}
+
+      {/*
+        What can be had, where anything can.
+
+        After the work and its writing, before the form, and before the
+        commission: the three actions a reader might take, each stated once
+        and in the order they would consider them — this piece, a print of it,
+        or something made for them.
+      */}
+      {availability ? (
+        <Section
+          ground="paper"
+          rhythm="beat"
+          id="disponibilidad"
+          aria-labelledby="disponibilidad-titulo"
+        >
+          <Container width="wide">
+            <Reveal>
+              <Display id="disponibilidad-titulo" measure={18}>
+                {withEmphasis("*Disponibilidad*")}
+              </Display>
+            </Reveal>
+
+            <div className="mt-2xl">
+              <WorkAvailability work={work} />
+            </div>
+          </Container>
         </Section>
       ) : null}
 
@@ -293,57 +385,21 @@ export default async function WorkPage({ params }: PageProps<"/obra/[slug]">) {
           <Rule width="full" />
 
           {forSale ? (
-            <div className="mt-2xl grid gap-2xl lg:grid-cols-12 lg:gap-x-[4vw]">
-              <div className="lg:col-span-4">
-                <Reveal>
-                  <Display id="consulta-titulo" measure={18}>
-                    {withEmphasis(enquiry.heading.title)}
-                  </Display>
-                </Reveal>
-
-                <Reveal delay={90} className="mt-lg">
-                  <p className="max-w-[42ch] font-sans text-base leading-relaxed text-pretty text-fg">
-                    {enquiry.paragraphs[0]}
-                  </p>
-                </Reveal>
-
-                {/*
-                  The other route, kept quiet and kept separate. A reader who
-                  wants a piece made is not the reader this form is for, and
-                  the two asks should not compete at the same weight.
-                */}
-                <Reveal delay={150} className="mt-2xl border-t border-rule pt-lg">
-                  <p className="max-w-[42ch] font-sans text-sm leading-relaxed text-pretty text-fg-muted">
-                    ¿Prefieres una obra creada para ti? Los encargos tienen su
-                    propio formulario.
-                  </p>
-                  <QuietLink href="/encargos#cotizar" className="mt-md">
-                    Quiero un encargo
-                  </QuietLink>
-                </Reveal>
-              </div>
-
-              <div className="lg:col-span-7 lg:col-start-6">
-                <Reveal delay={120}>
-                  {/*
-                    Two buttons above lead here, and the hash says which. The
-                    ids sit on empty targets beside the section so both scroll
-                    to the same form; the reader arrives with the question
-                    they pressed already selected.
-                  */}
-                  <ContactForm
-                    page={enquiry}
-                    supplied={{ obra: work.title }}
-                    hashDefaults={{
-                      field: "interes",
-                      map: {
-                        "consultar-original": "La obra original",
-                        "consultar-print": "Un print de la obra",
-                      },
-                    }}
-                  />
-                </Reveal>
-              </div>
+            /*
+              The form, in the shape of the question that was asked. The two
+              buttons in the availability block land on the anchors beside
+              this section and WorkEnquiry reads which — so someone who
+              pressed "Consultar por prints" gets a form headed for prints,
+              rather than one that opens by asking them which of the two they
+              meant.
+            */
+            <div className="mt-2xl">
+              <WorkEnquiry
+                page={enquiry}
+                workTitle={work.title}
+                modes={availabilityModes}
+                headingId="consulta-titulo"
+              />
             </div>
           ) : (
             /*
@@ -353,42 +409,39 @@ export default async function WorkPage({ params }: PageProps<"/obra/[slug]">) {
               sheet that the button leads nowhere. What it says depends on
               which kind of unavailable this is; see `gone` above.
             */
-            <div className="mt-2xl grid gap-lg lg:grid-cols-12 lg:items-end lg:gap-x-[4vw]">
-              <div className="lg:col-span-6">
-                <Reveal>
-                  <Display id="consulta-titulo" measure={20}>
-                    {gone
-                      ? withEmphasis("Esta obra ya no está *disponible*.")
-                      : withEmphasis("¿Quieres una obra por *encargo*?")}
-                  </Display>
-                </Reveal>
-
-                <Reveal delay={90} className="mt-lg">
-                  <p className="max-w-[46ch] font-sans text-base leading-relaxed text-pretty text-fg">
-                    Puedo crear una pieza a partir de tu propia historia, una
-                    imagen o un vínculo.
-                  </p>
-                </Reveal>
-              </div>
-
-              <Reveal
-                delay={150}
-                className="flex flex-wrap items-center gap-x-xl gap-y-md lg:col-span-5 lg:col-start-8 lg:justify-end"
-              >
-                <ActionButton href="/encargos#cotizar">
-                  Quiero un encargo
-                </ActionButton>
-                {/*
-                  A way onwards as well as a way to ask. Someone who reached a
-                  piece that is gone should be able to keep looking rather than
-                  choose between a commission and the back button.
-                */}
-                <QuietLink href="/obra">Ver otras obras</QuietLink>
-              </Reveal>
-            </div>
+            <CommissionClose
+              headingId="consulta-titulo"
+              title={
+                gone
+                  ? "Esta obra ya no está *disponible*."
+                  : "¿Quieres una obra por *encargo*?"
+              }
+              className="mt-2xl"
+            />
           )}
         </Container>
       </Section>
+
+      {/*
+        The third ask, and the last.
+
+        Where the work is for sale the closing above is a form about *this*
+        piece, so the commission needs a block of its own rather than a line
+        inside someone else's. Three routes, each stated once: the original,
+        a print of it, and a drawing made from your own story.
+      */}
+      {forSale ? (
+        <Section ground="paper" rhythm="beat" aria-labelledby="encargo-titulo">
+          <Container width="wide">
+            <Rule width="full" />
+            <CommissionClose
+              headingId="encargo-titulo"
+              title="¿Quieres una obra por *encargo*?"
+              className="mt-2xl"
+            />
+          </Container>
+        </Section>
+      ) : null}
 
       {/* The two pieces either side, in the flagship sequence. */}
       {previous || next ? (

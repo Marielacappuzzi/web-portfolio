@@ -2,18 +2,14 @@ import Image from "next/image";
 import { ActionButton, QuietLink } from "@/components/primitives/ActionLink";
 import { VideoPlayer } from "@/components/primitives/VideoPlayer";
 import { Reveal } from "@/components/primitives/Reveal";
-import { statusLabels } from "./WorkMeta";
-import type { PrintStatus, Work, WorkKind } from "@/content/types";
+import { printLabels, statusLabels } from "./WorkMeta";
+import { hasAvailabilityBlock } from "@/lib/work-availability";
+import type { Work, WorkKind } from "@/content/types";
 
 const kindLabels: Record<WorkKind, string> = {
   personal: "Obra personal",
   commission: "Obra por encargo",
   print: "Print",
-};
-
-const printLabels: Record<PrintStatus, string> = {
-  available: "Disponibles",
-  "sold-out": "Agotados",
 };
 
 interface WorkSheetProps {
@@ -48,8 +44,14 @@ interface WorkSheetProps {
  * missing. An absent row says the same thing by saying nothing.
  */
 export function WorkSheet({ work }: WorkSheetProps) {
-  const originalForSale = work.status === "available";
-  const printsForSale = work.prints === "available";
+  /*
+    Where the page states availability in its own block, this one says nothing
+    about it: no Original row, no Prints row, and none of the three asks. They
+    are all in that block, under a heading, with the states beside them.
+  */
+  const elsewhere = hasAvailabilityBlock(work);
+  const originalForSale = !elsewhere && work.status === "available";
+  const printsForSale = !elsewhere && work.prints === "available";
 
   const rows: [string, string][] = [];
 
@@ -69,15 +71,17 @@ export function WorkSheet({ work }: WorkSheetProps) {
 
     Either row is omitted when its state is not known. Nothing is guessed.
   */
-  const original = [
-    work.kind ? kindLabels[work.kind] : undefined,
-    work.status ? statusLabels[work.status] : undefined,
-  ]
-    .filter(Boolean)
-    .join(" · ");
+  const original = elsewhere
+    ? undefined
+    : [
+        work.kind ? kindLabels[work.kind] : undefined,
+        work.status ? statusLabels[work.status] : undefined,
+      ]
+        .filter(Boolean)
+        .join(" · ");
   if (original) rows.push(["Original", original]);
 
-  if (work.prints) {
+  if (work.prints && !elsewhere) {
     rows.push([
       "Prints",
       work.printEdition

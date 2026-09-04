@@ -840,12 +840,22 @@ export const works: Work[] = [
     title: "El Rescate",
     kind: "personal",
     /*
+      The original is for sale and so is the edition. It read "in-progress"
+      while the piece was being drawn, which put "En proceso" beside its name,
+      in its sheet and under its video — three announcements that it could not
+      be bought, on the one work here that can. What it is worth saying about
+      the piece now lives in one place, the availability block, which is keyed
+      on `prints`: when the original sells, this becomes "sold" and the block
+      goes on offering the edition without anything else needing an edit.
+    */
+    /*
       Being drawn. Not "available" and not "sold" — it does not exist yet, and
       the page has to be able to say that without either offering it or
       implying it has gone. When it is finished this becomes "available", and
       `prints` joins it if an edition is made.
     */
-    status: "in-progress",
+    status: "available",
+    prints: "available",
     /*
      * The piece is unfinished, so this is the work in progress rather than a
      * finished plate: the wolf resolved, the sheet still on the board, her
@@ -853,17 +863,16 @@ export const works: Work[] = [
      * what it is — the caption says so wherever it appears.
      */
     /*
-      The clip in the plate's place, at the client's request: while the work
-      is being drawn, the honest thing to show beside its sheet is the work
-      being drawn. The still that was here is this clip's own poster frame.
+      The clip in the plate's place. No caption: the one it carried explained
+      that the video was standing in until the final photographs arrive, which
+      is a note from the build to itself. A reader does not need to be told
+      what a page is waiting for.
     */
     sheetVideo: {
       src: "/video/jesus-en-proceso.mp4",
       poster: "/video/jesus-en-proceso.jpg",
-      label: "El Rescate en proceso, sobre el tablero de Mariela Crapuzzi.",
+      label: "El Rescate, sobre el tablero de Mariela Crapuzzi.",
       portrait: true,
-      caption:
-        "La obra en curso. Las fotografías definitivas llegarán al terminarla.",
     },
 
     image: {

@@ -1,10 +1,16 @@
-import type { Work, WorkKind, WorkStatus } from "@/content/types";
+import type { PrintStatus, Work, WorkKind, WorkStatus } from "@/content/types";
 import { cn } from "@/lib/cn";
 
 const kindLabels: Record<WorkKind, string> = {
   personal: "Obra personal",
   commission: "Obra por encargo",
   print: "Print",
+};
+
+/** The edition's two states. Shared for the same reason as `statusLabels`. */
+export const printLabels: Record<PrintStatus, string> = {
+  available: "Disponibles",
+  "sold-out": "Agotados",
 };
 
 /** The one place a status is put into words. Imported by the hero and sheet. */
